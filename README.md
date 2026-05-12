@@ -1,20 +1,47 @@
-<div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
-</div>
+# Coco Unofficial Info Hub
 
-# Run and deploy your AI Studio app
+A bilingual (Japanese/English) fan-made information hub for **Coco Hayashi (林 鼓子)** — a Japanese voice actress, stage actress, and idol.
 
-This contains everything you need to run your app locally.
+Built with React 19 + TypeScript + Vite + Tailwind CSS.
 
-View your app in AI Studio: https://ai.studio/apps/c5240ab0-e665-4da5-b42a-3b346b965d47
+## Features
 
-## Run Locally
+- **Profile** — birth date, birthplace, voice range, agency info
+- **Links** — official X, Instagram, agency homepage, fan club, radio show
+- **Activities** — categorized timeline of stage, musical, program, and live performances
+- **Fan Projects** — community-driven initiatives (flower stands, etc.)
+- **Language Toggle** — switch between 日本語 and English
 
-**Prerequisites:**  Node.js
+## Tech Stack
 
+- [React 19](https://react.dev)
+- [TypeScript](https://www.typescriptlang.org)
+- [Vite 6](https://vite.dev)
+- [Tailwind CSS 4](https://tailwindcss.com)
+- [motion](https://motion.dev) (animation)
+- [lucide-react](https://lucide.dev/icons) (icons)
+- [@google/genai](https://github.com/googleapis/js-genai) (Gemini API)
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## Getting Started
+
+**Prerequisites:** Node.js
+
+```bash
+npm install
+npm run dev
+```
+
+The app runs at `http://localhost:3000`.
+
+## Scripts
+
+| Command           | Description              |
+| ----------------- | ------------------------ |
+| `npm run dev`     | Start dev server         |
+| `npm run build`   | Build for production     |
+| `npm run preview` | Preview production build |
+| `npm run lint`    | Type-check with tsc      |
+
+## Disclaimer
+
+This is an unofficial fan project. It is not affiliated with or endorsed by LIBERTE or Coco Hayashi.
