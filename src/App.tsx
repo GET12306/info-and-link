@@ -98,17 +98,6 @@ export default function App() {
               </button>
             ))}
           </div>
-
-          <div className="flex items-center gap-4">
-            {/* Language Toggle */}
-            <button
-              onClick={() => setLang(lang === "ja" ? "en" : "ja")}
-              className="flex items-center gap-2 px-3 py-1.5 border grid-line rounded hover:border-coco-accent transition-all text-[10px] font-bold tracking-tighter"
-            >
-              <Globe className="w-3 h-3" />
-              {lang === "ja" ? "English" : "日本語"}
-            </button>
-          </div>
         </div>
       </nav>
 
@@ -331,13 +320,15 @@ export default function App() {
 
       {/* Footer */}
       <footer className="border-t grid-line py-12 px-6">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-[10px] uppercase tracking-widest opacity-30 font-medium text-center md:text-left">
-          <div className="flex items-center gap-4">
-            <span><MonoNumbers text="© 2026 GC Zhu. All Rights Reserved. This site is a fan project and is not affiliated with or endorsed by LIBERTE or Coco Hayashi." /></span>
-            {/* <div className="w-1 h-1 bg-coco-ink rounded-full" /> */}
-            {/* <span>Coco Harbor Fan Hub</span> */}
-          </div>
-          {/* <div>Broadcasting from Shizuoka</div> */}
+        <div className="max-w-7xl mx-auto flex flex-col items-center gap-6 text-[10px] uppercase tracking-widest opacity-30 font-medium text-center">
+          <span><MonoNumbers text="© 2026 GC Zhu. All Rights Reserved. This site is a fan project and is not affiliated with or endorsed by LIBERTE or Coco Hayashi." /></span>
+          <button
+            onClick={() => setLang(lang === "ja" ? "en" : "ja")}
+            className="flex items-center gap-2 px-3 py-1.5 border grid-line rounded hover:border-coco-accent transition-all"
+          >
+            <Globe className="w-3 h-3" />
+            {lang === "ja" ? "English" : "日本語"}
+          </button>
         </div>
       </footer>
     </div>
