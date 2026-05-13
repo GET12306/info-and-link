@@ -171,7 +171,7 @@ export default function App() {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-y-12 gap-x-24 border-t grid-line pt-8">
                     {[
                       { label: t.born, value: lang === "ja" ? COCO_PROFILE.birthDate : COCO_PROFILE.birthDate_en },
-                      { label: t.place, value: lang === "ja" ? COCO_PROFILE.birthPlace : COCO_PROFILE.bitthPlace_en },
+                      { label: t.place, value: lang === "ja" ? COCO_PROFILE.birthPlace : COCO_PROFILE.birthPlace_en },
                       { label: t.voice_range, value: COCO_PROFILE.voice_range },
                       { label: t.agency, value: lang === "ja" ? COCO_PROFILE.agency : COCO_PROFILE.agency_en },
                     ].map((item, i) => (

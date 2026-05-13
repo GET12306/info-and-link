@@ -82,7 +82,7 @@ export const COCO_PROFILE = {
   birthDate: "2002年5月15日",
   birthDate_en: "May 15th, 2002",
   birthPlace: "静岡県",
-  bitthPlace_en: "Shizuoka",
+  birthPlace_en: "Shizuoka",
   voice_range: "G3〜A#5",
   agency: "株式会社LIBERTE",
   agency_en: "LIBERTE",
