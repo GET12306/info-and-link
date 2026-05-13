@@ -1,0 +1,41 @@
+- category: "Musical"
+  date: "2026.03.16-22"
+  title:
+    ja: "ミュージカル「スキップとローファー」"
+    en: "Musical 'Skip and Loafer'"
+  description:
+    ja: "江頭ミカ役"
+    en: "As Mika Egashira"
+  link: "https://www.marv.jp/special/skip-and-loafer"
+
+- category: "Stage"
+  date: "2026.04.18-26"
+  title:
+    ja: "「アサルトリリィ・シュツルム」~サングリーズル編 第2弾~"
+    en: "Assault Lily: Sturm ~Sanngriðr Chapter, Part 2~"
+  description:
+    ja: "⻑坂稀星役"
+    en: "As Maho Nagasaka"
+  link: "https://assaultlily-stage.jp/2604stage"
+
+- category: "Program"
+  date: "Weekly"
+  title:
+    ja: "林鼓子のメゾンド・ココ"
+    en: "Maison De Coco"
+  description:
+    ja: "毎週金曜22時"
+    en: "Every Friday at 10 p.m. (JST)"
+  link: "https://audee-membership.jp/coco-hayashi"
+
+- category: "Live"
+  date: |
+    2026.06.06-07,
+    2026.06.13-14
+  title:
+    ja: "ラブライブ！虹ヶ咲学園スクールアイドル同好会 8th Live! TOKIMEKI Express"
+    en: "Love Live! Nijigasaki High School Idol Club 8th Live! TOKIMEKI Express"
+  description:
+    ja: "優木せつ菜役"
+    en: "As Setsuna Yuki"
+  link: "https://www.lovelive-anime.jp/nijigasaki/live/live_detail.php?p=8thlive"

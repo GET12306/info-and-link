@@ -1,0 +1,35 @@
+- platform:
+    ja: "X(Twitter)"
+    en: "X(Twitter)"
+  url: "https://x.com/cocohayashi515"
+  description:
+    ja: "公式 X"
+    en: "Official X"
+  icon: SiX
+
+- platform:
+    ja: "Instagram"
+    en: "Instagram"
+  url: "https://www.instagram.com/coco_hayashi.official"
+  description:
+    ja: "公式 Instagram"
+    en: "Official Instagram"
+  icon: SiInstagram
+
+- platform:
+    ja: "事務所HP"
+    en: "Agency Homepage"
+  url: "https://liberte2024.com/talent/hayashicoco"
+  description:
+    ja: "事務所HP"
+    en: "Agency Homepage"
+  icon: Hotel
+  
+- platform:
+    ja: "鼓星"
+    en: "Official Fan Club"
+  url: "https://fan.pia.jp/cocohayashi"
+  description:
+    ja: "公式 ファンクラブ"
+    en: "Offical Fan Club"
+  icon: Star

@@ -15,6 +15,7 @@
     "moduleDetection": "force",
     "allowJs": true,
     "jsx": "react-jsx",
+    "types": ["@modyfi/vite-plugin-yaml/modules"],
     "paths": {
       "@/*": [
         "./*"
