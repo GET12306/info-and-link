@@ -20,6 +20,7 @@ import {
   Tv,
   createLucideIcon
 } from "lucide-react";
+import { SiX, SiInstagram } from 'react-icons/si';
 import {
   COCO_PROFILE,
   OFFICIAL_LINKS,
@@ -189,7 +190,7 @@ export default function App() {
                   <h2 className="text-xs uppercase tracking-[0.3em] font-bold text-coco-accent">{t.links}</h2>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {[...OFFICIAL_LINKS, ...RESOURCE_LINKS].map((link, i) => {
-                      const icons: any = { XIcon, insIcon, House, Star, Hotel, ExternalLink };
+                      const icons: any = { SiX, SiInstagram, House, Star, Hotel, ExternalLink };
                       return (
                         <IconButton
                           key={i}

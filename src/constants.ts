@@ -162,13 +162,13 @@ export const OFFICIAL_LINKS: LinkItem[] = [
     platform: { ja: "X(Twitter)", en: "X(Twitter)" },
     url: "https://x.com/cocohayashi515",
     description: { ja: "公式 X", en: "Official X" },
-    icon: "XIcon",
+    icon: "SiX",
   },
   {
     platform: { ja: "Instagram", en: "Instagram" },
     url: "https://www.instagram.com/coco_hayashi.official",
     description: { ja: "公式 Instagram", en: "Official Instagram" },
-    icon: "insIcon",
+    icon: "SiInstagram",
   },
   {
     platform: { ja: "事務所HP", en: "Agency Homepage" },
