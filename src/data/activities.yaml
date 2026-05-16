@@ -1,22 +1,46 @@
 - category: "Musical"
   date: "2026.03.16-22"
   title:
-    ja: "ミュージカル「スキップとローファー」"
-    en: "Musical 'Skip and Loafer'"
+    ja: "ミュージカル「スキップとローファー」（終了）"
+    en: "Musical 'Skip and Loafer' (Finished)"
   description:
     ja: "江頭ミカ役"
     en: "As Mika Egashira"
   link: "https://www.marv.jp/special/skip-and-loafer"
-
+# ------------------------------------------------------------------------------------------------------------
 - category: "Stage"
   date: "2026.04.18-26"
   title:
-    ja: "「アサルトリリィ・シュツルム」~サングリーズル編 第2弾~"
-    en: "Assault Lily: Sturm ~Sanngriðr Chapter, Part 2~"
+    ja: "「アサルトリリィ・シュツルム」~サングリーズル編 第2弾~ (終了)"
+    en: "Assault Lily: Sturm ~Sanngriðr Chapter, Part 2~ (Finished)"
   description:
     ja: "⻑坂稀星役"
     en: "As Maho Nagasaka"
   link: "https://assaultlily-stage.jp/2604stage"
+# ------------------------------------------------------------------------------------------------------------
+- category: "Reading"
+  date: |
+    2026.10.16-25
+  title:
+    ja: "スライム倒して300年"
+    en: "300 Years of Slaying Slimes"
+  description:
+    ja: |
+      主人公 アズサ役  at  
+      東京・シアターサンモール
+    en: "As Azusa at Tokyo Theater Sunmall"
+  link: "https://natalie.mu/stage/news/672248"
+# ------------------------------------------------------------------------------------------------------------
+- category: "Program"
+  date: |
+    2026.08.08
+  title:
+    ja: "MyGO!!!!!の「迷子集会」出張版 第三弾 - 日常の築葉書 -"
+    en: "MyGO!!!!! 「Maigo Center」 Pop-up Special Vol.3 - Letters from Daily Life -"
+  description:
+    ja: "椎名立希役 at 鴻巣市文化センター（クレアこうのす） 大ホール"
+    en: "As Taki Shiina at Kounosu Cultural Center (Clair Kounosu) Main Hall"
+  link: "https://bang-dream.com/events/maigocenter-event3"
 
 - category: "Program"
   date: "Weekly"
@@ -28,14 +52,68 @@
     en: "Every Friday at 10 p.m. (JST)"
   link: "https://audee-membership.jp/coco-hayashi"
 
+- category: "Program"
+  date: "Monthly"
+  title:
+    ja: "礒部花凜・土屋李央・林鼓子 トリコロールカラー"
+    en: "Karin Isobe, Rio Tsuchiya, Coco Hayashi Tricolor"
+  description:
+    ja: "月一回"
+    en: "Monthly Update"
+  link: "https://www.onsen.ag/program/tricolor"
+# ------------------------------------------------------------------------------------------------------------
 - category: "Live"
   date: |
-    2026.06.06-07,
-    2026.06.13-14
+    2026.05.22-23
+  title:
+    ja: "林鼓子 BIRTHDAY TALK＆LIVE2026 －Amour！－"
+    en: "BIRTHDAY TALK＆LIVE2026 －Amour！－"
+  description:
+    ja: "at  恵比寿 ザ・ガーデンルーム"
+    en: "at Ebisu The Garden Room"
+  link: "https://fan.pia.jp/cocohayashi/news/detail/44"
+
+- category: "Live"
+  date: |
+    2026.06.06-07, 06.13-14
   title:
     ja: "ラブライブ！虹ヶ咲学園スクールアイドル同好会 8th Live! TOKIMEKI Express"
     en: "Love Live! Nijigasaki High School Idol Club 8th Live! TOKIMEKI Express"
   description:
-    ja: "優木せつ菜役"
-    en: "As Setsuna Yuki"
+    ja: "優木せつ菜役  at  大阪城ホール and 京王アリーナ TOKYO"
+    en: "As Setsuna Yuki  at  Osaka-Jo Hall & Keio Arena Tokyo"
   link: "https://www.lovelive-anime.jp/nijigasaki/live/live_detail.php?p=8thlive"
+
+- category: "Live"
+  date: |
+    2026.06.09
+  title:
+    ja: "MUSIC AWARDS JAPAN WEEK SPECIAL LIVE リスアニ! LIVE on TOKYO ANIME MUSIC HIGHLIGHTS"
+    en: "MUSIC AWARDS JAPAN WEEK SPECIAL LIVE Risuani! LIVE on TOKYO ANIME MUSIC HIGHLIGHTS"
+  description:
+    ja: "椎名立希役(MyGo!!!!!)  at  TOYOTA ARENA TOKYO"
+    en: "As Taki Shiina(MyGo!!!!!) at TOYOTA ARENA TOKYO"
+  link: "https://www.lisani.jp/live-tamh"
+
+- category: "Live"
+  date: |
+    2026.07.18-19
+  title:
+    ja: "MyGO!!!!! 9th LIVE「つなぎ目の向こうに」"
+    en: "MyGO!!!!! 9th LIVE 「Beyond the Seam」"
+  description:
+    ja: "椎名立希役  at  ぴあアリーナMM"
+    en: "As Taki Shiina at PIA Arena MM"
+  link: "https://bang-dream.com/events/mygo_9th/"
+
+- category: "Live"
+  date: |
+    2026.08.09
+  title:
+    ja: "LuckyFes'26"
+    en: "LuckyFes'26"
+  description:
+    ja: "椎名立希役(MyGo!!!!!)  at  茨城県ひたちなか市 国営ひたち海浜公園"
+    en: "As Taki Shiina(MyGo!!!!!) at Hitachi Seaside Park"
+  link: "https://luckyfes.com"
+

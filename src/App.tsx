@@ -12,6 +12,7 @@ import {
   Music,
   Ticket,
   Tv,
+  BookOpenText,
 } from "lucide-react";
 import { SiX, SiInstagram } from 'react-icons/si';
 import { TRANSLATIONS } from "./i18n";
@@ -64,10 +65,12 @@ export default function App() {
   const t = TRANSLATIONS[lang];
 
   const categories = [
+    // Sort here
+    { id: "Live", name: t.category_live },
     { id: "Musical", name: t.category_musical },
     { id: "Stage", name: t.category_stage },
+    { id: "Reading", name: t.category_reading },
     { id: "Program", name: t.category_program },
-    { id: "Live", name: t.category_live },
   ];
 
   return (
@@ -199,6 +202,7 @@ export default function App() {
                       {cat.id === "Stage" && <Ticket className="w-4 h-4" />}
                       {cat.id === "Program" && <Tv className="w-4 h-4" />}
                       {cat.id === "Live" && <MicVocal className="w-4 h-4" />}
+                      {cat.id === "Reading" && <BookOpenText className="w-4 h-4" />}
                       {cat.name}
                     </h3>
                     <div className="border-t grid-line divide-y grid-line">
@@ -300,9 +304,6 @@ export default function App() {
 
                 <div className="space-y-8">
                   <div className="p-8 border grid-line bg-white hover:border-coco-accent transition-colors">
-                    {/* <h3 className="text-2xl font-serif mb-4">
-                      {lang === "ja" ? "サイトについて" : "About the Site"}
-                    </h3> */}
                     <div className="text-coco-ink/60 leading-relaxed space-y-4">
                       <p className="whitespace-pre-wrap">
                         {lang === "ja"
