@@ -1,7 +1,7 @@
 - category: "Musical"
   date: "2026.03.16-22"
   title:
-    ja: "ミュージカル「スキップとローファー」（終了）"
+    ja: "ミュージカル「スキップとローファー」(終了)"
     en: "Musical 'Skip and Loafer' (Finished)"
   description:
     ja: "江頭ミカ役"
@@ -51,6 +51,16 @@
     ja: "毎週金曜22時"
     en: "Every Friday at 10 p.m. (JST)"
   link: "https://audee-membership.jp/coco-hayashi"
+
+- category: "Program"
+  date: "Monthly"
+  title:
+    ja: "ラブライブ！虹ヶ咲学園 ～ディスカバー放送室～"
+    en: "Love Live! Nijigasaki High School ~Discover Broadcast Room~"
+  description:
+    ja: "優木せつ菜役 2026年7月2日(木) 12:00 初回配信以降毎月第一木曜日配信"
+    en: "First distribution on Thursday, July 2, 2026, at 12:00. Distributed on the first Thursday of every month thereafter."
+  link: "https://hibiki-radio.jp/description/lldiscover/detail"
 
 - category: "Program"
   date: "Monthly"
