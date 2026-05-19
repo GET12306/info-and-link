@@ -3,7 +3,7 @@ export const TRANSLATIONS = {
     home: "ホーム",
     activities: "活動情報",
     fan_projects: "ファンプロジェクト",
-    about_this_web: "このウェブについて",
+    about_this_web: "ウェブについて",
     about: "プロフィール",
     roles: "主な出演作",
     links: "リンク",

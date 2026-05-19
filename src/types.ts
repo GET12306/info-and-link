@@ -1,3 +1,5 @@
+export type Language = "ja" | "en";
+
 export interface Role {
   year: string;
   title: { ja: string; en: string };
