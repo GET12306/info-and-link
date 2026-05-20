@@ -1,14 +1,22 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500&family=Noto+Serif+JP:wght@300;600&family=Playfair+Display:wght@400;600&family=Space+Grotesk:wght@300;500&display=swap');
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --font-sans: "Inter", "Noto Sans JP", sans-serif;
   --font-serif: "Playfair Display", "Noto Serif JP", serif;
   --font-mono: "Space Grotesk", monospace;
   
-  --color-coco-accent: #C8102E; /* 稍微调低饱和度的红 */
-  --color-coco-bg: #FCFAF8; /* 象牙纸感背景 */
+  --color-coco-accent: #C8102E;
+  --color-coco-bg: #FCFAF8;
   --color-coco-ink: #1A1A1A;
+}
+
+.dark {
+  --color-coco-bg: #0f0f0f;
+  --color-coco-ink: #e5e5e5;
+  --color-coco-accent: #E84848;
 }
 
 @layer base {
@@ -23,7 +31,6 @@
   }
 }
 
-/* Custom Utilities */
 .grid-line {
   @apply border-coco-ink/5;
 }
