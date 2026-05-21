@@ -1,5 +1,20 @@
 - category: "Musical"
   date: "2026.03.16-22"
+  startDate: "2026-03-16"
+  endDate: "2026-03-22"
+  activeDates:
+    - "2026-03-06"
+    - "2026-03-07"
+    - "2026-03-08"
+    - "2026-03-10"
+    - "2026-03-11"
+    - "2026-03-12"
+    - "2026-03-13"
+    - "2026-03-14"
+    - "2026-03-15"
+    - "2026-03-20"
+    - "2026-03-21"
+    - "2026-03-22"
   title:
     ja: "ミュージカル「スキップとローファー」（終了）"
     en: "Musical 'Skip and Loafer' (Finished)"
@@ -10,6 +25,8 @@
 # ------------------------------------------------------------------------------------------------------------
 - category: "Stage"
   date: "2026.04.18-26"
+  startDate: "2026-04-18"
+  endDate: "2026-04-26"
   title:
     ja: "「アサルトリリィ・シュツルム」~サングリーズル編 第2弾~ (終了)"
     en: "Assault Lily: Sturm ~Sanngriðr Chapter, Part 2~ (Finished)"
@@ -21,6 +38,8 @@
 - category: "Reading"
   date: |
     2026.10.16-25
+  startDate: "2026-10-16"
+  endDate: "2026-10-25"
   title:
     ja: "スライム倒して300年"
     en: "300 Years of Slaying Slimes"
@@ -34,6 +53,7 @@
 - category: "Program"
   date: |
     2026.08.08
+  startDate: "2026-08-08"
   title:
     ja: "MyGO!!!!!の「迷子集会」出張版 第三弾 - 日常の築葉書 -"
     en: "MyGO!!!!! 「Maigo Center」 Pop-up Special Vol.3 - Letters from Daily Life -"
@@ -75,6 +95,8 @@
 - category: "Live"
   date: |
     2026.05.22-23
+  startDate: "2026-05-22"
+  endDate: "2026-05-23"
   title:
     ja: "林鼓子 BIRTHDAY TALK＆LIVE2026 －Amour！－"
     en: "BIRTHDAY TALK＆LIVE2026 －Amour！－"
@@ -86,6 +108,13 @@
 - category: "Live"
   date: |
     2026.06.06-07, 06.13-14
+  startDate: "2026-06-06"
+  endDate: "2026-06-14"
+  activeDates:
+    - "2026-06-06"
+    - "2026-06-07"
+    - "2026-06-13"
+    - "2026-06-14"
   title:
     ja: "ラブライブ！虹ヶ咲学園スクールアイドル同好会 8th Live! TOKIMEKI Express"
     en: "Love Live! Nijigasaki High School Idol Club 8th Live! TOKIMEKI Express"
@@ -97,6 +126,7 @@
 - category: "Live"
   date: |
     2026.06.09
+  startDate: "2026-06-09"
   title:
     ja: "MUSIC AWARDS JAPAN WEEK SPECIAL LIVE リスアニ! LIVE on TOKYO ANIME MUSIC HIGHLIGHTS"
     en: "MUSIC AWARDS JAPAN WEEK SPECIAL LIVE Risuani! LIVE on TOKYO ANIME MUSIC HIGHLIGHTS"
@@ -108,6 +138,8 @@
 - category: "Live"
   date: |
     2026.07.18-19
+  startDate: "2026-07-18"
+  endDate: "2026-07-19"
   title:
     ja: "MyGO!!!!! 9th LIVE「つなぎ目の向こうに」"
     en: "MyGO!!!!! 9th LIVE 「Beyond the Seam」"
@@ -119,6 +151,7 @@
 - category: "Live"
   date: |
     2026.08.09
+  startDate: "2026-08-09"
   title:
     ja: "LuckyFes'26"
     en: "LuckyFes'26"

@@ -1,0 +1,135 @@
+import { ChevronLeft, ChevronRight } from "lucide-react"
+import type { CalendarMonthData, CalendarDay } from "../hooks/useCalendarEvents"
+import type { Language } from "../types"
+
+const DAY_LABELS_JA = ["日", "月", "火", "水", "木", "金", "土"]
+const DAY_LABELS_EN = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+
+interface PopupState {
+  day: CalendarDay
+  x: number
+  y: number
+}
+
+function formatMonthLabel(key: string, lang: Language): string {
+  const [y, m] = key.split("-")
+  const date = new Date(parseInt(y), parseInt(m) - 1)
+  return new Intl.DateTimeFormat(lang === "ja" ? "ja-JP" : "en-US", {
+    year: "numeric",
+    month: "long",
+  }).format(date)
+}
+
+export default function CalendarMonth({
+  month,
+  lang,
+  today,
+  onEventClick,
+  hoveredDay,
+  onHoverDay,
+  onLeaveDay,
+  popup,
+  onPopup,
+  hasPrev,
+  hasNext,
+  onPrev,
+  onNext,
+  className = "",
+}: {
+  month: CalendarMonthData
+  lang: Language
+  today?: string
+  onEventClick: (index: number) => void
+  hoveredDay: string | null
+  onHoverDay: (date: string, events: { activityIndex: number }[], el: HTMLElement) => void
+  onLeaveDay: () => void
+  popup: PopupState | null
+  onPopup: (p: PopupState | null) => void
+  hasPrev: boolean
+  hasNext: boolean
+  onPrev: () => void
+  onNext: () => void
+  className?: string
+}) {
+  const labels = lang === "ja" ? DAY_LABELS_JA : DAY_LABELS_EN
+  const isToday = today ?? ""
+
+  const handleClick = (day: CalendarDay, el: HTMLElement) => {
+    if (day.events.length === 0) return
+    if (day.events.length === 1) {
+      onEventClick(day.events[0].activityIndex)
+      return
+    }
+    const rect = el.getBoundingClientRect()
+    onPopup({ day, x: rect.left, y: rect.bottom + 4 })
+  }
+
+  return (
+    <div className={`border grid-line rounded p-4 bg-white dark:bg-neutral-900 ${className}`}>
+      <div className="flex items-center justify-between mb-3">
+        <button
+          onClick={onPrev}
+          disabled={!hasPrev}
+          className="p-1 rounded hover:bg-coco-accent/10 transition-colors disabled:opacity-20 disabled:cursor-not-allowed"
+          aria-label="Previous month"
+        >
+          <ChevronLeft className="w-4 h-4" />
+        </button>
+        <div className="text-xs font-bold uppercase tracking-widest text-coco-accent">
+          {formatMonthLabel(month.key, lang)}
+        </div>
+        <button
+          onClick={onNext}
+          disabled={!hasNext}
+          className="p-1 rounded hover:bg-coco-accent/10 transition-colors disabled:opacity-20 disabled:cursor-not-allowed"
+          aria-label="Next month"
+        >
+          <ChevronRight className="w-4 h-4" />
+        </button>
+      </div>
+
+      <div className="grid grid-cols-7 gap-0">
+        {labels.map((label, i) => (
+          <div key={i} className="text-[10px] text-center font-medium opacity-40 pb-2">
+            {label}
+          </div>
+        ))}
+
+        {month.weeks.flat().map((day, i) => (
+          <div
+            key={i}
+            className={`relative flex items-center justify-center h-8 text-xs ${
+              day.events.length > 0 ? "cursor-pointer" : ""
+            }`}
+            onMouseEnter={(e) => {
+              if (day.events.length > 0) {
+                onHoverDay(day.date!, day.events, e.currentTarget)
+              }
+            }}
+            onMouseLeave={onLeaveDay}
+            onClick={(e) => handleClick(day, e.currentTarget)}
+          >
+            {day.dayNumber !== null && (
+              <div className="flex flex-col items-center">
+                <span
+                  className={`leading-none transition-colors rounded-full w-7 h-7 flex items-center justify-center ${
+                    day.date === isToday
+                      ? "bg-coco-accent text-white font-bold"
+                      : day.events.length > 0
+                        ? "font-bold text-coco-accent"
+                        : "text-coco-ink/60"
+                  }`}
+                >
+                  {day.dayNumber}
+                </span>
+                {day.events.length > 0 && day.date !== isToday && (
+                  <span className="w-1 h-1 bg-coco-accent rounded-full mt-0.5" />
+                )}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
