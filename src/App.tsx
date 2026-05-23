@@ -1,11 +1,11 @@
 import { useState, lazy, Suspense } from "react"
-import { HashRouter, Routes, Route, NavLink, useLocation } from "react-router-dom"
+import { HashRouter, Routes, Route, useLocation } from "react-router-dom"
 import { motion, AnimatePresence } from "motion/react"
-import { Globe, Sun, Moon } from "lucide-react"
-import { TRANSLATIONS } from "./i18n"
-import { useTheme, type Theme } from "./hooks/useDarkMode"
+import { Globe } from "lucide-react"
+import { useTheme } from "./hooks/useDarkMode"
 import type { Language } from "./types"
 import Loading from "./components/Loading"
+import NavBar from "./components/NavBar"
 
 const Home = lazy(() => import("./pages/Home"))
 const Activities = lazy(() => import("./pages/Activities"))
@@ -26,13 +26,6 @@ const MonoNumbers = ({ text }: { text: string }) => {
     </>
   )
 }
-
-const tabs = [
-  { id: "home", path: "/", labelKey: "home" },
-  { id: "activities", path: "/activities", labelKey: "activities" },
-  { id: "fan", path: "/fan", labelKey: "fan_projects" },
-  { id: "about_this_web", path: "/about", labelKey: "about_this_web" },
-] as const
 
 function AnimatedRoutes({ lang }: { lang: Language }) {
   const location = useLocation()
@@ -60,49 +53,16 @@ function AnimatedRoutes({ lang }: { lang: Language }) {
 export default function App() {
   const [lang, setLang] = useState<Language>("ja")
   const [theme, setTheme, isDark] = useTheme()
-  const t = TRANSLATIONS[lang]
 
   return (
     <HashRouter>
       <div className="min-h-screen bg-coco-bg selection:bg-coco-accent/10">
-        <nav className="fixed top-0 w-full z-50 border-b grid-line bg-coco-bg/80 backdrop-blur-md">
-          <div className="max-w-7xl mx-auto px-6 md:px-12 h-20 flex items-center justify-between">
-            <div className="font-serif text-2xl tracking-tight hidden lg:block">
-              <span className="text-coco-accent">Coco</span> Unofficial Info Hub
-            </div>
-
-            <div className="flex items-center gap-2 md:gap-8 bg-coco-black/5 p-1 rounded-full border grid-line dark:bg-white/10">
-              {tabs.map((tab) => (
-                <NavLink
-                  key={tab.id}
-                  to={tab.path}
-                  end={tab.path === "/"}
-                  className={({ isActive }) =>
-                    `px-4 md:px-6 py-1.5 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all ${isActive
-                      ? "bg-coco-accent text-white"
-                      : "text-coco-ink/40 hover:text-coco-ink"
-                    }`
-                  }
-                >
-                  {t[tab.labelKey]}
-                </NavLink>
-              ))}
-            </div>
-
-            <span className="flex items-center gap-2">
-              {isDark ? <Moon className="w-3 h-3" /> : <Sun className="w-3 h-3" />}
-              <select
-                value={theme}
-                onChange={e => setTheme(e.target.value as Theme)}
-                className="px-2 py-1 border grid-line rounded bg-transparent text-[10px] font-bold uppercase tracking-wider cursor-pointer hover:border-coco-accent transition-all outline-none"
-              >
-                <option value="system">System</option>
-                <option value="light">Light</option>
-                <option value="dark">Dark</option>
-              </select>
-            </span>
-          </div>
-        </nav>
+        <NavBar
+          lang={lang}
+          theme={theme}
+          setTheme={setTheme}
+          isDark={isDark}
+        />
 
         <main className="max-w-7xl mx-auto px-6 md:px-12 py-32 flex flex-col md:flex-row gap-16 relative">
           <Suspense fallback={<Loading />}>
