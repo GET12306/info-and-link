@@ -4,23 +4,17 @@ import path from 'path';
 import { defineConfig, loadEnv } from 'vite';
 import ViteYaml from '@modyfi/vite-plugin-yaml';
 
+import { cloudflare } from "@cloudflare/vite-plugin";
+
 export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, '.', '');
-  const enableCloudflarePlugin = env.ENABLE_CLOUDFLARE_PLUGIN === 'true';
-  const cloudflarePlugins = [];
-
-  if (enableCloudflarePlugin) {
-    const cloudflarePluginPackage = '@cloudflare/vite-plugin';
-    const { cloudflare } = await import(cloudflarePluginPackage);
-    cloudflarePlugins.push(cloudflare());
-  }
 
   return {
     plugins: [
       react(),
       tailwindcss(),
       ViteYaml(),
-      ...cloudflarePlugins,
+      cloudflare(),
     ],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
