@@ -9,7 +9,7 @@ import NavBar from "./components/NavBar"
 
 const Home = lazy(() => import("./pages/Home"))
 const Activities = lazy(() => import("./pages/Activities"))
-const FanProjects = lazy(() => import("./pages/FanProjects"))
+// const FanProjects = lazy(() => import("./pages/FanProjects"))
 const About = lazy(() => import("./pages/About"))
 
 const MonoNumbers = ({ text }: { text: string }) => {
@@ -42,7 +42,7 @@ function AnimatedRoutes({ lang }: { lang: Language }) {
         <Routes location={location}>
           <Route path="/" element={<Home lang={lang} />} />
           <Route path="/activities" element={<Activities lang={lang} />} />
-          <Route path="/fan" element={<FanProjects lang={lang} />} />
+          {/* <Route path="/fan" element={<FanProjects lang={lang} />} /> */}
           <Route path="/about" element={<About lang={lang} />} />
         </Routes>
       </motion.div>

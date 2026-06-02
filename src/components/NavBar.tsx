@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { NavLink, Link } from "react-router-dom"
+import { AnimatePresence, motion } from "motion/react"
 import { Sun, Moon, Menu, X } from "lucide-react"
 import { TRANSLATIONS } from "../i18n"
 import type { Theme } from "../hooks/useDarkMode"
@@ -8,7 +9,7 @@ import type { Language } from "../types"
 const tabs = [
   { id: "home", path: "/", labelKey: "home" as const },
   { id: "activities", path: "/activities", labelKey: "activities" as const },
-  { id: "fan", path: "/fan", labelKey: "fan_projects" as const },
+  // { id: "fan", path: "/fan", labelKey: "fan_projects" as const },
   { id: "about_this_web", path: "/about", labelKey: "about_this_web" as const },
 ]
 
@@ -59,14 +60,14 @@ export default function NavBar({
             <span className="text-coco-accent">Coco</span> Unofficial Info Hub
           </Link>
 
-          <div className="hidden md:flex items-center gap-2 md:gap-8 bg-coco-black/5 p-1 rounded-full border grid-line dark:bg-white/10">
+          <div className="hidden lg:flex items-center gap-2 lg:gap-8 bg-coco-black/5 p-1 rounded-full border grid-line dark:bg-white/10">
             {tabs.map((tab) => (
               <NavLink
                 key={tab.id}
                 to={tab.path}
                 end={tab.path === "/"}
                 className={({ isActive }) =>
-                  `px-4 md:px-6 py-1.5 rounded-full text-[10px] md:text-xs font-bold uppercase tracking-widest transition-all ${isActive
+                  `px-4 lg:px-6 py-1.5 rounded-full text-[10px] lg:text-xs font-bold uppercase tracking-widest transition-all ${isActive
                     ? "bg-coco-accent text-white"
                     : "text-coco-ink/40 hover:text-coco-ink"
                   }`
@@ -77,7 +78,7 @@ export default function NavBar({
             ))}
           </div>
 
-          <div className="hidden md:flex items-center gap-2">
+          <div className="hidden lg:flex items-center gap-2">
             {isDark ? <Moon className="w-3 h-3" /> : <Sun className="w-3 h-3" />}
             <select
               value={theme}
@@ -92,7 +93,7 @@ export default function NavBar({
 
           <button
             onClick={() => setOpen(true)}
-            className="md:hidden p-2 -mr-2 rounded hover:bg-coco-accent/10 transition-colors"
+            className="lg:hidden p-2 -mr-2 rounded hover:bg-coco-accent/10 transition-colors"
             aria-label="Open menu"
           >
             <Menu className="w-5 h-5" />
@@ -100,65 +101,80 @@ export default function NavBar({
         </div>
       </nav>
 
-      {open && (
-        <div className="fixed inset-0 z-50 md:hidden">
-          <div className="fixed inset-0 bg-black/40" onClick={close} />
+      <AnimatePresence>
+        {open && (
+          <div className="fixed inset-0 z-50 lg:hidden">
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.3 }}
+              className="fixed inset-0 bg-black/40"
+              onClick={close}
+            />
 
-          <div className="fixed top-0 right-0 w-full max-w-sm h-full bg-coco-bg dark:bg-neutral-900 shadow-xl p-6 flex flex-col overflow-y-auto">
-            <div className="flex justify-end">
-              <button
-                onClick={close}
-                className="p-2 -mr-2 rounded hover:bg-coco-accent/10 transition-colors"
-                aria-label="Close menu"
-              >
-                <X className="w-5 h-5" />
-              </button>
-            </div>
-
-            <nav className="flex flex-col gap-1 mt-8">
-              {tabs.map((tab) => (
-                <NavLink
-                  key={tab.id}
-                  to={tab.path}
-                  end={tab.path === "/"}
+            <motion.div
+              initial={{ x: "100%" }}
+              animate={{ x: 0 }}
+              exit={{ x: "100%" }}
+              transition={{ duration: 0.35, ease: [0.32, 0.72, 0, 1] }}
+              className="fixed top-0 right-0 w-full max-w-sm h-full bg-coco-bg dark:bg-neutral-900 shadow-xl p-6 flex flex-col overflow-y-auto"
+            >
+              <div className="flex justify-end">
+                <button
                   onClick={close}
-                  className={({ isActive }) =>
-                    `px-4 py-3 rounded text-sm font-bold uppercase tracking-widest transition-all ${isActive
-                      ? "bg-coco-accent text-white"
-                      : "text-coco-ink/60 hover:text-coco-ink hover:bg-coco-accent/5"
-                    }`
-                  }
+                  className="p-2 -mr-2 rounded hover:bg-coco-accent/10 transition-colors"
+                  aria-label="Close menu"
                 >
-                  {t[tab.labelKey]}
-                </NavLink>
-              ))}
-            </nav>
-
-            <hr className="my-6 border-coco-ink/10" />
-
-            <div>
-              <div className="text-[10px] uppercase tracking-widest font-bold opacity-40 mb-3">
-                Appearance
+                  <X className="w-5 h-5" />
+                </button>
               </div>
-              <div className="flex gap-2">
-                {themeOptions.map((opt) => (
-                  <button
-                    key={opt.value}
-                    onClick={() => setTheme(opt.value)}
-                    className={`flex-1 px-3 py-2 rounded text-[10px] font-bold uppercase tracking-wider transition-all ${
-                      theme === opt.value
+
+              <nav className="flex flex-col gap-1 mt-8">
+                {tabs.map((tab) => (
+                  <NavLink
+                    key={tab.id}
+                    to={tab.path}
+                    end={tab.path === "/"}
+                    onClick={close}
+                    className={({ isActive }) =>
+                      `px-4 py-3 rounded text-sm font-bold uppercase tracking-widest transition-all ${isActive
                         ? "bg-coco-accent text-white"
-                        : "border grid-line text-coco-ink/60 hover:text-coco-ink"
-                    }`}
+                        : "text-coco-ink/60 hover:text-coco-ink hover:bg-coco-accent/5"
+                      }`
+                    }
                   >
-                    {opt.label}
-                  </button>
+                    {t[tab.labelKey]}
+                  </NavLink>
                 ))}
+              </nav>
+
+              <hr className="my-6 border-coco-ink/10" />
+
+              <div>
+                <div className="text-[10px] uppercase tracking-widest font-bold opacity-40 mb-3">
+                  Appearance
+                </div>
+                <div className="flex gap-2">
+                  {themeOptions.map((opt) => (
+                    <button
+                      key={opt.value}
+                      onClick={() => setTheme(opt.value)}
+                      className={`flex-1 px-3 py-2 rounded text-[10px] font-bold uppercase tracking-wider transition-all ${
+                        theme === opt.value
+                          ? "bg-coco-accent text-white"
+                          : "border grid-line text-coco-ink/60 hover:text-coco-ink"
+                      }`}
+                    >
+                      {opt.label}
+                    </button>
+                  ))}
+                </div>
               </div>
-            </div>
+            </motion.div>
           </div>
-        </div>
-      )}
+        )}
+      </AnimatePresence>
     </>
   )
 }

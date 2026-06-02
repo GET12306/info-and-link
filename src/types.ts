@@ -9,6 +9,9 @@ export interface Role {
 export interface Activity {
   category: "Stage" | "Musical" | "Program" | "Live" | "Other";
   date: string;
+  startDate?: string;
+  endDate?: string;
+  activeDates?: string[];
   title: { ja: string; en: string };
   description?: { ja: string; en: string };
   link: string;

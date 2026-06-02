@@ -22,6 +22,7 @@ export const TRANSLATIONS = {
     category_reading: "朗読劇",
     organizer: "主催者",
     coming_soon: "Coming Soon",
+    event_calendar: "イベントカレンダー",
   },
   en: {
     home: "Home",
@@ -46,5 +47,6 @@ export const TRANSLATIONS = {
     category_reading: "Reading",
     organizer: "Organizer",
     coming_soon: "Coming Soon",
+    event_calendar: "Event Calendar",
   },
 };
