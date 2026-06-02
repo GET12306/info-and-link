@@ -102,6 +102,10 @@ function buildMonths(events: CalendarEvent[]): CalendarMonthData[] {
       weeks.push(currentRow)
     }
 
+    while (weeks.length < 6) {
+      weeks.push(Array.from({ length: 7 }, () => ({ date: null, dayNumber: null, events: [] })))
+    }
+
     const label = `${year}年${monthIndex + 1}月`
 
     return { key, label, weeks }

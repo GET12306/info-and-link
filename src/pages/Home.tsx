@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
 import { motion } from "motion/react"
 import { ExternalLink, ArrowRight, Star, House, Hotel } from "lucide-react"
@@ -16,6 +16,38 @@ interface PopupState {
   day: CalendarDay
   x: number
   y: number
+  placement: "above" | "below"
+}
+
+type FloatingPosition = Pick<PopupState, "x" | "y" | "placement">
+
+const TOOLTIP_WIDTH = 280
+const DETAIL_POPUP_WIDTH = 320
+const VIEWPORT_GUTTER = 8
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max)
+}
+
+function getFloatingPosition(el: HTMLElement, width: number): FloatingPosition {
+  const rect = el.getBoundingClientRect()
+  const actualWidth = Math.min(width, window.innerWidth - VIEWPORT_GUTTER * 2)
+  const x = clamp(
+    rect.left + rect.width / 2 - actualWidth / 2,
+    VIEWPORT_GUTTER,
+    Math.max(VIEWPORT_GUTTER, window.innerWidth - actualWidth - VIEWPORT_GUTTER)
+  )
+  const placement: FloatingPosition["placement"] = rect.top > window.innerHeight * 0.55 ? "above" : "below"
+  const y = placement === "above" ? rect.top - 8 : rect.bottom + 8
+  return { x, y, placement }
+}
+
+function getAvailableFloatingHeight(pos: FloatingPosition) {
+  if (typeof window === "undefined") return "70vh"
+  const available = pos.placement === "above"
+    ? pos.y - VIEWPORT_GUTTER
+    : window.innerHeight - pos.y - VIEWPORT_GUTTER
+  return `${Math.max(80, available)}px`
 }
 
 // const MonoNumbers = ({ text }: { text: string }) => {
@@ -52,8 +84,30 @@ export default function Home({ lang }: { lang: Language }) {
 
   const [hoveredDay, setHoveredDay] = useState<string | null>(null)
   const [hoveredContent, setHoveredContent] = useState<{ title: string; category: string }[]>([])
-  const [tooltipPos, setTooltipPos] = useState({ x: 0, y: 0 })
+  const [tooltipPos, setTooltipPos] = useState<FloatingPosition>({ x: 0, y: 0, placement: "below" })
   const [popup, setPopup] = useState<PopupState | null>(null)
+
+  useEffect(() => {
+    if (!hoveredDay && !popup) return
+    const dismiss = () => {
+      setHoveredDay(null)
+      setHoveredContent([])
+      setPopup(null)
+    }
+    const dismissOnEscape = (e: KeyboardEvent) => {
+      if (e.key === "Escape") dismiss()
+    }
+    window.addEventListener("scroll", dismiss, true)
+    window.addEventListener("wheel", dismiss, { passive: true })
+    window.addEventListener("touchmove", dismiss, { passive: true })
+    window.addEventListener("keydown", dismissOnEscape)
+    return () => {
+      window.removeEventListener("scroll", dismiss, true)
+      window.removeEventListener("wheel", dismiss)
+      window.removeEventListener("touchmove", dismiss)
+      window.removeEventListener("keydown", dismissOnEscape)
+    }
+  }, [hoveredDay, popup])
 
   const scrollToEvent = (index: number) => {
     navigate("/activities", { state: { scrollTo: index } })
@@ -61,8 +115,7 @@ export default function Home({ lang }: { lang: Language }) {
 
   const handleHoverDay = (date: string, events: CalendarEvent[], el: HTMLElement) => {
     setHoveredDay(date)
-    const rect = el.getBoundingClientRect()
-    setTooltipPos({ x: rect.left, y: rect.bottom + 4 })
+    setTooltipPos(getFloatingPosition(el, TOOLTIP_WIDTH))
     setHoveredContent(
       events.map((ev) => ({
         title: (ACTIVITIES as any[])[ev.activityIndex]?.title?.[lang] || "",
@@ -74,6 +127,12 @@ export default function Home({ lang }: { lang: Language }) {
   const handleLeaveDay = () => {
     setHoveredDay(null)
     setHoveredContent([])
+  }
+
+  const handlePopup = (nextPopup: PopupState | null) => {
+    setHoveredDay(null)
+    setHoveredContent([])
+    setPopup(nextPopup)
   }
 
   return (
@@ -126,12 +185,11 @@ export default function Home({ lang }: { lang: Language }) {
               lang={lang}
               today={today}
               className="max-w-sm"
-              onEventClick={scrollToEvent}
               hoveredDay={hoveredDay}
               onHoverDay={handleHoverDay}
               onLeaveDay={handleLeaveDay}
               popup={popup}
-              onPopup={setPopup}
+              onPopup={handlePopup}
               hasPrev={monthIndex > 0}
               hasNext={monthIndex < months.length - 1}
               onPrev={() => setMonthIndex((i) => i - 1)}
@@ -144,13 +202,18 @@ export default function Home({ lang }: { lang: Language }) {
       {/* Tooltip */}
       {hoveredDay && hoveredContent.length > 0 && (
         <div
-          className="fixed z-50 bg-white dark:bg-neutral-800 border grid-line rounded shadow-lg p-3 pointer-events-none"
-          style={{ left: tooltipPos.x, top: tooltipPos.y }}
+          className="fixed z-50 bg-white dark:bg-neutral-800 border grid-line rounded shadow-lg p-3 pointer-events-none max-w-[calc(100vw-1rem)]"
+          style={{
+            left: tooltipPos.x,
+            top: tooltipPos.y,
+            width: `min(${TOOLTIP_WIDTH}px, calc(100vw - 1rem))`,
+            transform: tooltipPos.placement === "above" ? "translateY(-100%)" : undefined,
+          }}
         >
           {hoveredContent.slice(0, 3).map((c, i) => (
-            <div key={i} className="text-xs whitespace-nowrap">
+            <div key={i} className="text-xs leading-snug">
               <span className="text-[10px] uppercase tracking-wider opacity-40 mr-2">{c.category}</span>
-              {c.title}
+              <span>{c.title}</span>
             </div>
           ))}
           {hoveredContent.length > 3 && (
@@ -163,32 +226,50 @@ export default function Home({ lang }: { lang: Language }) {
       {popup && (
         <>
           <div className="fixed inset-0 z-40" onClick={() => setPopup(null)} />
-          <div
-            className="fixed z-50 bg-white dark:bg-neutral-800 border grid-line rounded shadow-lg p-4 min-w-[220px] max-w-[300px]"
-            style={{ left: popup.x, top: popup.y }}
+
+          <motion.div
+            initial={{ opacity: 0, y: popup.placement === "above" ? 6 : -6, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: popup.placement === "above" ? 6 : -6, scale: 0.98 }}
+            transition={{ duration: 0.16 }}
+            className="fixed z-50 bg-white dark:bg-neutral-800 border grid-line rounded-lg shadow-xl p-4 max-w-[calc(100vw-1rem)] overflow-y-auto"
+            style={{
+              left: popup.x,
+              top: popup.y,
+              width: `min(${DETAIL_POPUP_WIDTH}px, calc(100vw - 1rem))`,
+              maxHeight: getAvailableFloatingHeight(popup),
+              transform: popup.placement === "above" ? "translateY(-100%)" : undefined,
+            }}
+            role="dialog"
+            aria-modal="true"
           >
-            <div className="text-[10px] uppercase tracking-widest font-bold text-coco-accent mb-2">
+            <div className="text-[10px] uppercase tracking-widest font-bold text-coco-accent mb-3">
               {popup.day.dayNumber}{lang === "ja" ? "日のイベント" : " events"}
             </div>
-            <div className="space-y-2 max-h-[200px] overflow-y-auto">
+
+            <div className="space-y-3">
               {popup.day.events.map((ev, i) => {
                 const act = (ACTIVITIES as any[])[ev.activityIndex]
                 return (
-                  <button
-                    key={i}
-                    onClick={() => {
-                      scrollToEvent(ev.activityIndex)
-                      setPopup(null)
-                    }}
-                    className="block w-full text-left text-xs hover:text-coco-accent transition-colors py-1 border-b grid-line last:border-0"
-                  >
-                    <div className="font-medium">{act?.title?.[lang]}</div>
-                    <div className="text-[10px] opacity-40 uppercase tracking-widest">{act?.category}</div>
-                  </button>
+                  <div key={i} className="border-b grid-line pb-3 last:border-0 last:pb-0">
+                    <div className="text-[10px] opacity-40 uppercase tracking-widest mb-1">{act?.category}</div>
+                    <div className="text-sm font-medium leading-snug">{act?.title?.[lang]}</div>
+                    {act?.description?.[lang] && (
+                      <div className="text-xs text-coco-ink/60 leading-relaxed mt-1">{act.description[lang]}</div>
+                    )}
+                    <button
+                      type="button"
+                      onClick={() => { scrollToEvent(ev.activityIndex); setPopup(null) }}
+                      className="mt-3 inline-flex items-center gap-1 text-[10px] uppercase tracking-widest font-bold text-coco-accent hover:opacity-70 transition-opacity"
+                    >
+                      {lang === "ja" ? "活動ページへ" : "View details"}
+                      <ArrowRight className="w-3 h-3" />
+                    </button>
+                  </div>
                 )
               })}
             </div>
-          </div>
+          </motion.div>
         </>
       )}
 

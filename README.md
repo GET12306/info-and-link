@@ -10,6 +10,7 @@ Built with React 19 + TypeScript + Vite + Tailwind CSS.
 - **Links** — official X, Instagram, agency homepage, fan club, radio show
 - **Activities** — categorized timeline of stage, musical, program, and live performances
 - **Fan Projects** — community-driven initiatives (flower stands, etc.)
+- **Dark Mode** — switch between System, Light, and Dark themes; persists preference
 - **Language Toggle** — switch between 日本語 and English
 
 ## Tech Stack
@@ -18,9 +19,22 @@ Built with React 19 + TypeScript + Vite + Tailwind CSS.
 - [TypeScript](https://www.typescriptlang.org)
 - [Vite 6](https://vite.dev)
 - [Tailwind CSS 4](https://tailwindcss.com)
-- [motion](https://motion.dev) (animation)
+- [react-router-dom](https://reactrouter.com) (hash-based routing with code splitting)
+- [motion](https://motion.dev) (page transitions)
 - [lucide-react](https://lucide.dev/icons) (icons)
-- [@google/genai](https://github.com/googleapis/js-genai) (Gemini API)
+- [@modyfi/vite-plugin-yaml](https://github.com/Modyfi/vite-plugin-yaml) (YAML data files)
+
+## Project Structure
+
+```
+src/
+├── components/     # Reusable UI components
+├── data/           # YAML data files (profile, links, activities, etc.)
+├── hooks/          # Custom hooks
+├── pages/          # Route-level page components
+├── i18n.ts         # Translation dictionary
+└── types.ts        # Shared TypeScript interfaces
+```
 
 ## Getting Started
 
@@ -30,17 +44,6 @@ Built with React 19 + TypeScript + Vite + Tailwind CSS.
 npm install
 npm run dev
 ```
-
-The app runs at `http://localhost:3000`.
-
-## Scripts
-
-| Command           | Description              |
-| ----------------- | ------------------------ |
-| `npm run dev`     | Start dev server         |
-| `npm run build`   | Build for production     |
-| `npm run preview` | Preview production build |
-| `npm run lint`    | Type-check with tsc      |
 
 ## Disclaimer
 

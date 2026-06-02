@@ -59,7 +59,7 @@ export default function Activities({ lang }: { lang: Language }) {
               {cat.id === "Reading" && <BookOpenText className="w-4 h-4" />}
               {cat.name}
             </h3>
-            <div className="border-t grid-line divide-y divide-gray-300">
+            <div className="border-t grid-line divide-y divide-gray-300 dark:divide-white/10">
               {(ACTIVITIES as any[])
                 .filter((a: any) => a.category === cat.id)
                 .map((act: any, i: number) => {

@@ -9,6 +9,7 @@ interface PopupState {
   day: CalendarDay
   x: number
   y: number
+  placement: "above" | "below"
 }
 
 function formatMonthLabel(key: string, lang: Language): string {
@@ -20,11 +21,22 @@ function formatMonthLabel(key: string, lang: Language): string {
   }).format(date)
 }
 
+const DETAIL_POPOVER_WIDTH = 320
+const VIEWPORT_GUTTER = 8
+
+function clamp(value: number, min: number, max: number) {
+  return Math.min(Math.max(value, min), max)
+}
+
+function supportsHover() {
+  if (typeof window === "undefined") return false
+  return window.matchMedia("(hover: hover) and (pointer: fine)").matches
+}
+
 export default function CalendarMonth({
   month,
   lang,
   today,
-  onEventClick,
   hoveredDay,
   onHoverDay,
   onLeaveDay,
@@ -39,7 +51,6 @@ export default function CalendarMonth({
   month: CalendarMonthData
   lang: Language
   today?: string
-  onEventClick: (index: number) => void
   hoveredDay: string | null
   onHoverDay: (date: string, events: { activityIndex: number }[], el: HTMLElement) => void
   onLeaveDay: () => void
@@ -54,14 +65,22 @@ export default function CalendarMonth({
   const labels = lang === "ja" ? DAY_LABELS_JA : DAY_LABELS_EN
   const isToday = today ?? ""
 
+  const getPopoverPosition = (el: HTMLElement) => {
+    const rect = el.getBoundingClientRect()
+    const width = Math.min(DETAIL_POPOVER_WIDTH, window.innerWidth - VIEWPORT_GUTTER * 2)
+    const x = clamp(
+      rect.left + rect.width / 2 - width / 2,
+      VIEWPORT_GUTTER,
+      Math.max(VIEWPORT_GUTTER, window.innerWidth - width - VIEWPORT_GUTTER)
+    )
+    const placement: PopupState["placement"] = rect.top > window.innerHeight * 0.55 ? "above" : "below"
+    const y = placement === "above" ? rect.top - 8 : rect.bottom + 8
+    return { x, y, placement }
+  }
+
   const handleClick = (day: CalendarDay, el: HTMLElement) => {
     if (day.events.length === 0) return
-    if (day.events.length === 1) {
-      onEventClick(day.events[0].activityIndex)
-      return
-    }
-    const rect = el.getBoundingClientRect()
-    onPopup({ day, x: rect.left, y: rect.bottom + 4 })
+    onPopup({ day, ...getPopoverPosition(el) })
   }
 
   return (
@@ -102,7 +121,7 @@ export default function CalendarMonth({
               day.events.length > 0 ? "cursor-pointer" : ""
             }`}
             onMouseEnter={(e) => {
-              if (day.events.length > 0) {
+              if (day.events.length > 0 && supportsHover()) {
                 onHoverDay(day.date!, day.events, e.currentTarget)
               }
             }}
