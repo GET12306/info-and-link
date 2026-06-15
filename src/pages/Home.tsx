@@ -8,8 +8,9 @@ import COCO_PROFILE from "../data/profile.yaml"
 import OFFICIAL_LINKS from "../data/official-links.yaml"
 import RESOURCE_LINKS from "../data/resource-links.yaml"
 import ACTIVITIES from "../data/activities.yaml"
-import type { Language } from "../types"
+import type { Activity, Language } from "../types"
 import { buildCalendarData, type CalendarDay, type CalendarEvent } from "../hooks/useCalendarEvents"
+import { getCurrentActivities } from "../utils/activityStatus"
 import CalendarMonth from "../components/CalendarMonth"
 
 interface PopupState {
@@ -69,11 +70,13 @@ export default function Home({ lang }: { lang: Language }) {
   const t = TRANSLATIONS[lang]
   const navigate = useNavigate()
 
-  const months = buildCalendarData(ACTIVITIES as any[])
+  const allActivities = ACTIVITIES as Activity[]
+  const currentActivities = getCurrentActivities(allActivities)
   const today = (() => {
     const d = new Date()
     return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`
   })()
+  const months = buildCalendarData(currentActivities, today)
 
   const [monthIndex, setMonthIndex] = useState(() => {
     const now = new Date()
@@ -118,8 +121,8 @@ export default function Home({ lang }: { lang: Language }) {
     setTooltipPos(getFloatingPosition(el, TOOLTIP_WIDTH))
     setHoveredContent(
       events.map((ev) => ({
-        title: (ACTIVITIES as any[])[ev.activityIndex]?.title?.[lang] || "",
-        category: (ACTIVITIES as any[])[ev.activityIndex]?.category || "",
+        title: currentActivities[ev.activityIndex]?.title?.[lang] || "",
+        category: currentActivities[ev.activityIndex]?.category || "",
       }))
     )
   }
@@ -249,7 +252,8 @@ export default function Home({ lang }: { lang: Language }) {
 
             <div className="space-y-3">
               {popup.day.events.map((ev, i) => {
-                const act = (ACTIVITIES as any[])[ev.activityIndex]
+                const act = currentActivities[ev.activityIndex]
+                const originalIndex = currentActivities[ev.activityIndex]?.originalIndex
                 return (
                   <div key={i} className="border-b grid-line pb-3 last:border-0 last:pb-0">
                     <div className="text-[10px] opacity-40 uppercase tracking-widest mb-1">{act?.category}</div>
@@ -259,7 +263,10 @@ export default function Home({ lang }: { lang: Language }) {
                     )}
                     <button
                       type="button"
-                      onClick={() => { scrollToEvent(ev.activityIndex); setPopup(null) }}
+                      onClick={() => {
+                        if (originalIndex !== undefined) scrollToEvent(originalIndex)
+                        setPopup(null)
+                      }}
                       className="mt-3 inline-flex items-center gap-1 text-[10px] uppercase tracking-widest font-bold text-coco-accent hover:opacity-70 transition-opacity"
                     >
                       {lang === "ja" ? "活動ページへ" : "View details"}

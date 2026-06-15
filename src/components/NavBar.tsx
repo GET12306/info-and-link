@@ -57,7 +57,7 @@ export default function NavBar({
             to="/"
             className="font-serif text-2xl tracking-tight hover:opacity-80 transition-opacity"
           >
-            <span className="text-coco-accent">Coco</span> Unofficial Info Hub
+            <span className="text-coco-accent">COCO</span>
           </Link>
 
           <div className="hidden lg:flex items-center gap-2 lg:gap-8 bg-coco-black/5 p-1 rounded-full border grid-line dark:bg-white/10">

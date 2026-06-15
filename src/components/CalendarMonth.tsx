@@ -1,5 +1,5 @@
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import type { CalendarMonthData, CalendarDay } from "../hooks/useCalendarEvents"
+import type { CalendarMonthData, CalendarDay, CalendarEvent } from "../hooks/useCalendarEvents"
 import type { Language } from "../types"
 
 const DAY_LABELS_JA = ["日", "月", "火", "水", "木", "金", "土"]
@@ -52,7 +52,7 @@ export default function CalendarMonth({
   lang: Language
   today?: string
   hoveredDay: string | null
-  onHoverDay: (date: string, events: { activityIndex: number }[], el: HTMLElement) => void
+  onHoverDay: (date: string, events: CalendarEvent[], el: HTMLElement) => void
   onLeaveDay: () => void
   popup: PopupState | null
   onPopup: (p: PopupState | null) => void
@@ -114,40 +114,48 @@ export default function CalendarMonth({
           </div>
         ))}
 
-        {month.weeks.flat().map((day, i) => (
-          <div
-            key={i}
-            className={`relative flex items-center justify-center h-8 text-xs ${
-              day.events.length > 0 ? "cursor-pointer" : ""
-            }`}
-            onMouseEnter={(e) => {
-              if (day.events.length > 0 && supportsHover()) {
-                onHoverDay(day.date!, day.events, e.currentTarget)
-              }
-            }}
-            onMouseLeave={onLeaveDay}
-            onClick={(e) => handleClick(day, e.currentTarget)}
-          >
-            {day.dayNumber !== null && (
-              <div className="flex flex-col items-center">
-                <span
-                  className={`leading-none transition-colors rounded-full w-7 h-7 flex items-center justify-center ${
-                    day.date === isToday
-                      ? "bg-coco-accent text-white font-bold"
-                      : day.events.length > 0
-                        ? "font-bold text-coco-accent"
-                        : "text-coco-ink/60"
-                  }`}
-                >
-                  {day.dayNumber}
-                </span>
-                {day.events.length > 0 && day.date !== isToday && (
-                  <span className="w-1 h-1 bg-coco-accent rounded-full mt-0.5" />
-                )}
-              </div>
-            )}
-          </div>
-        ))}
+        {month.weeks.flat().map((day, i) => {
+          const isTodayDay = day.date === isToday
+          const hasEvents = day.events.length > 0
+
+          return (
+            <div
+              key={i}
+              className={`relative flex items-center justify-center h-8 text-xs ${
+                hasEvents ? "cursor-pointer" : ""
+              }`}
+              onMouseEnter={(e) => {
+                if (hasEvents && supportsHover()) {
+                  onHoverDay(day.date!, day.events, e.currentTarget)
+                }
+              }}
+              onMouseLeave={onLeaveDay}
+              onClick={(e) => handleClick(day, e.currentTarget)}
+            >
+              {day.dayNumber !== null && (
+                <div className="flex flex-col items-center">
+                  <span
+                    className={`relative leading-none transition-colors rounded-full w-7 h-7 flex items-center justify-center ${
+                      isTodayDay
+                        ? "bg-coco-accent text-white font-bold shadow-sm"
+                        : hasEvents
+                          ? "font-bold text-coco-accent"
+                          : "text-coco-ink/60"
+                    }`}
+                  >
+                    {day.dayNumber}
+                    {isTodayDay && hasEvents && (
+                      <span className="absolute bottom-1 w-1 h-1 rounded-full bg-white/90" />
+                    )}
+                  </span>
+                  {hasEvents && !isTodayDay && (
+                    <span className="w-1 h-1 bg-coco-accent rounded-full mt-0.5" />
+                  )}
+                </div>
+              )}
+            </div>
+          )
+        })}
       </div>
     </div>
   )

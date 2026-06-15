@@ -23,6 +23,11 @@ export const TRANSLATIONS = {
     organizer: "主催者",
     coming_soon: "Coming Soon",
     event_calendar: "イベントカレンダー",
+    past_activities: "終了した活動",
+    view_past_activities: "一部終了した活動を見る",
+    view_past_activities_description: "過去の出演情報はこちら",
+    back_to_activities: "活動情報へ戻る",
+    no_past_activities: "終了した活動はありません",
   },
   en: {
     home: "Home",
@@ -48,5 +53,10 @@ export const TRANSLATIONS = {
     organizer: "Organizer",
     coming_soon: "Coming Soon",
     event_calendar: "Event Calendar",
+    past_activities: "Past Events",
+    view_past_activities: "View Past Events",
+    view_past_activities_description: "Browse archived activities",
+    back_to_activities: "Back to Events",
+    no_past_activities: "No past events",
   },
 };

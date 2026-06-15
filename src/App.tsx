@@ -9,6 +9,7 @@ import NavBar from "./components/NavBar"
 
 const Home = lazy(() => import("./pages/Home"))
 const Activities = lazy(() => import("./pages/Activities"))
+const PastActivities = lazy(() => import("./pages/PastActivities"))
 // const FanProjects = lazy(() => import("./pages/FanProjects"))
 const About = lazy(() => import("./pages/About"))
 
@@ -42,6 +43,7 @@ function AnimatedRoutes({ lang }: { lang: Language }) {
         <Routes location={location}>
           <Route path="/" element={<Home lang={lang} />} />
           <Route path="/activities" element={<Activities lang={lang} />} />
+          <Route path="/activities/past" element={<PastActivities lang={lang} />} />
           {/* <Route path="/fan" element={<FanProjects lang={lang} />} /> */}
           <Route path="/about" element={<About lang={lang} />} />
         </Routes>

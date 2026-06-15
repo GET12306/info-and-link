@@ -1,16 +1,20 @@
 import { useEffect, useRef, useState } from "react"
-import { useLocation } from "react-router-dom"
+import { Link, useLocation } from "react-router-dom"
 import { motion } from "motion/react"
-import { Music, Ticket, Tv, MicVocal, BookOpenText } from "lucide-react"
+import { Music, Ticket, Tv, MicVocal, BookOpenText, ArrowRight } from "lucide-react"
 import { TRANSLATIONS } from "../i18n"
 import ACTIVITIES from "../data/activities.yaml"
-import type { Language } from "../types"
+import type { Activity, Language } from "../types"
+import { getCurrentActivities, getPastActivities } from "../utils/activityStatus"
 
 export default function Activities({ lang }: { lang: Language }) {
   const t = TRANSLATIONS[lang]
   const location = useLocation()
   const listRef = useRef<HTMLDivElement>(null)
   const [highlighted, setHighlighted] = useState<number | null>(null)
+  const activities = ACTIVITIES as Activity[]
+  const currentActivities = getCurrentActivities(activities)
+  const pastActivities = getPastActivities(activities)
 
   useEffect(() => {
     const scrollTo = (location.state as { scrollTo?: number })?.scrollTo
@@ -49,43 +53,61 @@ export default function Activities({ lang }: { lang: Language }) {
 
       {/* Event List */}
       <div ref={listRef} className="space-y-18">
-        {categories.map((cat) => (
-          <div key={cat.id} className="space-y-8">
-            <h3 className="text-[15px] uppercase tracking-[0.3em] font-bold text-coco-accent flex items-center gap-3">
-              {cat.id === "Musical" && <Music className="w-4 h-4" />}
-              {cat.id === "Stage" && <Ticket className="w-4 h-4" />}
-              {cat.id === "Program" && <Tv className="w-4 h-4" />}
-              {cat.id === "Live" && <MicVocal className="w-4 h-4" />}
-              {cat.id === "Reading" && <BookOpenText className="w-4 h-4" />}
-              {cat.name}
-            </h3>
-            <div className="border-t grid-line divide-y divide-gray-300 dark:divide-white/10">
-              {(ACTIVITIES as any[])
-                .filter((a: any) => a.category === cat.id)
-                .map((act: any, i: number) => {
-                  const globalIndex = (ACTIVITIES as any[]).indexOf(act)
-                  return (
-                    <div
-                      key={globalIndex}
-                      id={`event-${globalIndex}`}
-                      className={`py-6 flex flex-col md:flex-row md:items-start justify-between gap-4 transition-colors duration-500 ${
-                        highlighted === globalIndex ? "bg-coco-accent/5" : ""
-                      }`}
-                    >
-                      <div className="md:w-32 font-mono text-sm text-coco-ink/40">{act.date}</div>
-                      <a href={act.link} target="_blank" rel="noopener noreferrer" className="flex-1 hover:opacity-80 transition-opacity">
-                        <div className="text-xl font-serif mb-1">{act.title[lang]}</div>
-                        {act.description && (
-                          <div className="text-sm text-coco-ink/60">{act.description[lang]}</div>
-                        )}
-                      </a>
-                    </div>
-                  )
-                })}
+        {categories.map((cat) => {
+          const categoryActivities = currentActivities.filter((a) => a.category === cat.id)
+          if (categoryActivities.length === 0) return null
+
+          return (
+            <div key={cat.id} className="space-y-8">
+              <h3 className="text-[15px] uppercase tracking-[0.3em] font-bold text-coco-accent flex items-center gap-3">
+                {cat.id === "Musical" && <Music className="w-4 h-4" />}
+                {cat.id === "Stage" && <Ticket className="w-4 h-4" />}
+                {cat.id === "Program" && <Tv className="w-4 h-4" />}
+                {cat.id === "Live" && <MicVocal className="w-4 h-4" />}
+                {cat.id === "Reading" && <BookOpenText className="w-4 h-4" />}
+                {cat.name}
+              </h3>
+              <div className="border-t grid-line divide-y divide-gray-300 dark:divide-white/10">
+                {categoryActivities.map((act) => (
+                  <div
+                    key={act.originalIndex}
+                    id={`event-${act.originalIndex}`}
+                    className={`py-6 flex flex-col md:flex-row md:items-start justify-between gap-4 transition-colors duration-500 ${
+                      highlighted === act.originalIndex ? "bg-coco-accent/5" : ""
+                    }`}
+                  >
+                    <div className="md:w-32 font-mono text-sm text-coco-ink/40">{act.date}</div>
+                    <a href={act.link} target="_blank" rel="noopener noreferrer" className="flex-1 hover:opacity-80 transition-opacity">
+                      <div className="text-xl font-serif mb-1">{act.title[lang]}</div>
+                      {act.description && (
+                        <div className="text-sm text-coco-ink/60">{act.description[lang]}</div>
+                      )}
+                    </a>
+                  </div>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
+
+      {pastActivities.length > 0 && (
+        <div className="border-t grid-line pt-6">
+          <Link
+            to="/activities/past"
+            className="group flex items-center justify-between gap-4 py-6 hover:opacity-80 transition-opacity"
+          >
+            <div className="md:w-32 font-mono text-sm text-coco-ink/40">
+              Archive
+            </div>
+            <div className="flex-1">
+              <div className="text-xl font-serif mb-1">{t.view_past_activities}</div>
+              <div className="text-sm text-coco-ink/60">{t.view_past_activities_description}</div>
+            </div>
+            <ArrowRight className="w-4 h-4 text-coco-accent opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+          </Link>
+        </div>
+      )}
     </motion.div>
   )
 }

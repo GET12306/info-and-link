@@ -7,7 +7,7 @@ export interface Role {
 }
 
 export interface Activity {
-  category: "Stage" | "Musical" | "Program" | "Live" | "Other";
+  category: "Stage" | "Musical" | "Program" | "Live" | "Reading" | "Other";
   date: string;
   startDate?: string;
   endDate?: string;

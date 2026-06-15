@@ -17,9 +17,9 @@ export interface CalendarMonthData {
   weeks: CalendarDay[][]
 }
 
-export function buildCalendarData(activities: any[]): CalendarMonthData[] {
+export function buildCalendarData(activities: any[], includeDate?: string): CalendarMonthData[] {
   const events = collectEvents(activities)
-  return buildMonths(events)
+  return buildMonths(events, includeDate?.substring(0, 7))
 }
 
 function collectEvents(activities: any[]): CalendarEvent[] {
@@ -49,13 +49,17 @@ function collectEvents(activities: any[]): CalendarEvent[] {
   return result
 }
 
-function buildMonths(events: CalendarEvent[]): CalendarMonthData[] {
+function buildMonths(events: CalendarEvent[], includeMonthKey?: string): CalendarMonthData[] {
   const monthMap = new Map<string, CalendarEvent[]>()
 
   for (const ev of events) {
     const monthKey = ev.date.substring(0, 7)
     if (!monthMap.has(monthKey)) monthMap.set(monthKey, [])
     monthMap.get(monthKey)!.push(ev)
+  }
+
+  if (includeMonthKey && !monthMap.has(includeMonthKey)) {
+    monthMap.set(includeMonthKey, [])
   }
 
   const sortedKeys = [...monthMap.keys()].sort()
