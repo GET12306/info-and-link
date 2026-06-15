@@ -6,10 +6,16 @@ import ViteYaml from '@modyfi/vite-plugin-yaml';
 
 import { cloudflare } from "@cloudflare/vite-plugin";
 
-export default defineConfig(({ mode }) => {
+export default defineConfig(async ({ mode }) => {
   const env = loadEnv(mode, '.', '');
+
   return {
-    plugins: [react(), tailwindcss(), ViteYaml(), cloudflare()],
+    plugins: [
+      react(),
+      tailwindcss(),
+      ViteYaml(),
+      cloudflare(),
+    ],
     define: {
       'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY),
     },
