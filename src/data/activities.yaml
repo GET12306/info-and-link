@@ -45,8 +45,7 @@
     en: "300 Years of Slaying Slimes"
   description:
     ja: |
-      主人公 アズサ役  at  
-      東京・シアターサンモール
+      主人公 アズサ役  at  東京・シアターサンモール
     en: "As Azusa at Tokyo Theater Sunmall"
   link: "https://natalie.mu/stage/news/672248"
 # ------------------------------------------------------------------------------------------------------------
@@ -182,6 +181,66 @@
     ja: "椎名立希役  at  ぴあアリーナMM"
     en: "As Taki Shiina at PIA Arena MM"
   link: "https://bang-dream.com/events/mygo_9th/"
+  ticketInfo:
+    venue:
+      ja: "ぴあアリーナMM"
+      en: "PIA Arena MM"
+    officialUrl: "https://bang-dream.com/events/mygo_9th/"
+    entries:
+      - type:
+          ja: "【Demo】終了した抽選"
+          en: "[Demo] Closed Lottery"
+        startDate: "2026-06-01"
+        endDate: "2026-06-10"
+        period:
+          ja: "2026.06.01 12:00 - 2026.06.10 23:59"
+          en: "Jun 1, 2026 12:00 - Jun 10, 2026 23:59"
+        price:
+          ja: "全席指定 12,000円"
+          en: "Reserved seat 12,000 JPY"
+        note:
+          ja: "表示確認用の架空データ"
+          en: "Fictional data for display testing"
+      - type:
+          ja: "【Demo】受付中の抽選"
+          en: "[Demo] Open Lottery"
+        startDate: "2026-06-15"
+        endDate: "2026-06-20"
+        period:
+          ja: "2026.06.15 12:00 - 2026.06.20 23:59"
+          en: "Jun 15, 2026 12:00 - Jun 20, 2026 23:59"
+        price:
+          ja: "全席指定 12,000円"
+          en: "Reserved seat 12,000 JPY"
+        note:
+          ja: "表示確認用の架空データ"
+          en: "Fictional data for display testing"
+      - type:
+          ja: "【Demo】予定されている先行"
+          en: "[Demo] Upcoming Presale"
+        startDate: "2026-06-25"
+        endDate: "2026-06-30"
+        period:
+          ja: "2026.06.25 12:00 - 2026.06.30 23:59"
+          en: "Jun 25, 2026 12:00 - Jun 30, 2026 23:59"
+        price:
+          ja: "全席指定 12,000円"
+          en: "Reserved seat 12,000 JPY"
+        note:
+          ja: "表示確認用の架空データ"
+          en: "Fictional data for display testing"
+      - type:
+          ja: "【Demo】未定の販売情報"
+          en: "[Demo] TBA Ticket Info"
+        period:
+          ja: "未定"
+          en: "TBA"
+        price:
+          ja: "未定"
+          en: "TBA"
+        note:
+          ja: "表示確認用の架空データ"
+          en: "Fictional data for display testing"
 
 - category: "Live"
   date: |
@@ -194,6 +253,21 @@
     ja: "椎名立希役(MyGo!!!!!)  at  茨城県ひたちなか市 国営ひたち海浜公園"
     en: "As Taki Shiina(MyGo!!!!!) at Hitachi Seaside Park"
   link: "https://luckyfes.com"
+  ticketInfo:
+    venue:
+      ja: "国営ひたち海浜公園"
+      en: "Hitachi Seaside Park"
+    officialUrl: "https://luckyfes.com"
+    entries:
+      - type:
+          ja: "チケット情報"
+          en: "Ticket Information"
+        period:
+          ja: "未定"
+          en: "TBA"
+        price:
+          ja: "未定"
+          en: "TBA"
 
 - category: "Live"
   date: |
@@ -206,4 +280,18 @@
     ja: "優木せつ菜役  at  Shibuya LOVEZ"
     en: "As Setsuna Yuki  at  Shibuya LOVEZ"
   link: "https://www.lovelive-anime.jp/special/live/live_detail.php?p=15thzenyasai"
-
+  ticketInfo:
+    venue:
+      ja: "Shibuya LOVEZ"
+      en: "Shibuya LOVEZ"
+    officialUrl: "https://www.lovelive-anime.jp/special/live/live_detail.php?p=15thzenyasai"
+    entries:
+      - type:
+          ja: "チケット情報"
+          en: "Ticket Information"
+        period:
+          ja: "未定"
+          en: "TBA"
+        price:
+          ja: "未定"
+          en: "TBA"

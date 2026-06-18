@@ -15,6 +15,7 @@ export interface Activity {
   title: { ja: string; en: string };
   description?: { ja: string; en: string };
   link: string;
+  ticketInfo?: TicketInfo;
 }
 
 export interface FanProject {
@@ -30,4 +31,20 @@ export interface LinkItem {
   url: string;
   description: { ja: string; en: string };
   icon: string;
+}
+
+export interface TicketInfo {
+  venue?: { ja: string; en: string };
+  officialUrl: string;
+  entries: TicketEntry[];
+}
+
+export interface TicketEntry {
+  type: { ja: string; en: string };
+  startDate?: string;
+  endDate?: string;
+  period: { ja: string; en: string };
+  price: { ja: string; en: string };
+  note?: { ja: string; en: string };
+  link?: string;
 }

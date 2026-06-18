@@ -9,6 +9,7 @@ import type { Language } from "../types"
 const tabs = [
   { id: "home", path: "/", labelKey: "home" as const },
   { id: "activities", path: "/activities", labelKey: "activities" as const },
+  { id: "ticket_info", path: "/tickets", labelKey: "ticket_info" as const },
   // { id: "fan", path: "/fan", labelKey: "fan_projects" as const },
   { id: "about_this_web", path: "/about", labelKey: "about_this_web" as const },
 ]

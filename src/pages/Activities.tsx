@@ -1,11 +1,12 @@
 import { useEffect, useRef, useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 import { motion } from "motion/react"
-import { Music, Ticket, Tv, MicVocal, BookOpenText, ArrowRight } from "lucide-react"
+import { Music, Ticket, Tv, MicVocal, BookOpenText, ArrowRight, Tickets } from "lucide-react"
 import { TRANSLATIONS } from "../i18n"
 import ACTIVITIES from "../data/activities.yaml"
 import type { Activity, Language } from "../types"
 import { getCurrentActivities, getPastActivities } from "../utils/activityStatus"
+import { hasCurrentTicketInfo } from "../utils/ticketStatus"
 
 export default function Activities({ lang }: { lang: Language }) {
   const t = TRANSLATIONS[lang]
@@ -72,17 +73,31 @@ export default function Activities({ lang }: { lang: Language }) {
                   <div
                     key={act.originalIndex}
                     id={`event-${act.originalIndex}`}
-                    className={`py-6 flex flex-col md:flex-row md:items-start justify-between gap-4 transition-colors duration-500 ${
-                      highlighted === act.originalIndex ? "bg-coco-accent/5" : ""
+                    className={`rounded-lg border-l-2 px-4 py-6 flex flex-col md:flex-row md:items-start justify-between gap-4 transition-all duration-500 ${
+                      highlighted === act.originalIndex
+                        ? "border-coco-accent/70 bg-coco-accent/5 dark:bg-coco-accent/10"
+                        : "border-transparent"
                     }`}
                   >
                     <div className="md:w-32 font-mono text-sm text-coco-ink/40">{act.date}</div>
-                    <a href={act.link} target="_blank" rel="noopener noreferrer" className="flex-1 hover:opacity-80 transition-opacity">
-                      <div className="text-xl font-serif mb-1">{act.title[lang]}</div>
-                      {act.description && (
-                        <div className="text-sm text-coco-ink/60">{act.description[lang]}</div>
+                    <div className="flex-1 flex flex-col sm:flex-row sm:items-start justify-between gap-4">
+                      <a href={act.link} target="_blank" rel="noopener noreferrer" className="flex-1 hover:opacity-80 transition-opacity">
+                        <div className="text-xl font-serif mb-1">{act.title[lang]}</div>
+                        {act.description && (
+                          <div className="text-sm text-coco-ink/60">{act.description[lang]}</div>
+                        )}
+                      </a>
+                      {hasCurrentTicketInfo(act) && (
+                        <Link
+                          to="/tickets"
+                          state={{ scrollToTicket: act.originalIndex }}
+                          className="inline-flex shrink-0 items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-coco-accent hover:opacity-70 transition-opacity"
+                        >
+                          <Tickets className="w-3.5 h-3.5" />
+                          {t.ticket_info}
+                        </Link>
                       )}
-                    </a>
+                    </div>
                   </div>
                 ))}
               </div>
