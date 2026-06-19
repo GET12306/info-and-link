@@ -37,6 +37,20 @@
 # ------------------------------------------------------------------------------------------------------------
 - category: "Reading"
   date: |
+    2026.07.31-08.02
+  startDate: "2026-07-31"
+  endDate: "2026-08-02"
+  title:
+    ja: "未送信フォルダ - #送れなかった言葉 -"
+    en: "Unsent Folder - #Words I Couldn't Send -"
+  description:
+    ja: |
+      七海役  at  あうるすぽっと  *07.31-08.02のみご出演
+    en: "As Nanami  at  Auru Spot *Appearing only from July 31 to August 2"
+  link: "https://unsent-reading.com"
+
+- category: "Reading"
+  date: |
     2026.10.16-25
   startDate: "2026-10-16"
   endDate: "2026-10-25"
