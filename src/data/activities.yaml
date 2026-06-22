@@ -93,18 +93,6 @@
 # ------------------------------------------------------------------------------------------------------------
 - category: "Program"
   date: |
-    2026.07.11
-  startDate: "2026-07-11"
-  title:
-    ja: "「トゲナシトゲアリのトゲラジ～川崎から世界へ～」番組公開収録"
-    en: "'Togenashi Togeari's Toge Radio: From Kawasaki to the World' Live Public Recording"
-  description:
-    ja: "昼の部出演 at 西荻地域区民センター・勤労福祉会館"
-    en: "Matinee Performance at Nishiogi Community Center Labor Welfare Hall"
-  link: "https://togeradi-interfm.bitfan.id"
-
-- category: "Program"
-  date: |
     2026.07.10
   startDate: "2026-07-10"
   title:
@@ -114,6 +102,18 @@
     ja: "ゲスト出演"
     en: "as Program Guest"
   link: "https://nicochannel.jp/monirin/"
+  
+- category: "Program"
+  date: |
+    2026.07.11
+  startDate: "2026-07-11"
+  title:
+    ja: "「トゲナシトゲアリのトゲラジ～川崎から世界へ～」番組公開収録"
+    en: "'Togenashi Togeari's Toge Radio: From Kawasaki to the World' Live Public Recording"
+  description:
+    ja: "昼の部出演 at 西荻地域区民センター・勤労福祉会館"
+    en: "Matinee Performance at Nishiogi Community Center Labor Welfare Hall"
+  link: "https://togeradi-interfm.bitfan.id"
 
 - category: "Program"
   date: |
