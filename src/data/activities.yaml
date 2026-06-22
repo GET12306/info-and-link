@@ -86,15 +86,26 @@
   link: "https://bang-dream.com/events/maigocenter-event3"
 
 - category: "Program"
-  date: 
-  startDate: ""
+  date: 2026.11.03
+  startDate: "2026-11-03"
+  title:
+    ja: "スニーカーエイジ 各地区グランプリ大会・全国大会でのBanG Dream!"
+    en: "BanG Dream! at the Sneaker Age Regional Grand Prix Tournaments and National Championships"
+  description:
+    ja: "椎名立希役 キャスト特別選考員"
+    en: "As Taki Shiina and Special Casting Judge"
+  link: "https://sneakerages.jp/news/post260618/"
+
+- category: "Program"
+  date: 2026.06.20
+  startDate: "2026-06-20"
   title:
     ja: "野中ここなのノナカの野望"
     en: "Kokona Nonaka's Ambitions"
   description:
     ja: "ゲスト出演"
     en: "as Program Guest"
-  link: "https://audee-membership.jp/cocona-nonaka/"
+  link: "https://audee-membership.jp/cocona-nonaka/audio/sm5MAmUu87yxNHxAmiRDpVyV"
 
 - category: "Program"
   date: "Monthly"
@@ -181,66 +192,66 @@
     ja: "椎名立希役  at  ぴあアリーナMM"
     en: "As Taki Shiina at PIA Arena MM"
   link: "https://bang-dream.com/events/mygo_9th/"
-  ticketInfo:
-    venue:
-      ja: "ぴあアリーナMM"
-      en: "PIA Arena MM"
-    officialUrl: "https://bang-dream.com/events/mygo_9th/"
-    entries:
-      - type:
-          ja: "【Demo】終了した抽選"
-          en: "[Demo] Closed Lottery"
-        startDate: "2026-06-01"
-        endDate: "2026-06-10"
-        period:
-          ja: "2026.06.01 12:00 - 2026.06.10 23:59"
-          en: "Jun 1, 2026 12:00 - Jun 10, 2026 23:59"
-        price:
-          ja: "全席指定 12,000円"
-          en: "Reserved seat 12,000 JPY"
-        note:
-          ja: "表示確認用の架空データ"
-          en: "Fictional data for display testing"
-      - type:
-          ja: "【Demo】受付中の抽選"
-          en: "[Demo] Open Lottery"
-        startDate: "2026-06-15"
-        endDate: "2026-06-20"
-        period:
-          ja: "2026.06.15 12:00 - 2026.06.20 23:59"
-          en: "Jun 15, 2026 12:00 - Jun 20, 2026 23:59"
-        price:
-          ja: "全席指定 12,000円"
-          en: "Reserved seat 12,000 JPY"
-        note:
-          ja: "表示確認用の架空データ"
-          en: "Fictional data for display testing"
-      - type:
-          ja: "【Demo】予定されている先行"
-          en: "[Demo] Upcoming Presale"
-        startDate: "2026-06-25"
-        endDate: "2026-06-30"
-        period:
-          ja: "2026.06.25 12:00 - 2026.06.30 23:59"
-          en: "Jun 25, 2026 12:00 - Jun 30, 2026 23:59"
-        price:
-          ja: "全席指定 12,000円"
-          en: "Reserved seat 12,000 JPY"
-        note:
-          ja: "表示確認用の架空データ"
-          en: "Fictional data for display testing"
-      - type:
-          ja: "【Demo】未定の販売情報"
-          en: "[Demo] TBA Ticket Info"
-        period:
-          ja: "未定"
-          en: "TBA"
-        price:
-          ja: "未定"
-          en: "TBA"
-        note:
-          ja: "表示確認用の架空データ"
-          en: "Fictional data for display testing"
+  # ticketInfo:
+  #   venue:
+  #     ja: "ぴあアリーナMM"
+  #     en: "PIA Arena MM"
+  #   officialUrl: "https://bang-dream.com/events/mygo_9th/"
+  #   entries:
+  #     - type:
+  #         ja: "【Demo】終了した抽選"
+  #         en: "[Demo] Closed Lottery"
+  #       startDate: "2026-06-01"
+  #       endDate: "2026-06-10"
+  #       period:
+  #         ja: "2026.06.01 12:00 - 2026.06.10 23:59"
+  #         en: "Jun 1, 2026 12:00 - Jun 10, 2026 23:59"
+  #       price:
+  #         ja: "全席指定 12,000円"
+  #         en: "Reserved seat 12,000 JPY"
+  #       note:
+  #         ja: "表示確認用の架空データ"
+  #         en: "Fictional data for display testing"
+  #     - type:
+  #         ja: "【Demo】受付中の抽選"
+  #         en: "[Demo] Open Lottery"
+  #       startDate: "2026-06-15"
+  #       endDate: "2026-06-20"
+  #       period:
+  #         ja: "2026.06.15 12:00 - 2026.06.20 23:59"
+  #         en: "Jun 15, 2026 12:00 - Jun 20, 2026 23:59"
+  #       price:
+  #         ja: "全席指定 12,000円"
+  #         en: "Reserved seat 12,000 JPY"
+  #       note:
+  #         ja: "表示確認用の架空データ"
+  #         en: "Fictional data for display testing"
+  #     - type:
+  #         ja: "【Demo】予定されている先行"
+  #         en: "[Demo] Upcoming Presale"
+  #       startDate: "2026-06-25"
+  #       endDate: "2026-06-30"
+  #       period:
+  #         ja: "2026.06.25 12:00 - 2026.06.30 23:59"
+  #         en: "Jun 25, 2026 12:00 - Jun 30, 2026 23:59"
+  #       price:
+  #         ja: "全席指定 12,000円"
+  #         en: "Reserved seat 12,000 JPY"
+  #       note:
+  #         ja: "表示確認用の架空データ"
+  #         en: "Fictional data for display testing"
+  #     - type:
+  #         ja: "【Demo】未定の販売情報"
+  #         en: "[Demo] TBA Ticket Info"
+  #       period:
+  #         ja: "未定"
+  #         en: "TBA"
+  #       price:
+  #         ja: "未定"
+  #         en: "TBA"
+  #       note:
+  #         ja: "表示確認用の架空データ"
+  #         en: "Fictional data for display testing"
 
 - category: "Live"
   date: |
@@ -253,21 +264,39 @@
     ja: "椎名立希役(MyGo!!!!!)  at  茨城県ひたちなか市 国営ひたち海浜公園"
     en: "As Taki Shiina(MyGo!!!!!) at Hitachi Seaside Park"
   link: "https://luckyfes.com"
+
+- category: "Live"
+  date: |
+    2026.09.12
+  startDate: "2026-09-12"
+  title:
+    ja: "LIBERTE LIVE 2026 ～ First Act ～"
+    en: "LIBERTE LIVE 2026 ~ First Act ~"
+  description:
+    ja: "at  KIWA TENNOZ"
+    en: "at  KIWA TENNOZ"
+  link: "https://fan.pia.jp/cocohayashi/news/detail/72/?page=1&ptag=NEWS"
   ticketInfo:
     venue:
-      ja: "国営ひたち海浜公園"
-      en: "Hitachi Seaside Park"
-    officialUrl: "https://luckyfes.com"
+      ja: "KIWA TENNOZ"
+      en: "KIWA TENNOZ"
+    officialUrl: "https://fan.pia.jp/cocohayashi/news/detail/72/?page=1&ptag=NEWS"
     entries:
       - type:
-          ja: "チケット情報"
+          ja: "-鼓星- 先行予約受付"
           en: "Ticket Information"
+        startDate: "2026-07-04"
+        endDate: "2026-07-12"
+        # link: "https://www.google.com"
         period:
-          ja: "未定"
-          en: "TBA"
+          ja: "2026.07.04-07.12"
+          en: "2026.07.04-07.12"
         price:
-          ja: "未定"
-          en: "TBA"
+          ja: "7,700円(全席指定・税込) + ドリンク代600円(税込)"
+          en: "7,700 yen (all reserved seating, tax included) + 600 yen for a drink (tax included)"
+        note:
+          ja: "LIBERTE TICKETにて先行予約受付もあります"
+          en: "Advance reservations are also available through LIBERTE TICKET"
 
 - category: "Live"
   date: |

@@ -75,8 +75,8 @@ export default function Activities({ lang }: { lang: Language }) {
                     id={`event-${act.originalIndex}`}
                     className={`rounded-lg border-l-2 px-4 py-6 flex flex-col md:flex-row md:items-start justify-between gap-4 transition-all duration-500 ${
                       highlighted === act.originalIndex
-                        ? "border-coco-accent/70 bg-coco-accent/5 dark:bg-coco-accent/10"
-                        : "border-transparent"
+                        ? "border-l-coco-accent/70 bg-coco-accent/5 dark:bg-coco-accent/10"
+                        : "border-l-transparent"
                     }`}
                   >
                     <div className="md:w-32 font-mono text-sm text-coco-ink/40">{act.date}</div>

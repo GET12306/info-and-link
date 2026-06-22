@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { motion } from "motion/react"
-import { ArrowRight, ExternalLink } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { Link, useLocation } from "react-router-dom"
 import { TRANSLATIONS } from "../i18n"
 import ACTIVITIES from "../data/activities.yaml"
@@ -58,8 +58,8 @@ export default function TicketInfo({ lang }: { lang: Language }) {
               id={`ticket-${activity.originalIndex}`}
               className={`scroll-mt-28 -mx-4 space-y-4 rounded-lg border-l-2 px-4 py-4 transition-all duration-500 ${
                 highlighted === activity.originalIndex
-                  ? "border-coco-accent/70 bg-coco-accent/5 dark:bg-coco-accent/10"
-                  : "border-transparent"
+                  ? "border-l-coco-accent/70 bg-coco-accent/5 dark:bg-coco-accent/10"
+                  : "border-l-transparent"
               }`}
             >
               <div className="flex items-center gap-3 text-coco-accent">
@@ -70,42 +70,43 @@ export default function TicketInfo({ lang }: { lang: Language }) {
               )}
 
               <div className="border-t grid-line divide-y divide-gray-300 dark:divide-white/10">
-                {entries.map(({ entry, entryIndex, status }) => (
-                  <div key={entryIndex} className="py-5 flex flex-col md:flex-row md:items-start gap-4">
-                    <div className="md:w-32">
-                      <span className={`inline-flex px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest ${statusClassNames[status]}`}>
-                        {t[`ticket_status_${status}`]}
-                      </span>
-                    </div>
-                    <div className="flex-1 space-y-2">
-                      <div className="text-xl font-serif">{entry.type[lang]}</div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                        <div>
-                          <div className="text-[10px] uppercase tracking-widest text-coco-ink/40 mb-1">{t.ticket_period}</div>
-                          <div className="text-coco-ink/70">{entry.period[lang]}</div>
-                        </div>
-                        <div>
-                          <div className="text-[10px] uppercase tracking-widest text-coco-ink/40 mb-1">{t.ticket_price}</div>
-                          <div className="text-coco-ink/70">{entry.price[lang]}</div>
-                        </div>
-                      </div>
-                      {entry.note && (
-                        <p className="text-sm text-coco-ink/50">{entry.note[lang]}</p>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                {entries.map(({ entry, entryIndex, status }) => {
+                  const ticketUrl = entry.link ?? activity.ticketInfo?.officialUrl ?? activity.link
 
-              <a
-                href={activity.ticketInfo?.officialUrl ?? activity.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-coco-accent hover:opacity-70 transition-opacity"
-              >
-                {t.ticket_official_info}
-                <ExternalLink className="w-3 h-3" />
-              </a>
+                  return (
+                    <div key={entryIndex} className="py-5 flex flex-col md:flex-row md:items-start gap-4">
+                      <div className="md:w-32">
+                        <span className={`inline-flex px-2 py-1 rounded text-[10px] font-bold uppercase tracking-widest ${statusClassNames[status]}`}>
+                          {t[`ticket_status_${status}`]}
+                        </span>
+                      </div>
+                      <div className="flex-1 space-y-3">
+                        <a
+                          href={ticketUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block text-xl font-serif leading-relaxed transition-colors hover:text-coco-accent"
+                        >
+                          {entry.type[lang]}
+                        </a>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                          <div>
+                            <div className="text-[10px] uppercase tracking-widest text-coco-ink/40 mb-1">{t.ticket_period}</div>
+                            <div className="text-coco-ink/70">{entry.period[lang]}</div>
+                          </div>
+                          <div>
+                            <div className="text-[10px] uppercase tracking-widest text-coco-ink/40 mb-1">{t.ticket_price}</div>
+                            <div className="text-coco-ink/70">{entry.price[lang]}</div>
+                          </div>
+                        </div>
+                        {entry.note && (
+                          <p className="text-sm text-coco-ink/50">{entry.note[lang]}</p>
+                        )}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
             </section>
           ))}
 

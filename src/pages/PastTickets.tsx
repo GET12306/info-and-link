@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom"
 import { motion } from "motion/react"
-import { ArrowLeft, ExternalLink, Ticket } from "lucide-react"
+import { ArrowLeft, Ticket } from "lucide-react"
 import { TRANSLATIONS } from "../i18n"
 import ACTIVITIES from "../data/activities.yaml"
 import type { Activity, Language } from "../types"
@@ -44,40 +44,41 @@ export default function PastTickets({ lang }: { lang: Language }) {
               </div>
 
               <div className="border-t grid-line divide-y divide-gray-300 dark:divide-white/10">
-                {entries.map(({ entry, entryIndex }) => (
-                  <div key={entryIndex} className="py-5 flex flex-col md:flex-row md:items-start gap-4">
-                    <div className="md:w-32 font-mono text-sm text-coco-ink/40">
-                      {entry.endDate ?? entry.period[lang]}
-                    </div>
-                    <div className="flex-1 space-y-2">
-                      <div className="text-xl font-serif">{entry.type[lang]}</div>
-                      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
-                        <div>
-                          <div className="text-[10px] uppercase tracking-widest text-coco-ink/40 mb-1">{t.ticket_period}</div>
-                          <div className="text-coco-ink/70">{entry.period[lang]}</div>
-                        </div>
-                        <div>
-                          <div className="text-[10px] uppercase tracking-widest text-coco-ink/40 mb-1">{t.ticket_price}</div>
-                          <div className="text-coco-ink/70">{entry.price[lang]}</div>
-                        </div>
-                      </div>
-                      {entry.note && (
-                        <p className="text-sm text-coco-ink/50">{entry.note[lang]}</p>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                {entries.map(({ entry, entryIndex }) => {
+                  const ticketUrl = entry.link ?? activity.ticketInfo?.officialUrl ?? activity.link
 
-              <a
-                href={activity.ticketInfo?.officialUrl ?? activity.link}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-coco-accent hover:opacity-70 transition-opacity"
-              >
-                {t.ticket_official_info}
-                <ExternalLink className="w-3 h-3" />
-              </a>
+                  return (
+                    <div key={entryIndex} className="py-5 flex flex-col md:flex-row md:items-start gap-4">
+                      <div className="md:w-32 font-mono text-sm text-coco-ink/40">
+                        {entry.endDate ?? entry.period[lang]}
+                      </div>
+                      <div className="flex-1 space-y-3">
+                        <a
+                          href={ticketUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block text-xl font-serif leading-relaxed transition-colors hover:text-coco-accent"
+                        >
+                          {entry.type[lang]}
+                        </a>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-sm">
+                          <div>
+                            <div className="text-[10px] uppercase tracking-widest text-coco-ink/40 mb-1">{t.ticket_period}</div>
+                            <div className="text-coco-ink/70">{entry.period[lang]}</div>
+                          </div>
+                          <div>
+                            <div className="text-[10px] uppercase tracking-widest text-coco-ink/40 mb-1">{t.ticket_price}</div>
+                            <div className="text-coco-ink/70">{entry.price[lang]}</div>
+                          </div>
+                        </div>
+                        {entry.note && (
+                          <p className="text-sm text-coco-ink/50">{entry.note[lang]}</p>
+                        )}
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
             </section>
           ))}
         </div>
