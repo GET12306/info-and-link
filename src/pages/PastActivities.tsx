@@ -5,6 +5,7 @@ import { TRANSLATIONS } from "../i18n"
 import ACTIVITIES from "../data/activities.yaml"
 import type { Activity, Language } from "../types"
 import { getPastActivities } from "../utils/activityStatus"
+import { getActivityCategoryLabel } from "../utils/categoryLabels"
 
 export default function PastActivities({ lang }: { lang: Language }) {
   const t = TRANSLATIONS[lang]
@@ -43,7 +44,9 @@ export default function PastActivities({ lang }: { lang: Language }) {
             >
               <div className="md:w-32 font-mono text-sm text-coco-ink/40">{act.date}</div>
               <a href={act.link} target="_blank" rel="noopener noreferrer" className="flex-1 hover:opacity-80 transition-opacity">
-                <div className="text-[10px] opacity-40 uppercase tracking-widest mb-1">{act.category}</div>
+                <div className="text-[10px] opacity-40 uppercase tracking-widest mb-1">
+                  {getActivityCategoryLabel(act.category, t)}
+                </div>
                 <div className="text-xl font-serif mb-1">{act.title[lang]}</div>
                 {act.description && (
                   <div className="text-sm text-coco-ink/60">{act.description[lang]}</div>

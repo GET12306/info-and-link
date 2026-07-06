@@ -6,6 +6,7 @@ import { TRANSLATIONS } from "../i18n"
 import ACTIVITIES from "../data/activities.yaml"
 import type { Activity, Language } from "../types"
 import { getCurrentActivities, getPastActivities } from "../utils/activityStatus"
+import { getActivityCategoryLabel } from "../utils/categoryLabels"
 import { hasCurrentTicketInfo } from "../utils/ticketStatus"
 
 export default function Activities({ lang }: { lang: Language }) {
@@ -31,11 +32,11 @@ export default function Activities({ lang }: { lang: Language }) {
   }, [location.state])
 
   const categories = [
-    { id: "Live", name: t.category_live },
-    { id: "Musical", name: t.category_musical },
-    { id: "Stage", name: t.category_stage },
-    { id: "Reading", name: t.category_reading },
-    { id: "Program", name: t.category_program },
+    { id: "Live" as const, name: getActivityCategoryLabel("Live", t) },
+    { id: "Musical" as const, name: getActivityCategoryLabel("Musical", t) },
+    { id: "Stage" as const, name: getActivityCategoryLabel("Stage", t) },
+    { id: "Reading" as const, name: getActivityCategoryLabel("Reading", t) },
+    { id: "Program" as const, name: getActivityCategoryLabel("Program", t) },
   ]
 
   return (

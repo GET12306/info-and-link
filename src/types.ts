@@ -35,7 +35,7 @@ export interface LinkItem {
 
 export interface TicketInfo {
   venue?: { ja: string; en: string };
-  officialUrl: string;
+  officialUrl?: string;
   entries: TicketEntry[];
 }
 

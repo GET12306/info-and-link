@@ -12,3 +12,12 @@ site_description:
     If you have any question, notice any errors or have information you would like to contribute, please feel free to contact me via the email address below.
 
     Contact Email: artsy.grower.4d@icloud.com
+contribution:
+  ja: |
+    活動情報やチケット情報を追加・修正する場合は、可能な限り公式サイトや公式発表へのリンクを添えてください。
+    活動の日付は表示用の date に加えて、判定用の startDate / endDate / activeDates を YYYY-MM-DD 形式で記入すると、カレンダーや過去アーカイブに正しく反映されます。
+    日本語と英語の項目はできるだけ両方そろえてください。
+  en: |
+    When adding or correcting activity and ticket information, please include a source link from an official site or announcement whenever possible.
+    In addition to the display-only date text, use startDate, endDate, or activeDates in YYYY-MM-DD format so the calendar and archive logic can classify the item correctly.
+    Please keep the Japanese and English fields in sync where possible.

@@ -1,5 +1,5 @@
 import { useState, lazy, Suspense } from "react"
-import { HashRouter, Routes, Route, useLocation } from "react-router-dom"
+import { HashRouter, Routes, Route, useLocation, Link } from "react-router-dom"
 import { motion, AnimatePresence } from "motion/react"
 import { Globe } from "lucide-react"
 import { useTheme } from "./hooks/useDarkMode"
@@ -12,7 +12,6 @@ const Activities = lazy(() => import("./pages/Activities"))
 const PastActivities = lazy(() => import("./pages/PastActivities"))
 const TicketInfo = lazy(() => import("./pages/TicketInfo"))
 const PastTickets = lazy(() => import("./pages/PastTickets"))
-// const FanProjects = lazy(() => import("./pages/FanProjects"))
 const About = lazy(() => import("./pages/About"))
 
 const MonoNumbers = ({ text }: { text: string }) => {
@@ -48,7 +47,6 @@ function AnimatedRoutes({ lang }: { lang: Language }) {
           <Route path="/activities/past" element={<PastActivities lang={lang} />} />
           <Route path="/tickets" element={<TicketInfo lang={lang} />} />
           <Route path="/tickets/past" element={<PastTickets lang={lang} />} />
-          {/* <Route path="/fan" element={<FanProjects lang={lang} />} /> */}
           <Route path="/about" element={<About lang={lang} />} />
         </Routes>
       </motion.div>
@@ -77,8 +75,16 @@ export default function App() {
         </main>
 
         <footer className="border-t grid-line py-12 px-6">
-          <div className="max-w-7xl mx-auto flex flex-col items-center gap-6 text-[10px] uppercase tracking-widest opacity-30 font-medium">
-            <span className="text-center"><MonoNumbers text="Copyright © 2026 GC Zhu. All Rights Reserved. This site is a fan project and is not affiliated with or endorsed by LIBERTE or Coco Hayashi." /></span>
+          <div className="max-w-7xl mx-auto flex flex-col items-center gap-6 text-[10px] uppercase tracking-widest font-medium text-coco-ink/30">
+            <div className="flex flex-col items-center gap-3 text-center">
+              <span><MonoNumbers text="Copyright © 2026 GC Zhu. All Rights Reserved. This site is a fan project and is not affiliated with or endorsed by LIBERTE or Coco Hayashi." /></span>
+              <Link
+                to="/about"
+                className="text-coco-ink/45 hover:text-coco-accent transition-colors"
+              >
+                {lang === "ja" ? "このサイトについて / 情報提供" : "About this site / How to contribute"}
+              </Link>
+            </div>
             <button
               onClick={() => setLang(lang === "ja" ? "en" : "ja")}
               className="self-end flex items-center gap-2 px-3 py-1.5 border grid-line rounded hover:border-coco-accent transition-all"

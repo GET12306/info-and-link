@@ -11,6 +11,7 @@ import ACTIVITIES from "../data/activities.yaml"
 import type { Activity, Language } from "../types"
 import { buildCalendarData, type CalendarDay, type CalendarEvent } from "../hooks/useCalendarEvents"
 import { getCurrentActivities } from "../utils/activityStatus"
+import { getActivityCategoryLabel } from "../utils/categoryLabels"
 import CalendarMonth from "../components/CalendarMonth"
 
 interface PopupState {
@@ -50,21 +51,6 @@ function getAvailableFloatingHeight(pos: FloatingPosition) {
     : window.innerHeight - pos.y - VIEWPORT_GUTTER
   return `${Math.max(80, available)}px`
 }
-
-// const MonoNumbers = ({ text }: { text: string }) => {
-//   const parts = text.split(/(\d+)/)
-//   return (
-//     <>
-//       {parts.map((part, i) =>
-//         /\d+/.test(part) ? (
-//           <span key={i} className="font-mono tabular-nums">{part}</span>
-//         ) : (
-//           part
-//         )
-//       )}
-//     </>
-//   )
-// }
 
 export default function Home({ lang }: { lang: Language }) {
   const t = TRANSLATIONS[lang]
@@ -120,10 +106,13 @@ export default function Home({ lang }: { lang: Language }) {
     setHoveredDay(date)
     setTooltipPos(getFloatingPosition(el, TOOLTIP_WIDTH))
     setHoveredContent(
-      events.map((ev) => ({
-        title: currentActivities[ev.activityIndex]?.title?.[lang] || "",
-        category: currentActivities[ev.activityIndex]?.category || "",
-      }))
+      events.map((ev) => {
+        const activity = currentActivities[ev.activityIndex]
+        return {
+          title: activity?.title?.[lang] || "",
+          category: getActivityCategoryLabel(activity?.category, t),
+        }
+      })
     )
   }
 
@@ -246,9 +235,9 @@ export default function Home({ lang }: { lang: Language }) {
             role="dialog"
             aria-modal="true"
           >
-            <div className="text-[10px] uppercase tracking-widest font-bold text-coco-accent mb-3">
+            {/* <div className="text-[10px] uppercase tracking-widest font-bold text-coco-accent mb-3">
               {popup.day.dayNumber}{lang === "ja" ? "日のイベント" : " events"}
-            </div>
+            </div> */}
 
             <div className="space-y-3">
               {popup.day.events.map((ev, i) => {
@@ -256,7 +245,9 @@ export default function Home({ lang }: { lang: Language }) {
                 const originalIndex = currentActivities[ev.activityIndex]?.originalIndex
                 return (
                   <div key={i} className="border-b grid-line pb-3 last:border-0 last:pb-0">
-                    <div className="text-[10px] opacity-40 uppercase tracking-widest mb-1">{act?.category}</div>
+                    <div className="text-[10px] opacity-40 uppercase tracking-widest mb-1">
+                      {getActivityCategoryLabel(act?.category, t)}
+                    </div>
                     <div className="text-sm font-medium leading-snug">{act?.title?.[lang]}</div>
                     {act?.description?.[lang] && (
                       <div className="text-xs text-coco-ink/60 leading-relaxed mt-1">{act.description[lang]}</div>
