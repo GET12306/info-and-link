@@ -15,10 +15,7 @@ const primaryTabs = [
 ]
 
 const moreLinks = [
-  { id: "profile", labelKey: "about" as const },
-  { id: "roles", labelKey: "roles" as const },
-  { id: "resources", labelKey: "resources" as const },
-  { id: "fan_projects", labelKey: "fan_projects" as const },
+  { id: "historical_resources", path: "/resources", labelKey: "historical_resources" as const },
 ]
 
 const themeOptions: { value: Theme; labelKey: TranslationKey }[] = [
@@ -99,14 +96,19 @@ export default function NavBar({
               <div className="invisible absolute left-1/2 top-full z-50 w-56 -translate-x-1/2 pt-3 opacity-0 transition-all duration-150 group-hover:visible group-hover:opacity-100">
                 <div className="rounded-lg border grid-line bg-coco-bg/95 p-2 shadow-xl backdrop-blur-md">
                   {moreLinks.map((item) => (
-                    <a
+                    <NavLink
                       key={item.id}
-                      href="#"
-                      onClick={(e) => e.preventDefault()}
-                      className="block rounded px-4 py-3 text-xs font-bold uppercase tracking-widest text-coco-ink/55 transition-colors hover:bg-coco-accent/5 hover:text-coco-accent"
+                      to={item.path}
+                      className={({ isActive }) =>
+                        `block rounded px-4 py-3 text-xs font-bold uppercase tracking-widest transition-colors ${
+                          isActive
+                            ? "bg-coco-accent text-white"
+                            : "text-coco-ink/55 hover:bg-coco-accent/5 hover:text-coco-accent"
+                        }`
+                      }
                     >
                       {t[item.labelKey]}
-                    </a>
+                    </NavLink>
                   ))}
                 </div>
               </div>
@@ -120,9 +122,11 @@ export default function NavBar({
               onChange={e => setTheme(e.target.value as Theme)}
               className="px-2 py-1 border grid-line rounded bg-transparent text-[10px] font-bold uppercase tracking-wider cursor-pointer hover:border-coco-accent transition-all outline-none"
             >
-              <option value="system">System</option>
-              <option value="light">Light</option>
-              <option value="dark">Dark</option>
+              {themeOptions.map((opt) => (
+                <option key={opt.value} value={opt.value}>
+                  {t[opt.labelKey]}
+                </option>
+              ))}
             </select>
           </div>
 
@@ -202,14 +206,20 @@ export default function NavBar({
                       >
                         <div className="ml-4 mt-1 border-l grid-line pl-3">
                           {moreLinks.map((item) => (
-                            <a
+                            <NavLink
                               key={item.id}
-                              href="#"
-                              onClick={(e) => e.preventDefault()}
-                              className="block rounded px-4 py-3 text-xs font-bold uppercase tracking-widest text-coco-ink/45 transition-all hover:text-coco-accent hover:bg-coco-accent/5"
+                              to={item.path}
+                              onClick={close}
+                              className={({ isActive }) =>
+                                `block rounded px-4 py-3 text-xs font-bold uppercase tracking-widest transition-all ${
+                                  isActive
+                                    ? "bg-coco-accent text-white"
+                                    : "text-coco-ink/45 hover:text-coco-accent hover:bg-coco-accent/5"
+                                }`
+                              }
                             >
                               {t[item.labelKey]}
-                            </a>
+                            </NavLink>
                           ))}
                         </div>
                       </motion.div>

@@ -33,6 +33,14 @@ export interface LinkItem {
   icon: string;
 }
 
+export interface HistoricalResource {
+  date: string;
+  title: { ja: string; en: string };
+  description?: { ja: string; en: string };
+  url?: string;
+  status: "available" | "expired";
+}
+
 export interface TicketInfo {
   venue?: { ja: string; en: string };
   officialUrl?: string;

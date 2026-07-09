@@ -12,6 +12,7 @@ const Activities = lazy(() => import("./pages/Activities"))
 const PastActivities = lazy(() => import("./pages/PastActivities"))
 const TicketInfo = lazy(() => import("./pages/TicketInfo"))
 const PastTickets = lazy(() => import("./pages/PastTickets"))
+const HistoricalResources = lazy(() => import("./pages/HistoricalResources"))
 const About = lazy(() => import("./pages/About"))
 
 const MonoNumbers = ({ text }: { text: string }) => {
@@ -47,6 +48,7 @@ function AnimatedRoutes({ lang }: { lang: Language }) {
           <Route path="/activities/past" element={<PastActivities lang={lang} />} />
           <Route path="/tickets" element={<TicketInfo lang={lang} />} />
           <Route path="/tickets/past" element={<PastTickets lang={lang} />} />
+          <Route path="/resources" element={<HistoricalResources lang={lang} />} />
           <Route path="/about" element={<About lang={lang} />} />
         </Routes>
       </motion.div>

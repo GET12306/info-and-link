@@ -93,6 +93,18 @@
 # ------------------------------------------------------------------------------------------------------------
 - category: "Program"
   date: |
+    2026.07.10
+  startDate: "2026-07-10"
+  title:
+    ja: "「立石凛をモニタ凛グ」"
+    en: "Rin Tateishi on Monitor Rin-gu"
+  description:
+    ja: "ゲスト出演"
+    en: "as Guest"
+  link: "https://nicochannel.jp/monirin/"
+  
+- category: "Program"
+  date: |
     2026.07.11
   startDate: "2026-07-11"
   title:
@@ -112,7 +124,7 @@
     en: "Okata Mei official channel"
   description:
     ja: "ゲスト出演"
-    en: "as Program Guest"
+    en: "as Guest"
   link: "https://www.youtube.com/@okada_mei0519"
 
 - category: "Program"
@@ -126,6 +138,18 @@
     ja: "椎名立希役 at 鴻巣市文化センター（クレアこうのす） 大ホール"
     en: "As Taki Shiina at Kounosu Cultural Center (Clair Kounosu) Main Hall"
   link: "https://bang-dream.com/events/maigocenter-event3"
+
+- category: "Program"
+  date: |
+    2026.08.11
+  startDate: "2026-08-11"
+  title:
+    ja: "進藤あまねの「あまね部！」リアルイベントVol.5"
+    en: "Amane Shindo's “Amane Club!” Live Event Vol.5"
+  description:
+    ja: "2部ゲスト出演 at R'sアートコート"
+    en: "As guest in part 2 at R's Art Court "
+  link: "https://nicochannel.jp/amanebu2525/articles/news/armh7rrox7DYqETCvVmmrLEN"
 
 - category: "Program"
   date: 2026.11.03
@@ -235,66 +259,6 @@
     ja: "椎名立希役  at  ぴあアリーナMM"
     en: "As Taki Shiina at PIA Arena MM"
   link: "https://bang-dream.com/events/mygo_9th/"
-  # ticketInfo:
-  #   venue:
-  #     ja: "ぴあアリーナMM"
-  #     en: "PIA Arena MM"
-  #   officialUrl: "https://bang-dream.com/events/mygo_9th/"
-  #   entries:
-  #     - type:
-  #         ja: "【Demo】終了した抽選"
-  #         en: "[Demo] Closed Lottery"
-  #       startDate: "2026-06-01"
-  #       endDate: "2026-06-10"
-  #       period:
-  #         ja: "2026.06.01 12:00 - 2026.06.10 23:59"
-  #         en: "Jun 1, 2026 12:00 - Jun 10, 2026 23:59"
-  #       price:
-  #         ja: "全席指定 12,000円"
-  #         en: "Reserved seat 12,000 JPY"
-  #       note:
-  #         ja: "表示確認用の架空データ"
-  #         en: "Fictional data for display testing"
-  #     - type:
-  #         ja: "【Demo】受付中の抽選"
-  #         en: "[Demo] Open Lottery"
-  #       startDate: "2026-06-15"
-  #       endDate: "2026-06-20"
-  #       period:
-  #         ja: "2026.06.15 12:00 - 2026.06.20 23:59"
-  #         en: "Jun 15, 2026 12:00 - Jun 20, 2026 23:59"
-  #       price:
-  #         ja: "全席指定 12,000円"
-  #         en: "Reserved seat 12,000 JPY"
-  #       note:
-  #         ja: "表示確認用の架空データ"
-  #         en: "Fictional data for display testing"
-  #     - type:
-  #         ja: "【Demo】予定されている先行"
-  #         en: "[Demo] Upcoming Presale"
-  #       startDate: "2026-06-25"
-  #       endDate: "2026-06-30"
-  #       period:
-  #         ja: "2026.06.25 12:00 - 2026.06.30 23:59"
-  #         en: "Jun 25, 2026 12:00 - Jun 30, 2026 23:59"
-  #       price:
-  #         ja: "全席指定 12,000円"
-  #         en: "Reserved seat 12,000 JPY"
-  #       note:
-  #         ja: "表示確認用の架空データ"
-  #         en: "Fictional data for display testing"
-  #     - type:
-  #         ja: "【Demo】未定の販売情報"
-  #         en: "[Demo] TBA Ticket Info"
-  #       period:
-  #         ja: "未定"
-  #         en: "TBA"
-  #       price:
-  #         ja: "未定"
-  #         en: "TBA"
-  #       note:
-  #         ja: "表示確認用の架空データ"
-  #         en: "Fictional data for display testing"
 
 - category: "Live"
   date: |
@@ -352,18 +316,3 @@
     ja: "優木せつ菜役  at  Shibuya LOVEZ"
     en: "As Setsuna Yuki  at  Shibuya LOVEZ"
   link: "https://www.lovelive-anime.jp/special/live/live_detail.php?p=15thzenyasai"
-  # ticketInfo:
-  #   venue:
-  #     ja: "Shibuya LOVEZ"
-  #     en: "Shibuya LOVEZ"
-  #   officialUrl: "https://www.lovelive-anime.jp/special/live/live_detail.php?p=15thzenyasai"
-  #   entries:
-  #     - type:
-  #         ja: "チケット情報"
-  #         en: "Ticket Information"
-  #       period:
-  #         ja: "未定"
-  #         en: "TBA"
-  #       price:
-  #         ja: "未定"
-  #         en: "TBA"
