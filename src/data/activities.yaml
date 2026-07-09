@@ -117,6 +117,18 @@
 
 - category: "Program"
   date: |
+    2026.07.10
+  startDate: "2026-07-10"
+  title:
+    ja: "「立石凛をモニタ凛グ」"
+    en: "Rin Tateishi on Monitor Rin-gu"
+  description:
+    ja: "ゲスト出演"
+    en: "as Program Guest"
+  link: "https://nicochannel.jp/monirin/"
+
+- category: "Program"
+  date: |
     2026.08.03
   startDate: "2026-08-03"
   title:
