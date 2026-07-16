@@ -1,16 +1,12 @@
 import { ChevronLeft, ChevronRight } from "lucide-react"
-import type { CalendarMonthData, CalendarDay, CalendarEvent } from "../hooks/useCalendarEvents"
+import type { CalendarMonthData } from "../hooks/useCalendarEvents"
 import type { Language } from "../types"
+import type { IndexedActivity } from "../utils/activityStatus"
+import { TRANSLATIONS } from "../i18n"
+import { getActivityCategoryLabel } from "../utils/categoryLabels"
 
 const DAY_LABELS_JA = ["日", "月", "火", "水", "木", "金", "土"]
 const DAY_LABELS_EN = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
-
-interface PopupState {
-  day: CalendarDay
-  x: number
-  y: number
-  placement: "above" | "below"
-}
 
 function formatMonthLabel(key: string, lang: Language): string {
   const [y, m] = key.split("-")
@@ -21,27 +17,12 @@ function formatMonthLabel(key: string, lang: Language): string {
   }).format(date)
 }
 
-const DETAIL_POPOVER_WIDTH = 320
-const VIEWPORT_GUTTER = 8
-
-function clamp(value: number, min: number, max: number) {
-  return Math.min(Math.max(value, min), max)
-}
-
-function supportsHover() {
-  if (typeof window === "undefined") return false
-  return window.matchMedia("(hover: hover) and (pointer: fine)").matches
-}
-
 export default function CalendarMonth({
   month,
   lang,
   today,
-  hoveredDay,
-  onHoverDay,
-  onLeaveDay,
-  popup,
-  onPopup,
+  activities,
+  onSelectEvent,
   hasPrev,
   hasNext,
   onPrev,
@@ -51,11 +32,8 @@ export default function CalendarMonth({
   month: CalendarMonthData
   lang: Language
   today?: string
-  hoveredDay: string | null
-  onHoverDay: (date: string, events: CalendarEvent[], el: HTMLElement) => void
-  onLeaveDay: () => void
-  popup: PopupState | null
-  onPopup: (p: PopupState | null) => void
+  activities: IndexedActivity[]
+  onSelectEvent: (activityIndex: number) => void
   hasPrev: boolean
   hasNext: boolean
   onPrev: () => void
@@ -63,29 +41,12 @@ export default function CalendarMonth({
   className?: string
 }) {
   const labels = lang === "ja" ? DAY_LABELS_JA : DAY_LABELS_EN
+  const t = TRANSLATIONS[lang]
   const isToday = today ?? ""
 
-  const getPopoverPosition = (el: HTMLElement) => {
-    const rect = el.getBoundingClientRect()
-    const width = Math.min(DETAIL_POPOVER_WIDTH, window.innerWidth - VIEWPORT_GUTTER * 2)
-    const x = clamp(
-      rect.left + rect.width / 2 - width / 2,
-      VIEWPORT_GUTTER,
-      Math.max(VIEWPORT_GUTTER, window.innerWidth - width - VIEWPORT_GUTTER)
-    )
-    const placement: PopupState["placement"] = rect.top > window.innerHeight * 0.55 ? "above" : "below"
-    const y = placement === "above" ? rect.top - 8 : rect.bottom + 8
-    return { x, y, placement }
-  }
-
-  const handleClick = (day: CalendarDay, el: HTMLElement) => {
-    if (day.events.length === 0) return
-    onPopup({ day, ...getPopoverPosition(el) })
-  }
-
   return (
-    <div className={`border grid-line rounded p-4 bg-white dark:bg-neutral-900 ${className}`}>
-      <div className="flex items-center justify-between mb-3">
+    <div className={`border grid-line rounded bg-white dark:bg-neutral-900 ${className}`}>
+      <div className="flex items-center justify-between p-4">
         <button
           onClick={onPrev}
           disabled={!hasPrev}
@@ -107,55 +68,78 @@ export default function CalendarMonth({
         </button>
       </div>
 
-      <div className="grid grid-cols-7 gap-0">
-        {labels.map((label, i) => (
-          <div key={i} className="text-[10px] text-center font-medium opacity-40 pb-2">
-            {label}
+      <div className="overflow-x-auto">
+        <div className="min-w-[720px]">
+          <div className="grid grid-cols-7 border-t grid-line">
+            {labels.map((label, i) => (
+              <div
+                key={i}
+                className="border-r grid-line py-2 text-center text-[10px] font-medium opacity-40 last:border-r-0"
+              >
+                {label}
+              </div>
+            ))}
           </div>
-        ))}
 
-        {month.weeks.flat().map((day, i) => {
-          const isTodayDay = day.date === isToday
-          const hasEvents = day.events.length > 0
+          <div className="grid grid-cols-7 border-t border-l grid-line">
+            {month.weeks.flat().map((day, i) => {
+              const isTodayDay = day.date === isToday
 
-          return (
-            <div
-              key={i}
-              className={`relative flex items-center justify-center h-8 text-xs ${
-                hasEvents ? "cursor-pointer" : ""
-              }`}
-              onMouseEnter={(e) => {
-                if (hasEvents && supportsHover()) {
-                  onHoverDay(day.date!, day.events, e.currentTarget)
-                }
-              }}
-              onMouseLeave={onLeaveDay}
-              onClick={(e) => handleClick(day, e.currentTarget)}
-            >
-              {day.dayNumber !== null && (
-                <div className="flex flex-col items-center">
-                  <span
-                    className={`relative leading-none transition-colors rounded-full w-7 h-7 flex items-center justify-center ${
-                      isTodayDay
-                        ? "bg-coco-accent text-white font-bold shadow-sm"
-                        : hasEvents
-                          ? "font-bold text-coco-accent"
-                          : "text-coco-ink/60"
-                    }`}
-                  >
-                    {day.dayNumber}
-                    {isTodayDay && hasEvents && (
-                      <span className="absolute bottom-1 w-1 h-1 rounded-full bg-white/90" />
-                    )}
-                  </span>
-                  {hasEvents && !isTodayDay && (
-                    <span className="w-1 h-1 bg-coco-accent rounded-full mt-0.5" />
+              return (
+                <div
+                  key={i}
+                  className={`min-h-28 border-r border-b grid-line p-2 ${
+                    day.dayNumber === null ? "bg-coco-ink/[0.015]" : ""
+                  }`}
+                >
+                  {day.dayNumber !== null && (
+                    <>
+                      <div className="mb-2 flex min-h-6 items-center justify-between">
+                        <span
+                          className={`flex h-6 w-6 items-center justify-center rounded-full text-xs ${
+                            isTodayDay
+                              ? "bg-coco-accent text-white font-bold shadow-sm"
+                              : "text-coco-ink/55"
+                          }`}
+                        >
+                          {day.dayNumber}
+                        </span>
+                      </div>
+
+                      {day.events.length > 0 && (
+                        <div className="space-y-1.5">
+                          {day.events.map((event, eventIndex) => {
+                            const activity = activities[event.activityIndex]
+                            if (!activity) return null
+
+                            return (
+                              <button
+                                key={`${event.activityIndex}-${eventIndex}`}
+                                type="button"
+                                onClick={() => onSelectEvent(activity.originalIndex)}
+                                className="block w-full border-l-2 border-coco-accent bg-coco-accent/5 px-1.5 py-1 text-left transition-colors hover:bg-coco-accent/10 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-coco-accent"
+                                aria-label={`${activity.title[lang]} — ${
+                                  lang === "ja" ? "活動ページへ" : "View event details"
+                                }`}
+                              >
+                                <span className="block text-[8px] font-bold uppercase tracking-wider text-coco-accent/75">
+                                  {getActivityCategoryLabel(activity.category, t)}
+                                </span>
+                                <span className="mt-0.5 block break-words text-[10px] leading-snug text-coco-ink/80">
+                                  {activity.title[lang]}
+                                </span>
+                              </button>
+                            )
+                          })}
+                        </div>
+                      )}
+                    </>
                   )}
                 </div>
-              )}
-            </div>
-          )
-        })}
+              )
+            })}
+          </div>
+        </div>
       </div>
     </div>
   )
