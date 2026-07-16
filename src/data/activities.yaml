@@ -179,7 +179,7 @@
     ja: "ラブライブ！虹ヶ咲学園 ～ディスカバー放送室～"
     en: "Love Live! Nijigasaki High School ~Discover Broadcast Room~"
   description:
-    ja: "優木せつ菜役 2026年7月2日(木) 12:00 初回配信以降毎月第一木曜日配信"
+    ja: "優木せつ菜役 毎月第一木曜日配信"
     en: "First distribution on Thursday, July 2, 2026, at 12:00. Distributed on the first Thursday of every month thereafter."
   link: "https://hibiki-radio.jp/description/lldiscover/detail"
 
@@ -294,7 +294,6 @@
           en: "Ticket Information"
         startDate: "2026-07-04"
         endDate: "2026-07-12"
-        # link: "https://www.google.com"
         period:
           ja: "2026.07.04-07.12"
           en: "2026.07.04-07.12"
