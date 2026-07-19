@@ -41,6 +41,21 @@ export interface HistoricalResource {
   status: "available" | "expired";
 }
 
+export interface Note {
+  title: { ja: string; en: string };
+  date?: string;
+  category?: { ja: string; en: string };
+  description?: { ja: string; en: string };
+  link?: string;
+  relatedLinks?: NoteRelatedLink[];
+}
+
+export interface NoteRelatedLink {
+  url: string;
+  title?: { ja: string; en: string };
+  type?: { ja: string; en: string };
+}
+
 export interface TicketInfo {
   venue?: { ja: string; en: string };
   officialUrl?: string;
@@ -55,4 +70,38 @@ export interface TicketEntry {
   price: { ja: string; en: string };
   note?: { ja: string; en: string };
   link?: string;
+}
+
+export type WardrobeCategory =
+  | "tops"
+  | "outerwear"
+  | "bottoms"
+  | "dress"
+  | "shoes"
+  | "bag"
+  | "accessory"
+  | "other";
+
+export type WardrobeIdentificationStatus = "confirmed" | "probable" | "similar" | "unknown";
+
+export interface WardrobeSource {
+  type: "x" | "instagram" | "youtube" | "official" | "store" | "article" | "other";
+  label: { ja: string; en: string };
+  url: string;
+  date?: string;
+}
+
+export interface WardrobeItem {
+  id: string;
+  category: WardrobeCategory;
+  color?: { ja: string; en: string };
+  title: { ja: string; en: string };
+  description: { ja: string; en: string };
+  brand?: string;
+  productName?: string;
+  identification: {
+    status: WardrobeIdentificationStatus;
+    note?: { ja: string; en: string };
+  };
+  sources: WardrobeSource[];
 }

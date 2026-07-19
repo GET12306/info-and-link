@@ -1,5 +1,5 @@
 import { useState, lazy, Suspense } from "react"
-import { HashRouter, Routes, Route, useLocation, Link } from "react-router-dom"
+import { HashRouter, Routes, Route, Navigate, useLocation, Link } from "react-router-dom"
 import { motion, AnimatePresence } from "motion/react"
 import { Globe } from "lucide-react"
 import { useTheme } from "./hooks/useDarkMode"
@@ -13,6 +13,7 @@ const PastActivities = lazy(() => import("./pages/PastActivities"))
 const TicketInfo = lazy(() => import("./pages/TicketInfo"))
 const PastTickets = lazy(() => import("./pages/PastTickets"))
 const HistoricalResources = lazy(() => import("./pages/HistoricalResources"))
+const Notes = lazy(() => import("./pages/Notes"))
 const About = lazy(() => import("./pages/About"))
 
 const MonoNumbers = ({ text }: { text: string }) => {
@@ -49,7 +50,9 @@ function AnimatedRoutes({ lang }: { lang: Language }) {
           <Route path="/tickets" element={<TicketInfo lang={lang} />} />
           <Route path="/tickets/past" element={<PastTickets lang={lang} />} />
           <Route path="/resources" element={<HistoricalResources lang={lang} />} />
+          <Route path="/notes" element={<Notes lang={lang} />} />
           <Route path="/about" element={<About lang={lang} />} />
+          <Route path="/wardrobe" element={<Navigate to="/" replace />} />
         </Routes>
       </motion.div>
     </AnimatePresence>

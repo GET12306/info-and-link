@@ -82,6 +82,12 @@
     2026.10.16-25
   startDate: "2026-10-16"
   endDate: "2026-10-25"
+  activeDates:
+    - "2026-10-17"
+    - "2026-10-18"
+    - "2026-10-21"
+    - "2026-10-22"
+    - "2026-10-25"
   title:
     ja: "スライム倒して300年"
     en: "300 Years of Slaying Slimes"
@@ -89,7 +95,7 @@
     ja: |
       主人公 アズサ役  at  東京・シアターサンモール
     en: "As Azusa at Tokyo Theater Sunmall"
-  link: "https://natalie.mu/stage/news/672248"
+  link: "https://neo-slime300.com"
 # ------------------------------------------------------------------------------------------------------------
 - category: "Program"
   date: |
@@ -152,6 +158,30 @@
   link: "https://nicochannel.jp/amanebu2525/articles/news/armh7rrox7DYqETCvVmmrLEN"
 
 - category: "Program"
+  date: |
+    2026.09.26
+  startDate: "2026-09-26"
+  title:
+    ja: "林鼓子 2026香港ファンミーティング"
+    en: "Coco Hayashi 2026 Hong Kong Fan Meeting"
+  description:
+    ja: "at  東蒲 胡李名静体育館"
+    en: "at The TWGHs TungPo"
+  link: "https://x.com/flashinglightCM/status/2078328909951836472"
+
+- category: "Program"
+  date: |
+    2026.09.27
+  startDate: "2026-09-27"
+  title:
+    ja: "林鼓子 2026台北ファンミーティング"
+    en: "Coco Hayashi 2026 Taipei Fan Meeting"
+  description:
+    ja: "at  HANASPACE 花漾展演空間"
+    en: "at Hanaspace"
+  link: "https://x.com/bridgebond_llc/status/2078329086263656795"
+
+- category: "Program"
   date: 2026.11.03
   startDate: "2026-11-03"
   title:
@@ -195,12 +225,12 @@
 
 - category: "Program"
   date: "Monthly"
-  startDate: "2026-07-16"
+  startDate: "2026-08-27"
   title:
     ja: "礒部花凜・土屋李央・林鼓子 トリコロールカラー"
     en: "Karin Isobe, Rio Tsuchiya, Coco Hayashi Tricolor"
   description:
-    ja: "月一回 7/16ゲスト: 指出毬亜"
+    ja: "月一回 次: 8月27日"
     en: "Monthly Update July 16 Guest: Maria Shitsuge"
   link: "https://www.onsen.ag/program/tricolor"
 # ------------------------------------------------------------------------------------------------------------

@@ -3,21 +3,96 @@ site_name_en: "Coco Hayashi Unofficial Info Hub"
 site_url: "https://hayashicoco.com"
 site_description:
   ja: |
-    当サイトは個人が運営する非公式の情報収集サイトであり、掲載されている情報は参考目的としてのみご利用ください。
-    ご質問や誤りにお気づきの点、あるいは情報提供をご希望の場合は、以下のメールアドレスまでお気軽にお問い合わせください。
+    当サイトは、林 鼓子さんに関する公開情報を整理するために個人が運営している非公式のファンサイトです。林 鼓子さんご本人、所属事務所LIBERTE、その他の関係者・団体とは関係がなく、承認または協賛を受けたものではありません。
 
-    メールアドレス: artsy.grower.4d@icloud.com
+    掲載内容は参考情報です。出演、開催、販売、申込等の最新かつ正確な情報は、必ず公式サイトや主催者の案内でご確認ください。ご質問、訂正、削除のご依頼、情報提供は、artsy.grower.4d@icloud.com までお知らせください。
   en: |
-    This is an unofficial information-gathering website and fan project. The content provided here is for reference purposes only.
-    If you have any question, notice any errors or have information you would like to contribute, please feel free to contact me via the email address below.
+    This independently operated fan site organizes publicly available information about Coco Hayashi. It is unofficial and is not affiliated with, endorsed by, or sponsored by Coco Hayashi, LIBERTE, or any other related person or organization.
 
-    Contact Email: artsy.grower.4d@icloud.com
+    The content is provided for reference only. Please confirm current and authoritative details about appearances, events, sales, and applications with the relevant official website or organizer. For questions, corrections, removal requests, or contributions, contact artsy.grower.4d@icloud.com.
+policy_sections:
+  - title:
+      ja: "情報の正確性と免責事項"
+      en: "Accuracy and disclaimer"
+    body:
+      ja: |
+        正確な情報の掲載に努めますが、内容の正確性、完全性、最新性を保証するものではありません。予告なく内容を変更、削除し、またはサイトの公開を一時停止することがあります。
+
+        当サイトの情報または外部リンクの利用によって生じた損害について、運営者は法令上認められる範囲で責任を負いません。特にチケットの購入、申込、移動等の判断は、公式情報を確認したうえで利用者ご自身の責任で行ってください。
+      en: |
+        Reasonable care is taken when publishing information, but its accuracy, completeness, and timeliness are not guaranteed. Content may be changed or removed, and the site may be suspended, without prior notice.
+
+        To the extent permitted by applicable law, the operator is not responsible for loss arising from use of this site or a linked third-party site. In particular, please verify official information and make your own decisions regarding tickets, applications, and travel.
+  - title:
+      ja: "個人情報とお問い合わせ"
+      en: "Personal information and contact"
+    body:
+      ja: |
+        当サイトには、会員登録、コメント欄、問い合わせフォームはありません。メールでお問い合わせいただいた場合、送信者のメールアドレス、氏名（記載された場合）、本文その他の送信内容を、返信、内容確認、訂正・削除対応およびサイト運営に必要な範囲で利用します。
+
+        これらの情報は、メールの送受信・保存に必要なサービス提供者による処理、法令に基づく場合その他正当な理由がある場合を除き、本人の同意なく目的外に利用または第三者へ提供しません。対応に必要な期間を超えて保存する必要がなくなった情報は、合理的な範囲で削除します。メールには、公開を望まない個人情報や第三者の非公開情報を記載しないでください。
+      en: |
+        This site has no account registration, comments, or contact form. If you contact the operator by email, your email address, name if provided, message, and other submitted information will be used only as reasonably necessary to reply, verify information, handle corrections or removal requests, and operate the site.
+
+        This information will not be used for unrelated purposes or disclosed to third parties without consent, except for processing reasonably necessary to transmit and store email, when required by law, or where another lawful reason applies. Information that is no longer reasonably needed will be deleted when practicable. Please do not include sensitive personal information or another person's non-public information in an email.
+  - title:
+      ja: "アクセス情報・Cookie・外部サービス"
+      en: "Access data, cookies, and external services"
+    body:
+      ja: |
+        当サイト独自の広告、行動追跡、アクセス解析は使用しておらず、当サイト独自にはCookieを設定していません。表示テーマの設定のみ、ブラウザのlocalStorageに保存されます。この設定はブラウザ側で削除できます。
+
+        サイト配信と安全性確保のためCloudflareを利用しており、アクセス時にIPアドレス、リクエスト情報、端末・ブラウザ情報等が処理または記録される場合があります。また、Google Fontsからフォントを取得する際、利用者のブラウザからGoogleへIPアドレス、要求URL、User-Agent等が送信されます。お問い合わせメールの受信・保存にはAppleのiCloudメールを利用しています。各サービスによる取扱いは、それぞれのプライバシーポリシーに従います。
+      en: |
+        The site does not use its own advertising, behavioral tracking, or audience analytics, and it does not set its own cookies. Only the display theme preference is stored in the browser's localStorage, where it can be deleted by the user.
+
+        Cloudflare is used to deliver and protect the site, and may process or log information such as IP addresses, request data, and device or browser information. When fonts are loaded from Google Fonts, the browser sends Google information such as the user's IP address, requested URL, and User-Agent. Apple iCloud Mail is used to receive and store contact email. These providers process information under their respective privacy policies.
+    links:
+      - label:
+          ja: "Cloudflare プライバシーポリシー"
+          en: "Cloudflare Privacy Policy"
+        url: "https://www.cloudflare.com/privacypolicy/"
+      - label:
+          ja: "Google Fonts: プライバシーとデータ収集"
+          en: "Google Fonts: Privacy and data collection"
+        url: "https://developers.google.com/fonts/faq/privacy"
+      - label:
+          ja: "Apple プライバシーポリシー"
+          en: "Apple Privacy Policy"
+        url: "https://www.apple.com/legal/privacy/"
+  - title:
+      ja: "外部リンク"
+      en: "External links"
+    body:
+      ja: |
+        当サイトには第三者が運営するウェブサイトやSNSへのリンクが含まれます。リンク先の内容、提供条件、個人情報の取扱いについて、当サイトは管理せず、保証しません。リンク先を利用する際は、そのサイトの規約やプライバシーポリシーをご確認ください。
+
+        リンクの掲載は、特に明記しない限り、リンク先との提携、推奨または保証を意味しません。
+      en: |
+        This site links to websites and social media services operated by third parties. The operator does not control or guarantee their content, terms, availability, or handling of personal information. Please review the terms and privacy policy of each linked service.
+
+        Unless expressly stated otherwise, a link does not imply affiliation, endorsement, or a guarantee.
+  - title:
+      ja: "著作権・商標等"
+      en: "Copyright, trademarks, and other rights"
+    body:
+      ja: |
+        当サイトで言及する人物名、団体名、作品名、商品名、ロゴその他の名称・標章は、各権利者に帰属します。引用または参照している文章、画像その他の素材の権利も、それぞれの権利者に帰属します。
+
+        当サイト独自の文章、編集、構成およびデザインを、法令で認められる範囲を超えて無断転載することはご遠慮ください。権利侵害または不適切な掲載があるとお考えの場合は、対象ページと理由をメールでお知らせください。確認のうえ、訂正、リンク変更または削除等を検討します。
+      en: |
+        Names of people, organizations, works and products, logos, and other marks mentioned on this site belong to their respective rights holders. Rights in quoted or referenced text, images, and other materials likewise remain with their respective owners.
+
+        Please do not reproduce the site's original writing, editorial selection, organization, or design beyond what applicable law permits. If you believe content infringes a right or should not be included, email the page and reason for your request. The operator will review it and consider correction, relinking, or removal.
 contribution:
   ja: |
-    活動情報やチケット情報を追加・修正する場合は、可能な限り公式サイトや公式発表へのリンクを添えてください。
-    活動の日付は表示用の date に加えて、判定用の startDate / endDate / activeDates を YYYY-MM-DD 形式で記入すると、カレンダーや過去アーカイブに正しく反映されます。
-    日本語と英語の項目はできるだけ両方そろえてください。
+    活動情報、チケット情報、掲載内容の誤りなどをお知らせいただける場合は、対象となるページ、内容、確認できる公式サイトまたは公式発表のURLをメールでお送りください。日付や受付期間がある情報は、その詳細も添えていただけると助かります。
+
+    公開情報のみをお寄せください。個人の連絡先、目撃情報、私生活に関する情報、有料・会員限定コンテンツの転載、出所を確認できない噂は送信しないでください。いただいた情報の掲載をお約束するものではなく、確認や編集を行ったうえで掲載を見送る場合があります。
   en: |
-    When adding or correcting activity and ticket information, please include a source link from an official site or announcement whenever possible.
-    In addition to the display-only date text, use startDate, endDate, or activeDates in YYYY-MM-DD format so the calendar and archive logic can classify the item correctly.
-    Please keep the Japanese and English fields in sync where possible.
+    To report an event, ticket update, or error, please email the relevant page, the proposed information or correction, and a URL for an official website or announcement that verifies it. If dates or application periods are involved, including those details is helpful.
+
+    Please submit public information only. Do not send private contact details, sightings, information about anyone's private life, copies of paid or members-only content, or rumors without a verifiable source. Submission does not guarantee publication; information may be checked, edited, or declined.
+last_updated:
+  ja: "最終更新日：2026年7月16日"
+  en: "Last updated: July 16, 2026"

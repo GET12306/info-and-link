@@ -43,15 +43,22 @@ export default function PastActivities({ lang }: { lang: Language }) {
               className="py-6 flex flex-col md:flex-row md:items-start justify-between gap-4"
             >
               <div className="md:w-32 font-mono text-sm text-coco-ink/40">{act.date}</div>
-              <a href={act.link} target="_blank" rel="noopener noreferrer" className="flex-1 hover:opacity-80 transition-opacity">
+              <div className="flex-1">
                 <div className="text-[10px] opacity-40 uppercase tracking-widest mb-1">
                   {getActivityCategoryLabel(act.category, t)}
                 </div>
-                <div className="text-xl font-serif mb-1">{act.title[lang]}</div>
+                <a
+                  href={act.link}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-block text-xl font-serif leading-relaxed transition-colors hover:text-coco-accent"
+                >
+                  {act.title[lang]}
+                </a>
                 {act.description && (
                   <div className="text-sm text-coco-ink/60">{act.description[lang]}</div>
                 )}
-              </a>
+              </div>
             </div>
           ))}
         </div>

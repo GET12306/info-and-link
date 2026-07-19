@@ -16,6 +16,7 @@ const primaryTabs = [
 
 const moreLinks = [
   { id: "historical_resources", path: "/resources", labelKey: "historical_resources" as const },
+  { id: "notes", path: "/notes", labelKey: "notes" as const },
 ]
 
 const themeOptions: { value: Theme; labelKey: TranslationKey }[] = [

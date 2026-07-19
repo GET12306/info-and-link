@@ -50,7 +50,7 @@ export default function Activities({ lang }: { lang: Language }) {
     >
       <div className="border-b grid-line pb-12">
         <h1 className="text-5xl md:text-7xl font-serif mb-4">{t.activities}</h1>
-        <p className="text-coco-ink/50 uppercase tracking-widest text-xs">Performance History & Schedule</p>
+        <p className="text-coco-ink/50 uppercase tracking-widest text-xs">Performance Schedule & History</p>
       </div>
 
       {/* Event List */}
@@ -82,12 +82,19 @@ export default function Activities({ lang }: { lang: Language }) {
                   >
                     <div className="md:w-32 font-mono text-sm text-coco-ink/40">{act.date}</div>
                     <div className="flex-1 flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-                      <a href={act.link} target="_blank" rel="noopener noreferrer" className="flex-1 hover:opacity-80 transition-opacity">
-                        <div className="text-xl font-serif mb-1">{act.title[lang]}</div>
+                      <div className="flex-1">
+                        <a
+                          href={act.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="inline-block text-xl font-serif leading-relaxed transition-colors hover:text-coco-accent"
+                        >
+                          {act.title[lang]}
+                        </a>
                         {act.description && (
                           <div className="text-sm text-coco-ink/60">{act.description[lang]}</div>
                         )}
-                      </a>
+                      </div>
                       {hasCurrentTicketInfo(act) && (
                         <Link
                           to="/tickets"

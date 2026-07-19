@@ -1,0 +1,92 @@
+# Required: title
+# Optional: date, category, description, link, relatedLinks
+#
+# relatedLinks:
+#   - url: "https://example.com/related-video"
+#     title: # Optional; the URL is displayed when omitted
+#       ja: "関連動画"
+#       en: "Related Video"
+#     type: # Optional
+#       ja: "動画"
+#       en: "Video"
+#   - url: "https://example.com/product"
+#     title:
+#       ja: "関連商品"
+#       en: "Related Product"
+#     type:
+#       ja: "商品"
+#       en: "Product"
+
+- title:
+    ja: "3rd Album『致並跡』ロングインタビュー"
+    en: "Extensive Interview on the 3rd Album 'The Horizon'"
+  date: "2026-07-16"
+  category:
+    ja: "MyGO!!!!!インタビュー"
+    en: "MyGO!!!!! Interview"
+  description:
+    ja: "MyGO!!!!!は音楽を通して、誰のこともひとりにしない――青木陽菜さん×林鼓子さんが迷いながら歩んできた“跡”の証。"
+    en: "Through music of MyGO!!!!! ensures that no one is left alone—a testament to the “path” that Hina Aoki and Coco Hayashi have walked, even as they struggled to find their way."
+  link: "https://www.animatetimes.com/news/details.php?id=1784033098"
+
+- title:
+    ja: "藤倉梓×内藤大希×林鼓子インタビュー"
+    en: "Interview with Azusa Fujikura, Daiki Naito, and Coco Hayashi"
+  date: "2025-12-05"
+  category:
+    ja: "朗読ミュージカルインタビュー"
+    en: "Interview on Reading and Musical"
+  description:
+    ja: "朗読ミュージカル『光られし女ども』Vol.3"
+    en: "Read and Musical “Women Who Shone” Vol.3"
+  link: "https://lp.p.pia.jp/article/news/443410/index.html?detail=true"
+
+- title:
+    ja: "村上奈津実×林鼓子×田中ちえ美×内田秀インタビュー"
+    en: "Interview with Natsumi Murakami, Shu Uchida, Chiemi Tanaka, and Coco Hayashi"
+  date: "2025-11-08"
+  category:
+    ja: "えいがさきインタビュー"
+    en: "Interview on the Movie of Nijigasaki"
+  description:
+    ja: "その1 核心を突く第2章"
+    en: "Part 1: Chapter 2: Getting to the Heart of the Matter"
+  link: "https://mantan-web.jp/article/20251108dog00m200004000c.html"
+  relatedLinks:
+  - url: "https://mantan-web.jp/article/20251108dog00m200005000c.html"
+    title: 
+      ja: "その2 それぞれの成長"
+      en: "Part 2: Their Individual Growth"
+
+- title:
+    ja: "虹ヶ咲AJ2025ステージ！"
+    en: "Nijigasaki AJ2025 Stage!"
+  date: "2025-04-01"
+  category:
+    ja: "えいがさきインタビュー"
+    en: "Interview on the Movie of Nijigasaki"
+  description:
+    ja: "ラブライブ！虹ヶ咲学園スクールアイドル同好会最新情報発表会"
+    en: "Love Live! Nijigasaki High School Idol Club Latest Information Announcement Event"
+  link: "https://www.edgeline-tokyo.com/entertainment/169047"
+
+- title:
+    ja: "どん底を味わったからこそ、今のすべてがありがたい"
+    en: "It’s precisely because I’ve hit rock bottom that I’m grateful for everything I have now."
+  date: "2024-10-04"
+  category:
+    ja: "個人インタビュー"
+    en: "Individual Interview"
+  description:
+    ja: "キャラクターの裏に隠された声優たちの素顔に迫る、インタビュー企画『声優図鑑 by声優グランプリ』。"
+    en: "“Voice Actor Encyclopedia by Voice Actor Grand Prix” is an interview series that delves into the true personalities of voice actors hidden behind their characters. Individual Interviews"
+  link: "https://seigura.com/senior/142424/"
+
+- title:
+    ja: "声優の林鼓子さんが湯村温泉の「湯がき体験」"
+    en: "Voice Actress Coco Hayashi Takes Part in the “Hot Spring Boiling Experience” at Yumura Onsen"
+  date: "2024-03-27"
+  category:
+    ja: "記事"
+    en: "Article"
+  link: "https://asanoyayu.exblog.jp/33929343/"
