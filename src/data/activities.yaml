@@ -345,3 +345,36 @@
     ja: "優木せつ菜役  at  Shibuya LOVEZ"
     en: "As Setsuna Yuki  at  Shibuya LOVEZ"
   link: "https://www.lovelive-anime.jp/special/live/live_detail.php?p=15thzenyasai"
+
+- category: "Live"
+  date: |
+    2026.11.14-11.15
+  startDate: "2026-11-14"
+  endDate: "2026-11-15"
+  title:
+    ja: "MyGO!!!!! 9th LIVE「つなぎ目の向こうに」 - 神戸再景編 -"
+    en: "MyGO!!!!! 9th LIVE 「Beyond the Seam」 – Kobe Revival Edition –"
+  description:
+    ja: "椎名立希役  at  ワールド記念ホール（神戸ポートアイランドホール）"
+    en: "As Setsuna Yuki  at  World Memorial Hall (Kobe Port Island Hall)"
+  link: "https://bang-dream.com/events/mygo_9th_hyogo/"
+  ticketInfo:
+    venue:
+      ja: "ワールド記念ホール（神戸ポートアイランドホール）"
+      en: "World Memorial Hall (Kobe Port Island Hall)"
+    officialUrl: "https://bang-dream.com/events/mygo_9th_hyogo/"
+    entries:
+      - type:
+          ja: "最速先行抽選"
+          en: "First-Come, First-Served Lottery"
+        startDate: "2026-07-19"
+        endDate: "2026-08-24"
+        period:
+          ja: "2026.07.19 21:00 - 08.24"
+          en: "2026.07.19 21:00 - 08.24"
+        price:
+          ja: "S席(特製グッズ付き): 25,300円(税込) A席(特製グッズ付き): 17,600円(税込) 一般指定席(特製グッズ付き): 13,200円(税込) 一般指定席: 8,800円(税込)"
+          en: "S Seats (includes special merchandise): 25,300 yen (tax included) A Seats (includes special merchandise): 17,600 yen (tax included) General Reserved Seats (includes special merchandise): 13,200 yen (tax included) General Reserved Seats: 8,800 yen (tax included)"
+        note:
+          ja: "MyGO!!!!! 3rd Album「致並跡」初回生産分に封入の申込券でご応募いただけます。"
+          en: "You can enter the giveaway using the entry coupon included in the first press run of MyGO!!!!!'s 3rd album, “Chinamiato.”"
