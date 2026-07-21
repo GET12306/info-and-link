@@ -52,7 +52,6 @@
     venue:
       ja: "あうるすぽっと"
       en: "Auru Spot"
-    # officialUrl: "https://fan.pia.jp/cocohayashi/news/detail/72/?page=1&ptag=NEWS"
     entries:
       - type:
           ja: "抽選先行"
@@ -96,6 +95,27 @@
       主人公 アズサ役  at  東京・シアターサンモール
     en: "As Azusa at Tokyo Theater Sunmall"
   link: "https://neo-slime300.com"
+
+- category: "Reading"
+  date: |
+    2026.10.28-11.01
+  startDate: "2026-10-28"
+  endDate: "2026-11-01"
+  # activeDates:
+  #   - "2026-10-17"
+  #   - "2026-10-18"
+  #   - "2026-10-21"
+  #   - "2026-10-22"
+  #   - "2026-10-25"
+  title:
+    ja: "異空間リーディングステージ 「アサルトリリィ」 vol.2"
+    en: "Alternative Dimension Reading Stage: “Assault Lily” Vol. 2"
+  description:
+    ja: |
+      ⻑坂稀星役  at  シアターサンモール
+    en: "As Maho Nagasaka at Theater Sunmall"
+  link: "https://assaultlily-stage.jp/2610stage/"
+
 # ------------------------------------------------------------------------------------------------------------
 - category: "Program"
   date: |
