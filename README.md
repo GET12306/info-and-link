@@ -8,7 +8,7 @@ This project is unofficial and is not affiliated with or endorsed by LIBERTE or 
 
 ## Features
 
-- **Bilingual UI**: Japanese and English content with an in-app language toggle.
+- **Bilingual UI**: Uses Japanese only when the browser's primary language is Japanese; otherwise defaults to English. A manual language choice is persisted and kept in sync with the document `lang` attribute.
 - **Responsive layout**: desktop navigation plus a narrow-screen menu for mobile and compact browser widths.
 - **Dark mode**: system, light, and dark theme options.
 - **Home calendar**: shows upcoming dated activities, highlights today, supports hover previews on desktop, and tap/click detail popups on touch or narrow screens.
@@ -36,6 +36,7 @@ This project is unofficial and is not affiliated with or endorsed by LIBERTE or 
 ```text
 src/
 ├── components/          # Reusable UI components
+├── config/              # Shared display metadata such as activity categories
 ├── data/                # YAML content files
 ├── hooks/               # Calendar and theme hooks
 ├── pages/               # Route-level pages
@@ -50,8 +51,7 @@ Important content files:
 
 - `src/data/activities.yaml`: activities and optional ticket information.
 - `src/data/profile.yaml`: profile facts.
-- `src/data/official-links.yaml`: official social/profile links.
-- `src/data/resource-links.yaml`: external resource links shown on the home page.
+- `src/data/links.yaml`: all official and external resource links shown on the home page.
 - `src/data/roles.yaml`: role/history data for the about page.
 - `src/data/fan-projects.yaml`: fan project data, currently not routed in the app.
 
@@ -78,6 +78,23 @@ npm run clean     # Remove dist/
 
 No local environment variables are required for normal development.
 
+## UI Composition
+
+New pages should be assembled from small reusable primitives instead of introducing
+another all-purpose data-page schema:
+
+- `PageLayout` and `PageHeader` provide the shared page structure and optional back link.
+- `EmptyState` is included only on pages whose data can reasonably be empty.
+- `ArchiveLink` provides the common current-to-history navigation.
+- `ExternalAnchor` enforces consistent external-link security behavior.
+- `ActivityRow`, `TicketGroup`, and `TicketEntryRow` own domain-specific display rules.
+- `activityCategories.ts` is the single source for category order, labels, compact labels, and icons.
+
+Required domain fields should stay in the TypeScript interfaces, while truly optional
+display regions should be expressed as optional component props. Avoid a generic
+component with many unrelated flags; prefer composition or a small discriminated
+variant such as the current/past ticket-row variants.
+
 ## Activity Data Format
 
 Activities live in `src/data/activities.yaml`. Each item should follow this shape:
@@ -97,7 +114,7 @@ Activities live in `src/data/activities.yaml`. Each item should follow this shap
 
 Required fields:
 
-- `category`: one of `Stage`, `Musical`, `Program`, `Live`, `Reading`, or `Other`.
+- `category`: one of `Stage`, `Musical`, `Program`, `Event`, `Live`, `Reading`, or `Other`. Use `Program` for streamed/broadcast programs and `Event` for in-person events.
 - `date`: human-readable display text. This can be a single date, date range, `Weekly`, `Monthly`, or any concise label.
 - `title.ja` and `title.en`: bilingual title.
 - `link`: source or official information URL.
@@ -164,9 +181,7 @@ Only activities with ticket information need a `ticketInfo` block. Ticket entrie
           en: "Fan Club Presale"
         startDate: "2026-07-04"
         endDate: "2026-07-12"
-        period:
-          ja: "2026.07.04-07.12"
-          en: "2026.07.04-07.12"
+        period: "2026.07.04-07.12"
         price:
           ja: "7,700円 + ドリンク代600円"
           en: "7,700 yen + 600 yen drink fee"
@@ -183,8 +198,8 @@ Ticket field notes:
 - `entries`: list of ticket lotteries, presales, general sales, or TBA entries.
 - `entry.type.ja` and `entry.type.en`: visible ticket entry name. This text is clickable in the UI.
 - `entry.startDate`: `YYYY-MM-DD`; used to mark the entry as upcoming before this date.
-- `entry.endDate`: `YYYY-MM-DD`; used to move the entry to the archive after this date.
-- `entry.period`: human-readable sale/application period.
+- `entry.endDate`: `YYYY-MM-DD`; used to move the entry to the archive after this date. If the official cutoff is unknown, use the activity `endDate` as the fallback.
+- `entry.period`: language-independent, human-readable sale/application period.
 - `entry.price`: human-readable price details.
 - `entry.note`: optional extra details.
 - `entry.link`: optional URL for this exact ticket entry. If omitted, the UI falls back to `ticketInfo.officialUrl`, then the activity `link`.
@@ -196,7 +211,7 @@ Ticket status behavior:
 - `past`: today is after `entry.endDate`.
 - `tba`: no machine-readable ticket dates are provided.
 
-For open-ended general sales, omit `endDate` instead of using an empty string.
+For sales without a published cutoff, use the parent activity `endDate` instead of an empty string so the entry can move to the archive.
 
 ## Contribution Notes
 

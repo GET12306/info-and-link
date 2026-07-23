@@ -1,1 +1,12 @@
+# 数据结构参考（本文件顶层必须是列表；无数据时保留最后的 []）
+# - title:                              # [必填] 项目名称
+#     ja: "ファンプロジェクト名"
+#     en: "Fan project title"
+#   organizer: "主催者名"              # [必填] 主办者显示名称
+#   organizerUrl: "https://example.com/organizer" # [可选] 主办者名称的链接
+#   url: "https://example.com/project" # [必填] 项目详情按钮链接
+#   description:                        # [必填] 项目简介
+#     ja: "プロジェクトの説明"
+#     en: "Project description"
+#
 []

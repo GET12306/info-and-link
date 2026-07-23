@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useRef } from "react"
 import { NavLink, Link } from "react-router-dom"
 import { AnimatePresence, motion } from "motion/react"
 import { ChevronDown, Sun, Moon, Menu, X } from "lucide-react"
@@ -38,16 +38,36 @@ export default function NavBar({
 }) {
   const t = TRANSLATIONS[lang]
   const [open, setOpen] = useState(false)
-  const [moreOpen, setMoreOpen] = useState(false)
+  const [mobileMoreOpen, setMobileMoreOpen] = useState(false)
+  const [desktopMoreHovered, setDesktopMoreHovered] = useState(false)
+  const [desktopMoreClicked, setDesktopMoreClicked] = useState(false)
+  const desktopMoreRef = useRef<HTMLDivElement>(null)
+  const desktopMoreOpen = desktopMoreHovered || desktopMoreClicked
 
   useEffect(() => {
-    if (!open) return
+    if (!open && !desktopMoreOpen) return
     const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setOpen(false)
+      if (e.key === "Escape") {
+        setOpen(false)
+        setMobileMoreOpen(false)
+        setDesktopMoreHovered(false)
+        setDesktopMoreClicked(false)
+      }
     }
     document.addEventListener("keydown", onKey)
     return () => document.removeEventListener("keydown", onKey)
-  }, [open])
+  }, [open, desktopMoreOpen])
+
+  useEffect(() => {
+    if (!desktopMoreClicked) return
+    const onPointerDown = (event: PointerEvent) => {
+      if (!desktopMoreRef.current?.contains(event.target as Node)) {
+        setDesktopMoreClicked(false)
+      }
+    }
+    document.addEventListener("pointerdown", onPointerDown)
+    return () => document.removeEventListener("pointerdown", onPointerDown)
+  }, [desktopMoreClicked])
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : ""
@@ -56,7 +76,7 @@ export default function NavBar({
 
   const close = () => {
     setOpen(false)
-    setMoreOpen(false)
+    setMobileMoreOpen(false)
   }
 
   return (
@@ -70,7 +90,7 @@ export default function NavBar({
             <span className="text-coco-accent">COCO</span>
           </Link>
 
-          <div className="hidden lg:flex items-center gap-2 lg:gap-8 bg-coco-black/5 p-1 rounded-full border grid-line dark:bg-white/10">
+          <div className="hidden lg:flex items-center gap-2 lg:gap-8 bg-coco-ink/5 p-1 rounded-full border grid-line">
             {primaryTabs.map((tab) => (
               <NavLink
                 key={tab.id}
@@ -86,20 +106,46 @@ export default function NavBar({
                 {t[tab.labelKey]}
               </NavLink>
             ))}
-            <div className="relative group">
+            <div
+              ref={desktopMoreRef}
+              className="relative"
+              onMouseEnter={() => setDesktopMoreHovered(true)}
+              onMouseLeave={() => {
+                setDesktopMoreHovered(false)
+                setDesktopMoreClicked(false)
+              }}
+              onBlur={(event) => {
+                if (!event.currentTarget.contains(event.relatedTarget)) {
+                  setDesktopMoreClicked(false)
+                }
+              }}
+            >
               <button
+                type="button"
+                onClick={() => setDesktopMoreClicked((value) => !value)}
                 className="flex items-center gap-1 px-4 lg:px-6 py-1.5 rounded-full text-[10px] lg:text-xs font-bold uppercase tracking-widest text-coco-ink/40 transition-all hover:text-coco-ink"
                 aria-haspopup="true"
+                aria-expanded={desktopMoreOpen}
+                aria-controls="desktop-more-menu"
               >
                 {t.more}
-                <ChevronDown className="w-3 h-3 transition-transform group-hover:rotate-180" />
+                <ChevronDown className={`w-3 h-3 transition-transform ${desktopMoreOpen ? "rotate-180" : ""}`} />
               </button>
-              <div className="invisible absolute left-1/2 top-full z-50 w-56 -translate-x-1/2 pt-3 opacity-0 transition-all duration-150 group-hover:visible group-hover:opacity-100">
+              <div
+                id="desktop-more-menu"
+                className={`absolute left-1/2 top-full z-50 w-56 -translate-x-1/2 pt-3 transition-all duration-150 ${
+                  desktopMoreOpen ? "visible opacity-100" : "invisible opacity-0"
+                }`}
+              >
                 <div className="rounded-lg border grid-line bg-coco-bg/95 p-2 shadow-xl backdrop-blur-md">
                   {moreLinks.map((item) => (
                     <NavLink
                       key={item.id}
                       to={item.path}
+                      onClick={() => {
+                        setDesktopMoreHovered(false)
+                        setDesktopMoreClicked(false)
+                      }}
                       className={({ isActive }) =>
                         `block rounded px-4 py-3 text-xs font-bold uppercase tracking-widest transition-colors ${
                           isActive
@@ -189,15 +235,15 @@ export default function NavBar({
                 ))}
                 <div>
                   <button
-                    onClick={() => setMoreOpen((value) => !value)}
+                    onClick={() => setMobileMoreOpen((value) => !value)}
                     className="flex w-full items-center justify-between px-4 py-3 rounded text-sm font-bold uppercase tracking-widest text-coco-ink/60 transition-all hover:text-coco-ink hover:bg-coco-accent/5"
-                    aria-expanded={moreOpen}
+                    aria-expanded={mobileMoreOpen}
                   >
                     {t.more}
-                    <ChevronDown className={`w-4 h-4 transition-transform ${moreOpen ? "rotate-180" : ""}`} />
+                    <ChevronDown className={`w-4 h-4 transition-transform ${mobileMoreOpen ? "rotate-180" : ""}`} />
                   </button>
                   <AnimatePresence initial={false}>
-                    {moreOpen && (
+                    {mobileMoreOpen && (
                       <motion.div
                         initial={{ height: 0, opacity: 0 }}
                         animate={{ height: "auto", opacity: 1 }}

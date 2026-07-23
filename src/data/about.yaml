@@ -1,3 +1,33 @@
+# 数据结构参考（本文件是单一“关于本站”对象，不是列表）
+# site_name: "站点名称"                 # [可选/当前未显示] 预留的日语/默认站点名
+# site_name_en: "Site name"             # [可选/当前未显示] 预留的英语站点名
+# site_url: "https://example.com"       # [可选/当前未显示] 预留的正式网址
+# site_description:                     # [必填] 页面开头的本站说明
+#   ja: |-
+#     日本語の説明
+#   en: |-
+#     English description
+# policy_sections:                      # [必填] 方针区块列表；可放多个区块
+#   - title:                            # [必填/每个区块] 区块标题
+#       ja: "方針タイトル"
+#       en: "Policy title"
+#     body:                             # [必填/每个区块] 正文；| 可保留换行
+#       ja: |
+#         日本語の本文
+#       en: |
+#         English body
+#     links:                            # [可选] 本区块引用的外部链接列表
+#       - label:                        # [必填/每个链接] 双语链接文字
+#           ja: "リンク名"
+#           en: "Link label"
+#         url: "https://example.com/policy" # [必填/每个链接] 目标地址
+# contribution:                        # [必填] 信息提供说明
+#   ja: "日本語の案内"
+#   en: "English guidance"
+# last_updated:                        # [必填] 已格式化的最后更新文字；构建不会自动生成
+#   ja: "最終更新日：2026年7月20日"
+#   en: "Last updated: July 20, 2026"
+#
 site_name: "林 鼓子 Unofficial Info Hub"
 site_name_en: "Coco Hayashi Unofficial Info Hub"
 site_url: "https://hayashicoco.com"
@@ -94,5 +124,5 @@ contribution:
 
     Please submit public information only. Do not send private contact details, sightings, information about anyone's private life, copies of paid or members-only content, or rumors without a verifiable source. Submission does not guarantee publication; information may be checked, edited, or declined.
 last_updated:
-  ja: "最終更新日：2026年7月16日"
-  en: "Last updated: July 16, 2026"
+  ja: "最終更新日：2026年7月20日"
+  en: "Last updated: July 20, 2026"

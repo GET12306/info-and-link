@@ -1,4 +1,4 @@
-import { useState, lazy, Suspense } from "react"
+import { lazy, Suspense } from "react"
 import { HashRouter, Routes, Route, Navigate, useLocation, Link } from "react-router-dom"
 import { motion, AnimatePresence } from "motion/react"
 import { Globe } from "lucide-react"
@@ -6,6 +6,7 @@ import { useTheme } from "./hooks/useDarkMode"
 import type { Language } from "./types"
 import Loading from "./components/Loading"
 import NavBar from "./components/NavBar"
+import { useLanguage } from "./hooks/useLanguage"
 
 const Home = lazy(() => import("./pages/Home"))
 const Activities = lazy(() => import("./pages/Activities"))
@@ -60,7 +61,7 @@ function AnimatedRoutes({ lang }: { lang: Language }) {
 }
 
 export default function App() {
-  const [lang, setLang] = useState<Language>("ja")
+  const [lang, toggleLanguage] = useLanguage()
   const [theme, setTheme, isDark] = useTheme()
 
   return (
@@ -91,7 +92,7 @@ export default function App() {
               </Link>
             </div>
             <button
-              onClick={() => setLang(lang === "ja" ? "en" : "ja")}
+              onClick={toggleLanguage}
               className="self-end flex items-center gap-2 px-3 py-1.5 border grid-line rounded hover:border-coco-accent transition-all"
             >
               <Globe className="w-3 h-3" />

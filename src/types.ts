@@ -1,74 +1,77 @@
+import type { ActivityCategory } from "./config/activityCategories";
+
 export type Language = "ja" | "en";
+export type LocalizedText = Record<Language, string>;
 
 export interface Role {
   year: string;
-  title: { ja: string; en: string };
-  character: { ja: string; en: string };
+  title: LocalizedText;
+  character: LocalizedText;
 }
 
 export interface Activity {
-  category: "Stage" | "Musical" | "Program" | "Live" | "Reading" | "Other";
+  category: ActivityCategory;
   date: string;
   startDate?: string;
   endDate?: string;
   activeDates?: string[];
-  title: { ja: string; en: string };
-  description?: { ja: string; en: string };
+  title: LocalizedText;
+  description?: LocalizedText;
   link: string;
   ticketInfo?: TicketInfo;
 }
 
 export interface FanProject {
-  title: { ja: string; en: string };
+  title: LocalizedText;
   organizer: string;
   organizerUrl?: string;
   url: string;
-  description: { ja: string; en: string };
+  description: LocalizedText;
 }
 
 export interface LinkItem {
-  platform: { ja: string; en: string };
+  platform: LocalizedText;
   url: string;
-  description: { ja: string; en: string };
+  description: LocalizedText;
   icon: string;
 }
 
 export interface HistoricalResource {
   date: string;
-  title: { ja: string; en: string };
-  description?: { ja: string; en: string };
+  title: LocalizedText;
+  description?: LocalizedText;
   url?: string;
   status: "available" | "expired";
 }
 
 export interface Note {
-  title: { ja: string; en: string };
+  title: LocalizedText;
   date?: string;
-  category?: { ja: string; en: string };
-  description?: { ja: string; en: string };
+  category?: LocalizedText;
+  description?: LocalizedText;
   link?: string;
   relatedLinks?: NoteRelatedLink[];
 }
 
 export interface NoteRelatedLink {
   url: string;
-  title?: { ja: string; en: string };
-  type?: { ja: string; en: string };
+  title?: LocalizedText;
+  type?: LocalizedText;
 }
 
 export interface TicketInfo {
-  venue?: { ja: string; en: string };
+  venue?: LocalizedText;
   officialUrl?: string;
   entries: TicketEntry[];
 }
 
 export interface TicketEntry {
-  type: { ja: string; en: string };
+  type: LocalizedText;
   startDate?: string;
   endDate?: string;
-  period: { ja: string; en: string };
-  price: { ja: string; en: string };
-  note?: { ja: string; en: string };
+  period: string;
+  price: LocalizedText;
+  note?: LocalizedText;
   link?: string;
 }
 
@@ -86,7 +89,7 @@ export type WardrobeIdentificationStatus = "confirmed" | "probable" | "similar" 
 
 export interface WardrobeSource {
   type: "x" | "instagram" | "youtube" | "official" | "store" | "article" | "other";
-  label: { ja: string; en: string };
+  label: LocalizedText;
   url: string;
   date?: string;
 }
@@ -94,14 +97,14 @@ export interface WardrobeSource {
 export interface WardrobeItem {
   id: string;
   category: WardrobeCategory;
-  color?: { ja: string; en: string };
-  title: { ja: string; en: string };
-  description: { ja: string; en: string };
+  color?: LocalizedText;
+  title: LocalizedText;
+  description: LocalizedText;
   brand?: string;
   productName?: string;
   identification: {
     status: WardrobeIdentificationStatus;
-    note?: { ja: string; en: string };
+    note?: LocalizedText;
   };
   sources: WardrobeSource[];
 }

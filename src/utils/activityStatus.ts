@@ -35,6 +35,33 @@ export function withActivityIndexes(activities: Activity[]): IndexedActivity[] {
   return activities.map((activity, originalIndex) => ({ ...activity, originalIndex }))
 }
 
+function activityOccursInMonth(activity: Activity, monthKey: string) {
+  if (activity.activeDates?.length) {
+    return activity.activeDates.some((date) => date.startsWith(`${monthKey}-`))
+  }
+
+  const startDate = getActivityStartDate(activity)
+  const endDate = getActivityEndDate(activity)
+  if (!startDate || !endDate) return false
+
+  const [year, month] = monthKey.split("-").map(Number)
+  const lastDay = new Date(year, month, 0).getDate()
+  const monthStart = `${monthKey}-01`
+  const monthEnd = `${monthKey}-${String(lastDay).padStart(2, "0")}`
+
+  return startDate <= monthEnd && endDate >= monthStart
+}
+
+export function getCalendarActivities(activities: Activity[], todayKey = getTodayKey()) {
+  const currentMonthKey = todayKey.substring(0, 7)
+
+  return withActivityIndexes(activities).filter(
+    (activity) =>
+      getActivityStatus(activity, todayKey) !== "past" ||
+      activityOccursInMonth(activity, currentMonthKey)
+  )
+}
+
 export function getCurrentActivities(activities: Activity[], todayKey = getTodayKey()) {
   return withActivityIndexes(activities).filter((activity) => getActivityStatus(activity, todayKey) !== "past")
 }

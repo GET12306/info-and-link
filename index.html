@@ -4,6 +4,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <script>
+    (() => {
+      let saved = null;
+      try {
+        saved = localStorage.getItem("language");
+      } catch {
+        // Browser storage may be unavailable.
+      }
+      const preferred = navigator.languages?.[0] ?? navigator.language;
+      document.documentElement.lang =
+        saved === "ja" || saved === "en"
+          ? saved
+          : preferred.toLowerCase().startsWith("ja")
+            ? "ja"
+            : "en";
+    })();
+  </script>
   <link rel="icon"
     href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🥁</text></svg>" />
   <title>ここ</title>

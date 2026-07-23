@@ -1,18 +1,19 @@
-import { useEffect, useRef, useState } from "react"
-import { Link, useLocation } from "react-router-dom"
-import { motion } from "motion/react"
-import { Music, Ticket, Tv, MicVocal, BookOpenText, ArrowRight, Tickets } from "lucide-react"
+import { useEffect, useState } from "react"
+import { useLocation } from "react-router-dom"
 import { TRANSLATIONS } from "../i18n"
 import ACTIVITIES from "../data/activities.yaml"
 import type { Activity, Language } from "../types"
 import { getCurrentActivities, getPastActivities } from "../utils/activityStatus"
 import { getActivityCategoryLabel } from "../utils/categoryLabels"
 import { hasCurrentTicketInfo } from "../utils/ticketStatus"
+import { ACTIVITY_CATEGORY_META, ACTIVITY_CATEGORY_ORDER } from "../config/activityCategories"
+import ActivityRow from "../components/ActivityRow"
+import ArchiveLink from "../components/ArchiveLink"
+import { PageHeader, PageLayout } from "../components/PageLayout"
 
 export default function Activities({ lang }: { lang: Language }) {
   const t = TRANSLATIONS[lang]
   const location = useLocation()
-  const listRef = useRef<HTMLDivElement>(null)
   const [highlighted, setHighlighted] = useState<number | null>(null)
   const activities = ACTIVITIES as Activity[]
   const currentActivities = getCurrentActivities(activities)
@@ -31,106 +32,55 @@ export default function Activities({ lang }: { lang: Language }) {
     })
   }, [location.state])
 
-  const categories = [
-    { id: "Live" as const, name: getActivityCategoryLabel("Live", t) },
-    { id: "Musical" as const, name: getActivityCategoryLabel("Musical", t) },
-    { id: "Stage" as const, name: getActivityCategoryLabel("Stage", t) },
-    { id: "Reading" as const, name: getActivityCategoryLabel("Reading", t) },
-    { id: "Program" as const, name: getActivityCategoryLabel("Program", t) },
-  ]
-
   return (
-    <motion.div
-      key="activities"
-      initial={{ opacity: 0, y: 10 }}
-      animate={{ opacity: 1, y: 0 }}
-      exit={{ opacity: 0, y: -10 }}
-      transition={{ duration: 0.4 }}
-      className="space-y-20 pb-32"
-    >
-      <div className="border-b grid-line pb-12">
-        <h1 className="text-5xl md:text-7xl font-serif mb-4">{t.activities}</h1>
-        <p className="text-coco-ink/50 uppercase tracking-widest text-xs">Performance Schedule & History</p>
-      </div>
+    <PageLayout>
+      <PageHeader title={t.activities} subtitle="Performance Schedule & History" />
 
-      {/* Event List */}
-      <div ref={listRef} className="space-y-18">
-        {categories.map((cat) => {
-          const categoryActivities = currentActivities.filter((a) => a.category === cat.id)
+      <div className="space-y-18">
+        {ACTIVITY_CATEGORY_ORDER.map((category) => {
+          const categoryActivities = currentActivities.filter(
+            (activity) => activity.category === category
+          )
           if (categoryActivities.length === 0) return null
+          const Icon = ACTIVITY_CATEGORY_META[category].icon
 
           return (
-            <div key={cat.id} className="space-y-8">
+            <section key={category} className="space-y-8">
               <h3 className="text-[15px] uppercase tracking-[0.3em] font-bold text-coco-accent flex items-center gap-3">
-                {cat.id === "Musical" && <Music className="w-4 h-4" />}
-                {cat.id === "Stage" && <Ticket className="w-4 h-4" />}
-                {cat.id === "Program" && <Tv className="w-4 h-4" />}
-                {cat.id === "Live" && <MicVocal className="w-4 h-4" />}
-                {cat.id === "Reading" && <BookOpenText className="w-4 h-4" />}
-                {cat.name}
+                <Icon className="h-4 w-4" aria-hidden="true" />
+                {getActivityCategoryLabel(category, t)}
               </h3>
               <div className="border-t grid-line divide-y divide-gray-300 dark:divide-white/10">
                 {categoryActivities.map((act) => (
-                  <div
+                  <ActivityRow
                     key={act.originalIndex}
-                    id={`event-${act.originalIndex}`}
-                    className={`rounded-lg border-l-2 px-4 py-6 flex flex-col md:flex-row md:items-start justify-between gap-4 transition-all duration-500 ${
-                      highlighted === act.originalIndex
-                        ? "border-l-coco-accent/70 bg-coco-accent/5 dark:bg-coco-accent/10"
-                        : "border-l-transparent"
-                    }`}
-                  >
-                    <div className="md:w-32 font-mono text-sm text-coco-ink/40">{act.date}</div>
-                    <div className="flex-1 flex flex-col sm:flex-row sm:items-start justify-between gap-4">
-                      <div className="flex-1">
-                        <a
-                          href={act.link}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-block text-xl font-serif leading-relaxed transition-colors hover:text-coco-accent"
-                        >
-                          {act.title[lang]}
-                        </a>
-                        {act.description && (
-                          <div className="text-sm text-coco-ink/60">{act.description[lang]}</div>
-                        )}
-                      </div>
-                      {hasCurrentTicketInfo(act) && (
-                        <Link
-                          to="/tickets"
-                          state={{ scrollToTicket: act.originalIndex }}
-                          className="inline-flex shrink-0 items-center gap-2 text-[10px] uppercase tracking-widest font-bold text-coco-accent hover:opacity-70 transition-opacity"
-                        >
-                          <Tickets className="w-3.5 h-3.5" />
-                          {t.ticket_info}
-                        </Link>
-                      )}
-                    </div>
-                  </div>
+                    activity={act}
+                    lang={lang}
+                    highlighted={highlighted === act.originalIndex}
+                    ticketAction={
+                      hasCurrentTicketInfo(act)
+                        ? {
+                            label: t.ticket_info,
+                            to: "/tickets",
+                            state: { scrollToTicket: act.originalIndex },
+                          }
+                        : undefined
+                    }
+                  />
                 ))}
               </div>
-            </div>
+            </section>
           )
         })}
       </div>
 
       {pastActivities.length > 0 && (
-        <div className="border-t grid-line pt-6">
-          <Link
-            to="/activities/past"
-            className="group flex items-center justify-between gap-4 py-6 hover:opacity-80 transition-opacity"
-          >
-            <div className="md:w-32 font-mono text-sm text-coco-ink/40">
-              Archive
-            </div>
-            <div className="flex-1">
-              <div className="text-xl font-serif mb-1">{t.view_past_activities}</div>
-              <div className="text-sm text-coco-ink/60">{t.view_past_activities_description}</div>
-            </div>
-            <ArrowRight className="w-4 h-4 text-coco-accent opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
-          </Link>
-        </div>
+        <ArchiveLink
+          to="/activities/past"
+          title={t.view_past_activities}
+          description={t.view_past_activities_description}
+        />
       )}
-    </motion.div>
+    </PageLayout>
   )
 }

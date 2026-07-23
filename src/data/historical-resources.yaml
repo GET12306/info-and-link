@@ -1,3 +1,14 @@
+# 数据结构参考（本文件顶层为历史资源列表）
+# - date: "2023-2025"                  # [必填] 页面显示的时期文字，不参与排序
+#   title:                              # [必填] 节目或企划名称
+#     ja: "番組名"
+#     en: "Program title"
+#   description:                        # [可选] 资源状态或内容补充
+#     ja: "説明"
+#     en: "Description"
+#   url: "https://example.com/archive" # [可选] 省略时仅作为记录展示，不可点击
+#   status: "available"                # [必填] available=链接可用；expired=已失效/仅存档
+#
 - date: "2023-2025"
   title:
     ja: "林鼓子のココいちばん！"
@@ -16,4 +27,3 @@
     ja: "視聴可能期間が過ぎています。"
     en: "The viewing period has expired."
   status: "expired"
-

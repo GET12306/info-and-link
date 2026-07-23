@@ -1,0 +1,55 @@
+# 数据结构参考（首页“链接”区域的统一链接列表；排列顺序就是首页显示顺序）
+# - platform:                           # [必填] 卡片上显示的名称
+#     ja: "サービス名"
+#     en: "Service name"
+#   url: "https://example.com"         # [必填] 点击后的目标地址
+#   description:                        # [必填/数据契约] 说明文字；当前首页尚未显示，但请保留供后续使用
+#     ja: "リンクの説明"
+#     en: "Link description"
+#   icon: "ExternalLink"               # [必填] SiX | SiInstagram | House | Star | Hotel | ExternalLink
+#                                        # 未识别的值在当前构建中会回退为 ExternalLink
+#
+- platform:
+    ja: "X(Twitter)"
+    en: "X(Twitter)"
+  url: "https://x.com/cocohayashi515"
+  description:
+    ja: "公式 X"
+    en: "Official X"
+  icon: SiX
+
+- platform:
+    ja: "Instagram"
+    en: "Instagram"
+  url: "https://www.instagram.com/coco_hayashi.official"
+  description:
+    ja: "公式 Instagram"
+    en: "Official Instagram"
+  icon: SiInstagram
+
+- platform:
+    ja: "事務所HP"
+    en: "Agency Homepage"
+  url: "https://liberte2024.com/talent/hayashicoco"
+  description:
+    ja: "事務所HP"
+    en: "Agency Homepage"
+  icon: Hotel
+
+- platform:
+    ja: "鼓星"
+    en: "Official Fan Club"
+  url: "https://fan.pia.jp/cocohayashi"
+  description:
+    ja: "公式 ファンクラブ"
+    en: "Offical Fan Club"
+  icon: Star
+
+- platform:
+    ja: "林鼓子のメゾンド・ココ"
+    en: "Maison De Coco"
+  url: "https://audee-membership.jp/coco-hayashi"
+  description:
+    ja: "ラジオ番組"
+    en: "Weekly Podcast"
+  icon: House

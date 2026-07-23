@@ -1,6 +1,46 @@
+# 数据结构参考（依据当前 Activity / TicketInfo 类型与页面读取逻辑）
+# [必填] 缺少后页面无法正常展示；[可选] 可整项省略，不要用空字符串代替。
+# 日期规则：用于显示的 date/period 可自由书写；用于状态和排序的日期必须是 YYYY-MM-DD。
+#
+# - category: "Event"                 # [必填] 分类：Stage | Musical | Program | Event | Live | Reading | Other
+#                                     # 舞台/音乐剧/直播节目/线下活动/live/朗读剧/其他
+#                                        # Program=配信番組，Event=リアルイベント
+#   date: "2026.08.11"                # [必填] 活动页显示文字；不参与日期计算，建议加引号
+#   startDate: "2026-08-11"           # [可选] 首日；用于日历及 upcoming/ongoing/past 判定
+#   endDate: "2026-08-12"             # [可选] 连续活动末日；单日活动可省略
+#   activeDates:                       # [可选] 非连续出演的准确日期；存在时优先于 startDate/endDate
+#     - "2026-08-11"
+#     - "2026-08-12"
+#   title:                             # [必填] 活动标题
+#     ja: "活动名"
+#     en: "Activity title"
+#   description:                       # [可选] 角色、场地、出演场次等补充信息
+#     ja: "ゲスト出演"
+#     en: "Guest appearance"
+#   link: "https://example.com/event" # [必填] 活动标题链接；也是票务链接的最终回退地址
+#   ticketInfo:                        # [可选] 仅有票务信息时添加
+#     venue:                           # [可选] 票务页显示的场地
+#       ja: "会場名"
+#       en: "Venue"
+#     officialUrl: "https://example.com/tickets" # [可选] 各票种未设 link 时的回退地址
+#     entries:                         # [必填/仅 ticketInfo 内] 一个或多个票务阶段
+#       - type:                        # [必填] 抽选、先行、一般发售等名称
+#           ja: "一般発売"
+#           en: "General Sale"
+#         startDate: "2026-07-11"     # [可选] 开始日；开始前显示 upcoming
+#         endDate: "2026-07-20"       # [可选] 截止日；次日起进入历史票务；截止不明时使用所属活动的 endDate
+#         period: "2026.07.11-07.20"  # [必填] 两种语言共用的显示文字；不参与状态计算
+#         price:                       # [必填] 价格说明
+#           ja: "9,900円"
+#           en: "9,900 yen"
+#         note:                        # [可选] 申请条件等补充说明
+#           ja: "注意事項"
+#           en: "Additional note"
+#         link: "https://example.com/entry" # [可选] 此票种专用链接；优先级最高
+#
 - category: "Musical"
-  date: "2026.03.16-22"
-  startDate: "2026-03-16"
+  date: "2026.03.06-22"
+  startDate: "2026-03-06"
   endDate: "2026-03-22"
   activeDates:
     - "2026-03-06"
@@ -55,12 +95,10 @@
     entries:
       - type:
           ja: "抽選先行"
-          en: "Lottery Priority"
+          en: "Priority Lottery"
         startDate: "2026-06-25"
         endDate: "2026-06-28"
-        period:
-          ja: "2026.06.25-06.28"
-          en: "2026.06.25-06.28"
+        period: "2026.06.25-06.28"
         price:
           ja: "S席 9,900円 A席 8,800円 U-18 6,600円"
           en: "S Seats: 9,900 yen; A Seats: 8,800 yen; U-18: 6,600 yen"
@@ -68,10 +106,17 @@
           ja: "一般発売"
           en: "General Sale"
         startDate: "2026-07-11"
-        endDate: ""
-        period:
-          ja: "2026.07.11"
-          en: "2026.07.11"
+        endDate: "2026-07-23"
+        period: "2026.07.11-07.23"
+        price:
+          ja: "S席 9,900円 A席 8,800円 U-18 6,600円"
+          en: "S Seats: 9,900 yen; A Seats: 8,800 yen; U-18: 6,600 yen"
+      - type:
+          ja: "当日引換券"
+          en: "Same-Day Tickets"
+        startDate: "2026-07-23"
+        endDate: "2026-08-02"
+        period: "2026.07.23 23:00-08.02"
         price:
           ja: "S席 9,900円 A席 8,800円 U-18 6,600円"
           en: "S Seats: 9,900 yen; A Seats: 8,800 yen; U-18: 6,600 yen"
@@ -92,8 +137,8 @@
     en: "300 Years of Slaying Slimes"
   description:
     ja: |
-      主人公 アズサ役  at  東京・シアターサンモール
-    en: "As Azusa at Tokyo Theater Sunmall"
+      主人公 アズサ役  at  東京・シアターサンモール  *特定の日程のみ出演
+    en: "As Azusa at Tokyo Theater Sunmall  *Performs only on specific dates"
   link: "https://neo-slime300.com"
 
 - category: "Reading"
@@ -117,6 +162,89 @@
   link: "https://assaultlily-stage.jp/2610stage/"
 
 # ------------------------------------------------------------------------------------------------------------
+- category: "Event"
+  date: |
+    2026.07.11
+  startDate: "2026-07-11"
+  title:
+    ja: "「トゲナシトゲアリのトゲラジ～川崎から世界へ～」番組公開収録"
+    en: "'Togenashi Togeari's Toge Radio: From Kawasaki to the World' Live Public Recording"
+  description:
+    ja: "昼の部出演 at 西荻地域区民センター・勤労福祉会館"
+    en: "Matinee Performance at Nishiogi Community Center Labor Welfare Hall"
+  link: "https://togeradi-interfm.bitfan.id"
+
+- category: "Event"
+  date: |
+    2026.08.08
+  startDate: "2026-08-08"
+  title:
+    ja: "MyGO!!!!!の「迷子集会」出張版 第三弾 - 日常の築葉書 -"
+    en: "MyGO!!!!! 「Maigo Center」 Pop-up Special Vol.3 - Letters from Daily Life -"
+  description:
+    ja: "椎名立希役 at 鴻巣市文化センター（クレアこうのす） 大ホール"
+    en: "As Taki Shiina at Kounosu Cultural Center (Clair Kounosu) Main Hall"
+  link: "https://bang-dream.com/events/maigocenter-event3"
+
+- category: "Event"
+  date: |
+    2026.08.11
+  startDate: "2026-08-11"
+  title:
+    ja: "進藤あまねの「あまね部！」リアルイベントVol.5"
+    en: "Amane Shindo's “Amane Club!” Live Event Vol.5"
+  description:
+    ja: "2部ゲスト出演 at R'sアートコート"
+    en: "As guest in part 2 at R's Art Court "
+  link: "https://nicochannel.jp/amanebu2525/articles/news/armh7rrox7DYqETCvVmmrLEN"
+
+- category: "Event"
+  date: |
+    2026.09.26
+  startDate: "2026-09-26"
+  title:
+    ja: "林鼓子 2026香港ファンミーティング"
+    en: "Coco Hayashi 2026 Hong Kong Fan Meeting"
+  description:
+    ja: "at  東蒲 胡李名静体育館"
+    en: "at The TWGHs TungPo"
+  link: "https://x.com/flashinglightCM/status/2078328909951836472"
+
+- category: "Event"
+  date: |
+    2026.09.27
+  startDate: "2026-09-27"
+  title:
+    ja: "林鼓子 2026台北ファンミーティング"
+    en: "Coco Hayashi 2026 Taipei Fan Meeting"
+  description:
+    ja: "at  HANASPACE 花漾展演空間"
+    en: "at Hanaspace"
+  link: "https://x.com/bridgebond_llc/status/2078329086263656795"
+
+- category: "Event"
+  date: 2026.11.03
+  startDate: "2026-11-03"
+  title:
+    ja: "スニーカーエイジ 各地区グランプリ大会・全国大会でのBanG Dream!"
+    en: "BanG Dream! at the Sneaker Age Regional Grand Prix Tournaments and National Championships"
+  description:
+    ja: "椎名立希役 キャスト特別選考員"
+    en: "As Taki Shiina and Special Casting Judge"
+  link: "https://sneakerages.jp/news/post260618/"
+
+# ------------------------------------------------------------------------------------------------------------
+- category: "Program"
+  date: 2026.06.20
+  startDate: "2026-06-20"
+  title:
+    ja: "野中ここなのノナカの野望"
+    en: "Kokona Nonaka's Ambitions"
+  description:
+    ja: "ゲスト出演"
+    en: "as Program Guest"
+  link: "https://audee-membership.jp/cocona-nonaka/audio/sm5MAmUu87yxNHxAmiRDpVyV"
+
 - category: "Program"
   date: |
     2026.07.10
@@ -128,18 +256,6 @@
     ja: "ゲスト出演"
     en: "as Guest"
   link: "https://nicochannel.jp/monirin/"
-  
-- category: "Program"
-  date: |
-    2026.07.11
-  startDate: "2026-07-11"
-  title:
-    ja: "「トゲナシトゲアリのトゲラジ～川崎から世界へ～」番組公開収録"
-    en: "'Togenashi Togeari's Toge Radio: From Kawasaki to the World' Live Public Recording"
-  description:
-    ja: "昼の部出演 at 西荻地域区民センター・勤労福祉会館"
-    en: "Matinee Performance at Nishiogi Community Center Labor Welfare Hall"
-  link: "https://togeradi-interfm.bitfan.id"
 
 - category: "Program"
   date: |
@@ -154,83 +270,13 @@
   link: "https://www.youtube.com/@okada_mei0519"
 
 - category: "Program"
-  date: |
-    2026.08.08
-  startDate: "2026-08-08"
-  title:
-    ja: "MyGO!!!!!の「迷子集会」出張版 第三弾 - 日常の築葉書 -"
-    en: "MyGO!!!!! 「Maigo Center」 Pop-up Special Vol.3 - Letters from Daily Life -"
-  description:
-    ja: "椎名立希役 at 鴻巣市文化センター（クレアこうのす） 大ホール"
-    en: "As Taki Shiina at Kounosu Cultural Center (Clair Kounosu) Main Hall"
-  link: "https://bang-dream.com/events/maigocenter-event3"
-
-- category: "Program"
-  date: |
-    2026.08.11
-  startDate: "2026-08-11"
-  title:
-    ja: "進藤あまねの「あまね部！」リアルイベントVol.5"
-    en: "Amane Shindo's “Amane Club!” Live Event Vol.5"
-  description:
-    ja: "2部ゲスト出演 at R'sアートコート"
-    en: "As guest in part 2 at R's Art Court "
-  link: "https://nicochannel.jp/amanebu2525/articles/news/armh7rrox7DYqETCvVmmrLEN"
-
-- category: "Program"
-  date: |
-    2026.09.26
-  startDate: "2026-09-26"
-  title:
-    ja: "林鼓子 2026香港ファンミーティング"
-    en: "Coco Hayashi 2026 Hong Kong Fan Meeting"
-  description:
-    ja: "at  東蒲 胡李名静体育館"
-    en: "at The TWGHs TungPo"
-  link: "https://x.com/flashinglightCM/status/2078328909951836472"
-
-- category: "Program"
-  date: |
-    2026.09.27
-  startDate: "2026-09-27"
-  title:
-    ja: "林鼓子 2026台北ファンミーティング"
-    en: "Coco Hayashi 2026 Taipei Fan Meeting"
-  description:
-    ja: "at  HANASPACE 花漾展演空間"
-    en: "at Hanaspace"
-  link: "https://x.com/bridgebond_llc/status/2078329086263656795"
-
-- category: "Program"
-  date: 2026.11.03
-  startDate: "2026-11-03"
-  title:
-    ja: "スニーカーエイジ 各地区グランプリ大会・全国大会でのBanG Dream!"
-    en: "BanG Dream! at the Sneaker Age Regional Grand Prix Tournaments and National Championships"
-  description:
-    ja: "椎名立希役 キャスト特別選考員"
-    en: "As Taki Shiina and Special Casting Judge"
-  link: "https://sneakerages.jp/news/post260618/"
-
-- category: "Program"
-  date: 2026.06.20
-  startDate: "2026-06-20"
-  title:
-    ja: "野中ここなのノナカの野望"
-    en: "Kokona Nonaka's Ambitions"
-  description:
-    ja: "ゲスト出演"
-    en: "as Program Guest"
-  link: "https://audee-membership.jp/cocona-nonaka/audio/sm5MAmUu87yxNHxAmiRDpVyV"
-
-- category: "Program"
   date: "Monthly"
   title:
     ja: "ラブライブ！虹ヶ咲学園 ～ディスカバー放送室～"
     en: "Love Live! Nijigasaki High School ~Discover Broadcast Room~"
   description:
     ja: "優木せつ菜役 毎月第一木曜日配信"
-    en: "First distribution on Thursday, July 2, 2026, at 12:00. Distributed on the first Thursday of every month thereafter."
+    en: "Streaming on the first Thursday of every month as Setsuna Yuki"
   link: "https://hibiki-radio.jp/description/lldiscover/detail"
 
 - category: "Program"
@@ -323,11 +369,58 @@
   link: "https://luckyfes.com"
 
 - category: "Live"
+  date: "2026.08.28-30"
+  startDate: "2026-08-28"
+  endDate: "2026-08-30"
+  title:
+    ja: "Piano BAR C*LAPS"
+    en: "Piano BAR C*LAPS"
+  description:
+    ja: "at  六本木C*LAPS"
+    en: "At Roppongi C*LAPS"
+  link: "https://artistslinks.com/1151"
+  ticketInfo:
+    venue:
+      ja: "六本木C*LAPS"
+      en: "oppongi C*LAPS"
+    entries:
+      - type:
+          ja: "ファンクラブ先行"
+          en: "Fan Club Pre-sale"
+        startDate: "2026-07-24"
+        endDate: "2026-07-30"
+        period: "2026.07.24 20:00-07.30"
+        price:
+          ja: "整理番号付き自由席 6000円 + 1drink(800円)"
+          en: "Unreserved Seating with Seat Number: 6,000 yen + 1 drink(800 yen)"
+        link: "https://fan.pia.jp/cocohayashi/news/detail/78/?page=1&ptag=NEWS"
+      - type:
+          ja: "予約 事前決済"
+          en: "Reservation Prepayment"
+        startDate: "2026-08-01"
+        endDate: "2026-08-30"
+        period: "2026.07.01 10:00-08.30"
+        price:
+          ja: "整理番号付き自由席 6000円 + 1drink(800円)"
+          en: "Unreserved Seating with Seat Number: 6,000 yen + 1 drink(800 yen)"
+        link: "https://artistslinks.com/1151"
+      - type:
+          ja: "予約 現地決済"
+          en: "Reservation Pay on Site"
+        startDate: "2026-08-03"
+        endDate: "2026-08-30"
+        period: "2026.08.03 10:00-08.30"
+        price:
+          ja: "整理番号付き自由席 6000円 + 1drink(800円)"
+          en: "Unreserved Seating with Seat Number: 6,000 yen + 1 drink(800 yen)"
+        link: "https://artistslinks.com/1151"
+
+- category: "Live"
   date: |
     2026.09.12
   startDate: "2026-09-12"
   title:
-    ja: "LIBERTE LIVE 2026 ～ First Act ～"
+    ja: "LIBERTE LIVE 2026 ~ First Act ~"
     en: "LIBERTE LIVE 2026 ~ First Act ~"
   description:
     ja: "at  KIWA TENNOZ"
@@ -344,9 +437,7 @@
           en: "Ticket Information"
         startDate: "2026-07-04"
         endDate: "2026-07-12"
-        period:
-          ja: "2026.07.04-07.12"
-          en: "2026.07.04-07.12"
+        period: "2026.07.04-07.12"
         price:
           ja: "7,700円(全席指定・税込) + ドリンク代600円(税込)"
           en: "7,700 yen (all reserved seating, tax included) + 600 yen for a drink (tax included)"
@@ -365,6 +456,26 @@
     ja: "優木せつ菜役  at  Shibuya LOVEZ"
     en: "As Setsuna Yuki  at  Shibuya LOVEZ"
   link: "https://www.lovelive-anime.jp/special/live/live_detail.php?p=15thzenyasai"
+  ticketInfo:
+    venue:
+      ja: "Shibuya LOVEZ"
+      en: "Shibuya LOVEZ"
+    officialUrl: "https://www.lovelive-anime.jp/special/live/live_detail.php?p=15thzenyasai"
+    entries:
+      - type:
+          ja: "最速先行抽選"
+          en: "First-Come, First-Served Lottery"
+        startDate: "2026-07-25"
+        endDate: "2026-08-16"
+        period: "2026.07.25 15:00 - 08.16"
+        link: "https://eplus.jp/ll15th-eve/"
+        price:
+          ja: "全席指定: 8,900円(税込) ※入場時別途ドリンク代600円必要"
+          en: "All reserved seating: 8,900 yen (tax included) *A separate 600-yen drink charge is required upon entry"
+        note:
+          ja: "2026年10月10日(土) <昼公演>13:30開場/14:30開演 <夜公演>17:30開場/18:30開演"
+          en: "October 10, 2026 (Sat) <Matinee> Doors open at 1:30 p.m. / Show starts at 2:30 p.m. <Evening Performance> Doors open at 5:30 p.m. / Show starts at 6:30 p.m."
+
 
 - category: "Live"
   date: |
@@ -373,7 +484,7 @@
   endDate: "2026-11-15"
   title:
     ja: "MyGO!!!!! 9th LIVE「つなぎ目の向こうに」 - 神戸再景編 -"
-    en: "MyGO!!!!! 9th LIVE 「Beyond the Seam」 – Kobe Revival Edition –"
+    en: "MyGO!!!!! 9th LIVE 「Beyond the Seam」 - Kobe Revival Edition -"
   description:
     ja: "椎名立希役  at  ワールド記念ホール（神戸ポートアイランドホール）"
     en: "As Setsuna Yuki  at  World Memorial Hall (Kobe Port Island Hall)"
@@ -389,11 +500,9 @@
           en: "First-Come, First-Served Lottery"
         startDate: "2026-07-19"
         endDate: "2026-08-24"
-        period:
-          ja: "2026.07.19 21:00 - 08.24"
-          en: "2026.07.19 21:00 - 08.24"
+        period: "2026.07.19 21:00 - 08.24"
         price:
-          ja: "S席(特製グッズ付き): 25,300円(税込) A席(特製グッズ付き): 17,600円(税込) 一般指定席(特製グッズ付き): 13,200円(税込) 一般指定席: 8,800円(税込)"
+          ja: "S席(特製グッズ付き): 25,300円(税込) \nA席(特製グッズ付き): 17,600円(税込) 一般指定席(特製グッズ付き): 13,200円(税込) 一般指定席: 8,800円(税込)"
           en: "S Seats (includes special merchandise): 25,300 yen (tax included) A Seats (includes special merchandise): 17,600 yen (tax included) General Reserved Seats (includes special merchandise): 13,200 yen (tax included) General Reserved Seats: 8,800 yen (tax included)"
         note:
           ja: "MyGO!!!!! 3rd Album「致並跡」初回生産分に封入の申込券でご応募いただけます。"

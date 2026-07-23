@@ -1,4 +1,5 @@
 import { parseISO, eachDayOfInterval, format, getDay } from "date-fns"
+import type { Activity } from "../types"
 
 export interface CalendarEvent {
   date: string
@@ -13,16 +14,15 @@ export interface CalendarDay {
 
 export interface CalendarMonthData {
   key: string
-  label: string
   weeks: CalendarDay[][]
 }
 
-export function buildCalendarData(activities: any[], includeDate?: string): CalendarMonthData[] {
+export function buildCalendarData(activities: Activity[], includeDate?: string): CalendarMonthData[] {
   const events = collectEvents(activities)
   return buildMonths(events, includeDate?.substring(0, 7))
 }
 
-function collectEvents(activities: any[]): CalendarEvent[] {
+function collectEvents(activities: Activity[]): CalendarEvent[] {
   const result: CalendarEvent[] = []
 
   for (let i = 0; i < activities.length; i++) {
@@ -110,8 +110,6 @@ function buildMonths(events: CalendarEvent[], includeMonthKey?: string): Calenda
       weeks.push(Array.from({ length: 7 }, () => ({ date: null, dayNumber: null, events: [] })))
     }
 
-    const label = `${year}年${monthIndex + 1}月`
-
-    return { key, label, weeks }
+    return { key, weeks }
   })
 }

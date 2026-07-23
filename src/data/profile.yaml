@@ -1,9 +1,24 @@
-name: "林 鼓子"
+# 数据结构参考（本文件是单一资料对象，不是列表；当前首页会直接读取以下全部字段）
+# name: "林 鼓子"                      # [必填] 日语页面姓名
+# romaji: "Coco Hayashi"               # [必填] 英语页面姓名
+# birthDate: "2002年5月15日"           # [必填] 日语生日显示文字
+# birthDate_en: "May 15th, 2002"       # [必填] 英语生日显示文字
+# birthPlace: "静岡県"                 # [必填] 日语出生地
+# birthPlace_en: "Shizuoka"            # [必填] 英语出生地
+# voice_range: "G3〜A#5"               # [必填] 两种语言共用的音域文字
+# agency: "株式会社LIBERTE"            # [必填] 日语事务所名称
+# agency_en: "LIBERTE"                 # [必填] 英语事务所名称
+#
+name: "林  鼓子"
 romaji: "Coco Hayashi"
+
 birthDate: "2002年5月15日"
 birthDate_en: "May 15th, 2002"
-birthPlace: "静岡県"
-birthPlace_en: "Shizuoka"
+
+birthPlace: "静岡県 浜松市"
+birthPlace_en: "Hamamatsu Shizuoka"
+
 voice_range: "G3〜A#5"
+
 agency: "株式会社LIBERTE"
 agency_en: "LIBERTE"

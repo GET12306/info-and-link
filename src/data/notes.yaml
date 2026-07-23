@@ -1,21 +1,24 @@
-# Required: title
-# Optional: date, category, description, link, relatedLinks
+# 数据结构参考（本文件顶层为文章/笔记列表）
+# - title:                              # [必填] 主标题
+#     ja: "記事タイトル"
+#     en: "Article title"
+#   date: "2026-07-16"                 # [可选] 页面显示日期；当前页面不自动排序
+#   category:                           # [可选] 标题上方的类别文字
+#     ja: "インタビュー"
+#     en: "Interview"
+#   description:                        # [可选] 摘要
+#     ja: "記事の概要"
+#     en: "Article summary"
+#   link: "https://example.com/article" # [可选] 省略时主标题显示为不可点击文字
+#   relatedLinks:                       # [可选] 相关视频、商品或后续文章列表
+#     - url: "https://example.com/related" # [必填/仅 relatedLinks 项内] 目标地址
+#       title:                          # [可选] 链接文字；省略时直接显示 URL
+#         ja: "関連動画"
+#         en: "Related video"
+#       type:                           # [可选] 链接前方的短类别
+#         ja: "動画"
+#         en: "Video"
 #
-# relatedLinks:
-#   - url: "https://example.com/related-video"
-#     title: # Optional; the URL is displayed when omitted
-#       ja: "関連動画"
-#       en: "Related Video"
-#     type: # Optional
-#       ja: "動画"
-#       en: "Video"
-#   - url: "https://example.com/product"
-#     title:
-#       ja: "関連商品"
-#       en: "Related Product"
-#     type:
-#       ja: "商品"
-#       en: "Product"
 
 - title:
     ja: "3rd Album『致並跡』ロングインタビュー"
