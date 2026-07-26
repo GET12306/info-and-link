@@ -271,12 +271,13 @@
 
 - category: "Program"
   date: "Monthly"
+  startDate: "2026-08-06"
   title:
     ja: "ラブライブ！虹ヶ咲学園 ～ディスカバー放送室～"
     en: "Love Live! Nijigasaki High School ~Discover Broadcast Room~"
   description:
-    ja: "優木せつ菜役 毎月第一木曜日配信"
-    en: "Streaming on the first Thursday of every month as Setsuna Yuki"
+    ja: "優木せつ菜役 毎月第一木曜日配信 次: 8月6日"
+    en: "Streaming on the first Thursday of every month as Setsuna Yuki. Next update: Aug 6th"
   link: "https://hibiki-radio.jp/description/lldiscover/detail"
 
 - category: "Program"

@@ -30,9 +30,14 @@ export default function TicketGroup({
           : ""
       }`}
     >
-      <div className="flex items-center gap-3 text-coco-accent">
-        <Ticket className="h-4 w-4" aria-hidden="true" />
-        <h2 className="text-2xl font-serif">{activity.title[lang]}</h2>
+      <div className="grid grid-cols-1 text-coco-accent sm:grid-cols-[1rem_minmax(0,1fr)] sm:gap-3">
+        <Ticket
+          className="mt-2 hidden h-4 w-4 shrink-0 sm:block"
+          aria-hidden="true"
+        />
+        <h2 className="min-w-0 break-words text-2xl font-serif leading-relaxed">
+          {activity.title[lang]}
+        </h2>
       </div>
       {activity.ticketInfo?.venue && (
         <p className="text-sm text-coco-ink/50">{activity.ticketInfo.venue[lang]}</p>
