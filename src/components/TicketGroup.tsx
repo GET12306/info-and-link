@@ -1,7 +1,11 @@
 import { Ticket } from "lucide-react"
 import type { Language } from "../types"
-import type { TicketActivityGroup } from "../utils/ticketStatus"
+import {
+  getTicketEntryLink,
+  type TicketActivityGroup,
+} from "../utils/ticketStatus"
 import TicketEntryRow from "./TicketEntryRow"
+import VenueLabel from "./VenueLabel"
 
 export default function TicketGroup({
   group,
@@ -31,21 +35,18 @@ export default function TicketGroup({
       }`}
     >
       <div className="grid grid-cols-1 text-coco-accent sm:grid-cols-[1rem_minmax(0,1fr)] sm:gap-3">
-        <Ticket
-          className="mt-2 hidden h-4 w-4 shrink-0 sm:block"
-          aria-hidden="true"
-        />
-        <h2 className="min-w-0 break-words text-2xl font-serif leading-relaxed">
+        <span className="hidden h-10 items-center sm:flex" aria-hidden="true">
+          <Ticket className="h-4 w-4 shrink-0 translate-y-0.5" />
+        </span>
+        <h2 className="min-w-0 break-words text-2xl font-serif leading-10">
           {activity.title[lang]}
         </h2>
       </div>
-      {activity.ticketInfo?.venue && (
-        <p className="text-sm text-coco-ink/50">{activity.ticketInfo.venue[lang]}</p>
-      )}
+      {activity.venue && <VenueLabel venue={activity.venue[lang]} />}
 
       <div className="divide-y divide-gray-300 border-t grid-line dark:divide-white/10">
         {entries.map(({ entry, entryIndex, status }) => {
-          const href = entry.link ?? activity.ticketInfo?.officialUrl ?? activity.link
+          const href = getTicketEntryLink(activity, entry)
 
           return isCurrent ? (
             <TicketEntryRow

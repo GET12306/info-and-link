@@ -15,6 +15,7 @@ const primaryTabs = [
 ]
 
 const moreLinks = [
+  { id: "photobooks", path: "/photobooks", labelKey: "photobooks" as const },
   { id: "historical_resources", path: "/resources", labelKey: "historical_resources" as const },
   { id: "notes", path: "/notes", labelKey: "notes" as const },
 ]
@@ -167,7 +168,7 @@ export default function NavBar({
             <select
               value={theme}
               onChange={e => setTheme(e.target.value as Theme)}
-              className="px-2 py-1 border grid-line rounded bg-transparent text-[10px] font-bold uppercase tracking-wider cursor-pointer hover:border-coco-accent transition-all outline-none"
+              className="rounded-full border grid-line bg-transparent px-2 py-1 text-[10px] font-bold uppercase tracking-wider cursor-pointer transition-all outline-none hover:border-coco-accent"
             >
               {themeOptions.map((opt) => (
                 <option key={opt.value} value={opt.value}>

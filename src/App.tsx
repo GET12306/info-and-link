@@ -15,22 +15,8 @@ const TicketInfo = lazy(() => import("./pages/TicketInfo"))
 const PastTickets = lazy(() => import("./pages/PastTickets"))
 const HistoricalResources = lazy(() => import("./pages/HistoricalResources"))
 const Notes = lazy(() => import("./pages/Notes"))
+const PhotoBooks = lazy(() => import("./pages/PhotoBooks"))
 const About = lazy(() => import("./pages/About"))
-
-const MonoNumbers = ({ text }: { text: string }) => {
-  const parts = text.split(/(\d+)/)
-  return (
-    <>
-      {parts.map((part, i) =>
-        /\d+/.test(part) ? (
-          <span key={i} className="font-mono tabular-nums">{part}</span>
-        ) : (
-          part
-        )
-      )}
-    </>
-  )
-}
 
 function AnimatedRoutes({ lang }: { lang: Language }) {
   const location = useLocation()
@@ -52,6 +38,7 @@ function AnimatedRoutes({ lang }: { lang: Language }) {
           <Route path="/tickets/past" element={<PastTickets lang={lang} />} />
           <Route path="/resources" element={<HistoricalResources lang={lang} />} />
           <Route path="/notes" element={<Notes lang={lang} />} />
+          <Route path="/photobooks" element={<PhotoBooks lang={lang} />} />
           <Route path="/about" element={<About lang={lang} />} />
           <Route path="/wardrobe" element={<Navigate to="/" replace />} />
         </Routes>
@@ -83,7 +70,7 @@ export default function App() {
         <footer className="border-t grid-line py-12 px-6">
           <div className="max-w-7xl mx-auto flex flex-col items-center gap-6 text-[10px] uppercase tracking-widest font-medium text-coco-ink/30">
             <div className="flex flex-col items-center gap-3 text-center">
-              <span><MonoNumbers text="Copyright © 2026 GC Zhu. All Rights Reserved. This site is a fan project and is not affiliated with or endorsed by LIBERTE or Coco Hayashi." /></span>
+              <span>Copyright © 2026 GC Zhu. All Rights Reserved. This site is a fan project and is not affiliated with or endorsed by LIBERTE or Coco Hayashi.</span>
               <Link
                 to="/about"
                 className="text-coco-ink/45 hover:text-coco-accent transition-colors"
@@ -93,7 +80,7 @@ export default function App() {
             </div>
             <button
               onClick={toggleLanguage}
-              className="self-end flex items-center gap-2 px-3 py-1.5 border grid-line rounded hover:border-coco-accent transition-all"
+              className="self-end flex items-center gap-2 rounded-full border grid-line px-3 py-1.5 transition-all hover:border-coco-accent"
             >
               <Globe className="w-3 h-3" />
               {lang === "ja" ? "English" : "日本語"}

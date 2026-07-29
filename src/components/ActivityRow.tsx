@@ -2,7 +2,9 @@ import { Tickets } from "lucide-react"
 import { Link } from "react-router-dom"
 import type { Language } from "../types"
 import type { IndexedActivity } from "../utils/activityStatus"
+import ActivityPerformanceDetails from "./ActivityPerformanceDetails"
 import ExternalAnchor from "./ExternalAnchor"
+import VenueLabel from "./VenueLabel"
 
 export default function ActivityRow({
   activity,
@@ -36,9 +38,11 @@ export default function ActivityRow({
           : ""
       }`}
     >
-      <div className="font-mono text-sm text-coco-ink/40 md:w-32">{activity.date}</div>
+      <div className="text-sm text-coco-ink/40 md:w-32">
+        {activity.scheduleLabel}
+      </div>
       <div className="flex flex-1 flex-col justify-between gap-4 sm:flex-row sm:items-start">
-        <div className="flex-1">
+        <div className="min-w-0 flex-1">
           {categoryLabel && (
             <div className="mb-1 text-[10px] uppercase tracking-widest text-coco-ink/40">
               {categoryLabel}
@@ -50,9 +54,18 @@ export default function ActivityRow({
           >
             {activity.title[lang]}
           </ExternalAnchor>
-          {activity.description && (
-            <div className="text-sm text-coco-ink/60">{activity.description[lang]}</div>
-          )}
+          <div className="mt-1 space-y-1">
+            {activity.venue && <VenueLabel venue={activity.venue[lang]} />}
+            {activity.description && (
+              <div className="text-sm leading-6 text-coco-ink/60">
+                {activity.description[lang]}
+              </div>
+            )}
+          </div>
+          <ActivityPerformanceDetails
+            performances={activity.performances}
+            lang={lang}
+          />
         </div>
 
         {ticketAction && (

@@ -1,9 +1,21 @@
 import { parseISO, eachDayOfInterval, format, getDay } from "date-fns"
 import type { Activity } from "../types"
+import {
+  getJapanTimeLabel,
+} from "../utils/japanTime"
+import {
+  getPerformanceEndAt,
+  getPerformanceStartAt,
+  getValidActivityPerformances,
+} from "../utils/activityPerformances"
 
 export interface CalendarEvent {
   date: string
   activityIndex: number
+  performanceIndex?: number
+  startAt?: string
+  endAt?: string
+  startTime?: string
 }
 
 export interface CalendarDay {
@@ -27,6 +39,22 @@ function collectEvents(activities: Activity[]): CalendarEvent[] {
 
   for (let i = 0; i < activities.length; i++) {
     const act = activities[i]
+    const performances = getValidActivityPerformances(act.performances)
+    if (performances.length) {
+      performances.forEach((performance, performanceIndex) => {
+        const startAt = getPerformanceStartAt(performance)
+        result.push({
+          date: startAt.substring(0, 10),
+          activityIndex: i,
+          performanceIndex,
+          startAt,
+          endAt: getPerformanceEndAt(performance),
+          startTime: getJapanTimeLabel(startAt),
+        })
+      })
+      continue
+    }
+
     if (!act.startDate) continue
 
     if (act.activeDates && Array.isArray(act.activeDates)) {
@@ -58,11 +86,14 @@ function buildMonths(events: CalendarEvent[], includeMonthKey?: string): Calenda
     monthMap.get(monthKey)!.push(ev)
   }
 
-  if (includeMonthKey && !monthMap.has(includeMonthKey)) {
-    monthMap.set(includeMonthKey, [])
-  }
-
-  const sortedKeys = [...monthMap.keys()].sort()
+  const eventMonthKeys = [...monthMap.keys()].sort()
+  const sortedKeys = includeMonthKey
+    ? buildMonthRange(
+        includeMonthKey,
+        eventMonthKeys.filter((key) => key >= includeMonthKey).at(-1) ??
+          includeMonthKey
+      )
+    : eventMonthKeys
 
   return sortedKeys.map((key) => {
     const [yearStr, monthStr] = key.split("-")
@@ -70,12 +101,17 @@ function buildMonths(events: CalendarEvent[], includeMonthKey?: string): Calenda
     const monthIndex = parseInt(monthStr) - 1
     const lastDay = new Date(year, monthIndex + 1, 0).getDate()
 
-    const monthEvents = monthMap.get(key)!
+    const monthEvents = monthMap.get(key) ?? []
 
     const eventsByDay = new Map<string, CalendarEvent[]>()
     for (const ev of monthEvents) {
       if (!eventsByDay.has(ev.date)) eventsByDay.set(ev.date, [])
       eventsByDay.get(ev.date)!.push(ev)
+    }
+    for (const dayEvents of eventsByDay.values()) {
+      dayEvents.sort((a, b) =>
+        (a.startTime ?? "").localeCompare(b.startTime ?? "")
+      )
     }
 
     const weeks: CalendarDay[][] = []
@@ -112,4 +148,21 @@ function buildMonths(events: CalendarEvent[], includeMonthKey?: string): Calenda
 
     return { key, weeks }
   })
+}
+
+function buildMonthRange(startKey: string, endKey: string) {
+  const [startYear, startMonth] = startKey.split("-").map(Number)
+  const [endYear, endMonth] = endKey.split("-").map(Number)
+  const startIndex = startYear * 12 + startMonth - 1
+  const endIndex = endYear * 12 + endMonth - 1
+
+  return Array.from(
+    { length: Math.max(endIndex - startIndex + 1, 1) },
+    (_, offset) => {
+      const monthIndex = startIndex + offset
+      const year = Math.floor(monthIndex / 12)
+      const month = (monthIndex % 12) + 1
+      return `${year}-${String(month).padStart(2, "0")}`
+    }
+  )
 }

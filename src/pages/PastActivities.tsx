@@ -6,10 +6,12 @@ import { getActivityCategoryLabel } from "../utils/categoryLabels"
 import ActivityRow from "../components/ActivityRow"
 import EmptyState from "../components/EmptyState"
 import { PageHeader, PageLayout } from "../components/PageLayout"
+import useJapanNow from "../hooks/useJapanNow"
 
 export default function PastActivities({ lang }: { lang: Language }) {
   const t = TRANSLATIONS[lang]
-  const pastActivities = getPastActivities(ACTIVITIES as Activity[])
+  const now = useJapanNow()
+  const pastActivities = getPastActivities(ACTIVITIES as Activity[], now)
 
   return (
     <PageLayout>

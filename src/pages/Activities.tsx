@@ -7,6 +7,7 @@ import { getCurrentActivities, getPastActivities } from "../utils/activityStatus
 import { getActivityCategoryLabel } from "../utils/categoryLabels"
 import { hasCurrentTicketInfo } from "../utils/ticketStatus"
 import { ACTIVITY_CATEGORY_META, ACTIVITY_CATEGORY_ORDER } from "../config/activityCategories"
+import useJapanNow from "../hooks/useJapanNow"
 import ActivityRow from "../components/ActivityRow"
 import ArchiveLink from "../components/ArchiveLink"
 import { PageHeader, PageLayout } from "../components/PageLayout"
@@ -15,9 +16,10 @@ export default function Activities({ lang }: { lang: Language }) {
   const t = TRANSLATIONS[lang]
   const location = useLocation()
   const [highlighted, setHighlighted] = useState<number | null>(null)
+  const now = useJapanNow()
   const activities = ACTIVITIES as Activity[]
-  const currentActivities = getCurrentActivities(activities)
-  const pastActivities = getPastActivities(activities)
+  const currentActivities = getCurrentActivities(activities, now)
+  const pastActivities = getPastActivities(activities, now)
 
   useEffect(() => {
     const scrollTo = (location.state as { scrollTo?: number })?.scrollTo
@@ -58,7 +60,7 @@ export default function Activities({ lang }: { lang: Language }) {
                     lang={lang}
                     highlighted={highlighted === act.originalIndex}
                     ticketAction={
-                      hasCurrentTicketInfo(act)
+                      hasCurrentTicketInfo(act, now)
                         ? {
                             label: t.ticket_info,
                             to: "/tickets",

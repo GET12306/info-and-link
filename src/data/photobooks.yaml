@@ -1,0 +1,179 @@
+# 数据结构参考（写真集档案；页面按照本文件中的顺序显示）
+# [必填] 缺少后页面无法完整展示；[可选] 可以整项省略，不要使用空字符串代替。
+# - id: "sample-photobook"              # [必填] 全列表唯一且稳定的英文标识
+#   title:
+#     ja: "写真集标题"                   # [必填] 日语标题
+#     en: "Photobook title"             # [必填] 英语标题
+#   subtitle:
+#     ja: "补充说明"                     # [可选] 标题下方的简短介绍；若添加则 ja/en 均需填写
+#     en: "Short introduction"
+#   releaseDate: "2026-05-15"           # [必填] 发售日，YYYY-MM-DD；页面会按语言格式化显示
+#   description:
+#     ja: |                             # [必填] 详细介绍；可使用 YAML | 写多个段落
+#       第一段。
+#
+#       第二段。
+#     en: |
+#       First paragraph.
+#
+#       Second paragraph.
+#   cover:                              # [可选] 封面；没有可靠来源时省略，页面会显示占位图
+#     url: "https://example.com/cover.jpg" # [必填] 公开可访问的封面图片地址
+#     alt:
+#       ja: "写真集通常版表紙"            # [必填] 封面的替代文字
+#       en: "Regular-edition cover"
+#     sourceUrl: "https://example.com/release" # [必填] 发布该封面的官方或出版社来源页面
+#   photographer: "Photographer Name"   # [可选] 摄影
+#   publisher: "Publisher Name"         # [必填] 发行/出版社
+#   distributor: "Distributor Name"     # [可选] 发售方
+#   isbn: "978-0-00-000000-0"           # [可选] ISBN
+#   format:
+#     ja: "A4判・112ページ・オールカラー" # [可选] 规格；若添加则 ja/en 均需填写
+#     en: "A4, 112 pages, full color"
+#   price:
+#     ja: "3,850円（税込）"              # [可选] 标准版定价；若添加则 ja/en 均需填写
+#     en: "¥3,850 (tax included)"
+#   links:                              # [必填] 官方介绍、出版信息或购买链接；无链接时使用 []
+#     - label:
+#         ja: "出版社のお知らせ"          # [必填] 链接文字
+#         en: "Publisher announcement"
+#       url: "https://example.com/release" # [必填] 外部链接
+
+- id: "coco-1st-photobook"
+  title:
+    ja: "林鼓子1st写真集 coco"
+    en: "Coco Hayashi 1st Photobook coco"
+  subtitle:
+    ja: "24歳の誕生日に刊行された、林鼓子初の写真集"
+    en: "Coco Hayashi's first photobook, released on her 24th birthday"
+  releaseDate: "2026-05-15"
+  description:
+    ja: |
+      林鼓子さん24歳の誕生日に発売となる今作の撮影地は南国・マレーシア。常夏の楽園、日差しの下ではしゃぐ等身大の姿から、本人発案の『オフィーリア』をイメージした全身びしょ濡れカット、距離感の近い部屋着のシチュエーションほか、“初めての挑戦”として数パターンの水着にもチャレンジ! 10代から声優として活動をスタートし、最近では舞台俳優としての活躍も目覚ましい林さんの新境地が詰め込まれた一冊となっている。
+    en: |
+      This photo shoot, set to be released on Coco Hayashi's 24th birthday, took place in the tropical paradise of Malaysia. From her natural, life-sized moments frolicking under the sun in this eternal summer paradise, to a shot where she's completely soaked—inspired by her own concept of “Ophelia”—and intimate scenes in loungewear, she also takes on several different swimsuit looks as her “first-time challenges”! This book is packed with new facets of Hayashi, who began her career as a voice actress in her teens and has recently been making remarkable strides as a stage actress.
+  # cover:
+  #   url: "https://prcdn.freetls.fastly.net/release_image/7785/1733/7785-1733-37763b056834e96b87b946594f3b0217-1000x1414.jpg?auto=webp&bg-color=fff&fit=bounds&format=jpeg&height=1350&quality=85%2C65&width=1950"
+  #   alt:
+  #     ja: "『林鼓子1st写真集 coco』通常版表紙"
+  #     en: "Regular-edition cover of Coco Hayashi 1st Photobook coco"
+  #   sourceUrl: "https://prtimes.jp/main/html/rd/p/000001733.000007785.html"
+  photographer: "東 京祐"
+  publisher: "イマジカインフォス"
+  distributor: "主婦の友社"
+  format:
+    ja: "A4判・112ページ"
+    en: "A4, 112 pages"
+  price:
+    ja: "3,500円(税抜)"
+    en: "JPY¥¥3,500 (tax excluded)"
+  links:
+    - label:
+        ja: "発売のお知らせ"
+        en: "Release Announcement"
+      url: "https://seigura.com/magazine_books/167262/"
+
+- id: "coco-okinawa-travel-photobook"
+  title:
+    ja: "林鼓子旅PHOTOBOOK ~ココいちばん!~"
+    en: "Coco Hayashi Travel Photobook ~Coco 1st~"
+  # subtitle:
+  #   ja: "24歳の誕生日に刊行された、林鼓子初の写真集"
+  #   en: "Coco Hayashi's first photobook, released on her 24th birthday"
+  releaseDate: "2024-06-28"
+  description:
+    ja: |
+      沖縄の太陽下、林鼓子さんが贈る眩しい笑顔！ この沖縄フォトブックは彼女の輝く瞬間を目撃しましょう。 独創的な衣装とヘアメイクで魅せてくれる、新しい林鼓子さんがココにあります！ 彼女の自然な美しさと沖縄の美しい風景が織り成すたっぷり詰まった一冊です！
+    en: |
+      Under the Okinawan sun, Coco Hayashi beams with a dazzling smile! This Okinawa photo book lets you witness her most radiant moments. Discover a whole new side of Koko Hayashi as she captivates with her unique outfits, hairstyles, and makeup! This book is packed with images that beautifully blend her natural beauty with the stunning scenery of Okinawa!
+  # cover:
+  #   url: "https://prcdn.freetls.fastly.net/release_image/7785/1733/7785-1733-37763b056834e96b87b946594f3b0217-1000x1414.jpg?auto=webp&bg-color=fff&fit=bounds&format=jpeg&height=1350&quality=85%2C65&width=1950"
+  #   alt:
+  #     ja: "『林鼓子1st写真集 coco』通常版表紙"
+  #     en: "Regular-edition cover of Coco Hayashi 1st Photobook coco"
+  #   sourceUrl: "https://prtimes.jp/main/html/rd/p/000001733.000007785.html"
+  photographer: "小島マサヒロ"
+  publisher: ""
+  format:
+    ja: "A4判・100ページ"
+    en: "A4, 100 pages"
+  price:
+    ja: "4,000円(税抜)"
+    en: "JPY¥4,000 (tax excluded)"
+  links:
+    - label:
+        ja: "発売のお知らせ"
+        en: "Release Announcement"
+      url: "https://ch.nicovideo.jp/cocoichiban/blomaga/ar2196354"
+    - label:
+        ja: "販売ページ(販売終了)"
+        en: "Product Page (Sold Out)"
+      url: "https://cocookinawa.stores.jp"
+
+- id: "coco-20anniv-cocokara-photobook"
+  title:
+    ja: "林鼓子 ここから。"
+    en: "Coco Hayashi. From here."
+  subtitle:
+    ja: "林鼓子20歳記念メモリアルフォトエッセイ「林鼓子 ここから。」"
+    en: "Coco Hayashi's first photobook, released on her 24th birthday"
+  releaseDate: "2022-10"
+  description:
+    ja: |
+      林個人として、初めてのフォトエッセイとなる本書籍には、本人が綴った書き下ろしエッセイや、
+      TVアニメ「キラッとプリ☆チャン」内のユニット「ミラクル☆キラッツ」で共演した声優久保田未夢との特別対談、
+      そして、「i☆Ris」芹澤 優や若井友希ら先輩声優や、RGR森嶋優花、厚木那奈美らからのスペシャルメッセージを掲載予定。
+
+      さらに、東京に加え、出身地である静岡県浜松市で撮影が決定。
+      まさに林の「これまで、今、これから」がたくさん詰まった記念の一冊。
+    en: |
+      This book, Hayashi's first personal photo essay, features original essays written by Hayashi herself,
+      a special interview with voice actress Miyu Kubota co-star in the unit “Miracle☆Kirats” from the TV anime *KiraKira Pri☆Chan*—
+      as well as special messages from senior voice actors such as Yu Serizawa and Yuki Wakai of “i☆Ris,” Yuka Morishima of RGR, Nanami Atsugi.
+
+      In addition to Tokyo, a photo shoot has been scheduled in Hamamatsu, Shizuoka, her hometown.
+      This commemorative volume is truly packed with Hayashi's “past, present, and future.”
+  # cover:
+  #   url: "https://prcdn.freetls.fastly.net/release_image/7785/1733/7785-1733-37763b056834e96b87b946594f3b0217-1000x1414.jpg?auto=webp&bg-color=fff&fit=bounds&format=jpeg&height=1350&quality=85%2C65&width=1950"
+  #   alt:
+  #     ja: "『林鼓子1st写真集 coco』通常版表紙"
+  #     en: "Regular-edition cover of Coco Hayashi 1st Photobook coco"
+  #   sourceUrl: "https://prtimes.jp/main/html/rd/p/000001733.000007785.html"
+  photographer: "松本祐亮"
+  publisher: "株式会社Blash9"
+  format:
+    ja: "102ページ"
+    en: "102 pages"
+  price:
+    ja: "2,545円(税抜)"
+    en: "JPY¥2,545 (tax excluded)"
+  links:
+    - label:
+        ja: "発売のお知らせ"
+        en: "Release Announcement"
+      url: "https://rungirlsrun.jp/news/detail.php?id=1100213"
+    - label:
+        ja: "公式X"
+        en: "Official X"
+      url: "https://x.com/cococara_2022"
+    - label:
+        ja: "animate Times記事"
+        en: "animate Times Article"
+      url: "https://www.animatetimes.com/news/details.php?id=1652621301"
+    - label:
+        ja: "MANTAN WEB記事"
+        en: "MANTAN WEB Article"
+      url: "https://mantan-web.jp/article/20220514dog00m200025000c.html"
+    - label:
+        ja: "記事 その他の1"
+        en: "And More 1"
+      url: "https://natalie.mu/music/news/477660"
+    - label:
+        ja: "記事 その他の2"
+        en: "And More 2"
+      url: "https://cho-animedia.jp/article/2022/07/07/33937.html"
+  secretLink: [https://hayashi-coco-20anniv-official-store.com/, https://web.archive.org/web/20220601091504/https://hayashi-coco-20anniv-official-store.com]
+    
+    
+
+    

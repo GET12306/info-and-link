@@ -21,7 +21,7 @@ export default function Notes({ lang }: { lang: Language }) {
               className="flex flex-col gap-4 py-6 md:flex-row md:items-start"
             >
               {note.date ? (
-                <div className="font-mono text-sm text-coco-ink/40 md:w-32 md:shrink-0">
+                <div className="text-sm text-coco-ink/40 md:w-32 md:shrink-0">
                   {note.date}
                 </div>
               ) : (

@@ -28,7 +28,7 @@ export default function HistoricalResources({ lang }: { lang: Language }) {
               key={`${item.date}-${index}`}
               className="flex flex-col gap-4 py-6 md:flex-row md:items-start"
             >
-              <div className="font-mono text-sm text-coco-ink/40 md:w-32">{item.date}</div>
+              <div className="text-sm text-coco-ink/40 md:w-32">{item.date}</div>
 
               <div className="flex-1">
                 <div className="mb-1 text-[10px] uppercase tracking-widest">

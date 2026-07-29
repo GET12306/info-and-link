@@ -1,5 +1,6 @@
 import type { Activity, TicketEntry } from "../types"
-import { getCurrentActivities, getTodayKey, withActivityIndexes, type IndexedActivity } from "./activityStatus"
+import { getCurrentActivities, withActivityIndexes, type IndexedActivity } from "./activityStatus"
+import { getJapanDateTimeKey, normalizeJapanDateTimeKey } from "./japanTime"
 
 export type TicketStatus = "upcoming" | "open" | "past" | "tba"
 
@@ -15,20 +16,42 @@ export interface TicketActivityGroup {
   entries: IndexedTicketEntry[]
 }
 
-export function getTicketStatus(entry: TicketEntry, todayKey = getTodayKey()): TicketStatus {
-  if (entry.endDate && todayKey > entry.endDate) return "past"
-  if (entry.startDate && todayKey < entry.startDate) return "upcoming"
-  if (entry.startDate || entry.endDate) return "open"
+export function getTicketEntryLink(activity: Activity, entry: TicketEntry) {
+  return entry.link ?? activity.ticketInfo?.link ?? activity.link
+}
+
+export function getTicketStatus(
+  entry: TicketEntry,
+  nowKey = getJapanDateTimeKey()
+): TicketStatus {
+  const normalizedNow = normalizeJapanDateTimeKey(nowKey)
+  const endKey = entry.endAt
+    ? normalizeJapanDateTimeKey(entry.endAt, "end")
+    : entry.endDate
+      ? normalizeJapanDateTimeKey(entry.endDate, "end")
+      : null
+  const startKey = entry.startAt
+    ? normalizeJapanDateTimeKey(entry.startAt)
+    : entry.startDate
+      ? normalizeJapanDateTimeKey(entry.startDate)
+      : null
+
+  if (endKey && normalizedNow > endKey) return "past"
+  if (startKey && normalizedNow < startKey) return "upcoming"
+  if (startKey || endKey) return "open"
   return "tba"
 }
 
-function getTicketEntries(activities: IndexedActivity[], todayKey = getTodayKey()): IndexedTicketEntry[] {
+function getTicketEntries(
+  activities: IndexedActivity[],
+  nowKey = getJapanDateTimeKey()
+): IndexedTicketEntry[] {
   return activities.flatMap((activity) =>
     (activity.ticketInfo?.entries ?? []).map((entry, entryIndex) => ({
       activity,
       entry,
       entryIndex,
-      status: getTicketStatus(entry, todayKey),
+      status: getTicketStatus(entry, nowKey),
     }))
   )
 }
@@ -49,20 +72,37 @@ function groupTicketEntries(entries: IndexedTicketEntry[]): TicketActivityGroup[
   return [...map.values()]
 }
 
-export function getCurrentTicketGroups(activities: Activity[], todayKey = getTodayKey()) {
-  const currentActivities = getCurrentActivities(activities, todayKey)
-  const entries = getTicketEntries(currentActivities, todayKey).filter((entry) => entry.status !== "past")
+export function getCurrentTicketGroups(
+  activities: Activity[],
+  nowKey = getJapanDateTimeKey()
+) {
+  const currentActivities = getCurrentActivities(activities, nowKey)
+  const entries = getTicketEntries(currentActivities, nowKey).filter(
+    (entry) => entry.status !== "past"
+  )
   return groupTicketEntries(entries)
 }
 
-export function getPastTicketGroups(activities: Activity[], todayKey = getTodayKey()) {
-  const entries = getTicketEntries(withActivityIndexes(activities), todayKey)
+export function getPastTicketGroups(
+  activities: Activity[],
+  nowKey = getJapanDateTimeKey()
+) {
+  const entries = getTicketEntries(withActivityIndexes(activities), nowKey)
     .filter((entry) => entry.status === "past")
-    .sort((a, b) => (b.entry.endDate ?? "").localeCompare(a.entry.endDate ?? ""))
+    .sort((a, b) =>
+      (b.entry.endAt ?? b.entry.endDate ?? "").localeCompare(
+        a.entry.endAt ?? a.entry.endDate ?? ""
+      )
+    )
 
   return groupTicketEntries(entries)
 }
 
-export function hasCurrentTicketInfo(activity: Activity, todayKey = getTodayKey()) {
-  return (activity.ticketInfo?.entries ?? []).some((entry) => getTicketStatus(entry, todayKey) !== "past")
+export function hasCurrentTicketInfo(
+  activity: Activity,
+  nowKey = getJapanDateTimeKey()
+) {
+  return (activity.ticketInfo?.entries ?? []).some(
+    (entry) => getTicketStatus(entry, nowKey) !== "past"
+  )
 }

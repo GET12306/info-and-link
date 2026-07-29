@@ -16,7 +16,7 @@ export default function ArchiveLink({
         to={to}
         className="group flex items-center justify-between gap-4 py-6 transition-opacity hover:opacity-80"
       >
-        <div className="font-mono text-sm text-coco-ink/40 md:w-32">Archive</div>
+        <div className="text-sm text-coco-ink/40 md:w-32">Archive</div>
         <div className="flex-1">
           <div className="mb-1 text-xl font-serif">{title}</div>
           <div className="text-sm text-coco-ink/60">{description}</div>

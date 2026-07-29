@@ -8,13 +8,15 @@ import ArchiveLink from "../components/ArchiveLink"
 import EmptyState from "../components/EmptyState"
 import { PageHeader, PageLayout } from "../components/PageLayout"
 import TicketGroup from "../components/TicketGroup"
+import useJapanNow from "../hooks/useJapanNow"
 
 export default function TicketInfo({ lang }: { lang: Language }) {
   const t = TRANSLATIONS[lang]
   const location = useLocation()
   const [highlighted, setHighlighted] = useState<number | null>(null)
+  const now = useJapanNow()
   const activities = ACTIVITIES as Activity[]
-  const ticketGroups = getCurrentTicketGroups(activities)
+  const ticketGroups = getCurrentTicketGroups(activities, now)
 
   useEffect(() => {
     const scrollToTicket = (location.state as { scrollToTicket?: number })?.scrollToTicket

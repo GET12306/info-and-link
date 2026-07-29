@@ -35,8 +35,8 @@ export default function TicketEntryRow(props: TicketEntryRowProps) {
             {t[`ticket_status_${props.status}`]}
           </span>
         ) : (
-          <span className="font-mono text-sm text-coco-ink/40">
-            {entry.endDate ?? entry.period}
+          <span className="text-sm text-coco-ink/40">
+            {entry.endAt?.replace("T", " ") ?? entry.endDate ?? entry.scheduleLabel}
           </span>
         )}
       </div>
@@ -51,9 +51,9 @@ export default function TicketEntryRow(props: TicketEntryRowProps) {
         <div className="grid grid-cols-1 gap-3 text-sm sm:grid-cols-2">
           <div>
             <div className="mb-1 text-[10px] uppercase tracking-widest text-coco-ink/40">
-              {t.ticket_period}
+              {t.ticket_schedule}
             </div>
-            <div className="text-coco-ink/70">{entry.period}</div>
+            <div className="text-coco-ink/70">{entry.scheduleLabel}</div>
           </div>
           <div>
             <div className="mb-1 text-[10px] uppercase tracking-widest text-coco-ink/40">
@@ -62,7 +62,9 @@ export default function TicketEntryRow(props: TicketEntryRowProps) {
             <div className="text-coco-ink/70">{entry.price[lang]}</div>
           </div>
         </div>
-        {entry.note && <p className="text-sm text-coco-ink/50">{entry.note[lang]}</p>}
+        {entry.description && (
+          <p className="text-sm text-coco-ink/50">{entry.description[lang]}</p>
+        )}
       </div>
     </div>
   )

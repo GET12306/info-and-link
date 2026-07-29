@@ -1,10 +1,9 @@
-import { ChevronLeft, ChevronRight } from "lucide-react"
+import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
 import type { CalendarMonthData } from "../hooks/useCalendarEvents"
 import type { Language } from "../types"
 import { getActivityStatus, type IndexedActivity } from "../utils/activityStatus"
 import { TRANSLATIONS } from "../i18n"
 import { getActivityCategoryLabel } from "../utils/categoryLabels"
-import { ACTIVITY_CATEGORY_META } from "../config/activityCategories"
 
 const DAY_LABELS_JA = ["日", "月", "火", "水", "木", "金", "土"]
 const DAY_LABELS_EN = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
@@ -23,23 +22,29 @@ export default function CalendarMonth({
   month,
   lang,
   today,
+  now,
   activities,
   onSelectEvent,
   hasPrev,
   hasNext,
   onPrev,
   onNext,
+  monthKeys,
+  onSelectMonth,
   className = "",
 }: {
   month: CalendarMonthData
   lang: Language
   today?: string
+  now?: string
   activities: IndexedActivity[]
   onSelectEvent: (activityIndex: number) => void
   hasPrev: boolean
   hasNext: boolean
   onPrev: () => void
   onNext: () => void
+  monthKeys: string[]
+  onSelectMonth: (monthKey: string) => void
   className?: string
 }) {
   const labels = lang === "ja" ? DAY_LABELS_JA : DAY_LABELS_EN
@@ -57,8 +62,23 @@ export default function CalendarMonth({
         >
           <ChevronLeft className="w-4 h-4" />
         </button>
-        <div className="text-xs font-bold uppercase tracking-widest text-coco-accent">
-          {formatMonthLabel(month.key, lang)}
+        <div className="relative inline-flex items-center rounded transition-colors hover:bg-coco-accent/10 focus-within:bg-coco-accent/10">
+          <select
+            value={month.key}
+            onChange={(event) => onSelectMonth(event.target.value)}
+            aria-label={lang === "ja" ? "表示する月を選択" : "Select month"}
+            className="cursor-pointer appearance-none bg-transparent py-1 pl-3 pr-8 text-xs font-bold uppercase tracking-widest text-coco-accent outline-none"
+          >
+            {monthKeys.map((monthKey) => (
+              <option key={monthKey} value={monthKey}>
+                {formatMonthLabel(monthKey, lang)}
+              </option>
+            ))}
+          </select>
+          <ChevronDown
+            className="pointer-events-none absolute right-2 h-3.5 w-3.5 text-coco-accent"
+            aria-hidden="true"
+          />
         </div>
         <button
           onClick={onNext}
@@ -114,48 +134,64 @@ export default function CalendarMonth({
                           {day.events.map((event, eventIndex) => {
                             const activity = activities[event.activityIndex]
                             if (!activity) return null
-                            const isPastActivity = today
-                              ? getActivityStatus(activity, today) === "past"
+                            const isPastEvent = now
+                              ? (event.endAt ? now > event.endAt : false) ||
+                                getActivityStatus(activity, now) === "past"
                               : false
+                            const accessibleLabel = `${event.startTime ? `${event.startTime} ` : ""}${
+                              activity.title[lang]
+                            }`
 
                             return (
                               <button
-                                key={`${event.activityIndex}-${eventIndex}`}
+                                key={`${event.activityIndex}-${event.performanceIndex ?? eventIndex}`}
                                 type="button"
-                                disabled={isPastActivity}
+                                disabled={isPastEvent}
                                 onClick={() => {
-                                  if (!isPastActivity) onSelectEvent(activity.originalIndex)
+                                  if (!isPastEvent) onSelectEvent(activity.originalIndex)
                                 }}
-                                className={`block w-full border-t-2 px-0.5 py-1.5 text-center transition-colors sm:px-1 sm:py-2 lg:border-l-2 lg:border-t-0 lg:px-1.5 lg:py-1 lg:text-left ${
-                                  isPastActivity
+                                className={`block h-9 w-full min-w-0 overflow-hidden border-l-[3px] px-1.5 py-1 text-left transition-colors lg:h-14 lg:px-2 lg:py-1.5 ${
+                                  isPastEvent
                                     ? "cursor-default border-coco-ink/20 bg-coco-ink/[0.025]"
                                     : "border-coco-accent bg-coco-accent/5 hover:bg-coco-accent/10 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-coco-accent"
                                 }`}
                                 aria-label={
-                                  isPastActivity
-                                    ? activity.title[lang]
-                                    : `${activity.title[lang]} — ${
+                                  isPastEvent
+                                    ? accessibleLabel
+                                    : `${accessibleLabel} — ${
                                         lang === "ja" ? "活動ページへ" : "View event details"
                                       }`
                                 }
                               >
                                 <span
-                                  className={`block break-words text-[10px] font-bold leading-tight sm:text-xs lg:hidden ${
-                                    isPastActivity ? "text-coco-ink/55" : "text-coco-accent"
+                                  className={`block truncate text-[11px] font-medium leading-7 sm:text-xs lg:hidden ${
+                                    isPastEvent ? "text-coco-ink/55" : "text-coco-ink/80"
                                   }`}
                                 >
-                                  {ACTIVITY_CATEGORY_META[activity.category].compactLabel[lang]}
+                                  {activity.title[lang]}
+                                </span>
+                                <span className="hidden min-w-0 items-center gap-1 lg:flex">
+                                  <span
+                                    className={`min-w-0 truncate text-[10px] font-bold uppercase tracking-wide ${
+                                      isPastEvent ? "text-coco-ink/40" : "text-coco-accent/75"
+                                    }`}
+                                  >
+                                    {getActivityCategoryLabel(activity.category, t)}
+                                  </span>
+                                  {event.startTime && (
+                                    <time
+                                      dateTime={event.startAt}
+                                      className={`shrink-0 text-[10px] ${
+                                        isPastEvent ? "text-coco-ink/40" : "text-coco-accent"
+                                      }`}
+                                    >
+                                      {event.startTime}
+                                    </time>
+                                  )}
                                 </span>
                                 <span
-                                  className={`hidden text-[8px] font-bold uppercase tracking-wider lg:block ${
-                                    isPastActivity ? "text-coco-ink/40" : "text-coco-accent/75"
-                                  }`}
-                                >
-                                  {getActivityCategoryLabel(activity.category, t)}
-                                </span>
-                                <span
-                                  className={`mt-0.5 hidden break-words text-[10px] leading-snug lg:block ${
-                                    isPastActivity ? "text-coco-ink/55" : "text-coco-ink/80"
+                                  className={`mt-1 hidden truncate text-xs leading-snug lg:block ${
+                                    isPastEvent ? "text-coco-ink/55" : "text-coco-ink/80"
                                   }`}
                                 >
                                   {activity.title[lang]}

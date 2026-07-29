@@ -5,10 +5,12 @@ import { getPastTicketGroups } from "../utils/ticketStatus"
 import EmptyState from "../components/EmptyState"
 import { PageHeader, PageLayout } from "../components/PageLayout"
 import TicketGroup from "../components/TicketGroup"
+import useJapanNow from "../hooks/useJapanNow"
 
 export default function PastTickets({ lang }: { lang: Language }) {
   const t = TRANSLATIONS[lang]
-  const ticketGroups = getPastTicketGroups(ACTIVITIES as Activity[])
+  const now = useJapanNow()
+  const ticketGroups = getPastTicketGroups(ACTIVITIES as Activity[], now)
 
   return (
     <PageLayout>

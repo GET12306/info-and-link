@@ -9,6 +9,7 @@ import ACTIVITIES from "../data/activities.yaml"
 import type { Activity, Language, LinkItem } from "../types"
 import { buildCalendarData } from "../hooks/useCalendarEvents"
 import { getCalendarActivities } from "../utils/activityStatus"
+import useJapanNow from "../hooks/useJapanNow"
 import CalendarMonth from "../components/CalendarMonth"
 import ExternalAnchor from "../components/ExternalAnchor"
 
@@ -20,16 +21,13 @@ export default function Home({ lang }: { lang: Language }) {
 
   const allActivities = ACTIVITIES as Activity[]
   const links = LINKS as LinkItem[]
-  const today = (() => {
-    const d = new Date()
-    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, "0")}-${String(d.getDate()).padStart(2, "0")}`
-  })()
-  const calendarActivities = getCalendarActivities(allActivities, today)
+  const now = useJapanNow()
+  const today = now.substring(0, 10)
+  const calendarActivities = getCalendarActivities(allActivities, now)
   const months = buildCalendarData(calendarActivities, today)
 
   const [monthIndex, setMonthIndex] = useState(() => {
-    const now = new Date()
-    const todayKey = `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, "0")}`
+    const todayKey = today.substring(0, 7)
     const idx = months.findIndex(m => m.key === todayKey)
     return idx >= 0 ? idx : months.findIndex(m => m.key >= todayKey) >= 0 ? months.findIndex(m => m.key >= todayKey) : 0
   })
@@ -80,6 +78,7 @@ export default function Home({ lang }: { lang: Language }) {
               month={months[monthIndex]}
               lang={lang}
               today={today}
+              now={now}
               activities={calendarActivities}
               onSelectEvent={scrollToEvent}
               className="w-full"
@@ -87,6 +86,13 @@ export default function Home({ lang }: { lang: Language }) {
               hasNext={monthIndex < months.length - 1}
               onPrev={() => setMonthIndex((i) => i - 1)}
               onNext={() => setMonthIndex((i) => i + 1)}
+              monthKeys={months.map((month) => month.key)}
+              onSelectMonth={(monthKey) => {
+                const selectedIndex = months.findIndex(
+                  (month) => month.key === monthKey
+                )
+                if (selectedIndex >= 0) setMonthIndex(selectedIndex)
+              }}
             />
           )}
         </section>

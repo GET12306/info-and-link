@@ -11,14 +11,22 @@ export interface Role {
 
 export interface Activity {
   category: ActivityCategory;
-  date: string;
+  scheduleLabel: string;
   startDate?: string;
   endDate?: string;
   activeDates?: string[];
+  performances?: ActivityPerformance[];
   title: LocalizedText;
+  venue?: LocalizedText;
   description?: LocalizedText;
   link: string;
   ticketInfo?: TicketInfo;
+}
+
+export interface ActivityPerformance {
+  startAt: string;
+  endAt?: string;
+  label?: LocalizedText;
 }
 
 export interface FanProject {
@@ -59,9 +67,35 @@ export interface NoteRelatedLink {
   type?: LocalizedText;
 }
 
+export interface PhotoBookCover {
+  url: string;
+  alt: LocalizedText;
+  sourceUrl: string;
+}
+
+export interface PhotoBookLink {
+  label: LocalizedText;
+  url: string;
+}
+
+export interface PhotoBook {
+  id: string;
+  title: LocalizedText;
+  subtitle?: LocalizedText;
+  releaseDate: string;
+  description: LocalizedText;
+  cover?: PhotoBookCover;
+  photographer?: string;
+  publisher: string;
+  distributor?: string;
+  isbn?: string;
+  format?: LocalizedText;
+  price?: LocalizedText;
+  links: PhotoBookLink[];
+}
+
 export interface TicketInfo {
-  venue?: LocalizedText;
-  officialUrl?: string;
+  link?: string;
   entries: TicketEntry[];
 }
 
@@ -69,9 +103,11 @@ export interface TicketEntry {
   type: LocalizedText;
   startDate?: string;
   endDate?: string;
-  period: string;
+  startAt?: string;
+  endAt?: string;
+  scheduleLabel: string;
   price: LocalizedText;
-  note?: LocalizedText;
+  description?: LocalizedText;
   link?: string;
 }
 
