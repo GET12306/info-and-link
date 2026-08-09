@@ -87,6 +87,48 @@
     ja: "⻑坂稀星役"
     en: "As Maho Nagasaka"
   link: "https://assaultlily-stage.jp/2604stage"
+
+- category: "Stage"
+  scheduleLabel: "2026.12.16-20"
+  startDate: "2026-12-16"
+  endDate: "2026-12-20"
+  performances:
+    - startAt: "2026-12-16T19:00"
+    - startAt: "2026-12-17T14:00"
+      label:
+        ja: "昼公演"
+        en: "Matinee"
+    - startAt: "2026-12-17T19:00"
+      label:
+        ja: "夜公演"
+        en: "Evening"
+    - startAt: "2026-12-18T19:00"
+    - startAt: "2026-12-19T13:00"
+      label:
+        ja: "昼公演"
+        en: "Matinee"
+    - startAt: "2026-12-19T17:00"
+      label:
+        ja: "夜公演"
+        en: "Evening"
+    - startAt: "2026-12-20T12:00"
+      label:
+        ja: "昼公演"
+        en: "Matinee"
+    - startAt: "2026-12-20T16:00"
+      label:
+        ja: "夜公演"
+        en: "Evening"
+  title:
+    ja: "きっといいKotoあるravel"
+    en: "I'm sure something good will happen, ravel"
+  venue:
+    ja: "シアターサンモール"
+    en: "Theater Sunmall"
+  description:
+    ja: "演劇集団Z-Lion『きっといいKotoあるravel』再演決定! 笑って泣ける、9年ぶりの再演。"
+    en: "Theater Group Z-Lion's “Something Good Will Happen, I'm Sure” to Be Revived! A revival after nine years that will make you laugh and cry."
+  link: "https://kotoravel.com"
 # ------------------------------------------------------------------------------------------------------------
 - category: "Reading"
   scheduleLabel: |
@@ -348,8 +390,8 @@
     ja: "ラブライブ！虹ヶ咲学園 ～ディスカバー放送室～"
     en: "Love Live! Nijigasaki High School ~Discover Broadcast Room~"
   description:
-    ja: "優木せつ菜役 毎月第一木曜日配信 次: 8月6日"
-    en: "Streaming on the first Thursday of every month as Setsuna Yuki. Next update: Aug 6th"
+    ja: "優木せつ菜役 毎月第一木曜日配信 次: 9月3日"
+    en: "Streaming on the first Thursday of every month as Setsuna Yuki. Next update: September 3"
   link: "https://hibiki-radio.jp/description/lldiscover/detail"
 
 - category: "Program"
@@ -370,7 +412,7 @@
     en: "Karin Isobe, Rio Tsuchiya, Coco Hayashi Tricolor"
   description:
     ja: "月一回 次: 8月27日"
-    en: "Monthly Update July 16 Guest: Maria Shitsuge"
+    en: "Monthly Update August 27"
   link: "https://www.onsen.ag/program/tricolor"
 # ------------------------------------------------------------------------------------------------------------
 - category: "Live"
@@ -550,6 +592,16 @@
         description:
           ja: "LIBERTE TICKETにて先行予約受付もあります"
           en: "Advance reservations are also available through LIBERTE TICKET"
+      - type:
+          ja: "一般発売"
+          en: "General Sale"
+        startDate: "2026-08-08T10:00"
+        endDate: "2026-09-12"
+        scheduleLabel: "2026.08.08 10:00-"
+        price:
+          ja: "7,700円(全席指定・税込) + ドリンク代600円(税込)"
+          en: "7,700 yen (all reserved seating, tax included) + 600 yen for a drink (tax included)"
+        link: https://ticketdive.com/event/libertelive2026
 
 - category: "Live"
   scheduleLabel: "2026.10.10"

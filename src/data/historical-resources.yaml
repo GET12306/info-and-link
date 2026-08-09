@@ -9,6 +9,20 @@
 #   url: "https://example.com/archive" # [可选] 省略时仅作为记录展示，不可点击
 #   status: "available"                # [必填] available=链接可用；expired=已失效/仅存档
 #
+- date: "2026.08.08"
+  title:
+    ja: "第2回 LoveLive! Masters Tournament ~第二幕~の開会挨拶"
+    en: "Opening Remarks for the 2nd LoveLive! Masters Tournament ~Act 2~"
+  url: "https://x.com/LL_cardgame/status/2085903119893094770"
+  status: "available"
+
+- date: "2026.08.07"
+  title:
+    ja: "ラブカ部 最強プレイヤーへの道!! 第15回"
+    en: "The Love Card Club: The Path to Becoming the Strongest Player!! The 15th"
+  url: "https://www.youtube.com/watch?v=neoWkRwLj84"
+  status: "available"
+
 - date: "2023-2025"
   title:
     ja: "林鼓子のココいちばん！"
