@@ -231,7 +231,19 @@
     ja: "主人公 アズサ役 *特定の日程のみ出演"
     en: "As Azusa *Performs only on specific dates"
   link: "https://neo-slime300.com"
-
+  ticketInfo:
+    link: https://fan.pia.jp/cocohayashi/ticket/detail/8/?page=0&ptag=
+    entries:
+      - type:
+          ja: "FC会員先行"
+          en: "FC Member Pre-sale"
+        startDate: "2026-08-10T09:00"
+        endDate: "2026-08-16"
+        scheduleLabel: "2026.08.10 09:00-08.16"
+        price:
+          ja: "S席: ¥9,800  特典2Lブロマイド付き A席: ¥8,800"
+          en: "S Seats: 9,800 yen  Includes a 2L-sized photo card A Seats: 8,800 yen"
+        
 - category: "Reading"
   scheduleLabel: |
     2026.10.28-11.01
@@ -335,7 +347,21 @@
     ja: "HANASPACE 花漾展演空間"
     en: "Hanaspace"
   link: "https://x.com/bridgebond_llc/status/2078329086263656795"
-
+  ticketInfo:
+    link: https://liberte2024.com/news/bqXuKLIM
+    entries:
+      - type:
+          ja: "先着販売"
+          en: "First-Come, First-Served Sale"
+        startDate: "2026-08-09T13:00"
+        scheduleLabel: "2026.08.09 13:00"
+        price:
+          ja: "VIP: NT$3,980、一般席: NT$1,880"
+          en: "VIP: NT$3,980, General Admission: NT$1,880"
+        description:
+          ja: "VIPチケット 宛名入り直筆サイン入り記念写真(1対1でお渡し) 台北限定オリジナル記念ポスター(38x52cm・スタッフよりお渡し/サインなし  一般チケット お見送り会 印刷サイン入りポストカード（スタッフよりお渡し）"
+          en: "VIP Ticket: Commemorative photo with a handwritten autograph and personalized inscription (presented one-on-one) Taipei-exclusive original commemorative poster (38x52 cm; presented by staff/unsigned)  General Admission Ticket: Farewell event; postcard with a printed autograph (presented by staff)"
+        
 - category: "Event"
   scheduleLabel: "2026.11.03"
   startDate: "2026-11-03"
@@ -385,7 +411,7 @@
 
 - category: "Program"
   scheduleLabel: "Monthly"
-  startDate: "2026-08-06"
+  startDate: "2026-09-03"
   title:
     ja: "ラブライブ！虹ヶ咲学園 ～ディスカバー放送室～"
     en: "Love Live! Nijigasaki High School ~Discover Broadcast Room~"

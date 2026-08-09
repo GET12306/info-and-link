@@ -9,6 +9,20 @@
 #   url: "https://example.com/archive" # [可选] 省略时仅作为记录展示，不可点击
 #   status: "available"                # [必填] available=链接可用；expired=已失效/仅存档
 #
+- date: "2026.08.09"
+  title:
+    ja: "ライブ前のココちゃん🎥𓈒"
+    en: "Coco before the live🎥𓈒"
+  url: https://x.com/FC_coco2025/status/2086394327551676560
+  status: "available"
+
+- date: "2026.08.09"
+  title:
+    ja: "LuckyFes 出演後コメント"
+    en: "Post-Performance Comments from LuckyFes"
+  url: "https://x.com/luckyfm_fes/status/2086340095314108526"
+  status: "available"
+
 - date: "2026.08.08"
   title:
     ja: "第2回 LoveLive! Masters Tournament ~第二幕~の開会挨拶"
