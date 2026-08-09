@@ -249,12 +249,37 @@
     2026.10.28-11.01
   startDate: "2026-10-28"
   endDate: "2026-11-01"
-  # activeDates:
-  #   - "2026-10-17"
-  #   - "2026-10-18"
-  #   - "2026-10-21"
-  #   - "2026-10-22"
-  #   - "2026-10-25"
+  activeDates:
+    - "2026-10-28"
+    - "2026-10-30"
+    - "2026-10-31"
+    - "2026-11-01"
+  performances:
+    - startAt: "2026-10-28T13:00"
+      label:
+        ja: "プレビュー公演"
+        en: "Preview Performance"
+    - startAt: "2026-10-28T18:30"
+      label:
+        ja: "夜公演"
+        en: "Evening"
+    - startAt: "2026-10-30T18:30"
+    - startAt: "2026-10-31T13:00"
+      label:
+        ja: "昼公演"
+        en: "Matinee"
+    - startAt: "2026-10-31T18:00"
+      label:
+        ja: "夜公演"
+        en: "Evening"
+    - startAt: "2026-11-01T12:00"
+      label:
+        ja: "昼公演"
+        en: "Matinee"
+    - startAt: "2026-11-01T16:30"
+      label:
+        ja: "夜公演"
+        en: "Evening"
   title:
     ja: "異空間リーディングステージ 「アサルトリリィ」 vol.2"
     en: "Alternative Dimension Reading Stage: “Assault Lily” Vol. 2"
@@ -265,6 +290,35 @@
     ja: "⻑坂稀星役"
     en: "As Maho Nagasaka"
   link: "https://assaultlily-stage.jp/2610stage/"
+  ticketInfo:
+    entries:
+        - type:
+            ja: "ピウスFC最速先⾏(クローズ限定販売/抽選)"
+            en: "Pius FC Early Bird Sale (Closed Sale / Lottery)"
+          startDate: "2026-08-15T10:00"
+          endDate: "2026-08-23"
+          scheduleLabel: "2026.08.15 10:00-08.23"
+          price:
+            ja: "詳細はホームページまで"
+            en: "For more details, please visit the website."
+        - type:
+            ja: "抽選先⾏（オープン／抽選）"
+            en: "Lottery-Based Allocation (Open/Lottery)"
+          startDate: "2026-08-29T10:00"
+          endDate: "2026-09-06"
+          scheduleLabel: "2026.08.29 10:00-09.06"
+          price:
+            ja: "詳細はホームページまで"
+            en: "For more details, please visit the website."
+        - type:
+            ja: "⼀般販売（オープン／先着）"
+            en: "General Sale (Open / First-Come, First-Served)"
+          startDate: "2026-09-12T10:00"
+
+          scheduleLabel: "2026.09.12 10:00-"
+          price:
+            ja: "詳細はホームページまで"
+            en: "For more details, please visit the website."
 
 # ------------------------------------------------------------------------------------------------------------
 - category: "Event"
