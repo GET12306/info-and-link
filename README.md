@@ -106,7 +106,9 @@ Activities live in `src/data/activities.yaml`. Each item should follow this shap
 ```yaml
 - category: "Live"
   scheduleLabel: "2026.09.12"
-  startDate: "2026-09-12"
+  performances:
+    - startAt: "2026-09-12T14:30"
+    - startAt: "2026-09-12T17:30"
   title:
     ja: "LIBERTE LIVE 2026 ～ First Act ～"
     en: "LIBERTE LIVE 2026 ~ First Act ~"
@@ -128,36 +130,35 @@ Required fields:
 
 Recommended fields:
 
-- `startDate`: machine-readable date in `YYYY-MM-DD`.
-- `endDate`: machine-readable end date in `YYYY-MM-DD` when the activity spans multiple consecutive days.
-- `activeDates`: exact dates in `YYYY-MM-DD` when a multi-day activity should appear on the calendar.
-- `performances`: exact performances for activities with known start times or multiple performances on one day. Each item uses `startAt` and optionally `endAt` in `YYYY-MM-DDTHH:mm` JST.
+- `startDate`: machine-readable first date in `YYYY-MM-DD` for a continuous date range.
+- `endDate`: machine-readable last date in `YYYY-MM-DD`; omit it for a single-day activity.
+- `performances`: exact non-consecutive dates or timed performances. A performance uses either `occursOn: YYYY-MM-DD` or `startAt: YYYY-MM-DDTHH:mm` JST, and can have a bilingual `label`.
+- `durationMinutes`: shared duration for timed performances. An individual performance's `endAt` overrides it.
+- `recurring`: set to `true` for an ongoing weekly or monthly program so it does not become past when its latest known occurrence passes.
 - `venue.ja` and `venue.en`: the activity venue shared by activity, ticket, and future calendar displays.
 - `description.ja` and `description.en`: role, appearance note, or other short context. Venue text belongs in `venue`.
 
 Date behavior:
 
-- An activity is considered past starting on the day after its last active date.
-- When `performances` exists, it takes precedence over `activeDates` and `startDate` for calendar entries. Each performance becomes a separate calendar item.
-- A performance without `endAt` defaults to a one-hour duration (`startAt` plus 60 minutes), including when that crosses midnight.
+- Use either `performances` or the continuous `startDate`/`endDate` range for one activity, not both.
+- Each normalized occurrence becomes a separate calendar item. An activity becomes past after its final occurrence ends.
+- A timed performance ends at its own `endAt`, otherwise after the activity's `durationMinutes`, otherwise after the system default of 60 minutes. Durations may cross midnight.
+- A date-only `occursOn` performance is treated as an all-day occurrence and remains current through `23:59` JST.
 - `endAt` belongs to the same performance item as `startAt`: align the two fields and do not add another list marker (`-`) before `endAt`.
-- If `activeDates` exists, the first and last values define the activity status range.
-- Otherwise, status uses `endDate`, then `startDate`.
-- The calendar only uses machine-readable dates. Activities with `Weekly` or `Monthly` as `scheduleLabel` should usually omit `startDate` unless there is a concrete dated occurrence to show.
-- For non-consecutive runs, use `activeDates` instead of relying on a broad `startDate` to `endDate` interval.
+- `recurring: true` keeps a program in the current-activities list independently of its latest known occurrence. Only concrete `performances` are placed on the calendar; the site does not invent future recurrence dates.
+- The calendar only uses machine-readable schedule fields. `scheduleLabel` is display-only and never affects status or sorting.
+- For non-consecutive dates, use date-only `performances` instead of a broad `startDate` to `endDate` interval.
 
-Example with non-consecutive active dates:
+Example with non-consecutive date-only performances:
 
 ```yaml
 - category: "Live"
   scheduleLabel: "2026.06.06-07, 06.13-14"
-  startDate: "2026-06-06"
-  endDate: "2026-06-14"
-  activeDates:
-    - "2026-06-06"
-    - "2026-06-07"
-    - "2026-06-13"
-    - "2026-06-14"
+  performances:
+    - occursOn: "2026-06-06"
+    - occursOn: "2026-06-07"
+    - occursOn: "2026-06-13"
+    - occursOn: "2026-06-14"
   title:
     ja: "イベント名"
     en: "Event Title"
@@ -172,7 +173,7 @@ Example with two performances on the same day:
 ```yaml
 - category: "Live"
   scheduleLabel: "2026.10.10"
-  startDate: "2026-10-10"
+  durationMinutes: 120
   performances:
     - startAt: "2026-10-10T14:30"
       label:
@@ -195,7 +196,9 @@ Only activities with ticket information need a `ticketInfo` block. Ticket entrie
 ```yaml
 - category: "Live"
   scheduleLabel: "2026.09.12"
-  startDate: "2026-09-12"
+  performances:
+    - startAt: "2026-09-12T14:30"
+    - startAt: "2026-09-12T17:30"
   title:
     ja: "LIBERTE LIVE 2026 ～ First Act ～"
     en: "LIBERTE LIVE 2026 ~ First Act ~"
@@ -205,6 +208,9 @@ Only activities with ticket information need a `ticketInfo` block. Ticket entrie
   link: "https://example.com/event"
   ticketInfo:
     link: "https://example.com/tickets"
+    price:
+      ja: "7,700円 + ドリンク代600円"
+      en: "7,700 yen + 600 yen drink fee"
     entries:
       - type:
           ja: "-鼓星- 先行予約受付"
@@ -214,9 +220,6 @@ Only activities with ticket information need a `ticketInfo` block. Ticket entrie
         endDate: "2026-07-12"
         endAt: "2026-07-12T23:59"
         scheduleLabel: "2026.07.04-07.12"
-        price:
-          ja: "7,700円 + ドリンク代600円"
-          en: "7,700 yen + 600 yen drink fee"
         description:
           ja: "LIBERTE TICKETにて受付"
           en: "Available through LIBERTE TICKET"
@@ -227,6 +230,7 @@ Ticket field notes:
 
 - The activity-level `venue` is displayed on both activity and ticket pages; do not duplicate it inside `ticketInfo`.
 - `ticketInfo.link`: optional ticket overview URL and the middle link fallback level.
+- `ticketInfo.price`: optional price shared by every ticket entry for the activity.
 - `entries`: list of ticket lotteries, presales, general sales, or TBA entries.
 - `entry.type.ja` and `entry.type.en`: visible ticket entry name. This text is clickable in the UI.
 - `entry.startDate`: `YYYY-MM-DD`; used to mark the entry as upcoming before this date.
@@ -234,7 +238,7 @@ Ticket field notes:
 - `entry.startAt`: optional minute-precise start in `YYYY-MM-DDTHH:mm` JST. When present, it takes precedence over `startDate`.
 - `entry.endAt`: optional minute-precise cutoff in `YYYY-MM-DDTHH:mm` JST. When present, it takes precedence over `endDate`.
 - `entry.scheduleLabel`: language-independent, human-readable sale/application period used only for display.
-- `entry.price`: human-readable price details.
+- `entry.price`: optional price override for an exceptional ticket stage. The UI falls back to `ticketInfo.price` when omitted.
 - `entry.description`: optional application conditions or other supplementary details, with the same meaning as activity `description`.
 - `entry.link`: optional URL for this exact ticket entry. Link resolution is `entry.link`, then `ticketInfo.link`, then the activity `link`.
 
@@ -258,7 +262,7 @@ When adding or editing content:
 - Both activities and ticket entries use `scheduleLabel` for display-only schedule text; never use it for sorting or status logic.
 - Keep venue information only at the activity level unless a future performance explicitly needs a different venue.
 - Prefer exact source links from official sites or reliable announcements.
-- For recurring programs, use `scheduleLabel: "Weekly"` or `scheduleLabel: "Monthly"` and describe the schedule in `description`; avoid generating infinite calendar dates.
+- For recurring programs, set `recurring: true`; add only the next concrete known date to `performances`, and do not generate infinite calendar dates.
 - Run `npm run lint` and `npm run build` before opening a PR.
 
 ## Deployment

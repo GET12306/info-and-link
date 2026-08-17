@@ -14,7 +14,8 @@ export interface Activity {
   scheduleLabel: string;
   startDate?: string;
   endDate?: string;
-  activeDates?: string[];
+  recurring?: boolean;
+  durationMinutes?: number;
   performances?: ActivityPerformance[];
   title: LocalizedText;
   venue?: LocalizedText;
@@ -23,11 +24,23 @@ export interface Activity {
   ticketInfo?: TicketInfo;
 }
 
-export interface ActivityPerformance {
+export interface TimedActivityPerformance {
   startAt: string;
   endAt?: string;
+  occursOn?: never;
   label?: LocalizedText;
 }
+
+export interface DateOnlyActivityPerformance {
+  occursOn: string;
+  startAt?: never;
+  endAt?: never;
+  label?: LocalizedText;
+}
+
+export type ActivityPerformance =
+  | TimedActivityPerformance
+  | DateOnlyActivityPerformance;
 
 export interface FanProject {
   title: LocalizedText;
@@ -96,6 +109,7 @@ export interface PhotoBook {
 
 export interface TicketInfo {
   link?: string;
+  price?: LocalizedText;
   entries: TicketEntry[];
 }
 
@@ -106,7 +120,7 @@ export interface TicketEntry {
   startAt?: string;
   endAt?: string;
   scheduleLabel: string;
-  price: LocalizedText;
+  price?: LocalizedText;
   description?: LocalizedText;
   link?: string;
 }

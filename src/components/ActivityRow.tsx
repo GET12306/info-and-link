@@ -64,6 +64,7 @@ export default function ActivityRow({
           </div>
           <ActivityPerformanceDetails
             performances={activity.performances}
+            durationMinutes={activity.durationMinutes}
             lang={lang}
           />
         </div>

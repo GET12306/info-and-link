@@ -1,7 +1,7 @@
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
 import type { CalendarMonthData } from "../hooks/useCalendarEvents"
 import type { Language } from "../types"
-import { getActivityStatus, type IndexedActivity } from "../utils/activityStatus"
+import type { IndexedActivity } from "../utils/activityStatus"
 import { TRANSLATIONS } from "../i18n"
 import { getActivityCategoryLabel } from "../utils/categoryLabels"
 
@@ -134,10 +134,7 @@ export default function CalendarMonth({
                           {day.events.map((event, eventIndex) => {
                             const activity = activities[event.activityIndex]
                             if (!activity) return null
-                            const isPastEvent = now
-                              ? (event.endAt ? now > event.endAt : false) ||
-                                getActivityStatus(activity, now) === "past"
-                              : false
+                            const isPastEvent = now ? now > event.endAt : false
                             const accessibleLabel = `${event.startTime ? `${event.startTime} ` : ""}${
                               activity.title[lang]
                             }`

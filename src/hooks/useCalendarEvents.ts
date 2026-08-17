@@ -1,20 +1,14 @@
-import { parseISO, eachDayOfInterval, format, getDay } from "date-fns"
+import { getDay } from "date-fns"
 import type { Activity } from "../types"
-import {
-  getJapanTimeLabel,
-} from "../utils/japanTime"
-import {
-  getPerformanceEndAt,
-  getPerformanceStartAt,
-  getValidActivityPerformances,
-} from "../utils/activityPerformances"
+import { getActivityOccurrences } from "../utils/activitySchedule"
+import { getJapanTimeLabel } from "../utils/japanTime"
 
 export interface CalendarEvent {
   date: string
   activityIndex: number
   performanceIndex?: number
   startAt?: string
-  endAt?: string
+  endAt: string
   startTime?: string
 }
 
@@ -39,39 +33,18 @@ function collectEvents(activities: Activity[]): CalendarEvent[] {
 
   for (let i = 0; i < activities.length; i++) {
     const act = activities[i]
-    const performances = getValidActivityPerformances(act.performances)
-    if (performances.length) {
-      performances.forEach((performance, performanceIndex) => {
-        const startAt = getPerformanceStartAt(performance)
-        result.push({
-          date: startAt.substring(0, 10),
-          activityIndex: i,
-          performanceIndex,
-          startAt,
-          endAt: getPerformanceEndAt(performance),
-          startTime: getJapanTimeLabel(startAt),
-        })
+    getActivityOccurrences(act).forEach((occurrence) => {
+      result.push({
+        date: occurrence.date,
+        activityIndex: i,
+        performanceIndex: occurrence.performanceIndex,
+        startAt: occurrence.startAt,
+        endAt: occurrence.endAt,
+        startTime: occurrence.startAt
+          ? getJapanTimeLabel(occurrence.startAt)
+          : undefined,
       })
-      continue
-    }
-
-    if (!act.startDate) continue
-
-    if (act.activeDates && Array.isArray(act.activeDates)) {
-      for (const d of act.activeDates) {
-        result.push({ date: d, activityIndex: i })
-      }
-    } else if (act.endDate) {
-      const days = eachDayOfInterval({
-        start: parseISO(act.startDate),
-        end: parseISO(act.endDate),
-      })
-      for (const day of days) {
-        result.push({ date: format(day, "yyyy-MM-dd"), activityIndex: i })
-      }
-    } else {
-      result.push({ date: act.startDate, activityIndex: i })
-    }
+    })
   }
 
   return result

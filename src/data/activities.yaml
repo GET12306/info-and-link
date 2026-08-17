@@ -7,14 +7,17 @@
 #                                     # 舞台/音乐剧/直播节目/线下活动/live/朗读剧/其他
 #                                        # Program=配信番組，Event=リアルイベント
 #   scheduleLabel: "2026.08.11"       # [必填] 活动页的日程显示文字；不参与日期计算，建议加引号
-#   startDate: "2026-08-11"           # [可选] 首日；用于日历及 upcoming/ongoing/past 判定
-#   endDate: "2026-08-12"             # [可选] 连续活动末日；单日活动可省略
-#   activeDates:                       # [可选] 非连续出演的准确日期；存在时优先于 startDate/endDate
-#     - "2026-08-11"
-#     - "2026-08-12"
-#   performances:                      # [可选] 精确场次；存在时优先于 activeDates/startDate/endDate
-#     - startAt: "2026-08-11T14:30"    # [必填/仅 performances 内] 日本时间的场次开始时刻
-#       endAt: "2026-08-11T16:30"      # [可选] 日本时间的场次结束时刻；省略时默认为 startAt 后 1 小时
+#   startDate: "2026-08-11"           # [条件必填] 连续活动首日；与 performances 二选一
+#   endDate: "2026-08-12"             # [可选] 连续活动末日；省略时视为单日活动
+#   recurring: true                    # [可选] 周常/月常等持续节目；不会因已知场次过期而进入历史
+#   durationMinutes: 120               # [可选] 所有定时场次的统一时长（分钟）；默认 60，可被场次 endAt 覆盖
+#   performances:                      # [条件必填] 非连续日期或精确场次；与 startDate/endDate 二选一
+#     - occursOn: "2026-08-10"         # [二选一] 仅知日期的场次；作为全天日程显示
+#       label:                         # [可选] 场次名称
+#         ja: "出演日"
+#         en: "Performance date"
+#     - startAt: "2026-08-11T14:30"    # [二选一] 日本时间的场次开始时刻
+#       endAt: "2026-08-11T16:30"      # [可选] 此场次的特殊结束时刻；优先于 durationMinutes
 #       label:                         # [可选] 昼公演、夜公演等场次名称
 #         ja: "昼公演"
 #         en: "Matinee"
@@ -34,6 +37,9 @@
 #   link: "https://example.com/event" # [必填] 活动链接；也是票务条目链接的最终回退地址
 #   ticketInfo:                        # [可选] 仅有票务信息时添加
 #     link: "https://example.com/tickets" # [可选] 票务总览链接；entry.link 缺失时回退到这里
+#     price:                           # [可选] 所有票务阶段共用的价格；可被 entry.price 覆盖
+#       ja: "9,900円"
+#       en: "9,900 yen"
 #     entries:                         # [必填/仅 ticketInfo 内] 一个或多个票务阶段
 #       - type:                        # [必填] 抽选、先行、一般发售等名称
 #           ja: "一般発売"
@@ -43,9 +49,9 @@
 #         startAt: "2026-07-11T12:00"  # [可选] 日本时间的精确开始时刻；存在时优先于 startDate
 #         endAt: "2026-07-20T23:59"    # [可选] 日本时间的精确截止时刻；存在时优先于 endDate
 #         scheduleLabel: "2026.07.11-07.20" # [必填] 两种语言共用的显示日程；不参与状态计算
-#         price:                       # [必填] 价格说明
-#           ja: "9,900円"
-#           en: "9,900 yen"
+#         price:                       # [可选] 仅在此阶段价格不同时填写，覆盖 ticketInfo.price
+#           ja: "当日券 10,500円"
+#           en: "Same-day ticket: 10,500 yen"
 #         description:                 # [可选] 申请条件等补充说明；与活动的 description 含义一致
 #           ja: "注意事項"
 #           en: "Additional note"
@@ -53,21 +59,19 @@
 #
 - category: "Musical"
   scheduleLabel: "2026.03.06-22"
-  startDate: "2026-03-06"
-  endDate: "2026-03-22"
-  activeDates:
-    - "2026-03-06"
-    - "2026-03-07"
-    - "2026-03-08"
-    - "2026-03-10"
-    - "2026-03-11"
-    - "2026-03-12"
-    - "2026-03-13"
-    - "2026-03-14"
-    - "2026-03-15"
-    - "2026-03-20"
-    - "2026-03-21"
-    - "2026-03-22"
+  performances:
+    - occursOn: "2026-03-06"
+    - occursOn: "2026-03-07"
+    - occursOn: "2026-03-08"
+    - occursOn: "2026-03-10"
+    - occursOn: "2026-03-11"
+    - occursOn: "2026-03-12"
+    - occursOn: "2026-03-13"
+    - occursOn: "2026-03-14"
+    - occursOn: "2026-03-15"
+    - occursOn: "2026-03-20"
+    - occursOn: "2026-03-21"
+    - occursOn: "2026-03-22"
   title:
     ja: "ミュージカル「スキップとローファー」"
     en: "Musical 'Skip and Loafer'"
@@ -90,8 +94,6 @@
 
 - category: "Stage"
   scheduleLabel: "2026.12.16-20"
-  startDate: "2026-12-16"
-  endDate: "2026-12-20"
   performances:
     - startAt: "2026-12-16T19:00"
     - startAt: "2026-12-17T14:00"
@@ -133,8 +135,6 @@
 - category: "Reading"
   scheduleLabel: |
     2026.07.31-08.02
-  startDate: "2026-07-31"
-  endDate: "2026-08-02"
   performances:
     - startAt: "2026-07-31T19:00"
     - startAt: "2026-08-01T13:00"
@@ -165,6 +165,9 @@
   link: "https://unsent-reading.com"
   ticketInfo:
     link: https://www.confetti-web.com/@/unsent-reading
+    price:
+      ja: "S席 9,900円 A席 8,800円 U-18 6,600円"
+      en: "S Seats: 9,900 yen; A Seats: 8,800 yen; U-18: 6,600 yen"
     entries:
       - type:
           ja: "抽選先行"
@@ -172,40 +175,23 @@
         startDate: "2026-06-25"
         endDate: "2026-06-28"
         scheduleLabel: "2026.06.25-06.28"
-        price:
-          ja: "S席 9,900円 A席 8,800円 U-18 6,600円"
-          en: "S Seats: 9,900 yen; A Seats: 8,800 yen; U-18: 6,600 yen"
       - type:
           ja: "一般発売"
           en: "General Sale"
         startDate: "2026-07-11"
         endDate: "2026-07-23"
         scheduleLabel: "2026.07.11-07.23"
-        price:
-          ja: "S席 9,900円 A席 8,800円 U-18 6,600円"
-          en: "S Seats: 9,900 yen; A Seats: 8,800 yen; U-18: 6,600 yen"
       - type:
           ja: "当日引換券"
           en: "Same-Day Tickets"
         startDate: "2026-07-23"
         endDate: "2026-08-02"
         scheduleLabel: "2026.07.23 - 08.02"
-        price:
-          ja: "S席 9,900円 A席 8,800円 U-18 6,600円"
-          en: "S Seats: 9,900 yen; A Seats: 8,800 yen; U-18: 6,600 yen"
         link: https://www.confetti-web.com/events/16309
 
 - category: "Reading"
   scheduleLabel: |
     2026.10.16-25
-  startDate: "2026-10-16"
-  endDate: "2026-10-25"
-  activeDates:
-    - "2026-10-17"
-    - "2026-10-18"
-    - "2026-10-21"
-    - "2026-10-22"
-    - "2026-10-25"
   performances:
     - startAt: "2026-10-17T13:00"
       label:
@@ -233,27 +219,20 @@
   link: "https://neo-slime300.com"
   ticketInfo:
     link: https://fan.pia.jp/cocohayashi/ticket/detail/8/?page=0&ptag=
+    price:
+      ja: "S席: ¥9,800  特典2Lブロマイド付き A席: ¥8,800"
+      en: "S Seats: 9,800 yen  Includes a 2L-sized photo card A Seats: 8,800 yen"
     entries:
       - type:
           ja: "FC会員先行"
           en: "FC Member Pre-sale"
-        startDate: "2026-08-10T09:00"
+        startAt: "2026-08-10T09:00"
         endDate: "2026-08-16"
         scheduleLabel: "2026.08.10 09:00-08.16"
-        price:
-          ja: "S席: ¥9,800  特典2Lブロマイド付き A席: ¥8,800"
-          en: "S Seats: 9,800 yen  Includes a 2L-sized photo card A Seats: 8,800 yen"
         
 - category: "Reading"
   scheduleLabel: |
     2026.10.28-11.01
-  startDate: "2026-10-28"
-  endDate: "2026-11-01"
-  activeDates:
-    - "2026-10-28"
-    - "2026-10-30"
-    - "2026-10-31"
-    - "2026-11-01"
   performances:
     - startAt: "2026-10-28T13:00"
       label:
@@ -291,34 +270,27 @@
     en: "As Maho Nagasaka"
   link: "https://assaultlily-stage.jp/2610stage/"
   ticketInfo:
+    price:
+      ja: "詳細はホームページまで"
+      en: "For more details, please visit the website."
     entries:
-        - type:
-            ja: "ピウスFC最速先⾏(クローズ限定販売/抽選)"
-            en: "Pius FC Early Bird Sale (Closed Sale / Lottery)"
-          startDate: "2026-08-15T10:00"
-          endDate: "2026-08-23"
-          scheduleLabel: "2026.08.15 10:00-08.23"
-          price:
-            ja: "詳細はホームページまで"
-            en: "For more details, please visit the website."
-        - type:
-            ja: "抽選先⾏（オープン／抽選）"
-            en: "Lottery-Based Allocation (Open/Lottery)"
-          startDate: "2026-08-29T10:00"
-          endDate: "2026-09-06"
-          scheduleLabel: "2026.08.29 10:00-09.06"
-          price:
-            ja: "詳細はホームページまで"
-            en: "For more details, please visit the website."
-        - type:
-            ja: "⼀般販売（オープン／先着）"
-            en: "General Sale (Open / First-Come, First-Served)"
-          startDate: "2026-09-12T10:00"
-
-          scheduleLabel: "2026.09.12 10:00-"
-          price:
-            ja: "詳細はホームページまで"
-            en: "For more details, please visit the website."
+      - type:
+          ja: "ピウスFC最速先⾏(クローズ限定販売/抽選)"
+          en: "Pius FC Early Bird Sale (Closed Sale / Lottery)"
+        startAt: "2026-08-15T10:00"
+        endDate: "2026-08-23"
+        scheduleLabel: "2026.08.15 10:00-08.23"
+      - type:
+          ja: "抽選先⾏（オープン／抽選）"
+          en: "Lottery-Based Allocation (Open/Lottery)"
+        startAt: "2026-08-29T10:00"
+        endDate: "2026-09-06"
+        scheduleLabel: "2026.08.29 10:00-09.06"
+      - type:
+          ja: "⼀般販売（オープン／先着）"
+          en: "General Sale (Open / First-Come, First-Served)"
+        startAt: "2026-09-12T10:00"
+        scheduleLabel: "2026.09.12 10:00-"
 
 # ------------------------------------------------------------------------------------------------------------
 - category: "Event"
@@ -339,7 +311,6 @@
 - category: "Event"
   scheduleLabel: |
     2026.08.08
-  startDate: "2026-08-08"
   performances:
     - startAt: "2026-08-08T15:00"
       label:
@@ -363,7 +334,6 @@
 - category: "Event"
   scheduleLabel: |
     2026.08.11
-  startDate: "2026-08-11"
   performances:
     - startAt: "2026-08-11T18:30"
       endAt: "2026-08-11T20:00"
@@ -386,9 +356,24 @@
     ja: "林鼓子 2026香港ファンミーティング"
     en: "Coco Hayashi 2026 Hong Kong Fan Meeting"
   venue:
-    ja: "東蒲 胡李名静体育館"
-    en: "The TWGHs TungPo"
-  link: "https://x.com/flashinglightCM/status/2078328909951836472"
+    ja: "歷山酒店-宴會廳"
+    en: "Hotel Alexandra"
+  link: https://x.com/flashinglightCM/status/2089200550961148103
+  ticketInfo:
+    price:
+      ja: "S席: 980HKD(税・手数料別)  一般席:580HKD(税・手数料別)"
+      en: "S Section: 980 HKD (excluding tax and fees)  General Admission: 580 HKD (excluding tax and fees)"
+    entries:
+      - type:
+          ja: "先着販売"
+          en: "First-Come, First-Served Sale"
+        startAt: "2026-08-24T19:00"
+        scheduleLabel: "2026.08.24 19:00+19:10"
+        link: https://www.art-mate.net/tc/doc/99381
+        # description:
+        #   ja: "VIPチケット 宛名入り直筆サイン入り記念写真(1対1でお渡し) 台北限定オリジナル記念ポスター(38x52cm・スタッフよりお渡し/サインなし  一般チケット お見送り会 印刷サイン入りポストカード（スタッフよりお渡し）"
+        #   en: "VIP Ticket: Commemorative photo with a handwritten autograph and personalized inscription (presented one-on-one) Taipei-exclusive original commemorative poster (38x52 cm; presented by staff/unsigned)  General Admission Ticket: Farewell event; postcard with a printed autograph (presented by staff)"
+
 
 - category: "Event"
   scheduleLabel: |
@@ -403,15 +388,15 @@
   link: "https://x.com/bridgebond_llc/status/2078329086263656795"
   ticketInfo:
     link: https://liberte2024.com/news/bqXuKLIM
+    price:
+      ja: "VIP: NT$3,980、一般席: NT$1,880"
+      en: "VIP: NT$3,980, General Admission: NT$1,880"
     entries:
       - type:
           ja: "先着販売"
           en: "First-Come, First-Served Sale"
-        startDate: "2026-08-09T13:00"
+        startAt: "2026-08-09T13:00"
         scheduleLabel: "2026.08.09 13:00"
-        price:
-          ja: "VIP: NT$3,980、一般席: NT$1,880"
-          en: "VIP: NT$3,980, General Admission: NT$1,880"
         description:
           ja: "VIPチケット 宛名入り直筆サイン入り記念写真(1対1でお渡し) 台北限定オリジナル記念ポスター(38x52cm・スタッフよりお渡し/サインなし  一般チケット お見送り会 印刷サイン入りポストカード（スタッフよりお渡し）"
           en: "VIP Ticket: Commemorative photo with a handwritten autograph and personalized inscription (presented one-on-one) Taipei-exclusive original commemorative poster (38x52 cm; presented by staff/unsigned)  General Admission Ticket: Farewell event; postcard with a printed autograph (presented by staff)"
@@ -465,7 +450,9 @@
 
 - category: "Program"
   scheduleLabel: "Monthly"
-  startDate: "2026-09-03"
+  recurring: true
+  performances:
+    - occursOn: "2026-09-03"
   title:
     ja: "ラブライブ！虹ヶ咲学園 ～ディスカバー放送室～"
     en: "Love Live! Nijigasaki High School ~Discover Broadcast Room~"
@@ -476,6 +463,7 @@
 
 - category: "Program"
   scheduleLabel: "Weekly"
+  recurring: true
   title:
     ja: "林鼓子のメゾンド・ココ"
     en: "Maison De Coco"
@@ -486,7 +474,9 @@
 
 - category: "Program"
   scheduleLabel: "Monthly"
-  startDate: "2026-08-27"
+  recurring: true
+  performances:
+    - occursOn: "2026-08-27"
   title:
     ja: "礒部花凜・土屋李央・林鼓子 トリコロールカラー"
     en: "Karin Isobe, Rio Tsuchiya, Coco Hayashi Tricolor"
@@ -511,13 +501,11 @@
 - category: "Live"
   scheduleLabel: |
     2026.06.06-07, 06.13-14
-  startDate: "2026-06-06"
-  endDate: "2026-06-14"
-  activeDates:
-    - "2026-06-06"
-    - "2026-06-07"
-    - "2026-06-13"
-    - "2026-06-14"
+  performances:
+    - occursOn: "2026-06-06"
+    - occursOn: "2026-06-07"
+    - occursOn: "2026-06-13"
+    - occursOn: "2026-06-14"
   title:
     ja: "ラブライブ！虹ヶ咲学園スクールアイドル同好会 8th Live! TOKIMEKI Express"
     en: "Love Live! Nijigasaki High School Idol Club 8th Live! TOKIMEKI Express"
@@ -577,8 +565,6 @@
 
 - category: "Live"
   scheduleLabel: "2026.08.28-30"
-  startDate: "2026-08-28"
-  endDate: "2026-08-30"
   performances:
     - startAt: "2026-08-28T19:00"
     - startAt: "2026-08-29T14:00"
@@ -605,6 +591,9 @@
     en: "Roppongi C*LAPS"
   link: "https://artistslinks.com/1151"
   ticketInfo:
+    price:
+      ja: "整理番号付き自由席 6000円 + 1drink(800円)"
+      en: "Unreserved Seating with Seat Number: 6,000 yen + 1 drink(800 yen)"
     entries:
       - type:
           ja: "ファンクラブ先行"
@@ -612,9 +601,6 @@
         startAt: "2026-07-24T20:00"
         endDate: "2026-07-30"
         scheduleLabel: "2026.07.24 20:00-07.30"
-        price:
-          ja: "整理番号付き自由席 6000円 + 1drink(800円)"
-          en: "Unreserved Seating with Seat Number: 6,000 yen + 1 drink(800 yen)"
         link: "https://fan.pia.jp/cocohayashi/news/detail/78/?page=1&ptag=NEWS"
       - type:
           ja: "予約 事前決済"
@@ -622,9 +608,6 @@
         startDate: "2026-08-01"
         endDate: "2026-08-30"
         scheduleLabel: "2026.08.01 10:00-08.30"
-        price:
-          ja: "整理番号付き自由席 6000円 + 1drink(800円)"
-          en: "Unreserved Seating with Seat Number: 6,000 yen + 1 drink(800 yen)"
         link: "https://artistslinks.com/1151"
       - type:
           ja: "予約 現地決済"
@@ -632,15 +615,11 @@
         startDate: "2026-08-03"
         endDate: "2026-08-30"
         scheduleLabel: "2026.08.03 10:00-08.30"
-        price:
-          ja: "整理番号付き自由席 6000円 + 1drink(800円)"
-          en: "Unreserved Seating with Seat Number: 6,000 yen + 1 drink(800 yen)"
         link: "https://artistslinks.com/1151"
 
 - category: "Live"
   scheduleLabel: |
     2026.09.12
-  startDate: "2026-09-12"
   title:
     ja: "LIBERTE LIVE 2026 ~ First Act ~"
     en: "LIBERTE LIVE 2026 ~ First Act ~"
@@ -659,6 +638,9 @@
   link: "https://fan.pia.jp/cocohayashi/news/detail/72/?page=1&ptag=NEWS"
   ticketInfo:
     link: "https://fan.pia.jp/cocohayashi/news/detail/72/?page=1&ptag=NEWS"
+    price:
+      ja: "7,700円(全席指定・税込) + ドリンク代600円(税込)"
+      en: "7,700 yen (all reserved seating, tax included) + 600 yen for a drink (tax included)"
     entries:
       - type:
           ja: "-鼓星- 先行予約受付"
@@ -666,26 +648,19 @@
         startDate: "2026-07-04"
         endDate: "2026-07-12"
         scheduleLabel: "2026.07.04-07.12"
-        price:
-          ja: "7,700円(全席指定・税込) + ドリンク代600円(税込)"
-          en: "7,700 yen (all reserved seating, tax included) + 600 yen for a drink (tax included)"
         description:
           ja: "LIBERTE TICKETにて先行予約受付もあります"
           en: "Advance reservations are also available through LIBERTE TICKET"
       - type:
           ja: "一般発売"
           en: "General Sale"
-        startDate: "2026-08-08T10:00"
+        startAt: "2026-08-08T10:00"
         endDate: "2026-09-12"
         scheduleLabel: "2026.08.08 10:00-"
-        price:
-          ja: "7,700円(全席指定・税込) + ドリンク代600円(税込)"
-          en: "7,700 yen (all reserved seating, tax included) + 600 yen for a drink (tax included)"
         link: https://ticketdive.com/event/libertelive2026
 
 - category: "Live"
   scheduleLabel: "2026.10.10"
-  startDate: "2026-10-10"
   performances:
     - startAt: "2026-10-10T14:30"
       label:
@@ -707,18 +682,17 @@
   link: "https://www.lovelive-anime.jp/special/live/live_detail.php?p=15thzenyasai"
   ticketInfo:
     link: "https://www.lovelive-anime.jp/special/live/live_detail.php?p=15thzenyasai"
+    price:
+      ja: "全席指定: 8,900円(税込) ※入場時別途ドリンク代600円必要"
+      en: "All reserved seating: 8,900 yen (tax included) *A separate 600-yen drink charge is required upon entry"
     entries:
       - type:
           ja: "最速先行抽選"
           en: "First-Come, First-Served Lottery"
-        startDate: "2026-07-25"
         startAt: "2026-07-25T15:00"
         endDate: "2026-08-16"
         scheduleLabel: "2026.07.25 15:00 - 08.16"
         link: "https://eplus.jp/ll15th-eve/"
-        price:
-          ja: "全席指定: 8,900円(税込) ※入場時別途ドリンク代600円必要"
-          en: "All reserved seating: 8,900 yen (tax included) *A separate 600-yen drink charge is required upon entry"
         # description:
         #   ja: "2026年10月10日(土) <昼公演>13:30開場/14:30開演 <夜公演>17:30開場/18:30開演"
         #   en: "October 10, 2026 (Sat) <Matinee> Doors open at 1:30 p.m. / Show starts at 2:30 p.m. <Evening Performance> Doors open at 5:30 p.m. / Show starts at 6:30 p.m."
@@ -727,8 +701,6 @@
 - category: "Live"
   scheduleLabel: |
     2026.11.14-11.15
-  startDate: "2026-11-14"
-  endDate: "2026-11-15"
   performances:
     - startAt: "2026-11-14T18:00"
     - startAt: "2026-11-15T17:00"
@@ -744,6 +716,9 @@
   link: "https://bang-dream.com/events/mygo_9th_hyogo/"
   ticketInfo:
     link: "https://bang-dream.com/events/mygo_9th_hyogo/"
+    price:
+      ja: "S席(特製グッズ付き): 25,300円(税込) A席(特製グッズ付き): 17,600円(税込) 一般指定席(特製グッズ付き): 13,200円(税込) 一般指定席: 8,800円(税込)"
+      en: "S Seats (includes special merchandise): 25,300 yen (tax included) A Seats (includes special merchandise): 17,600 yen (tax included) General Reserved Seats (includes special merchandise): 13,200 yen (tax included) General Reserved Seats: 8,800 yen (tax included)"
     entries:
       - type:
           ja: "最速先行抽選"
@@ -751,9 +726,6 @@
         startAt: "2026-07-19T21:00"
         endDate: "2026-08-24"
         scheduleLabel: "2026.07.19 21:00 - 08.24"
-        price:
-          ja: "S席(特製グッズ付き): 25,300円(税込) A席(特製グッズ付き): 17,600円(税込) 一般指定席(特製グッズ付き): 13,200円(税込) 一般指定席: 8,800円(税込)"
-          en: "S Seats (includes special merchandise): 25,300 yen (tax included) A Seats (includes special merchandise): 17,600 yen (tax included) General Reserved Seats (includes special merchandise): 13,200 yen (tax included) General Reserved Seats: 8,800 yen (tax included)"
         description:
           ja: "MyGO!!!!! 3rd Album「致並跡」初回生産分に封入の申込券でご応募いただけます。"
           en: "You can enter the giveaway using the entry coupon included in the first press run of MyGO!!!!!'s 3rd album, “Chinamiato.”"

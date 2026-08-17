@@ -2,6 +2,7 @@ import { Ticket } from "lucide-react"
 import type { Language } from "../types"
 import {
   getTicketEntryLink,
+  getTicketEntryPrice,
   type TicketActivityGroup,
 } from "../utils/ticketStatus"
 import TicketEntryRow from "./TicketEntryRow"
@@ -47,6 +48,7 @@ export default function TicketGroup({
       <div className="divide-y divide-gray-300 border-t grid-line dark:divide-white/10">
         {entries.map(({ entry, entryIndex, status }) => {
           const href = getTicketEntryLink(activity, entry)
+          const price = getTicketEntryPrice(activity, entry)
 
           return isCurrent ? (
             <TicketEntryRow
@@ -54,6 +56,7 @@ export default function TicketGroup({
               entry={entry}
               lang={lang}
               href={href}
+              price={price}
               variant="current"
               status={status}
             />
@@ -63,6 +66,7 @@ export default function TicketGroup({
               entry={entry}
               lang={lang}
               href={href}
+              price={price}
               variant="past"
             />
           )

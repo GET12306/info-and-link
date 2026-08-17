@@ -1,49 +1,30 @@
 import { CalendarClock, ChevronDown } from "lucide-react"
 import { TRANSLATIONS } from "../i18n"
 import type { ActivityPerformance, Language } from "../types"
-import { getValidActivityPerformances } from "../utils/activityPerformances"
-import {
-  getJapanTimeLabel,
-  normalizeJapanDateTimeKey,
-} from "../utils/japanTime"
+import { getPerformanceOccurrences } from "../utils/activitySchedule"
+import { getJapanTimeLabel } from "../utils/japanTime"
 
 const JAPAN_TIME_ZONE = "Asia/Tokyo"
-const DATE_TIME_PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/
-
 interface DisplayPerformance {
   date: string
-  startAt: string
+  startAt?: string
   endAt?: string
   label?: string
 }
 
 function getDisplayPerformances(
   performances: ActivityPerformance[] | undefined,
+  durationMinutes: number | undefined,
   lang: Language
 ) {
-  return getValidActivityPerformances(performances)
-    .map((performance): DisplayPerformance | null => {
-      const startAt = normalizeJapanDateTimeKey(performance.startAt)
-      if (!DATE_TIME_PATTERN.test(startAt)) return null
-
-      const normalizedEndAt = performance.endAt
-        ? normalizeJapanDateTimeKey(performance.endAt, "end")
-        : undefined
-
-      return {
-        date: startAt.substring(0, 10),
-        startAt,
-        endAt:
-          normalizedEndAt && DATE_TIME_PATTERN.test(normalizedEndAt)
-            ? normalizedEndAt
-            : undefined,
-        label: performance.label?.[lang],
-      }
+  return getPerformanceOccurrences(performances, durationMinutes).map(
+    (performance): DisplayPerformance => ({
+      date: performance.date,
+      startAt: performance.startAt,
+      endAt: performance.showEndAt ? performance.endAt : undefined,
+      label: performance.label?.[lang],
     })
-    .filter((performance): performance is DisplayPerformance =>
-      Boolean(performance)
-    )
-    .sort((a, b) => a.startAt.localeCompare(b.startAt))
+  )
 }
 
 function formatDate(date: string, lang: Language) {
@@ -63,6 +44,9 @@ function formatTimeRange(
   performance: DisplayPerformance,
   lang: Language
 ) {
+  if (!performance.startAt) {
+    return lang === "ja" ? "時間未定" : "Time TBA"
+  }
   const startTime = getJapanTimeLabel(performance.startAt)
   if (!performance.endAt) return startTime
 
@@ -75,13 +59,19 @@ function formatTimeRange(
 
 export default function ActivityPerformanceDetails({
   performances,
+  durationMinutes,
   lang,
 }: {
   performances?: ActivityPerformance[]
+  durationMinutes?: number
   lang: Language
 }) {
   const t = TRANSLATIONS[lang]
-  const displayPerformances = getDisplayPerformances(performances, lang)
+  const displayPerformances = getDisplayPerformances(
+    performances,
+    durationMinutes,
+    lang
+  )
   if (displayPerformances.length === 0) return null
 
   const performancesByDate = displayPerformances.reduce<
@@ -125,11 +115,11 @@ export default function ActivityPerformanceDetails({
             <ul className="space-y-1.5">
               {datePerformances.map((performance) => (
                 <li
-                  key={`${performance.startAt}-${performance.label ?? ""}`}
+                  key={`${performance.startAt ?? performance.date}-${performance.label ?? ""}`}
                   className="flex flex-wrap items-baseline gap-x-3 gap-y-0.5"
                 >
                   <time
-                    dateTime={performance.startAt}
+                    dateTime={performance.startAt ?? performance.date}
                     className="text-sm leading-6 text-coco-ink/60"
                   >
                     {formatTimeRange(performance, lang)}

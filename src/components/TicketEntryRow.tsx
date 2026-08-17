@@ -1,5 +1,5 @@
 import { TRANSLATIONS } from "../i18n"
-import type { Language, TicketEntry } from "../types"
+import type { Language, LocalizedText, TicketEntry } from "../types"
 import type { TicketStatus } from "../utils/ticketStatus"
 import ExternalAnchor from "./ExternalAnchor"
 
@@ -14,13 +14,14 @@ type TicketEntryRowProps = {
   entry: TicketEntry
   lang: Language
   href: string
+  price?: LocalizedText
 } & (
   | { variant: "current"; status: TicketStatus }
   | { variant: "past"; status?: never }
 )
 
 export default function TicketEntryRow(props: TicketEntryRowProps) {
-  const { entry, lang, href, variant } = props
+  const { entry, lang, href, price, variant } = props
   const t = TRANSLATIONS[lang]
 
   return (
@@ -59,7 +60,9 @@ export default function TicketEntryRow(props: TicketEntryRowProps) {
             <div className="mb-1 text-[10px] uppercase tracking-widest text-coco-ink/40">
               {t.ticket_price}
             </div>
-            <div className="text-coco-ink/70">{entry.price[lang]}</div>
+            <div className="text-coco-ink/70">
+              {price?.[lang] ?? t.ticket_status_tba}
+            </div>
           </div>
         </div>
         {entry.description && (

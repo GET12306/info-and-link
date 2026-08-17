@@ -20,6 +20,10 @@ export function getTicketEntryLink(activity: Activity, entry: TicketEntry) {
   return entry.link ?? activity.ticketInfo?.link ?? activity.link
 }
 
+export function getTicketEntryPrice(activity: Activity, entry: TicketEntry) {
+  return entry.price ?? activity.ticketInfo?.price
+}
+
 export function getTicketStatus(
   entry: TicketEntry,
   nowKey = getJapanDateTimeKey()
