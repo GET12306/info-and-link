@@ -229,6 +229,18 @@
         startAt: "2026-08-10T09:00"
         endDate: "2026-08-16"
         scheduleLabel: "2026.08.10 09:00-08.16"
+      - type:
+          ja: "オープン抽選"
+          en: "Open Drawing"
+        startAt: "2026-08-25T20:00"
+        endDate: "2026-08-30"
+        scheduleLabel: "2026.08.25 20:00-08.30"
+      - type:
+          ja: "一般発売"
+          en: "General Sale"
+        startAt: "2026-09-05T12:00"
+        # endDate: "2026-08-16"
+        scheduleLabel: "2026.08.10 09:00-08.16"
         
 - category: "Reading"
   scheduleLabel: |
