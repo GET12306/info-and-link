@@ -9,6 +9,50 @@
 #   url: "https://example.com/archive" # [可选] 省略时仅作为记录展示，不可点击
 #   status: "available"                # [必填] available=链接可用；expired=已失效/仅存档
 #
+- date: "2026.08.28"
+  title:
+    ja: "ラブカ部 最強プレイヤーへの道!! 第16回"
+    en: "The Love Card Club: The Path to Becoming the Strongest Player!! The 16th"
+  url: "https://www.youtube.com/watch?v=LkTa9Vg5JIE"
+  status: "available"
+
+
+- date: "2026.08.27"
+  title:
+    ja: "「Piano Bar C*LAPS」リハ終りに、林さん&矢島さんの仲良し2ショット!"
+    en: "“Piano Bar C*LAPS” After rehearsal, a cute photo of Ms. Hayashi and Ms. Yajima!"
+  url: https://x.com/artistslinks/status/2092938452065038506
+  # https://x.com/artistslinks/status/2091139898103533926
+  status: "available"
+
+- date: "2026.08.23"
+  title:
+    ja: "「Piano Bar C*LAPS」林鼓子さんのコメント動画"
+    en: "“Piano Bar C*LAPS” Comments Video by Coco Hayashi"
+  url: https://x.com/artistslinks/status/2091492744002998517
+  status: "available"
+
+- date: "2026.08.21"
+  title:
+    ja: "夢以と鼓子の浴衣紹介𓈒"
+    en: "Introducing Mei and Coco's Yukatas"
+  url: https://www.youtube.com/shorts/Bj-Y0kprdBM
+  status: "available"
+
+- date: "2026.08.21"
+  title:
+    ja: "台北ファンミーティングのご挨拶動画"
+    en: "Greeting Video for the Taipei Fan Meeting"
+  url: https://x.com/bridgebond_llc/status/2090740746290880950
+  status: "available"
+
+- date: "2026.08.21"
+  title:
+    ja: "香港ファンミーティングのご挨拶動画"
+    en: "Greeting Video for the Hong Kong Fan Meeting"
+  url: https://x.com/flashinglightCM/status/2090740707803709933
+  status: "available"
+
 - date: "2026.08.09"
   title:
     ja: "ライブ前のココちゃん🎥𓈒"

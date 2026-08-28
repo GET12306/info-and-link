@@ -741,3 +741,18 @@
         description:
           ja: "MyGO!!!!! 3rd Album「致並跡」初回生産分に封入の申込券でご応募いただけます。"
           en: "You can enter the giveaway using the entry coupon included in the first press run of MyGO!!!!!'s 3rd album, “Chinamiato.”"
+
+- category: "Live"
+  scheduleLabel: |
+    2026.11.21
+  startDate: "2026-11-21"
+  title:
+    ja: "「WONDERLIVET 2026」"
+    en: "「WONDERLIVET 2026」"
+  venue:
+    ja: "韓国・KINTEX HALL 7·8·9·10"
+    en: "KINTEX HALL 7·8·9·10, Korea"
+  description:
+    ja: "椎名立希役(MyGo!!!!!)"
+    en: "As Taki Shiina (MyGo!!!!!)"
+  link: "https://x.com/WONDERLIVET/status/2092930121523228924"
