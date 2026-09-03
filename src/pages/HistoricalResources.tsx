@@ -2,13 +2,9 @@ import { TRANSLATIONS } from "../i18n"
 import HISTORICAL_RESOURCES from "../data/historical-resources.yaml"
 import type { HistoricalResource, Language } from "../types"
 import EmptyState from "../components/EmptyState"
+import ExpiredLinkBadge from "../components/ExpiredLinkBadge"
 import ExternalAnchor from "../components/ExternalAnchor"
 import { PageHeader, PageLayout } from "../components/PageLayout"
-
-const statusClassNames = {
-  available: "bg-coco-accent/10 text-coco-accent",
-  expired: "bg-coco-ink/5 text-coco-ink/45 dark:bg-white/10",
-}
 
 export default function HistoricalResources({ lang }: { lang: Language }) {
   const t = TRANSLATIONS[lang]
@@ -31,11 +27,11 @@ export default function HistoricalResources({ lang }: { lang: Language }) {
               <div className="text-sm text-coco-ink/40 md:w-32">{item.date}</div>
 
               <div className="flex-1">
-                <div className="mb-1 text-[10px] uppercase tracking-widest">
-                  <span className={`inline-flex w-fit rounded px-2 py-1 font-bold ${statusClassNames[item.status]}`}>
-                    {item.status === "available" ? t.resource_available : t.resource_expired}
-                  </span>
-                </div>
+                {item.status === "expired" && (
+                  <div className="mb-1">
+                    <ExpiredLinkBadge lang={lang} />
+                  </div>
+                )}
                 {item.url ? (
                   <ExternalAnchor
                     href={item.url}

@@ -2,6 +2,7 @@ import { TRANSLATIONS } from "../i18n"
 import NOTES from "../data/notes.yaml"
 import type { Language, Note } from "../types"
 import EmptyState from "../components/EmptyState"
+import ExpiredLinkBadge from "../components/ExpiredLinkBadge"
 import ExternalAnchor from "../components/ExternalAnchor"
 import { PageHeader, PageLayout } from "../components/PageLayout"
 
@@ -29,9 +30,14 @@ export default function Notes({ lang }: { lang: Language }) {
               )}
 
               <div className="flex-1">
-                {note.category && (
-                  <div className="mb-1 text-[10px] font-bold uppercase tracking-widest text-coco-ink/40">
-                    {note.category[lang]}
+                {(note.category || note.status === "expired") && (
+                  <div className="mb-1 flex flex-wrap items-center gap-2">
+                    {note.category && (
+                      <span className="text-[10px] font-bold uppercase tracking-widest text-coco-ink/40">
+                        {note.category[lang]}
+                      </span>
+                    )}
+                    {note.status === "expired" && <ExpiredLinkBadge lang={lang} />}
                   </div>
                 )}
 
@@ -69,6 +75,9 @@ export default function Notes({ lang }: { lang: Language }) {
                             <span className="shrink-0 text-[10px] font-bold uppercase tracking-widest text-coco-ink/35 sm:pt-0.5">
                               {relatedLink.type[lang]}
                             </span>
+                          )}
+                          {relatedLink.status === "expired" && (
+                            <ExpiredLinkBadge lang={lang} />
                           )}
                           <ExternalAnchor
                             href={relatedLink.url}

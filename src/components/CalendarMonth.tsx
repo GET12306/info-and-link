@@ -1,5 +1,8 @@
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
-import type { CalendarMonthData } from "../hooks/useCalendarEvents"
+import type {
+  CalendarEvent,
+  CalendarMonthData,
+} from "../hooks/useCalendarEvents"
 import type { Language } from "../types"
 import type { IndexedActivity } from "../utils/activityStatus"
 import { TRANSLATIONS } from "../i18n"
@@ -16,6 +19,125 @@ function formatMonthLabel(key: string, lang: Language): string {
     year: "numeric",
     month: "long",
   }).format(date)
+}
+
+function CalendarEventCard({
+  event,
+  activity,
+  lang,
+  now,
+  layout,
+  onSelect,
+}: {
+  event: CalendarEvent
+  activity: IndexedActivity
+  lang: Language
+  now?: string
+  layout: "mobile" | "desktop"
+  onSelect: (activityIndex: number) => void
+}) {
+  const t = TRANSLATIONS[lang]
+  const isPast = now ? now > event.endAt : false
+  const category = getActivityCategoryLabel(activity.category, t)
+  const accessibleLabel = `${event.startTime ? `${event.startTime} ` : ""}${
+    activity.title[lang]
+  }`
+
+  if (layout === "mobile") {
+    return (
+      <button
+        type="button"
+        disabled={isPast}
+        onClick={() => onSelect(activity.originalIndex)}
+        className={`block w-full min-w-0 border-l-[3px] px-3 py-2.5 text-left transition-colors ${
+          isPast
+            ? "cursor-default border-coco-ink/20 bg-coco-ink/[0.025]"
+            : "border-coco-accent bg-coco-accent/5 hover:bg-coco-accent/10 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-coco-accent"
+        }`}
+        aria-label={
+          isPast
+            ? accessibleLabel
+            : `${accessibleLabel} — ${
+                lang === "ja" ? "活動ページへ" : "View event details"
+              }`
+        }
+      >
+        <span className="flex min-w-0 items-center gap-2">
+          <span
+            className={`min-w-0 truncate text-[10px] font-bold uppercase tracking-wide ${
+              isPast ? "text-coco-ink/40" : "text-coco-accent/75"
+            }`}
+          >
+            {category}
+          </span>
+          {event.startTime && (
+            <time
+              dateTime={event.startAt}
+              className={`shrink-0 text-[11px] font-medium ${
+                isPast ? "text-coco-ink/40" : "text-coco-accent"
+              }`}
+            >
+              {event.startTime}
+            </time>
+          )}
+        </span>
+        <span
+          className={`mt-1 line-clamp-2 text-sm font-medium leading-5 ${
+            isPast ? "text-coco-ink/55" : "text-coco-ink/85"
+          }`}
+        >
+          {activity.title[lang]}
+        </span>
+      </button>
+    )
+  }
+
+  return (
+    <button
+      type="button"
+      disabled={isPast}
+      onClick={() => onSelect(activity.originalIndex)}
+      className={`block h-14 w-full min-w-0 overflow-hidden border-l-[3px] px-2 py-1.5 text-left transition-colors ${
+        isPast
+          ? "cursor-default border-coco-ink/20 bg-coco-ink/[0.025]"
+          : "border-coco-accent bg-coco-accent/5 hover:bg-coco-accent/10 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-coco-accent"
+      }`}
+      aria-label={
+        isPast
+          ? accessibleLabel
+          : `${accessibleLabel} — ${
+              lang === "ja" ? "活動ページへ" : "View event details"
+            }`
+      }
+    >
+      <span className="flex min-w-0 items-center gap-1">
+        <span
+          className={`min-w-0 truncate text-[10px] font-bold uppercase tracking-wide ${
+            isPast ? "text-coco-ink/40" : "text-coco-accent/75"
+          }`}
+        >
+          {category}
+        </span>
+        {event.startTime && (
+          <time
+            dateTime={event.startAt}
+            className={`shrink-0 text-[10px] ${
+              isPast ? "text-coco-ink/40" : "text-coco-accent"
+            }`}
+          >
+            {event.startTime}
+          </time>
+        )}
+      </span>
+      <span
+        className={`mt-1 block truncate text-xs leading-snug ${
+          isPast ? "text-coco-ink/55" : "text-coco-ink/80"
+        }`}
+      >
+        {activity.title[lang]}
+      </span>
+    </button>
+  )
 }
 
 export default function CalendarMonth({
@@ -90,16 +212,119 @@ export default function CalendarMonth({
         </button>
       </div>
 
-      <div className="overflow-hidden lg:overflow-x-auto">
-        <div className="w-full lg:min-w-[720px]">
+      <div className="border-t grid-line lg:hidden">
+        <div className="grid grid-cols-7">
+          {labels.map((label, i) => (
+            <div
+              key={i}
+              className="border-r grid-line py-2 text-center text-[10px] font-medium opacity-40 last:border-r-0"
+            >
+              {lang === "ja" ? label : DAY_LABELS_EN_COMPACT[i]}
+            </div>
+          ))}
+        </div>
+
+        {month.weeks.map((week, weekIndex) => {
+          const weekHasEvents = week.some((day) => day.events.length > 0)
+
+          return (
+            <section key={weekIndex} className="border-t grid-line first:border-t-0">
+              <div className="grid grid-cols-7">
+                {week.map((day, dayIndex) => {
+                  const isTodayDay = day.date === isToday
+
+                  return (
+                    <div
+                      key={dayIndex}
+                      className={`flex min-h-12 flex-col items-center border-r grid-line py-1.5 last:border-r-0 ${
+                        day.dayNumber === null ? "bg-coco-ink/[0.015]" : ""
+                      }`}
+                    >
+                      {day.dayNumber !== null && (
+                        <>
+                          <span
+                            className={`flex h-6 w-6 items-center justify-center rounded-full text-xs ${
+                              isTodayDay
+                                ? "bg-coco-accent font-bold text-white shadow-sm"
+                                : "text-coco-ink/55"
+                            }`}
+                          >
+                            {day.dayNumber}
+                          </span>
+                          {day.events.length > 0 && (
+                            <span
+                              className="mt-1 block h-1.5 w-1.5 rounded-full bg-coco-accent"
+                              aria-label={lang === "ja" ? "活動あり" : "Has events"}
+                            />
+                          )}
+                        </>
+                      )}
+                    </div>
+                  )
+                })}
+              </div>
+
+              {weekHasEvents && (
+                <div className="space-y-3 border-t grid-line bg-coco-ink/[0.0125] px-2 py-3">
+                  {week.map((day, dayIndex) => {
+                    if (day.dayNumber === null || day.events.length === 0) {
+                      return null
+                    }
+
+                    return (
+                      <div
+                        key={dayIndex}
+                        className="grid grid-cols-[2.75rem_minmax(0,1fr)] gap-2"
+                      >
+                        <div className="pt-2 text-center">
+                          <div className="text-sm font-medium text-coco-ink/70">
+                            {day.dayNumber}
+                          </div>
+                          <div className="mt-0.5 text-[9px] uppercase tracking-wide text-coco-ink/40">
+                            {lang === "ja"
+                              ? DAY_LABELS_JA[dayIndex]
+                              : DAY_LABELS_EN_COMPACT[dayIndex]}
+                          </div>
+                        </div>
+                        <div className="space-y-1.5">
+                          {day.events.map((event, eventIndex) => {
+                            const activity = activities[event.activityIndex]
+                            if (!activity) return null
+
+                            return (
+                              <CalendarEventCard
+                                key={`${event.activityIndex}-${
+                                  event.performanceIndex ?? eventIndex
+                                }`}
+                                event={event}
+                                activity={activity}
+                                lang={lang}
+                                now={now}
+                                layout="mobile"
+                                onSelect={onSelectEvent}
+                              />
+                            )
+                          })}
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              )}
+            </section>
+          )
+        })}
+      </div>
+
+      <div className="hidden overflow-x-auto lg:block">
+        <div className="min-w-[720px]">
           <div className="grid grid-cols-7 border-t grid-line">
             {labels.map((label, i) => (
               <div
                 key={i}
                 className="border-r grid-line py-2 text-center text-[10px] font-medium opacity-40 last:border-r-0"
               >
-                <span className="lg:hidden">{lang === "ja" ? label : DAY_LABELS_EN_COMPACT[i]}</span>
-                <span className="hidden lg:inline">{label}</span>
+                {label}
               </div>
             ))}
           </div>
@@ -111,17 +336,17 @@ export default function CalendarMonth({
               return (
                 <div
                   key={i}
-                  className={`min-h-24 border-r border-b grid-line p-1 lg:min-h-28 lg:p-2 ${
+                  className={`min-h-28 border-r border-b grid-line p-2 ${
                     day.dayNumber === null ? "bg-coco-ink/[0.015]" : ""
                   }`}
                 >
                   {day.dayNumber !== null && (
                     <>
-                      <div className="mb-1.5 flex min-h-5 items-center justify-between lg:mb-2 lg:min-h-6">
+                      <div className="mb-2 flex min-h-6 items-center justify-between">
                         <span
-                          className={`flex h-5 w-5 items-center justify-center rounded-full text-[11px] sm:text-xs lg:h-6 lg:w-6 ${
+                          className={`flex h-6 w-6 items-center justify-center rounded-full text-xs ${
                             isTodayDay
-                              ? "bg-coco-accent text-white font-bold shadow-sm"
+                              ? "bg-coco-accent font-bold text-white shadow-sm"
                               : "text-coco-ink/55"
                           }`}
                         >
@@ -134,66 +359,19 @@ export default function CalendarMonth({
                           {day.events.map((event, eventIndex) => {
                             const activity = activities[event.activityIndex]
                             if (!activity) return null
-                            const isPastEvent = now ? now > event.endAt : false
-                            const accessibleLabel = `${event.startTime ? `${event.startTime} ` : ""}${
-                              activity.title[lang]
-                            }`
 
                             return (
-                              <button
-                                key={`${event.activityIndex}-${event.performanceIndex ?? eventIndex}`}
-                                type="button"
-                                disabled={isPastEvent}
-                                onClick={() => {
-                                  if (!isPastEvent) onSelectEvent(activity.originalIndex)
-                                }}
-                                className={`block h-9 w-full min-w-0 overflow-hidden border-l-[3px] px-1.5 py-1 text-left transition-colors lg:h-14 lg:px-2 lg:py-1.5 ${
-                                  isPastEvent
-                                    ? "cursor-default border-coco-ink/20 bg-coco-ink/[0.025]"
-                                    : "border-coco-accent bg-coco-accent/5 hover:bg-coco-accent/10 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-coco-accent"
+                              <CalendarEventCard
+                                key={`${event.activityIndex}-${
+                                  event.performanceIndex ?? eventIndex
                                 }`}
-                                aria-label={
-                                  isPastEvent
-                                    ? accessibleLabel
-                                    : `${accessibleLabel} — ${
-                                        lang === "ja" ? "活動ページへ" : "View event details"
-                                      }`
-                                }
-                              >
-                                <span
-                                  className={`block truncate text-[11px] font-medium leading-7 sm:text-xs lg:hidden ${
-                                    isPastEvent ? "text-coco-ink/55" : "text-coco-ink/80"
-                                  }`}
-                                >
-                                  {activity.title[lang]}
-                                </span>
-                                <span className="hidden min-w-0 items-center gap-1 lg:flex">
-                                  <span
-                                    className={`min-w-0 truncate text-[10px] font-bold uppercase tracking-wide ${
-                                      isPastEvent ? "text-coco-ink/40" : "text-coco-accent/75"
-                                    }`}
-                                  >
-                                    {getActivityCategoryLabel(activity.category, t)}
-                                  </span>
-                                  {event.startTime && (
-                                    <time
-                                      dateTime={event.startAt}
-                                      className={`shrink-0 text-[10px] ${
-                                        isPastEvent ? "text-coco-ink/40" : "text-coco-accent"
-                                      }`}
-                                    >
-                                      {event.startTime}
-                                    </time>
-                                  )}
-                                </span>
-                                <span
-                                  className={`mt-1 hidden truncate text-xs leading-snug lg:block ${
-                                    isPastEvent ? "text-coco-ink/55" : "text-coco-ink/80"
-                                  }`}
-                                >
-                                  {activity.title[lang]}
-                                </span>
-                              </button>
+                                event={event}
+                                activity={activity}
+                                lang={lang}
+                                now={now}
+                                layout="desktop"
+                                onSelect={onSelectEvent}
+                              />
                             )
                           })}
                         </div>

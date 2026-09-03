@@ -10,8 +10,10 @@
 #     ja: "記事の概要"
 #     en: "Article summary"
 #   link: "https://example.com/article" # [可选] 省略时主标题显示为不可点击文字
+#   status: "expired"                   # [可选] expired=显示链接失效标记；available 或省略时不显示
 #   relatedLinks:                       # [可选] 相关视频、商品或后续文章列表
 #     - url: "https://example.com/related" # [必填/仅 relatedLinks 项内] 目标地址
+#       status: "expired"               # [可选] expired=显示链接失效标记；available 或省略时不显示
 #       title:                          # [可选] 链接文字；省略时直接显示 URL
 #         ja: "関連動画"
 #         en: "Related video"
@@ -57,7 +59,7 @@
   link: "https://mantan-web.jp/article/20251108dog00m200004000c.html"
   relatedLinks:
   - url: "https://mantan-web.jp/article/20251108dog00m200005000c.html"
-    title: 
+    title:
       ja: "その2 それぞれの成長"
       en: "Part 2: Their Individual Growth"
 
@@ -93,6 +95,33 @@
     ja: "記事"
     en: "Article"
   link: "https://asanoyayu.exblog.jp/33929343/"
+
+- title:
+    ja: "『BanG Dream! It's MyGO!!!!!』フォト＆インタビュー④ 椎名立希役・林 鼓子"
+    en: "“BanG Dream! It's MyGO!!!!!” Photos & Interview #4: Coco Hayashi as Riki Shiina"
+  date: "2023-08-17"
+  category:
+    ja: "記事"
+    en: "Article"
+  link: https://febri.jp/topics/bang-dream_mygo_4/
+
+- title:
+    ja: "『ラブライブ！虹ヶ咲学園スクールアイドル同好会 NEXT SKY』矢野妃菜喜、大西亜玖璃、林 鼓子が語る「ニジガク」の今とこれから①"
+    en: "“Love Live! Nijigasaki Academy School Idol Club NEXT SKY”: Hinaki Yano, Aguri Onishi, and Coco Hayashi Discuss the Present and Future of “Nijigaku” (Part 1)"
+  date: "2023-07-19"
+  category:
+    ja: "NEXT SKY インタビュー"
+    en: "Interview on the NEXT SKY"
+  link: https://febri.jp/topics/nijigasaki_ova_1/
+  relatedLinks:
+  - url: https://febri.jp/topics/nijigasaki_ova_2/
+    title:
+      ja: "その2"
+      en: "Part 2"
+  - url: https://febri.jp/topics/nijigasaki_ova_3/
+    title:
+      ja: "その3"
+      en: "Part 3"
 
 - title:
     ja: "【第13回「声優アワード」受賞者インタビュー】新人女優賞 林鼓子さん"

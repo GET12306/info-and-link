@@ -7,8 +7,16 @@
 #     ja: "説明"
 #     en: "Description"
 #   url: "https://example.com/archive" # [可选] 省略时仅作为记录展示，不可点击
-#   status: "available"                # [必填] available=链接可用；expired=已失效/仅存档
+#   status: "available"                # [必填] available=链接可用（不显示标记）；expired=已失效/仅存档（显示标记）
 #
+
+- date: "2026.08.30"
+  title:
+    ja: "ありがとうございました！の舞🫶"
+    en: "“Thank You!” Dance 🫶"
+  url: https://x.com/FC_coco2025/status/2094022292338888925
+  status: "available"
+
 - date: "2026.08.28"
   title:
     ja: "ラブカ部 最強プレイヤーへの道!! 第16回"
@@ -18,15 +26,20 @@
   # https://x.com/homoto_akina/status/2093312775498113422
   status: "available"
 
-
 - date: "2026.08.27"
   title:
     ja: "「Piano Bar C*LAPS」リハ終りに、林さん&矢島さんの仲良し2ショット!"
     en: "“Piano Bar C*LAPS” After rehearsal, a cute photo of Ms. Hayashi and Ms. Yajima!"
   url: https://x.com/artistslinks/status/2092938452065038506
   # https://x.com/artistslinks/status/2091139898103533926
-  # https://x.com/Chu12652648/status/2093355344542236816
+  # https://x.com/artistslinks/status/2093353786958041211
+  # https://x.com/artistslinks/status/2093668952664932734
+  # https://x.com/artistslinks/status/2094070097535189470
+  # https://x.com/LIBERTE__2024/status/2094052788045271458
   # https://x.com/Y_Minon2001/status/2093495613749088524
+  # https://x.com/Y_Minon2001/status/2094059992181866710
+  # https://x.com/Y_Minon2001/status/2093865116018303044
+  # https://x.com/yuki_wr1/status/2094053298688970752
   status: "available"
 
 - date: "2026.08.23"

@@ -220,8 +220,8 @@
   ticketInfo:
     link: https://fan.pia.jp/cocohayashi/ticket/detail/8/?page=0&ptag=
     price:
-      ja: "S席: ¥9,800  特典2Lブロマイド付き A席: ¥8,800"
-      en: "S Seats: 9,800 yen  Includes a 2L-sized photo card A Seats: 8,800 yen"
+      ja: "S席: ¥9,800 A席: ¥8,800"
+      en: "S Seats: 9,800 yen A Seats: 8,800 yen"
     entries:
       - type:
           ja: "FC会員先行"
@@ -465,12 +465,15 @@
   recurring: true
   performances:
     - occursOn: "2026-09-03"
+    - occursOn: "2026-10-01"
+    - occursOn: "2026-11-05"
+    - occursOn: "2026-12-03"
   title:
     ja: "ラブライブ！虹ヶ咲学園 ～ディスカバー放送室～"
     en: "Love Live! Nijigasaki High School ~Discover Broadcast Room~"
   description:
-    ja: "優木せつ菜役 毎月第一木曜日配信 次: 9月3日"
-    en: "Streaming on the first Thursday of every month as Setsuna Yuki. Next update: September 3"
+    ja: "優木せつ菜役 毎月第一木曜日配信 次: 10月1日"
+    en: "Streaming on the first Thursday of every month as Setsuna Yuki. Next update: October 1"
   link: "https://hibiki-radio.jp/description/lldiscover/detail"
 
 - category: "Program"
@@ -705,10 +708,14 @@
         endDate: "2026-08-16"
         scheduleLabel: "2026.07.25 15:00 - 08.16"
         link: "https://eplus.jp/ll15th-eve/"
-        # description:
-        #   ja: "2026年10月10日(土) <昼公演>13:30開場/14:30開演 <夜公演>17:30開場/18:30開演"
-        #   en: "October 10, 2026 (Sat) <Matinee> Doors open at 1:30 p.m. / Show starts at 2:30 p.m. <Evening Performance> Doors open at 5:30 p.m. / Show starts at 6:30 p.m."
-
+      - type:
+          ja: "一般発売（抽選）"
+          en: "General Sale (Lottery)"
+        startAt: "2026-08-22T12:00"
+        endDate: "2026-08-30"
+        scheduleLabel: "2026.08.22 12:00 - 08.30"
+        link: "https://eplus.jp/ll15th-eve/"
+        
 
 - category: "Live"
   scheduleLabel: |
@@ -756,3 +763,15 @@
     ja: "椎名立希役(MyGo!!!!!)"
     en: "As Taki Shiina (MyGo!!!!!)"
   link: "https://x.com/WONDERLIVET/status/2092930121523228924"
+  ticketInfo:
+    link: https://t.pia.jp/pia/ticketInformation.do?lotRlsCd=25918
+    price:
+      ja: "詳細はリンク先まで"
+      en: "For more details, please visit the link."
+    entries:
+      - type:
+          ja: "最速先行抽選"
+          en: "First-Come, First-Served Lottery"
+        startAt: "2026-09-01T20:00"
+        endDate: "2026-09-23"
+        scheduleLabel: "2026.09.01 20:00 - 09.23"

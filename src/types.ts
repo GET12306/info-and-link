@@ -71,6 +71,7 @@ export interface Note {
   category?: LocalizedText;
   description?: LocalizedText;
   link?: string;
+  status?: "available" | "expired";
   relatedLinks?: NoteRelatedLink[];
 }
 
@@ -78,6 +79,7 @@ export interface NoteRelatedLink {
   url: string;
   title?: LocalizedText;
   type?: LocalizedText;
+  status?: "available" | "expired";
 }
 
 export interface PhotoBookCover {
