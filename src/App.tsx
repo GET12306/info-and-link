@@ -71,12 +71,24 @@ export default function App() {
           <div className="max-w-7xl mx-auto flex flex-col items-center gap-6 text-[10px] uppercase tracking-widest font-medium text-coco-ink/30">
             <div className="flex flex-col items-center gap-3 text-center">
               <span>Copyright © 2026 GC Zhu. All Rights Reserved. This site is a fan project and is not affiliated with or endorsed by LIBERTE or Coco Hayashi.</span>
-              <Link
-                to="/about"
-                className="text-coco-ink/45 hover:text-coco-accent transition-colors"
-              >
-                {lang === "ja" ? "このサイトについて / 情報提供" : "About this site / How to contribute"}
-              </Link>
+              <div className="flex flex-wrap items-center justify-center gap-x-4 gap-y-2">
+                <a
+                  href="https://coco-hearth.hayashicoco.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-coco-ink/45 hover:text-coco-accent transition-colors"
+                >
+                  {lang === "ja" ? "ひみつの場所" : "Secret Garden"}
+                </a>
+                <span aria-hidden="true" className="text-coco-ink/15">|</span>
+
+                <Link
+                  to="/about"
+                  className="text-coco-ink/45 hover:text-coco-accent transition-colors"
+                >
+                  {lang === "ja" ? "このサイトについて / 情報提供" : "About this site / How to contribute"}
+                </Link>
+              </div>
             </div>
             <button
               onClick={toggleLanguage}
