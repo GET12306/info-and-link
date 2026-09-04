@@ -81,7 +81,6 @@ export default function App() {
                   {lang === "ja" ? "ひみつの場所" : "Secret Garden"}
                 </a>
                 <span aria-hidden="true" className="text-coco-ink/15">|</span>
-
                 <Link
                   to="/about"
                   className="text-coco-ink/45 hover:text-coco-accent transition-colors"

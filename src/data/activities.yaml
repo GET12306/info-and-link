@@ -364,6 +364,15 @@
   scheduleLabel: |
     2026.09.26
   startDate: "2026-09-26"
+  performances:
+    - startAt: "2026-09-26T15:00"
+      label:
+        ja: "昼の部"
+        en: "Matinee"
+    - startAt: "2026-09-26T19:00"
+      label:
+        ja: "夜の部"
+        en: "Evening"
   title:
     ja: "林鼓子 2026香港ファンミーティング"
     en: "Coco Hayashi 2026 Hong Kong Fan Meeting"
@@ -382,15 +391,20 @@
         startAt: "2026-08-24T19:00"
         scheduleLabel: "2026.08.24 19:00+19:10"
         link: https://www.art-mate.net/tc/doc/99381
-        # description:
-        #   ja: "VIPチケット 宛名入り直筆サイン入り記念写真(1対1でお渡し) 台北限定オリジナル記念ポスター(38x52cm・スタッフよりお渡し/サインなし  一般チケット お見送り会 印刷サイン入りポストカード（スタッフよりお渡し）"
-        #   en: "VIP Ticket: Commemorative photo with a handwritten autograph and personalized inscription (presented one-on-one) Taipei-exclusive original commemorative poster (38x52 cm; presented by staff/unsigned)  General Admission Ticket: Farewell event; postcard with a printed autograph (presented by staff)"
-
 
 - category: "Event"
   scheduleLabel: |
     2026.09.27
   startDate: "2026-09-27"
+  performances:
+    - startAt: "2026-09-27T15:00"
+      label:
+        ja: "昼の部"
+        en: "Matinee"
+    - startAt: "2026-09-27T19:00"
+      label:
+        ja: "夜の部"
+        en: "Evening"
   title:
     ja: "林鼓子 2026台北ファンミーティング"
     en: "Coco Hayashi 2026 Taipei Fan Meeting"
@@ -756,6 +770,8 @@
   title:
     ja: "「WONDERLIVET 2026」"
     en: "「WONDERLIVET 2026」"
+  performances:
+    - startAt: "2026-11-21T12:00"
   venue:
     ja: "韓国・KINTEX HALL 7·8·9·10"
     en: "KINTEX HALL 7·8·9·10, Korea"
