@@ -1,18 +1,18 @@
 import type { Activity, TicketEntry } from "../types"
-import { getCurrentActivities, withActivityIndexes, type IndexedActivity } from "./activityStatus"
+import { getCurrentActivities } from "./activityStatus"
 import { getJapanDateTimeKey, normalizeJapanDateTimeKey } from "./japanTime"
 
 export type TicketStatus = "upcoming" | "open" | "past" | "tba"
 
 export interface IndexedTicketEntry {
-  activity: IndexedActivity
+  activity: Activity
   entry: TicketEntry
   entryIndex: number
   status: TicketStatus
 }
 
 export interface TicketActivityGroup {
-  activity: IndexedActivity
+  activity: Activity
   entries: IndexedTicketEntry[]
 }
 
@@ -31,14 +31,10 @@ export function getTicketStatus(
   const normalizedNow = normalizeJapanDateTimeKey(nowKey)
   const endKey = entry.endAt
     ? normalizeJapanDateTimeKey(entry.endAt, "end")
-    : entry.endDate
-      ? normalizeJapanDateTimeKey(entry.endDate, "end")
-      : null
+    : null
   const startKey = entry.startAt
     ? normalizeJapanDateTimeKey(entry.startAt)
-    : entry.startDate
-      ? normalizeJapanDateTimeKey(entry.startDate)
-      : null
+    : null
 
   if (endKey && normalizedNow > endKey) return "past"
   if (startKey && normalizedNow < startKey) return "upcoming"
@@ -47,7 +43,7 @@ export function getTicketStatus(
 }
 
 function getTicketEntries(
-  activities: IndexedActivity[],
+  activities: Activity[],
   nowKey = getJapanDateTimeKey()
 ): IndexedTicketEntry[] {
   return activities.flatMap((activity) =>
@@ -61,10 +57,10 @@ function getTicketEntries(
 }
 
 function groupTicketEntries(entries: IndexedTicketEntry[]): TicketActivityGroup[] {
-  const map = new Map<number, TicketActivityGroup>()
+  const map = new Map<string, TicketActivityGroup>()
 
   for (const ticketEntry of entries) {
-    const key = ticketEntry.activity.originalIndex
+    const key = ticketEntry.activity.id
     const group = map.get(key)
     if (group) {
       group.entries.push(ticketEntry)
@@ -91,12 +87,10 @@ export function getPastTicketGroups(
   activities: Activity[],
   nowKey = getJapanDateTimeKey()
 ) {
-  const entries = getTicketEntries(withActivityIndexes(activities), nowKey)
+  const entries = getTicketEntries(activities, nowKey)
     .filter((entry) => entry.status === "past")
     .sort((a, b) =>
-      (b.entry.endAt ?? b.entry.endDate ?? "").localeCompare(
-        a.entry.endAt ?? a.entry.endDate ?? ""
-      )
+      (b.entry.endAt ?? "").localeCompare(a.entry.endAt ?? "")
     )
 
   return groupTicketEntries(entries)

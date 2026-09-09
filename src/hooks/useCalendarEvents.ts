@@ -1,15 +1,16 @@
 import { getDay } from "date-fns"
-import type { Activity } from "../types"
+import type { Activity, ActivityMilestone } from "../types"
 import { getActivityOccurrences } from "../utils/activitySchedule"
 import { getJapanTimeLabel } from "../utils/japanTime"
 
 export interface CalendarEvent {
   date: string
-  activityIndex: number
+  activityId: string
   performanceIndex?: number
   startAt?: string
   endAt: string
   startTime?: string
+  milestones: ActivityMilestone[]
 }
 
 export interface CalendarDay {
@@ -31,18 +32,18 @@ export function buildCalendarData(activities: Activity[], includeDate?: string):
 function collectEvents(activities: Activity[]): CalendarEvent[] {
   const result: CalendarEvent[] = []
 
-  for (let i = 0; i < activities.length; i++) {
-    const act = activities[i]
+  for (const act of activities) {
     getActivityOccurrences(act).forEach((occurrence) => {
       result.push({
         date: occurrence.date,
-        activityIndex: i,
+        activityId: act.id,
         performanceIndex: occurrence.performanceIndex,
         startAt: occurrence.startAt,
         endAt: occurrence.endAt,
         startTime: occurrence.startAt
           ? getJapanTimeLabel(occurrence.startAt)
           : undefined,
+        milestones: occurrence.milestones,
       })
     })
   }

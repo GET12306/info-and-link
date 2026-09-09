@@ -20,30 +20,39 @@ const About = lazy(() => import("./pages/About"))
 
 function AnimatedRoutes({ lang }: { lang: Language }) {
   const location = useLocation()
+  const isHome = location.pathname === "/"
   return (
-    <AnimatePresence mode="wait"> {/* wait保证旧页面“走完”新页面再“进来” */}
-      <motion.div
-        key={location.pathname}
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0, y: -10 }}
-        transition={{ duration: 0.4 }}
-        className="flex-1 max-w-4xl min-h-[60vh]"
-      >
-        <Routes location={location}>
-          <Route path="/" element={<Home lang={lang} />} />
-          <Route path="/activities" element={<Activities lang={lang} />} />
-          <Route path="/activities/past" element={<PastActivities lang={lang} />} />
-          <Route path="/tickets" element={<TicketInfo lang={lang} />} />
-          <Route path="/tickets/past" element={<PastTickets lang={lang} />} />
-          <Route path="/resources" element={<HistoricalResources lang={lang} />} />
-          <Route path="/notes" element={<Notes lang={lang} />} />
-          <Route path="/photobooks" element={<PhotoBooks lang={lang} />} />
-          <Route path="/about" element={<About lang={lang} />} />
-          <Route path="/wardrobe" element={<Navigate to="/" replace />} />
-        </Routes>
-      </motion.div>
-    </AnimatePresence>
+    <main className="relative w-full py-32">
+      <Suspense fallback={<Loading />}>
+        <AnimatePresence mode="wait"> {/* wait保证旧页面“走完”新页面再“进来” */}
+          <motion.div
+            key={location.pathname}
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -10 }}
+            transition={{ duration: 0.4 }}
+            className={`min-h-[60vh] min-w-0 px-6 md:px-12 ${
+              isHome ? "w-full" : "mx-auto w-full max-w-7xl"
+            }`}
+          >
+            <div className={isHome ? "w-full" : "max-w-4xl"}>
+              <Routes location={location}>
+                <Route path="/" element={<Home lang={lang} />} />
+                <Route path="/activities" element={<Activities lang={lang} />} />
+                <Route path="/activities/past" element={<PastActivities lang={lang} />} />
+                <Route path="/tickets" element={<TicketInfo lang={lang} />} />
+                <Route path="/tickets/past" element={<PastTickets lang={lang} />} />
+                <Route path="/resources" element={<HistoricalResources lang={lang} />} />
+                <Route path="/notes" element={<Notes lang={lang} />} />
+                <Route path="/photobooks" element={<PhotoBooks lang={lang} />} />
+                <Route path="/about" element={<About lang={lang} />} />
+                <Route path="/wardrobe" element={<Navigate to="/" replace />} />
+              </Routes>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+      </Suspense>
+    </main>
   )
 }
 
@@ -61,11 +70,7 @@ export default function App() {
           isDark={isDark}
         />
 
-        <main className="max-w-7xl mx-auto px-6 md:px-12 py-32 flex flex-col md:flex-row gap-16 relative">
-          <Suspense fallback={<Loading />}>
-            <AnimatedRoutes lang={lang} />
-          </Suspense>
-        </main>
+        <AnimatedRoutes lang={lang} />
 
         <footer className="border-t grid-line py-12 px-6">
           <div className="max-w-7xl mx-auto flex flex-col items-center gap-6 text-[10px] uppercase tracking-widest font-medium text-coco-ink/30">

@@ -24,7 +24,7 @@ export default function TicketGroup({
 
   return (
     <section
-      id={isCurrent ? `ticket-${activity.originalIndex}` : undefined}
+      id={isCurrent ? `ticket-${activity.id}` : undefined}
       className={`space-y-4 ${
         isCurrent
           ? `scroll-mt-28 -mx-4 rounded-lg border-l-2 px-4 py-4 transition-all duration-500 ${

@@ -24,7 +24,7 @@ export default function PastTickets({ lang }: { lang: Language }) {
         <div className="space-y-12">
           {ticketGroups.map((group) => (
             <TicketGroup
-              key={group.activity.originalIndex}
+              key={group.activity.id}
               group={group}
               lang={lang}
               variant="past"

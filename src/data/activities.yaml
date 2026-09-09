@@ -1,26 +1,45 @@
 # 数据结构参考（依据当前 Activity / TicketInfo 类型与页面读取逻辑）
 # [必填] 缺少后页面无法正常展示；[可选] 可整项省略，不要用空字符串代替。
-# 字段规则：活动与票务条目均使用 scheduleLabel 保存自由书写的显示日程；用于状态和排序的日期必须是 YYYY-MM-DD，
-#          精确时间必须是 YYYY-MM-DDTHH:mm。所有日期时间均按日本标准时间（Asia/Tokyo）解释。
+# 字段规则：活动与票务条目均使用 scheduleLabel 保存自由书写的显示日程。票务的 startAt/endAt 可写
+#          YYYY-MM-DD 或 YYYY-MM-DDTHH:mm；省略时间时，开始按 00:00、结束按 23:59 计算。均为日本时间。
 #
-# - category: "Event"                 # [必填] 分类：Stage | Musical | Program | Event | Live | Reading | Other
+# - id: "2026-example-event"          # [必填] 全局唯一且永久不变的标识；小写字母、数字及连字符
+#   category: "Event"                 # [必填] 分类：Stage | Musical | Program | Event | Live | Reading | Other
 #                                     # 舞台/音乐剧/直播节目/线下活动/live/朗读剧/其他
 #                                        # Program=配信番組，Event=リアルイベント
 #   scheduleLabel: "2026.08.11"       # [必填] 活动页的日程显示文字；不参与日期计算，建议加引号
 #   startDate: "2026-08-11"           # [条件必填] 连续活动首日；与 performances 二选一
 #   endDate: "2026-08-12"             # [可选] 连续活动末日；省略时视为单日活动
-#   recurring: true                    # [可选] 周常/月常等持续节目；不会因已知场次过期而进入历史
+#   recurrence:                        # [可选] 经常性节目；存在时不会因已知场次过期而进入历史
+#     type: "manual"                   # manual：月更/不定期；在 performances 中逐项添加已确认日期
+#   calendarExport: "auto"             # [可选] 默认 auto：所有场次有准确开始时间才开放 ICS 下载
+#                                      # enabled：手动开放，允许仅日期的全天占位；仍必须有有效日期、标题和链接
+#                                      # disabled：手动隐藏下载；导入后不会自动更新，修改本站数据不会改变已导入的日程
 #   durationMinutes: 120               # [可选] 所有定时场次的统一时长（分钟）；默认 60，可被场次 endAt 覆盖
 #   performances:                      # [条件必填] 非连续日期或精确场次；与 startDate/endDate 二选一
 #     - occursOn: "2026-08-10"         # [二选一] 仅知日期的场次；作为全天日程显示
 #       label:                         # [可选] 场次名称
 #         ja: "出演日"
 #         en: "Performance date"
+#       milestones:                    # [可选] 仅展示的当天时刻；不改变全天属性、结束时间或活动状态
+#         - kind: "update"             # update：情报、节目或内容的公开/更新时间
+#           at: "12:00"                # [必填] HH:mm，日本时间；会显示在首页日历和活动日程中
 #     - startAt: "2026-08-11T14:30"    # [二选一] 日本时间的场次开始时刻
 #       endAt: "2026-08-11T16:30"      # [可选] 此场次的特殊结束时刻；优先于 durationMinutes
 #       label:                         # [可选] 昼公演、夜公演等场次名称
 #         ja: "昼公演"
 #         en: "Matinee"
+#       milestones:                    # [可选] 同一场次的开场、物贩或其他辅助时刻；仅用于显示
+#         - kind: "merch"              # merch：物贩或周边销售开始时间；可用 until 表示销售时段
+#           at: "12:00"
+#           until: "13:30"             # [可选] 同一天的结束时刻，必须晚于 at
+#         - kind: "doors"              # doors：开场/开放入场时间；不是活动的正式开演时间
+#           at: "14:00"
+#         - kind: "other"              # other：上述类别以外的辅助时刻，必须填写日英双语 label
+#           at: "13:45"
+#           label:
+#             ja: "整列開始"
+#             en: "Line-up starts"
 #     - startAt: "2026-08-11T18:30"    # 同一天可添加多个场次；日历会分别显示为多条事件
 #       label:
 #         ja: "夜公演"
@@ -44,10 +63,8 @@
 #       - type:                        # [必填] 抽选、先行、一般发售等名称
 #           ja: "一般発売"
 #           en: "General Sale"
-#         startDate: "2026-07-11"     # [可选] 开始日；开始前显示 upcoming
-#         endDate: "2026-07-20"       # [可选] 截止日；次日起进入历史票务；截止不明时使用所属活动的 endDate
-#         startAt: "2026-07-11T12:00"  # [可选] 日本时间的精确开始时刻；存在时优先于 startDate
-#         endAt: "2026-07-20T23:59"    # [可选] 日本时间的精确截止时刻；存在时优先于 endDate
+#         startAt: "2026-07-11T12:00"  # [可选] 开始日或时刻；无 T 时默认当天 00:00
+#         endAt: "2026-07-20"          # [可选] 截止日或时刻；无 T 时默认当天 23:59；不明时可用活动 endDate
 #         scheduleLabel: "2026.07.11-07.20" # [必填] 两种语言共用的显示日程；不参与状态计算
 #         price:                       # [可选] 仅在此阶段价格不同时填写，覆盖 ticketInfo.price
 #           ja: "当日券 10,500円"
@@ -57,7 +74,21 @@
 #           en: "Additional note"
 #         link: "https://example.com/entry" # [可选] 此票务条目链接；回退顺序为 entry → ticketInfo → activity
 #
-- category: "Musical"
+# 每周固定节目使用以下有限生成规则替代 performances；只生成 startOn 到 endOn 范围内符合星期的日期：
+# recurrence:
+#   type: "weekly"
+#   startOn: "2026-09-01"             # [必填] 已知日程范围起点，不一定需要正好落在固定星期
+#   endOn: "2026-09-30"               # [必填] 已知日程范围终点；必须显式延长，不会无限生成
+#   weekday: "friday"                 # [必填] sunday | monday | tuesday | wednesday | thursday | friday | saturday
+#   startTime: "22:00"                # [必填] 每次默认开始/更新时间，HH:mm 日本时间
+#   overrides:                         # [可选] 只记录范围内某次的改时或取消
+#     - date: "2026-09-18"            # [必填] 原本由规则生成的日期
+#       startTime: "22:30"            # [可选] 仅覆盖这一次的默认时间
+#     - date: "2026-09-25"
+#       cancelled: true                # [可选] 不生成这一次；不能与 startTime 同时使用
+#
+- id: "2026-skip-and-loafer-musical"
+  category: "Musical"
   scheduleLabel: "2026.03.06-22"
   performances:
     - occursOn: "2026-03-06"
@@ -80,7 +111,8 @@
     en: "As Mika Egashira"
   link: "https://www.marv.jp/special/skip-and-loafer"
 # ------------------------------------------------------------------------------------------------------------
-- category: "Stage"
+- id: "2026-assault-lily-sturm-part-2"
+  category: "Stage"
   scheduleLabel: "2026.04.18-26"
   startDate: "2026-04-18"
   endDate: "2026-04-26"
@@ -92,7 +124,8 @@
     en: "As Maho Nagasaka"
   link: "https://assaultlily-stage.jp/2604stage"
 
-- category: "Stage"
+- id: "2026-koto-aru-ravel"
+  category: "Stage"
   scheduleLabel: "2026.12.16-20"
   performances:
     - startAt: "2026-12-16T19:00"
@@ -131,8 +164,31 @@
     ja: "演劇集団Z-Lion『きっといいKotoあるravel』再演決定! 笑って泣ける、9年ぶりの再演。"
     en: "Theater Group Z-Lion's “Something Good Will Happen, I'm Sure” to Be Revived! A revival after nine years that will make you laugh and cry."
   link: "https://kotoravel.com"
+  ticketInfo:
+    entries:
+      - type:
+          ja: "林鼓子ファンクラブ チケット先行販売"
+          en: "Coco Hayashi Fan Club: Advance Ticket Sales"
+        scheduleLabel: "2026.09.09"
+        description:
+          ja: "発表まで今しばらくお待ちください"
+          en: "Please wait a little while for the announcement."
+        link: "https://x.com/FC_coco2025/status/2096804055771394478"
+      - type:
+          ja: "オフィシャル先行(抽選)"
+          en: "Official Pre-sale (Lottery)"
+        scheduleLabel: "2026.09.12 10:00-9.21"
+        startAt: "2026-09-12T10:00"
+        endAt: "2026-09-21"
+      - type:
+          ja: "一般販売(先着)"
+          en: "General Sale (First-Come, First-Served)"
+        scheduleLabel: "2026.10.03 10:00"
+        startAt: "2026-10-03T10:00"
+    link: "https://confetti-web.com/@/ravel_2026"
 # ------------------------------------------------------------------------------------------------------------
-- category: "Reading"
+- id: "2026-unsent-folder"
+  category: "Reading"
   scheduleLabel: |
     2026.07.31-08.02
   performances:
@@ -172,26 +228,26 @@
       - type:
           ja: "抽選先行"
           en: "Priority Lottery"
-        startDate: "2026-06-25"
-        endDate: "2026-06-28"
+        startAt: "2026-06-25"
+        endAt: "2026-06-28"
         scheduleLabel: "2026.06.25-06.28"
       - type:
           ja: "一般発売"
           en: "General Sale"
-        startDate: "2026-07-11"
-        endDate: "2026-07-23"
+        startAt: "2026-07-11"
+        endAt: "2026-07-23"
         scheduleLabel: "2026.07.11-07.23"
       - type:
           ja: "当日引換券"
           en: "Same-Day Tickets"
-        startDate: "2026-07-23"
-        endDate: "2026-08-02"
+        startAt: "2026-07-23"
+        endAt: "2026-08-02"
         scheduleLabel: "2026.07.23 - 08.02"
         link: https://www.confetti-web.com/events/16309
 
-- category: "Reading"
-  scheduleLabel: |
-    2026.10.16-25
+- id: "2026-slime-300-stage"
+  category: "Reading"
+  scheduleLabel: "2026.10.16-25\n"
   performances:
     - startAt: "2026-10-17T13:00"
       label:
@@ -218,7 +274,7 @@
     en: "As Azusa *Performs only on specific dates"
   link: "https://neo-slime300.com"
   ticketInfo:
-    link: https://fan.pia.jp/cocohayashi/ticket/detail/8/?page=0&ptag=
+    link: "https://fan.pia.jp/cocohayashi/ticket/detail/8/?page=0&ptag="
     price:
       ja: "S席: ¥9,800 A席: ¥8,800"
       en: "S Seats: 9,800 yen A Seats: 8,800 yen"
@@ -227,22 +283,26 @@
           ja: "FC会員先行"
           en: "FC Member Pre-sale"
         startAt: "2026-08-10T09:00"
-        endDate: "2026-08-16"
+        endAt: "2026-08-16"
         scheduleLabel: "2026.08.10 09:00-08.16"
       - type:
           ja: "オープン抽選"
           en: "Open Drawing"
         startAt: "2026-08-25T20:00"
-        endDate: "2026-08-30"
+        endAt: "2026-08-30"
         scheduleLabel: "2026.08.25 20:00-08.30"
       - type:
           ja: "一般発売"
           en: "General Sale"
         startAt: "2026-09-05T12:00"
-        # endDate: "2026-08-16"
-        scheduleLabel: "2026.08.10 09:00-08.16"
-        
-- category: "Reading"
+        scheduleLabel: "2026.09.05 12:00"
+        link: "https://pius.corich.co/slime/ippan"
+        price:
+          ja: "A席: ¥8,800"
+          en: "A Seats: 8,800 yen"
+
+- id: "2026-assault-lily-reading-vol-2"
+  category: "Reading"
   scheduleLabel: |
     2026.10.28-11.01
   performances:
@@ -290,13 +350,13 @@
           ja: "ピウスFC最速先⾏(クローズ限定販売/抽選)"
           en: "Pius FC Early Bird Sale (Closed Sale / Lottery)"
         startAt: "2026-08-15T10:00"
-        endDate: "2026-08-23"
+        endAt: "2026-08-23"
         scheduleLabel: "2026.08.15 10:00-08.23"
       - type:
           ja: "抽選先⾏（オープン／抽選）"
           en: "Lottery-Based Allocation (Open/Lottery)"
         startAt: "2026-08-29T10:00"
-        endDate: "2026-09-06"
+        endAt: "2026-09-06"
         scheduleLabel: "2026.08.29 10:00-09.06"
       - type:
           ja: "⼀般販売（オープン／先着）"
@@ -305,7 +365,8 @@
         scheduleLabel: "2026.09.12 10:00-"
 
 # ------------------------------------------------------------------------------------------------------------
-- category: "Event"
+- id: "2026-toge-radio-public-recording"
+  category: "Event"
   scheduleLabel: |
     2026.07.11
   startDate: "2026-07-11"
@@ -320,7 +381,8 @@
     en: "Matinee performance"
   link: "https://togeradi-interfm.bitfan.id"
 
-- category: "Event"
+- id: "2026-maigo-center-vol-3"
+  category: "Event"
   scheduleLabel: |
     2026.08.08
   performances:
@@ -343,7 +405,8 @@
     en: "As Taki Shiina"
   link: "https://bang-dream.com/events/maigocenter-event3"
 
-- category: "Event"
+- id: "2026-amane-club-vol-5"
+  category: "Event"
   scheduleLabel: |
     2026.08.11
   performances:
@@ -360,19 +423,25 @@
     en: "Guest appearance in part 2"
   link: "https://nicochannel.jp/amanebu2525/articles/news/armh7rrox7DYqETCvVmmrLEN"
 
-- category: "Event"
+- id: "2026-hong-kong-fan-meeting"
+  category: "Event"
   scheduleLabel: |
     2026.09.26
-  startDate: "2026-09-26"
   performances:
     - startAt: "2026-09-26T15:00"
       label:
         ja: "昼の部"
         en: "Matinee"
+      milestones:
+        - kind: "doors"
+          at: "14:30"
     - startAt: "2026-09-26T19:00"
       label:
         ja: "夜の部"
         en: "Evening"
+      milestones:
+        - kind: "doors"
+          at: "18:30"
   title:
     ja: "林鼓子 2026香港ファンミーティング"
     en: "Coco Hayashi 2026 Hong Kong Fan Meeting"
@@ -392,10 +461,9 @@
         scheduleLabel: "2026.08.24 19:00+19:10"
         link: https://www.art-mate.net/tc/doc/99381
 
-- category: "Event"
-  scheduleLabel: |
-    2026.09.27
-  startDate: "2026-09-27"
+- id: "2026-taipei-fan-meeting"
+  category: "Event"
+  scheduleLabel: "2026.09.27\n"
   performances:
     - startAt: "2026-09-27T15:00"
       label:
@@ -413,7 +481,7 @@
     en: "Hanaspace"
   link: "https://x.com/bridgebond_llc/status/2078329086263656795"
   ticketInfo:
-    link: https://liberte2024.com/news/bqXuKLIM
+    link: "https://digitalidea.kktix.cc/events/2d9b4d89?locale=zh-TW"
     price:
       ja: "VIP: NT$3,980、一般席: NT$1,880"
       en: "VIP: NT$3,980, General Admission: NT$1,880"
@@ -426,8 +494,9 @@
         description:
           ja: "VIPチケット 宛名入り直筆サイン入り記念写真(1対1でお渡し) 台北限定オリジナル記念ポスター(38x52cm・スタッフよりお渡し/サインなし  一般チケット お見送り会 印刷サイン入りポストカード（スタッフよりお渡し）"
           en: "VIP Ticket: Commemorative photo with a handwritten autograph and personalized inscription (presented one-on-one) Taipei-exclusive original commemorative poster (38x52 cm; presented by staff/unsigned)  General Admission Ticket: Farewell event; postcard with a printed autograph (presented by staff)"
-        
-- category: "Event"
+
+- id: "2026-sneaker-age"
+  category: "Event"
   scheduleLabel: "2026.11.03"
   startDate: "2026-11-03"
   title:
@@ -439,7 +508,8 @@
   link: "https://sneakerages.jp/news/post260618/"
 
 # ------------------------------------------------------------------------------------------------------------
-- category: "Program"
+- id: "2026-cocona-nonaka-ambitions"
+  category: "Program"
   scheduleLabel: "2026.06.20"
   startDate: "2026-06-20"
   title:
@@ -450,7 +520,8 @@
     en: "as Program Guest"
   link: "https://audee-membership.jp/cocona-nonaka/audio/sm5MAmUu87yxNHxAmiRDpVyV"
 
-- category: "Program"
+- id: "2026-monitorin"
+  category: "Program"
   scheduleLabel: |
     2026.07.10
   startDate: "2026-07-10"
@@ -462,7 +533,8 @@
     en: "as Guest"
   link: "https://nicochannel.jp/monirin/"
 
-- category: "Program"
+- id: "2026-okada-mei-channel"
+  category: "Program"
   scheduleLabel: |
     2026.08.03
   startDate: "2026-08-03"
@@ -474,14 +546,29 @@
     en: "as Guest"
   link: "https://www.youtube.com/@okada_mei0519"
 
-- category: "Program"
+- id: "lovelive-discover-radio"
+  category: "Program"
   scheduleLabel: "Monthly"
-  recurring: true
+  calendarExport: "disabled"
+  recurrence:
+    type: "manual"
   performances:
     - occursOn: "2026-09-03"
+      milestones:
+        - kind: "update"
+          at: "12:00"
     - occursOn: "2026-10-01"
+      milestones:
+        - kind: "update"
+          at: "12:00"
     - occursOn: "2026-11-05"
+      milestones:
+        - kind: "update"
+          at: "12:00"
     - occursOn: "2026-12-03"
+      milestones:
+        - kind: "update"
+          at: "12:00"
   title:
     ja: "ラブライブ！虹ヶ咲学園 ～ディスカバー放送室～"
     en: "Love Live! Nijigasaki High School ~Discover Broadcast Room~"
@@ -490,9 +577,16 @@
     en: "Streaming on the first Thursday of every month as Setsuna Yuki. Next update: October 1"
   link: "https://hibiki-radio.jp/description/lldiscover/detail"
 
-- category: "Program"
+- id: "maison-de-coco"
+  category: "Program"
   scheduleLabel: "Weekly"
-  recurring: true
+  calendarExport: "disabled"
+  recurrence:
+    type: "weekly"
+    startOn: "2026-09-01"
+    endOn: "2026-12-31"
+    weekday: "friday"
+    startTime: "22:00"
   title:
     ja: "林鼓子のメゾンド・ココ"
     en: "Maison De Coco"
@@ -501,20 +595,23 @@
     en: "Every Friday at 10 p.m. (JST)"
   link: "https://audee-membership.jp/coco-hayashi"
 
-- category: "Program"
+- id: "tricolor"
+  category: "Program"
   scheduleLabel: "Monthly"
-  recurring: true
+  recurrence:
+    type: "manual"
   performances:
     - occursOn: "2026-08-27"
   title:
     ja: "礒部花凜・土屋李央・林鼓子 トリコロールカラー"
     en: "Karin Isobe, Rio Tsuchiya, Coco Hayashi Tricolor"
   description:
-    ja: "月一回 次: 8月27日"
-    en: "Monthly Update August 27"
+    ja: "月一回"
+    en: "Monthly Update"
   link: "https://www.onsen.ag/program/tricolor"
 # ------------------------------------------------------------------------------------------------------------
-- category: "Live"
+- id: "2026-birthday-talk-live-amour"
+  category: "Live"
   scheduleLabel: |
     2026.05.22-23
   startDate: "2026-05-22"
@@ -527,7 +624,8 @@
     en: "Ebisu The Garden Room"
   link: "https://fan.pia.jp/cocohayashi/news/detail/44"
 
-- category: "Live"
+- id: "2026-nijigasaki-8th-live"
+  category: "Live"
   scheduleLabel: |
     2026.06.06-07, 06.13-14
   performances:
@@ -546,7 +644,8 @@
     en: "As Setsuna Yuki"
   link: "https://www.lovelive-anime.jp/nijigasaki/live/live_detail.php?p=8thlive"
 
-- category: "Live"
+- id: "2026-music-awards-japan-week"
+  category: "Live"
   scheduleLabel: |
     2026.06.09
   startDate: "2026-06-09"
@@ -561,7 +660,8 @@
     en: "As Taki Shiina (MyGo!!!!!)"
   link: "https://www.lisani.jp/live-tamh"
 
-- category: "Live"
+- id: "2026-mygo-9th-live"
+  category: "Live"
   scheduleLabel: |
     2026.07.18-19
   startDate: "2026-07-18"
@@ -577,7 +677,8 @@
     en: "As Taki Shiina"
   link: "https://bang-dream.com/events/mygo_9th/"
 
-- category: "Live"
+- id: "2026-luckyfes"
+  category: "Live"
   scheduleLabel: |
     2026.08.09
   startDate: "2026-08-09"
@@ -592,7 +693,8 @@
     en: "As Taki Shiina (MyGo!!!!!)"
   link: "https://luckyfes.com"
 
-- category: "Live"
+- id: "2026-piano-bar-claps"
+  category: "Live"
   scheduleLabel: "2026.08.28-30"
   performances:
     - startAt: "2026-08-28T19:00"
@@ -628,25 +730,26 @@
           ja: "ファンクラブ先行"
           en: "Fan Club Pre-sale"
         startAt: "2026-07-24T20:00"
-        endDate: "2026-07-30"
+        endAt: "2026-07-30"
         scheduleLabel: "2026.07.24 20:00-07.30"
         link: "https://fan.pia.jp/cocohayashi/news/detail/78/?page=1&ptag=NEWS"
       - type:
           ja: "予約 事前決済"
           en: "Reservation Prepayment"
-        startDate: "2026-08-01"
-        endDate: "2026-08-30"
+        startAt: "2026-08-01"
+        endAt: "2026-08-30"
         scheduleLabel: "2026.08.01 10:00-08.30"
         link: "https://artistslinks.com/1151"
       - type:
           ja: "予約 現地決済"
           en: "Reservation Pay on Site"
-        startDate: "2026-08-03"
-        endDate: "2026-08-30"
+        startAt: "2026-08-03"
+        endAt: "2026-08-30"
         scheduleLabel: "2026.08.03 10:00-08.30"
         link: "https://artistslinks.com/1151"
 
-- category: "Live"
+- id: "2026-liberte-first-act"
+  category: "Live"
   scheduleLabel: |
     2026.09.12
   title:
@@ -660,10 +763,16 @@
       label:
         ja: "昼公演"
         en: "Matinee"
+      milestones:
+        - kind: "doors"
+          at: "14:00"
     - startAt: "2026-09-12T17:30"
       label:
         ja: "夜公演"
         en: "Evening"
+      milestones:
+        - kind: "doors"
+          at: "17:00"
   link: "https://fan.pia.jp/cocohayashi/news/detail/72/?page=1&ptag=NEWS"
   ticketInfo:
     link: "https://fan.pia.jp/cocohayashi/news/detail/72/?page=1&ptag=NEWS"
@@ -674,8 +783,8 @@
       - type:
           ja: "-鼓星- 先行予約受付"
           en: "Ticket Information"
-        startDate: "2026-07-04"
-        endDate: "2026-07-12"
+        startAt: "2026-07-04"
+        endAt: "2026-07-12"
         scheduleLabel: "2026.07.04-07.12"
         description:
           ja: "LIBERTE TICKETにて先行予約受付もあります"
@@ -684,21 +793,28 @@
           ja: "一般発売"
           en: "General Sale"
         startAt: "2026-08-08T10:00"
-        endDate: "2026-09-12"
+        endAt: "2026-09-12"
         scheduleLabel: "2026.08.08 10:00-"
         link: https://ticketdive.com/event/libertelive2026
 
-- category: "Live"
+- id: "2026-lovelive-15th-festival-eve"
+  category: "Live"
   scheduleLabel: "2026.10.10"
   performances:
     - startAt: "2026-10-10T14:30"
       label:
         ja: "昼公演"
         en: "Matinee"
+      milestones:
+        - kind: "doors"
+          at: "13:30"
     - startAt: "2026-10-10T18:30"
       label:
         ja: "夜公演"
         en: "Evening"
+      milestones:
+        - kind: "doors"
+          at: "17:30"
   title:
     ja: "LoveLive! Series 15th Anniversary ラブライブ！フェス 前夜祭 FILM LIVE ～未来へ届けるタイムカプセル～"
     en: "LoveLive! Series 15th Anniversary Love Live! Festival Eve FILM LIVE ~A Time Capsule for the Future~"
@@ -710,7 +826,6 @@
     en: "As Setsuna Yuki"
   link: "https://www.lovelive-anime.jp/special/live/live_detail.php?p=15thzenyasai"
   ticketInfo:
-    link: "https://www.lovelive-anime.jp/special/live/live_detail.php?p=15thzenyasai"
     price:
       ja: "全席指定: 8,900円(税込) ※入場時別途ドリンク代600円必要"
       en: "All reserved seating: 8,900 yen (tax included) *A separate 600-yen drink charge is required upon entry"
@@ -719,24 +834,36 @@
           ja: "最速先行抽選"
           en: "First-Come, First-Served Lottery"
         startAt: "2026-07-25T15:00"
-        endDate: "2026-08-16"
+        endAt: "2026-08-16"
         scheduleLabel: "2026.07.25 15:00 - 08.16"
         link: "https://eplus.jp/ll15th-eve/"
       - type:
           ja: "一般発売（抽選）"
           en: "General Sale (Lottery)"
         startAt: "2026-08-22T12:00"
-        endDate: "2026-08-30"
+        endAt: "2026-08-30"
         scheduleLabel: "2026.08.22 12:00 - 08.30"
         link: "https://eplus.jp/ll15th-eve/"
-        
+      - type:
+          ja: "一般発売(2次抽選)"
+          en: "General Sale (Second Lottery)"
+        scheduleLabel: "2026.9.5 12:00-9.13"
+        startAt: "2026-09-05T12:00"
+        endAt: "2026-09-13"
+    link: "https://eplus.jp/ll15th-eve/"
 
-- category: "Live"
-  scheduleLabel: |
-    2026.11.14-11.15
+- id: "2026-mygo-9th-kobe-revival"
+  category: "Live"
+  scheduleLabel: "2026.11.14-11.15\n"
   performances:
     - startAt: "2026-11-14T18:00"
+      milestones:
+        - kind: "doors"
+          at: "16:30"
     - startAt: "2026-11-15T17:00"
+      milestones:
+        - kind: "doors"
+          at: "15:30"
   title:
     ja: "MyGO!!!!! 9th LIVE「つなぎ目の向こうに」 - 神戸再景編 -"
     en: "MyGO!!!!! 9th LIVE 「Beyond the Seam」 - Kobe Revival Edition -"
@@ -757,37 +884,59 @@
           ja: "最速先行抽選"
           en: "First-Come, First-Served Lottery"
         startAt: "2026-07-19T21:00"
-        endDate: "2026-08-24"
+        endAt: "2026-08-24"
         scheduleLabel: "2026.07.19 21:00 - 08.24"
         description:
           ja: "MyGO!!!!! 3rd Album「致並跡」初回生産分に封入の申込券でご応募いただけます。"
           en: "You can enter the giveaway using the entry coupon included in the first press run of MyGO!!!!!'s 3rd album, “Chinamiato.”"
 
-- category: "Live"
-  scheduleLabel: |
-    2026.11.21
-  startDate: "2026-11-21"
+- id: "2026-wonderlivet"
+  category: "Live"
+  scheduleLabel: "2026.11.21\n"
   title:
     ja: "「WONDERLIVET 2026」"
     en: "「WONDERLIVET 2026」"
   performances:
     - startAt: "2026-11-21T12:00"
+      milestones:
+        - kind: "doors"
+          at: "11:00"
   venue:
     ja: "韓国・KINTEX HALL 7·8·9·10"
     en: "KINTEX HALL 7·8·9·10, Korea"
   description:
     ja: "椎名立希役(MyGo!!!!!)"
     en: "As Taki Shiina (MyGo!!!!!)"
-  link: "https://x.com/WONDERLIVET/status/2092930121523228924"
+  link: "https://www.wonderli.vet/home"
   ticketInfo:
-    link: https://t.pia.jp/pia/ticketInformation.do?lotRlsCd=25918
-    price:
-      ja: "詳細はリンク先まで"
-      en: "For more details, please visit the link."
+    link: "https://t.pia.jp/pia/ticketInformation.do?lotRlsCd=25918"
     entries:
       - type:
           ja: "最速先行抽選"
           en: "First-Come, First-Served Lottery"
         startAt: "2026-09-01T20:00"
-        endDate: "2026-09-23"
+        endAt: "2026-09-23"
         scheduleLabel: "2026.09.01 20:00 - 09.23"
+        description:
+          ja: "他のチケット販売サイトもありますので、詳細はホームページとリンク先まで"
+          en: "There are other ticket sales sites as well, so please check website and the linked pages for details."
+    price:
+      ja: "１日券 15,000円"
+      en: "1-Day Pass: 15,000 yen"
+- id: "mygo-random-radio-lost-center"
+  category: "Program"
+  scheduleLabel: "Weekly"
+  title:
+    ja: "迷子集会"
+    en: "Maigo Center"
+  link: "https://www.youtube.com/playlist?list=PLUFFl4hYd1R0SQPSCAqPVuT5F2By4pqO7"
+  description:
+    ja: "MyGO!!!!!メンバーがランダムでパーソナリティを務めるYouTubeラジオ番組です。"
+    en: "This is a YouTube radio where MyGO!!!!! members randomly take turns as hosts."
+  recurrence:
+    type: "weekly"
+    startOn: "2026-09-01"
+    endOn: "2026-12-31"
+    weekday: "wednesday"
+    startTime: "22:00"
+  calendarExport: "disabled"

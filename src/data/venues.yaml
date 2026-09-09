@@ -1,0 +1,897 @@
+# 场地资料库
+#
+# defaults 适用于未显式填写对应字段的场地。当前资料以日本场地为主，
+# 因此日本场地无需重复填写 countryCode 和 timeZone；未来的海外场地可逐项覆盖。
+#
+# 最小条目：id、name、address、officialUrl、sources。
+# 可选扩展字段示例：
+# coordinates: { latitude: 35.0, longitude: 139.0 }
+# images:
+#   - src: "/images/venues/example.webp"
+#     alt: { ja: "会場外観", en: "Venue exterior" }
+#     credit: "Copyright holder"
+#     sourceUrl: "https://example.com/photo"
+
+defaults:
+  countryCode: "JP"
+  timeZone: "Asia/Tokyo"
+
+lastVerified: "2026-09-08"
+
+venues:
+  - id: "theater-sunmall"
+    name:
+      ja: "シアターサンモール"
+      en: "Theater Sunmall"
+    address:
+      postalCode: "160-0022"
+      region:
+        ja: "東京都"
+        en: "Tokyo"
+      locality:
+        ja: "新宿区"
+        en: "Shinjuku City"
+      street:
+        ja: "新宿1-19-10 サンモールクレストB1"
+        en: "Sunmall Crest B1, 1-19-10 Shinjuku"
+    capacity:
+      seated: 294
+    transport:
+      - type: "metro"
+        station:
+          ja: "新宿御苑前駅"
+          en: "Shinjuku-gyoemmae Station"
+        line:
+          ja: "東京メトロ丸ノ内線"
+          en: "Tokyo Metro Marunouchi Line"
+        exit: "2"
+        walkingMinutes: 3
+    officialUrl: "https://theatersunmall.server-shared.com/"
+    sources:
+      - label: "新宿観光振興協会・新宿エンタメマップ"
+        url: "https://www.gotokyo.org/book/wp-content/uploads/2025/07/2507_shinjuku_entertainment_JP_low.pdf"
+        covers: ["name", "address", "capacity", "transport", "officialUrl"]
+
+  - id: "owlspot"
+    name:
+      ja: "あうるすぽっと"
+      en: "OWLSPOT Theatre"
+    formalName:
+      ja: "豊島区立舞台芸術交流センター"
+      en: "Toshima Performing Arts Center"
+    address:
+      postalCode: "170-0013"
+      region:
+        ja: "東京都"
+        en: "Tokyo"
+      locality:
+        ja: "豊島区"
+        en: "Toshima City"
+      street:
+        ja: "東池袋4-5-2 ライズアリーナビル2F・3F"
+        en: "Rise Arena Building 2F/3F, 4-5-2 Higashi-Ikebukuro"
+    capacity:
+      seated: 301
+    transport:
+      - type: "metro"
+        station:
+          ja: "東池袋駅"
+          en: "Higashi-ikebukuro Station"
+        line:
+          ja: "東京メトロ有楽町線"
+          en: "Tokyo Metro Yurakucho Line"
+        exit: "6・7"
+        connected: true
+      - type: "rail"
+        station:
+          ja: "池袋駅"
+          en: "Ikebukuro Station"
+        exit:
+          ja: "東口"
+          en: "East Exit"
+        walkingMinutes: 10
+      - type: "tram"
+        station:
+          ja: "東池袋四丁目停留場"
+          en: "Higashi-ikebukuro-yonchome Station"
+        line:
+          ja: "東京さくらトラム（都電荒川線）"
+          en: "Tokyo Sakura Tram (Toden Arakawa Line)"
+        walkingMinutes: 2
+      - type: "bus"
+        station:
+          ja: "東池袋四丁目"
+          en: "Higashi-ikebukuro-yonchome"
+        walkingMinutes: 3
+    officialUrl: "https://www.owlspot.jp/"
+    sources:
+      - label: "あうるすぽっと・アクセス"
+        url: "https://www.owlspot.jp/access/"
+        covers: ["address", "transport"]
+      - label: "あうるすぽっと・施設案内"
+        url: "https://www.owlspot.jp/about/outline/"
+        covers: ["name", "formalName", "capacity"]
+
+  - id: "nishiogi-community-center"
+    name:
+      ja: "西荻地域区民センター・勤労福祉会館"
+      en: "Nishiogi Community Center / Labor Welfare Hall"
+    address:
+      postalCode: "167-0034"
+      region:
+        ja: "東京都"
+        en: "Tokyo"
+      locality:
+        ja: "杉並区"
+        en: "Suginami City"
+      street:
+        ja: "桃井4-3-2"
+        en: "4-3-2 Momoi"
+    capacity:
+      seated: 303
+      note:
+        ja: "ホールの定員"
+        en: "Hall capacity"
+    transport:
+      - type: "rail"
+        station:
+          ja: "西荻窪駅"
+          en: "Nishi-Ogikubo Station"
+        line:
+          ja: "JR中央線"
+          en: "JR Chuo Line"
+        exit:
+          ja: "北口"
+          en: "North Exit"
+        walkingMinutes: 15
+      - type: "bus"
+        station:
+          ja: "桃井四丁目"
+          en: "Momoi-yonchome"
+        walkingMinutes: 1
+    officialUrl: "https://nishiogi-community.jp/center/"
+    sources:
+      - label: "西荻地域区民センター・施設概要"
+        url: "https://nishiogi-community.jp/center/overview/"
+        covers: ["name", "address", "capacity", "transport"]
+      - label: "西荻地域区民センター・ホール"
+        url: "https://nishiogi-community.jp/center/project/hall/"
+        covers: ["capacity"]
+
+  - id: "clea-konosu-main-hall"
+    name:
+      ja: "鴻巣市文化センター（クレアこうのす） 大ホール"
+      en: "Kounosu Cultural Center (Clea Kounosu) Main Hall"
+    address:
+      postalCode: "365-0032"
+      region:
+        ja: "埼玉県"
+        en: "Saitama"
+      locality:
+        ja: "鴻巣市"
+        en: "Konosu City"
+      street:
+        ja: "中央29-1"
+        en: "29-1 Chuo"
+    capacity:
+      seated: 1122
+      maximum: 1288
+      wheelchairSpaces: 4
+      note:
+        ja: "通常1,122席。増席・舞台構成により最大1,288席"
+        en: "1,122 seats normally; up to 1,288 depending on seating and stage configuration"
+    officialUrl: "https://clea-konosu.com/"
+    sources:
+      - label: "クレアこうのす・大ホール"
+        url: "https://clea-konosu.com/facilities/dai-ho-ru/"
+        covers: ["name", "capacity"]
+      - label: "クレアこうのす・交通案内"
+        url: "https://clea-konosu.com/access/"
+        covers: ["address"]
+
+  - id: "rs-art-court"
+    name:
+      ja: "R'sアートコート"
+      en: "R's Art Court"
+    formalName:
+      ja: "R'sアートコート（労音大久保会館）"
+      en: "R's Art Court (Ro-On Okubo Hall)"
+    address:
+      postalCode: "169-0072"
+      region:
+        ja: "東京都"
+        en: "Tokyo"
+      locality:
+        ja: "新宿区"
+        en: "Shinjuku City"
+      street:
+        ja: "大久保1-9-10"
+        en: "1-9-10 Okubo"
+    capacity:
+      maximum: 170
+      note:
+        ja: "基本客席159席、最大収容170名"
+        en: "159 seats in the standard layout; maximum capacity 170"
+    transport:
+      - type: "rail"
+        station:
+          ja: "新大久保駅"
+          en: "Shin-Okubo Station"
+        line:
+          ja: "JR山手線"
+          en: "JR Yamanote Line"
+        walkingMinutes: 8
+      - type: "metro"
+        station:
+          ja: "東新宿駅"
+          en: "Higashi-shinjuku Station"
+        line:
+          ja: "東京メトロ副都心線"
+          en: "Tokyo Metro Fukutoshin Line"
+        walkingMinutes: 8
+      - type: "bus"
+        station:
+          ja: "大久保二丁目"
+          en: "Okubo-nichome"
+    officialUrl: "https://ro-on.tokyo/rsartcourt/"
+    sources:
+      - label: "東京労音・R'sアートコートのご案内"
+        url: "https://ro-on.tokyo/rsartcourt/"
+        covers: ["name", "formalName", "address", "capacity", "transport"]
+
+  - id: "ebisu-the-garden-room"
+    name:
+      ja: "恵比寿 ザ・ガーデンルーム"
+      en: "Ebisu The Garden Room"
+    address:
+      postalCode: "153-0062"
+      region:
+        ja: "東京都"
+        en: "Tokyo"
+      locality:
+        ja: "目黒区"
+        en: "Meguro City"
+      street:
+        ja: "三田1-13-2 恵比寿ガーデンプレイス内"
+        en: "Yebisu Garden Place, 1-13-2 Mita"
+    capacity:
+      seated: 308
+      standing: 500
+      note:
+        ja: "シアター形式308席、スタンディング500名"
+        en: "308 in theater seating; 500 standing"
+    transport:
+      - type: "rail"
+        station:
+          ja: "恵比寿駅"
+          en: "Ebisu Station"
+        line:
+          ja: "JR山手線"
+          en: "JR Yamanote Line"
+        exit:
+          ja: "東口"
+          en: "East Exit"
+        walkingMinutes: 5
+      - type: "metro"
+        station:
+          ja: "恵比寿駅"
+          en: "Ebisu Station"
+        line:
+          ja: "東京メトロ日比谷線"
+          en: "Tokyo Metro Hibiya Line"
+        exit: "1"
+        walkingMinutes: 7
+    officialUrl: "https://gardenplace.jp/"
+    sources:
+      - label: "サッポロ不動産開発・The Garden Hall / Room"
+        url: "https://www.sapporo-re.jp/portfolio/ygp/garden-hall-room/"
+        covers: ["name", "address", "capacity"]
+      - label: "恵比寿ガーデンプレイス公式サイト"
+        url: "https://gardenplace.jp/"
+        covers: ["address", "transport", "officialUrl"]
+
+  - id: "osaka-jo-hall"
+    name:
+      ja: "大阪城ホール"
+      en: "Osaka-Jo Hall"
+    address:
+      postalCode: "540-0002"
+      region:
+        ja: "大阪府"
+        en: "Osaka"
+      locality:
+        ja: "大阪市中央区"
+        en: "Chuo Ward, Osaka City"
+      street:
+        ja: "大阪城3-1"
+        en: "3-1 Osaka-jo"
+    capacity:
+      maximum: 16000
+      note:
+        ja: "ステージ構成により最大16,000名"
+        en: "Up to 16,000 depending on stage configuration"
+    transport:
+      - type: "rail"
+        station:
+          ja: "大阪城公園駅"
+          en: "Osakajokoen Station"
+        line:
+          ja: "JR大阪環状線"
+          en: "JR Osaka Loop Line"
+        walkingMinutes: 5
+      - type: "metro"
+        station:
+          ja: "大阪ビジネスパーク駅"
+          en: "Osaka Business Park Station"
+        line:
+          ja: "Osaka Metro長堀鶴見緑地線"
+          en: "Osaka Metro Nagahori Tsurumi-ryokuchi Line"
+        walkingMinutes: 5
+    officialUrl: "https://www.osaka-johall.com/"
+    sources:
+      - label: "大阪城ホール・交通アクセス"
+        url: "https://www.osaka-johall.com/access/"
+        covers: ["address", "transport"]
+      - label: "大阪城ホール・施設の魅力"
+        url: "https://www.osaka-johall.com/organizer/feature/"
+        covers: ["name", "capacity"]
+
+  - id: "keio-arena-tokyo"
+    name:
+      ja: "京王アリーナ TOKYO"
+      en: "Keio Arena Tokyo"
+    formerName:
+      ja: "武蔵野の森総合スポーツプラザ"
+      en: "Musashino Forest Sport Plaza"
+    address:
+      postalCode: "182-0032"
+      region:
+        ja: "東京都"
+        en: "Tokyo"
+      locality:
+        ja: "調布市"
+        en: "Chofu City"
+      street:
+        ja: "西町290-11"
+        en: "290-11 Nishimachi"
+    capacity:
+      maximum: 10000
+      note:
+        ja: "メインアリーナ最大約10,000名"
+        en: "Main arena maximum capacity is approximately 10,000"
+    transport:
+      - type: "rail"
+        station:
+          ja: "飛田給駅"
+          en: "Tobitakyu Station"
+        line:
+          ja: "京王線"
+          en: "Keio Line"
+        walkingMinutes: 5
+      - type: "rail"
+        station:
+          ja: "多磨駅"
+          en: "Tama Station"
+        line:
+          ja: "西武多摩川線"
+          en: "Seibu Tamagawa Line"
+        walkingMinutes: 20
+    officialUrl: "https://keio-arena.tokyo/"
+    sources:
+      - label: "京王アリーナ TOKYO・アクセス"
+        url: "https://keio-arena.tokyo/access/"
+        covers: ["address", "transport"]
+      - label: "京王アリーナ TOKYO・メインアリーナ"
+        url: "https://keio-arena.tokyo/facility/mainarena.php"
+        covers: ["name", "formerName", "capacity"]
+
+  - id: "toyota-arena-tokyo"
+    name:
+      ja: "TOYOTA ARENA TOKYO"
+      en: "TOYOTA ARENA TOKYO"
+    address:
+      region:
+        ja: "東京都"
+        en: "Tokyo"
+      locality:
+        ja: "江東区"
+        en: "Koto City"
+      street:
+        ja: "青海1-3-1"
+        en: "1-3-1 Aomi"
+    capacity:
+      maximum: 10000
+      note:
+        ja: "約10,000名。レイアウトにより10,000席超も可能"
+        en: "Approximately 10,000; layouts exceeding 10,000 seats are possible"
+    transport:
+      - type: "rail"
+        station:
+          ja: "青海駅"
+          en: "Aomi Station"
+        line:
+          ja: "ゆりかもめ"
+          en: "Yurikamome"
+        walkingMinutes: 4
+      - type: "rail"
+        station:
+          ja: "東京テレポート駅"
+          en: "Tokyo Teleport Station"
+        line:
+          ja: "りんかい線"
+          en: "Rinkai Line"
+        walkingMinutes: 5
+      - type: "bus"
+        station:
+          ja: "東京テレポート駅前"
+          en: "Tokyo Teleport-eki-mae"
+        walkingMinutes: 5
+    officialUrl: "https://www.toyota-arena-tokyo.jp/"
+    sources:
+      - label: "TOYOTA ARENA TOKYO・アクセス"
+        url: "https://www.toyota-arena-tokyo.jp/access/"
+        covers: ["address", "transport"]
+      - label: "TOYOTA ARENA TOKYO・メインアリーナ"
+        url: "https://www.toyota-arena-tokyo.jp/about-the-arena/main-arena/"
+        covers: ["name", "capacity"]
+
+  - id: "pia-arena-mm"
+    name:
+      ja: "ぴあアリーナMM"
+      en: "PIA Arena MM"
+    address:
+      postalCode: "220-0012"
+      region:
+        ja: "神奈川県"
+        en: "Kanagawa"
+      locality:
+        ja: "横浜市西区"
+        en: "Nishi Ward, Yokohama"
+      street:
+        ja: "みなとみらい3-2-2"
+        en: "3-2-2 Minatomirai"
+    capacity:
+      seated: 10057
+      standing: 12141
+      maximum: 12141
+      note:
+        ja: "着席時10,057名、立見時最大12,141名"
+        en: "10,057 seated; up to 12,141 with standing floor"
+    transport:
+      - type: "rail"
+        station:
+          ja: "みなとみらい駅"
+          en: "Minatomirai Station"
+        line:
+          ja: "みなとみらい線"
+          en: "Minatomirai Line"
+        exit: "1"
+        walkingMinutes: 7
+      - type: "rail"
+        station:
+          ja: "新高島駅"
+          en: "Shin-takashima Station"
+        line:
+          ja: "みなとみらい線"
+          en: "Minatomirai Line"
+        exit: "2"
+        walkingMinutes: 8
+      - type: "rail"
+        station:
+          ja: "桜木町駅"
+          en: "Sakuragicho Station"
+        line:
+          ja: "JR京浜東北線・根岸線"
+          en: "JR Keihin-Tohoku / Negishi Lines"
+        walkingMinutes: 7
+    officialUrl: "https://pia-arena-mm.jp/"
+    sources:
+      - label: "ぴあアリーナMM・交通アクセス"
+        url: "https://pia-arena-mm.jp/access/index.html"
+        covers: ["address", "transport"]
+      - label: "ぴあアリーナMM・会場紹介"
+        url: "https://pia-arena-mm.jp/about/"
+        covers: ["name", "capacity"]
+
+  - id: "hitachi-seaside-park"
+    name:
+      ja: "国営ひたち海浜公園"
+      en: "Hitachi Seaside Park"
+    address:
+      postalCode: "312-0012"
+      region:
+        ja: "茨城県"
+        en: "Ibaraki"
+      locality:
+        ja: "ひたちなか市"
+        en: "Hitachinaka City"
+      street:
+        ja: "馬渡字大沼605-4"
+        en: "605-4 Aza Onuma, Mawatari"
+      note:
+        ja: "公園管理センターの住所。公園は広いため、イベントの利用ゲートを別途確認してください"
+        en: "Address of the park office; check the event's designated gate because the park is extensive"
+    officialUrl: "https://www.hitachikaihin.jp/"
+    sources:
+      - label: "国営ひたち海浜公園・アクセス"
+        url: "https://www.hitachikaihin.jp/access/"
+        covers: ["name", "address"]
+
+  - id: "roppongi-claps"
+    name:
+      ja: "六本木C*LAPS"
+      en: "Roppongi C*LAPS"
+    address:
+      postalCode: "106-0032"
+      region:
+        ja: "東京都"
+        en: "Tokyo"
+      locality:
+        ja: "港区"
+        en: "Minato City"
+      street:
+        ja: "六本木3-16-33 青葉六本木ビルB1"
+        en: "Aoba Roppongi Building B1, 3-16-33 Roppongi"
+    capacity:
+      seated: 80
+      maximum: 100
+      note:
+        ja: "通常は着席最大80名。構成により80〜100名程度"
+        en: "Normally up to 80 seated; approximately 80–100 depending on configuration"
+    transport:
+      - type: "metro"
+        station:
+          ja: "六本木駅"
+          en: "Roppongi Station"
+        line:
+          ja: "東京メトロ日比谷線・都営大江戸線"
+          en: "Tokyo Metro Hibiya Line / Toei Oedo Line"
+        walkingMinutes: 5
+      - type: "metro"
+        station:
+          ja: "六本木一丁目駅"
+          en: "Roppongi-itchome Station"
+        line:
+          ja: "東京メトロ南北線"
+          en: "Tokyo Metro Namboku Line"
+        walkingMinutes: 7
+    officialUrl: "https://c-laps.jp/"
+    sources:
+      - label: "六本木クラップス・アクセス"
+        url: "https://c-laps.jp/access"
+        covers: ["name", "address", "transport"]
+      - label: "六本木クラップス・FAQ"
+        url: "https://c-laps.jp/faq/"
+        covers: ["capacity"]
+
+  - id: "kiwa-tennoz"
+    name:
+      ja: "KIWA TENNOZ"
+      en: "KIWA TENNOZ"
+    address:
+      postalCode: "140-0002"
+      region:
+        ja: "東京都"
+        en: "Tokyo"
+      locality:
+        ja: "品川区"
+        en: "Shinagawa City"
+      street:
+        ja: "東品川2-1-3 2F"
+        en: "2F, 2-1-3 Higashi-Shinagawa"
+    transport:
+      - type: "rail"
+        station:
+          ja: "天王洲アイル駅"
+          en: "Tennozu Isle Station"
+        line:
+          ja: "東京モノレール"
+          en: "Tokyo Monorail"
+        exit:
+          ja: "中央口"
+          en: "Central Exit"
+        walkingMinutes: 5
+      - type: "rail"
+        station:
+          ja: "天王洲アイル駅"
+          en: "Tennozu Isle Station"
+        line:
+          ja: "りんかい線"
+          en: "Rinkai Line"
+        exit: "B"
+        walkingMinutes: 5
+    officialUrl: "https://www.oasis-kiwa.com/"
+    notes:
+      - effectiveFrom: "2026-10-01"
+        text:
+          ja: "公式発表では2026年10月1日からSONORRAへ名称変更予定"
+          en: "The venue has announced a planned rename to SONORRA from October 1, 2026"
+        sourceUrl: "https://www.oasis-kiwa.com/news/view/1199"
+    sources:
+      - label: "KIWA TENNOZ・アクセス"
+        url: "https://www.oasis-kiwa.com/access.html?viewmode=pc"
+        covers: ["name", "address", "transport"]
+      - label: "KIWA TENNOZ・名称変更のお知らせ"
+        url: "https://www.oasis-kiwa.com/news/view/1199"
+        covers: ["notes"]
+
+  - id: "shibuya-lovez"
+    name:
+      ja: "Shibuya LOVEZ"
+      en: "Shibuya LOVEZ"
+    address:
+      postalCode: "150-0042"
+      region:
+        ja: "東京都"
+        en: "Tokyo"
+      locality:
+        ja: "渋谷区"
+        en: "Shibuya City"
+      street:
+        ja: "宇田川町9-5"
+        en: "9-5 Udagawacho"
+    capacity:
+      seated: 1698
+      standing: 2026
+      maximum: 2026
+      note:
+        ja: "アリーナ着席時1,698名、立見時2,026名"
+        en: "1,698 with arena seating; 2,026 with standing arena"
+    transport:
+      - type: "rail"
+        station:
+          ja: "渋谷駅"
+          en: "Shibuya Station"
+        exit:
+          ja: "ハチ公口"
+          en: "Hachiko Exit"
+        walkingMinutes: 9
+      - type: "metro"
+        station:
+          ja: "渋谷駅"
+          en: "Shibuya Station"
+        line:
+          ja: "東京メトロ半蔵門線・副都心線"
+          en: "Tokyo Metro Hanzomon / Fukutoshin Lines"
+        exit: "A2"
+        walkingMinutes: 6
+      - type: "bus"
+        station:
+          ja: "宇田川町"
+          en: "Udagawacho"
+        walkingMinutes: 1
+    officialUrl: "https://shibuyalovez.jp/"
+    sources:
+      - label: "Shibuya LOVEZ・施設紹介"
+        url: "https://shibuyalovez.jp/facility/"
+        covers: ["name", "address", "capacity"]
+      - label: "Shibuya LOVEZ・交通アクセス"
+        url: "https://shibuyalovez.jp/access/"
+        covers: ["transport"]
+
+  - id: "world-memorial-hall"
+    name:
+      ja: "ワールド記念ホール（神戸ポートアイランドホール）"
+      en: "World Memorial Hall (Kobe Port Island Hall)"
+    address:
+      postalCode: "650-0046"
+      region:
+        ja: "兵庫県"
+        en: "Hyogo"
+      locality:
+        ja: "神戸市中央区"
+        en: "Chuo Ward, Kobe"
+      street:
+        ja: "港島中町6-12-2"
+        en: "6-12-2 Minatojima Nakamachi"
+    capacity:
+      seated: 3528
+      temporarySeats: 4500
+      maximum: 8000
+      note:
+        ja: "固定席3,528席とアリーナ仮設席約4,500席で最大約8,000名"
+        en: "3,528 fixed seats plus approximately 4,500 temporary arena seats; maximum approximately 8,000"
+    transport:
+      - type: "rail"
+        station:
+          ja: "市民広場駅"
+          en: "Shimin Hiroba Station"
+        line:
+          ja: "神戸新交通ポートアイランド線（ポートライナー）"
+          en: "Kobe New Transit Port Island Line (Port Liner)"
+        exit:
+          ja: "西出口"
+          en: "West Exit"
+        walkingMinutes: 3
+    officialUrl: "https://www.kobe-spokyo.jp/world-kobe/"
+    sources:
+      - label: "ワールド記念ホール・施設概要"
+        url: "https://www.kobe-spokyo.jp/worldsp-kobe/about/gaiyou"
+        covers: ["name", "capacity"]
+      - label: "ワールド記念ホール・アクセス"
+        url: "https://www.kobe-spokyo.jp/world-kobe/access"
+        covers: ["transport"]
+      - label: "ワールド記念ホール・お車でのアクセス"
+        url: "https://www.kobe-spokyo.jp/world-kobe/access_car"
+        covers: ["address"]
+
+  - id: "hotel-alexandra-grand-ballroom"
+    name:
+      ja: "歷山酒店－宴會廳"
+      en: "Hotel Alexandra Grand Ballroom"
+    aliases:
+      ja: ["歷山酒店-宴會廳"]
+      en: ["Hotel Alexandra"]
+    countryCode: "HK"
+    timeZone: "Asia/Hong_Kong"
+    address:
+      region:
+        ja: "香港島"
+        en: "Hong Kong Island"
+      locality:
+        ja: "北角"
+        en: "North Point"
+      street:
+        ja: "城市花園道32號"
+        en: "32 City Garden Road"
+    capacity:
+      maximum: 820
+      note:
+        ja: "全宴會廳劇院式最多820名；分廳及其他佈置的容量不同"
+        en: "Up to 820 in theater layout using the full Grand Ballroom; subdivided rooms and other layouts vary"
+    transport:
+      - type: "metro"
+        station:
+          ja: "炮台山站"
+          en: "Fortress Hill Station"
+        line:
+          ja: "港鐵港島綫"
+          en: "MTR Island Line"
+        exit: "B"
+        walkingMinutes: 2
+    officialUrl: "https://www.hotelalexandrahk.com/hotelalexandra/en/"
+    sources:
+      - label: "Hotel Alexandra・Meetings & Events"
+        url: "https://www.hotelalexandrahk.com/hotelalexandra/en/meetings/"
+        covers: ["name", "address", "transport", "officialUrl"]
+      - label: "Meetings & Exhibitions Hong Kong・Hotel Alexandra"
+        url: "https://www.mehongkong.com/eng/home/planning/venue-and-hotel-search/detail/hotel/Hotel-Alexandra.html"
+        covers: ["address", "capacity", "transport"]
+      - label: "Hotel Alexandra・Factsheet"
+        url: "https://www.hotelalexandrahk.com/hotelalexandra/files/brochure_files/251/jp/Hotel-Alexandra-Factsheet-%28EN-Low%29.pdf"
+        covers: ["address", "transport"]
+
+  - id: "hanaspace-taipei"
+    name:
+      ja: "HANASPACE 花漾展演空間"
+      en: "HANASPACE"
+    aliases:
+      en: ["Hanaspace"]
+    countryCode: "TW"
+    timeZone: "Asia/Taipei"
+    address:
+      postalCode: "100"
+      region:
+        ja: "臺北市"
+        en: "Taipei City"
+      locality:
+        ja: "中正區"
+        en: "Zhongzheng District"
+      street:
+        ja: "仁愛路一段17號10樓"
+        en: "10F, No. 17, Sec. 1, Ren'ai Road"
+    capacity:
+      seated: 500
+      standing: 800
+      maximum: 800
+      note:
+        ja: "公式案内では着席500名以上、スタンディング800名"
+        en: "The official venue information states 500+ seated or 800 standing"
+    transport:
+      - type: "metro"
+        station:
+          ja: "善導寺駅"
+          en: "Shandao Temple Station"
+        line:
+          ja: "台北捷運板南線"
+          en: "Taipei Metro Bannan Line"
+        exit: "3"
+        walkingMinutes: 10
+      - type: "metro"
+        station:
+          ja: "台大医院駅"
+          en: "NTU Hospital Station"
+        line:
+          ja: "台北捷運淡水信義線"
+          en: "Taipei Metro Tamsui-Xinyi Line"
+        exit: "2"
+        walkingMinutes: 12
+      - type: "metro"
+        station:
+          ja: "中正紀念堂駅"
+          en: "Chiang Kai-Shek Memorial Hall Station"
+        line:
+          ja: "台北捷運淡水信義線・松山新店線"
+          en: "Taipei Metro Tamsui-Xinyi / Songshan-Xindian Lines"
+        exit: "5"
+        walkingMinutes: 15
+      - type: "bus"
+        station:
+          ja: "仁愛林森路口"
+          en: "Ren'ai-Linsen Intersection"
+    officialUrl: "https://hanaspace.com.tw/"
+    sources:
+      - label: "花漾展演空間・交通便利方便"
+        url: "https://hanaspace.com.tw/%E4%BA%A4%E9%80%9A%E4%BE%BF%E5%88%A9%E6%96%B9%E4%BE%BF/"
+        covers: ["address", "transport"]
+      - label: "HANASPACE・About Us"
+        url: "https://hanaspace.com.tw/en/about-us/"
+        covers: ["name", "address", "capacity", "officialUrl"]
+
+  - id: "kintex-2-halls-7-10"
+    name:
+      ja: "KINTEX 第2展示場 HALL 7・8・9・10"
+      en: "KINTEX Exhibition Center 2, Halls 7–10"
+    aliases:
+      ja: ["韓国・KINTEX HALL 7·8·9·10"]
+      en: ["KINTEX HALL 7·8·9·10, Korea"]
+    countryCode: "KR"
+    timeZone: "Asia/Seoul"
+    address:
+      postalCode: "10390"
+      region:
+        ja: "京畿道"
+        en: "Gyeonggi-do"
+      locality:
+        ja: "高陽市一山西区"
+        en: "Ilsanseo-gu, Goyang-si"
+      street:
+        ja: "KINTEX路217-59 第2展示場"
+        en: "KINTEX Exhibition Center 2, 217-59 Kintex-ro"
+    spaces:
+      - name: "Hall 7"
+        areaSquareMeters: 11290
+      - name: "Hall 8"
+        areaSquareMeters: 11290
+      - name: "Hall 9"
+        areaSquareMeters: 13238
+      - name: "Hall 10"
+        areaSquareMeters: 13072
+    totalAreaSquareMeters: 48890
+    capacity:
+      note:
+        ja: "展示ホールのため固定収容人数なし。公演レイアウトは主催者発表を確認してください"
+        en: "Exhibition halls have no fixed audience capacity; consult the event organizer for the concert layout"
+    transport:
+      - type: "rail"
+        station:
+          ja: "KINTEX駅"
+          en: "KINTEX Station"
+        line:
+          ja: "GTX-A"
+          en: "GTX-A"
+        exit: "5"
+        walkingMinutes: 10
+      - type: "metro"
+        station:
+          ja: "大化駅"
+          en: "Daehwa Station"
+        line:
+          ja: "首都圏電鉄3号線"
+          en: "Seoul Metropolitan Subway Line 3"
+        exit: "2"
+        walkingMinutes: 15
+    officialUrl: "https://www.kintex.com/web/en/"
+    sources:
+      - label: "KINTEX・Organizer's Guide"
+        url: "https://www.kintex.com/download/formatModal/KINTEX_Organizer%27s%20Guide.pdf"
+        covers: ["name", "spaces", "totalAreaSquareMeters", "officialUrl"]
+      - label: "K-DEX 2026・KINTEX Exhibition Center 2 Access"
+        url: "https://k-dex.kr/eng/visitor/location/"
+        covers: ["address", "transport"]
+      - label: "KCR 2026・GTX-A Access to KINTEX 2"
+        url: "https://2026.kcr4u.org/Travel/info_subway_eng"
+        covers: ["transport"]
+      - label: "WONDERLIVET 2026・会場発表"
+        url: "https://corporate.pia.jp/news/detail_wonderlivet_20260826.html"
+        covers: ["name", "spaces"]

@@ -1,5 +1,13 @@
-import { eachDayOfInterval, format, parseISO } from "date-fns"
-import type { Activity, ActivityPerformance, LocalizedText } from "../types"
+import { eachDayOfInterval, format, getDay, parseISO } from "date-fns"
+import type {
+  Activity,
+  ActivityMilestone,
+  ActivityPerformance,
+  ActivityWeekday,
+  LocalizedText,
+  WeeklyActivityRecurrence,
+} from "../types"
+import { getValidActivityMilestones } from "./activityMilestones"
 import {
   addMinutesToJapanDateTimeKey,
   normalizeJapanDateTimeKey,
@@ -9,6 +17,16 @@ export const DEFAULT_ACTIVITY_DURATION_MINUTES = 60
 
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/
 const DATE_TIME_PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/
+const TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/
+const WEEKDAY_INDEX: Record<ActivityWeekday, number> = {
+  sunday: 0,
+  monday: 1,
+  tuesday: 2,
+  wednesday: 3,
+  thursday: 4,
+  friday: 5,
+  saturday: 6,
+}
 
 export interface ActivityOccurrence {
   date: string
@@ -17,6 +35,7 @@ export interface ActivityOccurrence {
   allDay: boolean
   performanceIndex?: number
   label?: LocalizedText
+  milestones: ActivityMilestone[]
   showEndAt: boolean
 }
 
@@ -73,6 +92,7 @@ export function getPerformanceOccurrences(
           allDay: true,
           performanceIndex,
           label: performance.label,
+          milestones: getValidActivityMilestones(performance.milestones),
           showEndAt: false,
         }
       }
@@ -89,6 +109,7 @@ export function getPerformanceOccurrences(
         allDay: false,
         performanceIndex,
         label: performance.label,
+        milestones: getValidActivityMilestones(performance.milestones),
         showEndAt: Boolean(explicitEndAt || configuredDuration),
       }
     })
@@ -113,13 +134,67 @@ function getDateRangeOccurrences(startDate?: string, endDate?: string) {
         date,
         endAt: normalizeJapanDateTimeKey(date, "end"),
         allDay: true,
+        milestones: [],
         showEndAt: false,
       }
     }
   )
 }
 
+function getWeeklyRecurrenceOccurrences(
+  recurrence: WeeklyActivityRecurrence,
+  durationMinutes?: number
+) {
+  const start = normalizeDate(recurrence.startOn)
+  const end = normalizeDate(recurrence.endOn)
+  const weekday = WEEKDAY_INDEX[recurrence.weekday]
+  if (!start || !end || end < start || weekday === undefined ||
+      !TIME_PATTERN.test(recurrence.startTime)) return []
+
+  if (recurrence.overrides !== undefined && !Array.isArray(recurrence.overrides)) {
+    return []
+  }
+  const overrideList = recurrence.overrides ?? []
+  if (overrideList.some((override) => !override || typeof override !== "object" ||
+      typeof override.date !== "string")) return []
+  const overrides = new Map(
+    overrideList.map((override) => [override.date, override])
+  )
+  if (overrides.size !== overrideList.length) return []
+
+  const scheduledDates = eachDayOfInterval({
+    start: parseISO(start),
+    end: parseISO(end),
+  })
+    .filter((day) => getDay(day) === weekday)
+    .map((day) => format(day, "yyyy-MM-dd"))
+
+  if (overrideList.some((override) =>
+    !scheduledDates.includes(override.date) ||
+    (override.cancelled !== undefined && typeof override.cancelled !== "boolean") ||
+    (override.cancelled && override.startTime !== undefined) ||
+    (override.startTime !== undefined &&
+      (typeof override.startTime !== "string" || !TIME_PATTERN.test(override.startTime)))
+  )) return []
+
+  const generatedPerformances: ActivityPerformance[] = []
+  for (const date of scheduledDates) {
+    const override = overrides.get(date)
+    if (override?.cancelled) continue
+    generatedPerformances.push({
+      startAt: `${date}T${override?.startTime ?? recurrence.startTime}`,
+    })
+  }
+  return getPerformanceOccurrences(generatedPerformances, durationMinutes)
+}
+
 export function getActivityOccurrences(activity: Activity) {
+  if (activity.recurrence?.type === "weekly") {
+    return getWeeklyRecurrenceOccurrences(
+      activity.recurrence,
+      activity.durationMinutes
+    )
+  }
   const performanceOccurrences = getPerformanceOccurrences(
     activity.performances,
     activity.durationMinutes

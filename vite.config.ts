@@ -5,17 +5,25 @@ import { defineConfig } from 'vite';
 import ViteYaml from '@modyfi/vite-plugin-yaml';
 
 import { cloudflare } from "@cloudflare/vite-plugin";
+import { activityEditorPlugin } from "./tools/content-editor/vitePlugin";
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     tailwindcss(),
     ViteYaml(),
-    cloudflare(),
+    ...(mode === "editor" ? [] : [cloudflare()]),
+    activityEditorPlugin(mode === "editor"),
   ],
   resolve: {
     alias: {
       '@': path.resolve(__dirname, '.'),
+    },
+  },
+  build: {
+    // editor.html is a local authoring tool and must never enter the deployed bundle.
+    rollupOptions: {
+      input: path.resolve(__dirname, 'index.html'),
     },
   },
   server: {
@@ -23,4 +31,4 @@ export default defineConfig({
     hmr: process.env.DISABLE_HMR !== 'true',
     port: 7230,
   },
-});
+}));

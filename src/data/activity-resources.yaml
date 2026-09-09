@@ -1,0 +1,80 @@
+# 活动相关信息与资源
+#
+# 本文件顶层为列表，页面可按 date 从新到旧排序。
+# activityId 必须与 activities.yaml 中某项的 id 完全一致。
+# 一条信息可以包含多个来源链接，例如同一份场贩通知的官网、X 和 Instagram。
+# 票务信息仍保存在 activities.yaml 的 ticketInfo 中，不放在本文件。
+#
+# 数据结构参考：
+# - date: "2026-08-30"               # [必填] 信息公开日期，YYYY-MM-DD（日本时间）
+#   activityId: "2026-example-event" # [必填] 对应 activities.yaml 中的活动 id
+#   kind: "post"                     # [必填] announcement | merchandise | post | photo | video | report | other
+#   title:                            # [必填] 这条信息的标题
+#     ja: "出演後コメント"
+#     en: "Post-performance Comment"
+#   description:                      # [可选] 必要的补充说明
+#     ja: "イベント出演後に公開されたコメントです。"
+#     en: "A comment published after the event."
+#   links:                            # [必填] 至少一个相关链接
+#     - platform: "x"                # [必填] x | instagram | youtube | web | other
+#       url: "https://x.com/example/status/123456789"
+#       label:                        # [可选] 省略时页面可使用平台名称
+#         ja: "Xの投稿を見る"
+#         en: "View on X"
+#       status: "expired"             # [可选] expired=显示失效标记；available 或省略时不显示
+#
+# kind 表示“信息是什么”，platform 表示“链接在哪里”，两者不要混用。
+# - announcement: 官方通知、出演决定、时间变更等
+# - merchandise: 会场物贩、商品与购买信息（票务除外）
+# - post: X、Instagram 等平台发布的活动相关投稿
+# - photo: 官方照片、图集
+# - video: 评论视频、活动片段、存档录像
+# - report: 新闻报道、活动报告、采访
+# - other: 无法归入以上类别的内容
+#
+# -----------------------------------------------------------------------------
+# 填写示例 1：活动结束后的 X 投稿
+#
+# - date: "2026-03-22"
+#   activityId: "2026-skip-and-loafer-musical"
+#   kind: "post"
+#   title:
+#     ja: "千秋楽終演後コメント"
+#     en: "Closing-day Post-performance Comment"
+#   description:
+#     ja: "千秋楽の終演後に公開された投稿。"
+#     en: "A post published after the closing performance."
+#   links:
+#     - platform: "x"
+#       url: "https://x.com/example/status/123456789"
+#       label:
+#         ja: "Xの投稿を見る"
+#         en: "View on X"
+#
+# -----------------------------------------------------------------------------
+# 填写示例 2：同一条场贩信息包含官网和 Instagram 两个来源
+#
+# - date: "2026-03-01"
+#   activityId: "2026-skip-and-loafer-musical"
+#   kind: "merchandise"
+#   title:
+#     ja: "劇場販売グッズ情報"
+#     en: "Theater Merchandise Information"
+#   description:
+#     ja: "公演会場で販売される商品の一覧と案内。"
+#     en: "Details and a list of merchandise sold at the venue."
+#   links:
+#     - platform: "web"
+#       url: "https://example.com/events/skip-and-loafer/goods"
+#       label:
+#         ja: "公式サイトの商品一覧"
+#         en: "Official Merchandise List"
+#     - platform: "instagram"
+#       url: "https://www.instagram.com/p/EXAMPLE/"
+#       label:
+#         ja: "Instagramの告知を見る"
+#         en: "View the Instagram Announcement"
+#       status: "expired"
+#
+# 添加第一条正式数据时，请删除下面的 []，再按照上述格式填写。
+[]

@@ -13,20 +13,20 @@ import useJapanNow from "../hooks/useJapanNow"
 export default function TicketInfo({ lang }: { lang: Language }) {
   const t = TRANSLATIONS[lang]
   const location = useLocation()
-  const [highlighted, setHighlighted] = useState<number | null>(null)
+  const [highlighted, setHighlighted] = useState<string | null>(null)
   const now = useJapanNow()
   const activities = ACTIVITIES as Activity[]
   const ticketGroups = getCurrentTicketGroups(activities, now)
 
   useEffect(() => {
-    const scrollToTicket = (location.state as { scrollToTicket?: number })?.scrollToTicket
-    if (scrollToTicket === undefined) return
+    const activityId = (location.state as { ticketActivityId?: string })?.ticketActivityId
+    if (!activityId) return
 
     requestAnimationFrame(() => {
-      const el = document.getElementById(`ticket-${scrollToTicket}`)
+      const el = document.getElementById(`ticket-${activityId}`)
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "center" })
-        setHighlighted(scrollToTicket)
+        setHighlighted(activityId)
         setTimeout(() => setHighlighted(null), 2000)
       }
     })
@@ -40,11 +40,11 @@ export default function TicketInfo({ lang }: { lang: Language }) {
         <div className="space-y-12">
           {ticketGroups.map((group) => (
             <TicketGroup
-              key={group.activity.originalIndex}
+              key={group.activity.id}
               group={group}
               lang={lang}
               variant="current"
-              highlighted={highlighted === group.activity.originalIndex}
+              highlighted={highlighted === group.activity.id}
             />
           ))}
         </div>

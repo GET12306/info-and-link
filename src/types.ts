@@ -3,6 +3,15 @@ import type { ActivityCategory } from "./config/activityCategories";
 export type Language = "ja" | "en";
 export type LocalizedText = Record<Language, string>;
 
+export type ActivityMilestoneKind = "update" | "merch" | "doors" | "other";
+
+export interface ActivityMilestone {
+  kind: ActivityMilestoneKind;
+  at: string;
+  until?: string;
+  label?: LocalizedText;
+}
+
 export interface Role {
   year: string;
   title: LocalizedText;
@@ -10,12 +19,14 @@ export interface Role {
 }
 
 export interface Activity {
+  id: string;
   category: ActivityCategory;
   scheduleLabel: string;
   startDate?: string;
   endDate?: string;
-  recurring?: boolean;
+  recurrence?: ActivityRecurrence;
   durationMinutes?: number;
+  calendarExport?: "auto" | "enabled" | "disabled";
   performances?: ActivityPerformance[];
   title: LocalizedText;
   venue?: LocalizedText;
@@ -24,11 +35,46 @@ export interface Activity {
   ticketInfo?: TicketInfo;
 }
 
+export type ActivityWeekday =
+  | "sunday"
+  | "monday"
+  | "tuesday"
+  | "wednesday"
+  | "thursday"
+  | "friday"
+  | "saturday";
+
+export interface ManualActivityRecurrence {
+  type: "manual";
+}
+
+export interface WeeklyActivityRecurrenceOverride {
+  /** The generated occurrence date being replaced or cancelled. */
+  date: string;
+  /** A replacement same-day JST time. */
+  startTime?: string;
+  cancelled?: boolean;
+}
+
+export interface WeeklyActivityRecurrence {
+  type: "weekly";
+  startOn: string;
+  endOn: string;
+  weekday: ActivityWeekday;
+  startTime: string;
+  overrides?: WeeklyActivityRecurrenceOverride[];
+}
+
+export type ActivityRecurrence =
+  | ManualActivityRecurrence
+  | WeeklyActivityRecurrence;
+
 export interface TimedActivityPerformance {
   startAt: string;
   endAt?: string;
   occursOn?: never;
   label?: LocalizedText;
+  milestones?: ActivityMilestone[];
 }
 
 export interface DateOnlyActivityPerformance {
@@ -36,6 +82,7 @@ export interface DateOnlyActivityPerformance {
   startAt?: never;
   endAt?: never;
   label?: LocalizedText;
+  milestones?: ActivityMilestone[];
 }
 
 export type ActivityPerformance =
@@ -117,9 +164,9 @@ export interface TicketInfo {
 
 export interface TicketEntry {
   type: LocalizedText;
-  startDate?: string;
-  endDate?: string;
+  /** YYYY-MM-DD, or YYYY-MM-DDTHH:mm when an exact JST time is known. */
   startAt?: string;
+  /** YYYY-MM-DD, or YYYY-MM-DDTHH:mm when an exact JST time is known. */
   endAt?: string;
   scheduleLabel: string;
   price?: LocalizedText;

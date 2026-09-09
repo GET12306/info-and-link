@@ -10,7 +10,6 @@ import {
 } from "./activitySchedule"
 
 export type ActivityStatus = "upcoming" | "ongoing" | "past"
-export type IndexedActivity = Activity & { originalIndex: number }
 
 export function getTodayKey(date = new Date()) {
   return getJapanDateKey(date)
@@ -34,7 +33,7 @@ function getActivityStatusFromOccurrences(
   occurrences: ActivityOccurrence[],
   nowKey: string
 ): ActivityStatus {
-  if (activity.recurring) return "ongoing"
+  if (activity.recurrence) return "ongoing"
 
   const { startAt, endAt } = getOccurrenceBounds(occurrences)
   if (endAt && nowKey > endAt) return "past"
@@ -51,13 +50,23 @@ export function getActivityEndDate(activity: Activity): string | null {
   )
 }
 
+function getActivityStartAt(activity: Activity) {
+  return getOccurrenceBounds(getActivityOccurrences(activity)).startAt
+}
+
 export function getActivityStartDate(activity: Activity): string | null {
-  return (
-    getOccurrenceBounds(getActivityOccurrences(activity)).startAt?.substring(
-      0,
-      10
-    ) ?? null
-  )
+  return getActivityStartAt(activity)?.substring(0, 10) ?? null
+}
+
+export function compareActivitiesByStart(a: Activity, b: Activity) {
+  const aStart = a.recurrence ? null : getActivityStartAt(a)
+  const bStart = b.recurrence ? null : getActivityStartAt(b)
+  const aGroup = a.recurrence ? 1 : aStart ? 0 : 2
+  const bGroup = b.recurrence ? 1 : bStart ? 0 : 2
+  if (aGroup !== bGroup) return aGroup - bGroup
+  if (aGroup !== 0) return 0
+  if (aStart === bStart) return 0
+  return aStart.localeCompare(bStart)
 }
 
 export function getActivityStatus(
@@ -70,10 +79,6 @@ export function getActivityStatus(
     getActivityOccurrences(activity),
     normalizedNow
   )
-}
-
-export function withActivityIndexes(activities: Activity[]): IndexedActivity[] {
-  return activities.map((activity, originalIndex) => ({ ...activity, originalIndex }))
 }
 
 function activityOccursInMonth(
@@ -92,7 +97,7 @@ export function getCalendarActivities(
   const normalizedNow = normalizeJapanDateTimeKey(nowKey)
   const currentMonthKey = normalizedNow.substring(0, 7)
 
-  return withActivityIndexes(activities).filter((activity) => {
+  return activities.filter((activity) => {
     const occurrences = getActivityOccurrences(activity)
     if (occurrences.length === 0) return false
     return (
@@ -106,7 +111,7 @@ export function getCurrentActivities(
   activities: Activity[],
   nowKey = getJapanDateTimeKey()
 ) {
-  return withActivityIndexes(activities).filter(
+  return activities.filter(
     (activity) => getActivityStatus(activity, nowKey) !== "past"
   )
 }
@@ -115,7 +120,7 @@ export function getPastActivities(
   activities: Activity[],
   nowKey = getJapanDateTimeKey()
 ) {
-  return withActivityIndexes(activities)
+  return activities
     .filter((activity) => getActivityStatus(activity, nowKey) === "past")
     .sort((a, b) => (getActivityEndDate(b) ?? "").localeCompare(getActivityEndDate(a) ?? ""))
 }

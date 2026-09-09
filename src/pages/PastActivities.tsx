@@ -25,7 +25,7 @@ export default function PastActivities({ lang }: { lang: Language }) {
         <div className="border-t grid-line divide-y divide-gray-300 dark:divide-white/10">
           {pastActivities.map((act) => (
             <ActivityRow
-              key={act.originalIndex}
+              key={act.id}
               activity={act}
               lang={lang}
               categoryLabel={getActivityCategoryLabel(act.category, t)}

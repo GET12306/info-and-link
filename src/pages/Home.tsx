@@ -32,13 +32,13 @@ export default function Home({ lang }: { lang: Language }) {
     return idx >= 0 ? idx : months.findIndex(m => m.key >= todayKey) >= 0 ? months.findIndex(m => m.key >= todayKey) : 0
   })
 
-  const scrollToEvent = (index: number) => {
-    navigate("/activities", { state: { scrollTo: index } })
+  const scrollToEvent = (activityId: string) => {
+    navigate("/activities", { state: { activityId } })
   }
 
   return (
     <div className="space-y-32">
-      <section>
+      <section className="max-w-4xl">
         <h1 className="text-6xl md:text-8xl mb-8 leading-tight">
           {lang === "ja" ? COCO_PROFILE.name : COCO_PROFILE.romaji}
         </h1>
@@ -47,7 +47,7 @@ export default function Home({ lang }: { lang: Language }) {
         </p>
       </section>
 
-      <section id="about" className="space-y-12">
+      <section id="about" className="max-w-4xl space-y-12">
         <h2 className="text-[15px] uppercase tracking-[0.3em] font-bold text-coco-accent">{t.about}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-y-12 gap-x-24 grid-line pt-0">
           {[
@@ -98,7 +98,7 @@ export default function Home({ lang }: { lang: Language }) {
         </section>
       )}
 
-      <section className="space-y-12 pb-24">
+      <section className="max-w-4xl space-y-12 pb-24">
         <h2 className="text-[15px] uppercase tracking-[0.3em] font-bold text-coco-accent">{t.links}</h2>
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {links.map((link) => {

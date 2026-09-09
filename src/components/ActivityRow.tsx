@@ -1,7 +1,8 @@
 import { Tickets } from "lucide-react"
+import type { ReactNode } from "react"
 import { Link } from "react-router-dom"
-import type { Language } from "../types"
-import type { IndexedActivity } from "../utils/activityStatus"
+import type { Activity, Language } from "../types"
+import { TRANSLATIONS } from "../i18n"
 import ActivityPerformanceDetails from "./ActivityPerformanceDetails"
 import ExternalAnchor from "./ExternalAnchor"
 import VenueLabel from "./VenueLabel"
@@ -12,22 +13,25 @@ export default function ActivityRow({
   categoryLabel,
   highlighted,
   ticketAction,
+  scheduleContent,
 }: {
-  activity: IndexedActivity
+  activity: Activity
   lang: Language
   categoryLabel?: string
   highlighted?: boolean
+  scheduleContent?: ReactNode
   ticketAction?: {
     label: string
     to: string
-    state: { scrollToTicket: number }
+    state: { ticketActivityId: string }
   }
 }) {
   const supportsHighlight = highlighted !== undefined
+  const t = TRANSLATIONS[lang]
 
   return (
     <article
-      id={supportsHighlight ? `event-${activity.originalIndex}` : undefined}
+      id={supportsHighlight ? `event-${activity.id}` : undefined}
       className={`flex flex-col justify-between gap-4 py-6 md:flex-row md:items-start ${
         supportsHighlight
           ? `scroll-mt-28 rounded-lg border-l-2 px-4 transition-all duration-500 ${
@@ -62,11 +66,12 @@ export default function ActivityRow({
               </div>
             )}
           </div>
-          <ActivityPerformanceDetails
+          {scheduleContent ?? <ActivityPerformanceDetails
             performances={activity.performances}
             durationMinutes={activity.durationMinutes}
             lang={lang}
-          />
+            startLabel={activity.category === "Program" ? t.milestone_update : undefined}
+          />}
         </div>
 
         {ticketAction && (

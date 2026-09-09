@@ -3,10 +3,10 @@ import type {
   CalendarEvent,
   CalendarMonthData,
 } from "../hooks/useCalendarEvents"
-import type { Language } from "../types"
-import type { IndexedActivity } from "../utils/activityStatus"
+import type { Activity, Language } from "../types"
 import { TRANSLATIONS } from "../i18n"
 import { getActivityCategoryLabel } from "../utils/categoryLabels"
+import { formatActivityMilestone } from "../utils/activityMilestones"
 
 const DAY_LABELS_JA = ["日", "月", "火", "水", "木", "金", "土"]
 const DAY_LABELS_EN = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
@@ -30,25 +30,38 @@ function CalendarEventCard({
   onSelect,
 }: {
   event: CalendarEvent
-  activity: IndexedActivity
+  activity: Activity
   lang: Language
   now?: string
   layout: "mobile" | "desktop"
-  onSelect: (activityIndex: number) => void
+  onSelect: (activityId: string) => void
 }) {
   const t = TRANSLATIONS[lang]
   const isPast = now ? now > event.endAt : false
   const category = getActivityCategoryLabel(activity.category, t)
-  const accessibleLabel = `${event.startTime ? `${event.startTime} ` : ""}${
-    activity.title[lang]
-  }`
+  const timeItems = [
+    ...event.milestones.map((milestone) => ({
+      at: milestone.at,
+      text: formatActivityMilestone(milestone, lang),
+    })),
+    ...(event.startTime
+      ? [{
+          at: event.startTime,
+          text: `${activity.category === "Program" ? t.milestone_update : t.milestone_start} ${event.startTime}`,
+        }]
+      : []),
+  ].sort((a, b) => a.at.localeCompare(b.at))
+  const timeSummary = timeItems.map((item) => item.text).join(" · ")
+  const accessibleLabel = [timeSummary, activity.title[lang]]
+    .filter(Boolean)
+    .join(" ")
 
   if (layout === "mobile") {
     return (
       <button
         type="button"
         disabled={isPast}
-        onClick={() => onSelect(activity.originalIndex)}
+        onClick={() => onSelect(activity.id)}
         className={`block w-full min-w-0 border-l-[3px] px-3 py-2.5 text-left transition-colors ${
           isPast
             ? "cursor-default border-coco-ink/20 bg-coco-ink/[0.025]"
@@ -62,7 +75,7 @@ function CalendarEventCard({
               }`
         }
       >
-        <span className="flex min-w-0 items-center gap-2">
+        <span className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5">
           <span
             className={`min-w-0 truncate text-[10px] font-bold uppercase tracking-wide ${
               isPast ? "text-coco-ink/40" : "text-coco-accent/75"
@@ -70,16 +83,16 @@ function CalendarEventCard({
           >
             {category}
           </span>
-          {event.startTime && (
-            <time
-              dateTime={event.startAt}
+          {timeItems.map((item) => (
+            <span
+              key={`${item.at}-${item.text}`}
               className={`shrink-0 text-[11px] font-medium ${
                 isPast ? "text-coco-ink/40" : "text-coco-accent"
               }`}
             >
-              {event.startTime}
-            </time>
-          )}
+              {item.text}
+            </span>
+          ))}
         </span>
         <span
           className={`mt-1 line-clamp-2 text-sm font-medium leading-5 ${
@@ -96,7 +109,7 @@ function CalendarEventCard({
     <button
       type="button"
       disabled={isPast}
-      onClick={() => onSelect(activity.originalIndex)}
+      onClick={() => onSelect(activity.id)}
       className={`block h-14 w-full min-w-0 overflow-hidden border-l-[3px] px-2 py-1.5 text-left transition-colors ${
         isPast
           ? "cursor-default border-coco-ink/20 bg-coco-ink/[0.025]"
@@ -110,7 +123,7 @@ function CalendarEventCard({
             }`
       }
     >
-      <span className="flex min-w-0 items-center gap-1">
+      <span className="flex min-w-0 items-center gap-1 text-[10px]">
         <span
           className={`min-w-0 truncate text-[10px] font-bold uppercase tracking-wide ${
             isPast ? "text-coco-ink/40" : "text-coco-accent/75"
@@ -118,15 +131,14 @@ function CalendarEventCard({
         >
           {category}
         </span>
-        {event.startTime && (
-          <time
-            dateTime={event.startAt}
-            className={`shrink-0 text-[10px] ${
+        {timeSummary && (
+          <span
+            className={`min-w-0 truncate ${
               isPast ? "text-coco-ink/40" : "text-coco-accent"
             }`}
           >
-            {event.startTime}
-          </time>
+            · {timeSummary}
+          </span>
         )}
       </span>
       <span
@@ -159,8 +171,8 @@ export default function CalendarMonth({
   lang: Language
   today?: string
   now?: string
-  activities: IndexedActivity[]
-  onSelectEvent: (activityIndex: number) => void
+  activities: Activity[]
+  onSelectEvent: (activityId: string) => void
   hasPrev: boolean
   hasNext: boolean
   onPrev: () => void
@@ -172,6 +184,9 @@ export default function CalendarMonth({
   const labels = lang === "ja" ? DAY_LABELS_JA : DAY_LABELS_EN
   const t = TRANSLATIONS[lang]
   const isToday = today ?? ""
+  const activitiesById = new Map(
+    activities.map((activity) => [activity.id, activity])
+  )
 
   return (
     <div className={`border grid-line rounded bg-white dark:bg-neutral-900 ${className}`}>
@@ -288,12 +303,12 @@ export default function CalendarMonth({
                         </div>
                         <div className="space-y-1.5">
                           {day.events.map((event, eventIndex) => {
-                            const activity = activities[event.activityIndex]
+                            const activity = activitiesById.get(event.activityId)
                             if (!activity) return null
 
                             return (
                               <CalendarEventCard
-                                key={`${event.activityIndex}-${
+                                key={`${event.activityId}-${
                                   event.performanceIndex ?? eventIndex
                                 }`}
                                 event={event}
@@ -357,12 +372,12 @@ export default function CalendarMonth({
                       {day.events.length > 0 && (
                         <div className="space-y-1.5">
                           {day.events.map((event, eventIndex) => {
-                            const activity = activities[event.activityIndex]
+                            const activity = activitiesById.get(event.activityId)
                             if (!activity) return null
 
                             return (
                               <CalendarEventCard
-                                key={`${event.activityIndex}-${
+                                key={`${event.activityId}-${
                                   event.performanceIndex ?? eventIndex
                                 }`}
                                 event={event}

@@ -3,32 +3,37 @@ import { useLocation } from "react-router-dom"
 import { TRANSLATIONS } from "../i18n"
 import ACTIVITIES from "../data/activities.yaml"
 import type { Activity, Language } from "../types"
-import { getCurrentActivities, getPastActivities } from "../utils/activityStatus"
+import {
+  compareActivitiesByStart,
+  getCurrentActivities,
+  getPastActivities,
+} from "../utils/activityStatus"
 import { getActivityCategoryLabel } from "../utils/categoryLabels"
 import { hasCurrentTicketInfo } from "../utils/ticketStatus"
 import { ACTIVITY_CATEGORY_META, ACTIVITY_CATEGORY_ORDER } from "../config/activityCategories"
 import useJapanNow from "../hooks/useJapanNow"
 import ActivityRow from "../components/ActivityRow"
+import AddToCalendar from "../components/AddToCalendar"
 import ArchiveLink from "../components/ArchiveLink"
 import { PageHeader, PageLayout } from "../components/PageLayout"
 
 export default function Activities({ lang }: { lang: Language }) {
   const t = TRANSLATIONS[lang]
   const location = useLocation()
-  const [highlighted, setHighlighted] = useState<number | null>(null)
+  const [highlighted, setHighlighted] = useState<string | null>(null)
   const now = useJapanNow()
   const activities = ACTIVITIES as Activity[]
   const currentActivities = getCurrentActivities(activities, now)
   const pastActivities = getPastActivities(activities, now)
 
   useEffect(() => {
-    const scrollTo = (location.state as { scrollTo?: number })?.scrollTo
-    if (scrollTo === undefined) return
+    const activityId = (location.state as { activityId?: string })?.activityId
+    if (!activityId) return
     requestAnimationFrame(() => {
-      const el = document.getElementById(`event-${scrollTo}`)
+      const el = document.getElementById(`event-${activityId}`)
       if (el) {
         el.scrollIntoView({ behavior: "smooth", block: "center" })
-        setHighlighted(scrollTo)
+        setHighlighted(activityId)
         setTimeout(() => setHighlighted(null), 2000)
       }
     })
@@ -40,9 +45,9 @@ export default function Activities({ lang }: { lang: Language }) {
 
       <div className="space-y-18">
         {ACTIVITY_CATEGORY_ORDER.map((category) => {
-          const categoryActivities = currentActivities.filter(
-            (activity) => activity.category === category
-          )
+          const categoryActivities = currentActivities
+            .filter((activity) => activity.category === category)
+            .sort(compareActivitiesByStart)
           if (categoryActivities.length === 0) return null
           const Icon = ACTIVITY_CATEGORY_META[category].icon
 
@@ -55,16 +60,17 @@ export default function Activities({ lang }: { lang: Language }) {
               <div className="border-t grid-line divide-y divide-gray-300 dark:divide-white/10">
                 {categoryActivities.map((act) => (
                   <ActivityRow
-                    key={act.originalIndex}
+                    key={act.id}
                     activity={act}
                     lang={lang}
-                    highlighted={highlighted === act.originalIndex}
+                    highlighted={highlighted === act.id}
+                    scheduleContent={<AddToCalendar activity={act} lang={lang} now={now} />}
                     ticketAction={
                       hasCurrentTicketInfo(act, now)
                         ? {
                             label: t.ticket_info,
                             to: "/tickets",
-                            state: { scrollToTicket: act.originalIndex },
+                            state: { ticketActivityId: act.id },
                           }
                         : undefined
                     }

@@ -37,7 +37,7 @@ export default function TicketEntryRow(props: TicketEntryRowProps) {
           </span>
         ) : (
           <span className="text-sm text-coco-ink/40">
-            {entry.endAt?.replace("T", " ") ?? entry.endDate ?? entry.scheduleLabel}
+            {entry.endAt?.replace("T", " ") ?? entry.scheduleLabel}
           </span>
         )}
       </div>
