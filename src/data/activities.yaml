@@ -602,6 +602,7 @@
     type: "manual"
   performances:
     - occursOn: "2026-08-27"
+    - occursOn: "2026-09-10"
   title:
     ja: "礒部花凜・土屋李央・林鼓子 トリコロールカラー"
     en: "Karin Isobe, Rio Tsuchiya, Coco Hayashi Tricolor"
@@ -938,5 +939,5 @@
     startOn: "2026-09-01"
     endOn: "2026-12-31"
     weekday: "wednesday"
-    startTime: "22:00"
+    startTime: "19:00"
   calendarExport: "disabled"
