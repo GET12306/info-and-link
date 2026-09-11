@@ -425,8 +425,7 @@
 
 - id: "2026-hong-kong-fan-meeting"
   category: "Event"
-  scheduleLabel: |
-    2026.09.26
+  scheduleLabel: "2026.09.26\n"
   performances:
     - startAt: "2026-09-26T15:00"
       label:
@@ -435,6 +434,8 @@
       milestones:
         - kind: "doors"
           at: "14:30"
+        - kind: "merch"
+          at: "12:30"
     - startAt: "2026-09-26T19:00"
       label:
         ja: "夜の部"
@@ -442,13 +443,15 @@
       milestones:
         - kind: "doors"
           at: "18:30"
+        - kind: "merch"
+          at: "17:30"
   title:
     ja: "林鼓子 2026香港ファンミーティング"
     en: "Coco Hayashi 2026 Hong Kong Fan Meeting"
   venue:
     ja: "歷山酒店-宴會廳"
     en: "Hotel Alexandra"
-  link: https://x.com/flashinglightCM/status/2089200550961148103
+  link: "https://x.com/flashinglightCM/status/2089200550961148103"
   ticketInfo:
     price:
       ja: "S席: 980HKD(税・手数料別)  一般席:580HKD(税・手数料別)"
@@ -459,7 +462,7 @@
           en: "First-Come, First-Served Sale"
         startAt: "2026-08-24T19:00"
         scheduleLabel: "2026.08.24 19:00+19:10"
-        link: https://www.art-mate.net/tc/doc/99381
+        link: "https://www.art-mate.net/tc/doc/99381"
 
 - id: "2026-taipei-fan-meeting"
   category: "Event"
