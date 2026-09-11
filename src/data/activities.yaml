@@ -472,10 +472,24 @@
       label:
         ja: "昼の部"
         en: "Matinee"
+      milestones:
+        - kind: "merch"
+          at: "11:30"
+          until: "14:30"
     - startAt: "2026-09-27T19:00"
       label:
         ja: "夜の部"
         en: "Evening"
+      milestones:
+        - kind: "merch"
+          at: "15:30"
+          until: "18:30"
+        - kind: "other"
+          at: "20:00"
+          label:
+            ja: "最終販売"
+            en: "Final Sale"
+          until: "21:00"
   title:
     ja: "林鼓子 2026台北ファンミーティング"
     en: "Coco Hayashi 2026 Taipei Fan Meeting"
