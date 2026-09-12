@@ -21,7 +21,7 @@
 #       label:                         # [可选] 场次名称
 #         ja: "出演日"
 #         en: "Performance date"
-#       milestones:                    # [可选] 仅展示的当天时刻；不改变全天属性、结束时间或活动状态
+#       milestones:                    # [可选] 当天的辅助时刻；不改变全天属性、主日程结束时间或活动状态
 #         - kind: "update"             # update：情报、节目或内容的公开/更新时间
 #           at: "12:00"                # [必填] HH:mm，日本时间；会显示在首页日历和活动日程中
 #     - startAt: "2026-08-11T14:30"    # [二选一] 日本时间的场次开始时刻
@@ -29,7 +29,7 @@
 #       label:                         # [可选] 昼公演、夜公演等场次名称
 #         ja: "昼公演"
 #         en: "Matinee"
-#       milestones:                    # [可选] 同一场次的开场、物贩或其他辅助时刻；仅用于显示
+#       milestones:                    # [可选] 同一场次的开场、物贩或其他辅助时刻；可按日历设置单独导出
 #         - kind: "merch"              # merch：物贩或周边销售开始时间；可用 until 表示销售时段
 #           at: "12:00"
 #           until: "13:30"             # [可选] 同一天的结束时刻，必须晚于 at
@@ -169,11 +169,13 @@
       - type:
           ja: "林鼓子ファンクラブ チケット先行販売"
           en: "Coco Hayashi Fan Club: Advance Ticket Sales"
-        scheduleLabel: "2026.09.09"
+        scheduleLabel: "2026.09.12 10:00-09.21"
+        link: "https://t.pia.jp/pia/ticketInformation.do?lotRlsCd=34576"
+        startAt: "2026-09-12T10:00"
+        endAt: "2026-09-21T23:59"
         description:
-          ja: "発表まで今しばらくお待ちください"
-          en: "Please wait a little while for the announcement."
-        link: "https://x.com/FC_coco2025/status/2096804055771394478"
+          ja: "FC先行特典：キャスト回替わりブロマイド付き"
+          en: "FC Pre-sale Bonus: Includes a rotating cast of bromides"
       - type:
           ja: "オフィシャル先行(抽選)"
           en: "Official Pre-sale (Lottery)"
@@ -186,6 +188,9 @@
         scheduleLabel: "2026.10.03 10:00"
         startAt: "2026-10-03T10:00"
     link: "https://confetti-web.com/@/ravel_2026"
+    price:
+      ja: "8,500円"
+      en: "8,500 Yen"
 # ------------------------------------------------------------------------------------------------------------
 - id: "2026-unsent-folder"
   category: "Reading"
@@ -601,7 +606,7 @@
   recurrence:
     type: "weekly"
     startOn: "2026-09-01"
-    endOn: "2026-12-31"
+    endOn: "2027-01-31"
     weekday: "friday"
     startTime: "22:00"
   title:
@@ -954,7 +959,23 @@
   recurrence:
     type: "weekly"
     startOn: "2026-09-01"
-    endOn: "2026-12-31"
+    endOn: "2027-01-31"
     weekday: "wednesday"
     startTime: "19:00"
   calendarExport: "disabled"
+- id: "coco-fc2025-event2027-01"
+  category: "Event"
+  scheduleLabel: "2027-01-30"
+  title:
+    ja: "林鼓子FanClub Event 2027～鼓星の会vol.1～"
+    en: "Coco Hayashi Fan Club Event 2027 ~ The Star Meeting, Vol. 1 ~"
+  link: "https://fan.pia.jp/cocohayashi/news/detail/85/?page=1&ptag=NEWS"
+  description:
+    ja: "詳細・チケット先行販売に関しましては、少々お待ちください。"
+    en: "Please wait a moment for details and information regarding the advance ticket sale."
+  venue:
+    ja: "都内某所"
+    en: "Somewhere in Tokyo"
+  startDate: "2027-01-30"
+  endDate: "2027-01-30"
+  durationMinutes: 90
