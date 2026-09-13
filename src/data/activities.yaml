@@ -912,6 +912,15 @@
         description:
           ja: "MyGO!!!!! 3rd Album「致並跡」初回生産分に封入の申込券でご応募いただけます。"
           en: "You can enter the giveaway using the entry coupon included in the first press run of MyGO!!!!!'s 3rd album, “Chinamiato.”"
+      - type:
+          ja: "プレイガイド先行"
+          en: "Ticket Agency Pre-sale"
+        scheduleLabel: "2026.09.13 12:00-2026.10.04"
+        description:
+          ja: "S席(特製グッズ付き)は、最速先行抽選の入金キャンセル分のみの受付となります。"
+          en: "S Seats (with special merchandise) are available only for tickets that were canceled after payment during the fastest-access advance lottery."
+        startAt: "2026-09-13T12:00"
+        endAt: "2026-10-04"
 
 - id: "2026-wonderlivet"
   category: "Live"
@@ -965,7 +974,7 @@
   calendarExport: "disabled"
 - id: "coco-fc2025-event2027-01"
   category: "Event"
-  scheduleLabel: "2027-01-30"
+  scheduleLabel: "2027.01.30"
   title:
     ja: "林鼓子FanClub Event 2027～鼓星の会vol.1～"
     en: "Coco Hayashi Fan Club Event 2027 ~ The Star Meeting, Vol. 1 ~"
