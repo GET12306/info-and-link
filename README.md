@@ -14,9 +14,9 @@ This project is unofficial and is not affiliated with or endorsed by LIBERTE or 
 - **Home calendar**: shows dated activities directly in each day, supports JST performance times and multiple performances per day, and uses a compact responsive layout on narrow screens.
 - **Activities page**: groups current activities by category and moves finished activities to an archive page automatically.
 - **Add to calendar**: downloads one performance or all remaining known performances as an ICS file, with automatic readiness checks and a manual content switch.
-- **Ticket Info page**: shows current ticket lotteries, presales, and sales. Finished ticket entries move to a past-ticket archive automatically.
-- **Photobooks page**: presents published photobooks in a poster-style archive with long-form descriptions, bibliographic details, cover attribution, and official links.
-- **Data-driven content**: profile, links, activities, photobooks, roles, and fan projects are stored in YAML files under `src/data/`.
+- **Ticket Info page**: shows current ticket lotteries, presales, and sales. Finished activities retain their ticket records in an inline disclosure on the past-activities page.
+- **Photobooks page**: presents published photobooks in a compact catalogue with collapsible descriptions, bibliographic details, cover attribution, and official links.
+- **Data-driven content**: profile, links, activities, photobooks, and performance credits are stored in YAML files under `src/data/`.
 
 ## Tech Stack
 
@@ -52,10 +52,14 @@ src/
 Important content files:
 
 - `src/data/activities.yaml`: activities and optional ticket information.
-- `src/data/profile.yaml`: profile facts.
+- `src/data/profile.yaml`: localized profile name and an ordered, extensible `items` list. Add,
+  remove, or reorder items there; the home page automatically chooses a dense responsive
+  column count instead of assuming two items per row.
 - `src/data/links.yaml`: all official and external resource links shown on the home page.
 - `src/data/photobooks.yaml`: published photobooks, descriptions, cover sources, bibliographic details, and official links.
-- `src/data/roles.yaml`: role/history data for the about page.
+- `src/data/credits.yaml`: screen, game, and audio performance credits; scheduled appearances remain in `activities.yaml`.
+- `src/data/programs.yaml`: show, broadcast, and project archives that do not need activity scheduling or ticket status.
+- `src/data/activity-resources.yaml`: posts, photos, videos, reports, and merchandise links attached to activities by ID.
 - `src/data/fan-projects.yaml`: fan project data, currently not routed in the app.
 
 ## Getting Started
@@ -116,11 +120,11 @@ another all-purpose data-page schema:
 
 - `PageLayout` and `PageHeader` provide the shared page structure and optional back link.
 - `EmptyState` is included only on pages whose data can reasonably be empty.
-- `ArchiveLink` provides the common current-to-history navigation.
+- `Museum` is the shared archive entry point; archive pages return to `/museum`.
 - `ExternalAnchor` enforces consistent external-link security behavior.
 - `ActivityRow`, `TicketGroup`, and `TicketEntryRow` own domain-specific display rules.
 - `VenueLabel` keeps activity venues in a consistent position on activity and ticket pages.
-- `PhotoBookEntry` owns the poster-style layout and bibliographic display rules for photobooks.
+- `PhotoBookEntry` owns the compact cover layout and bibliographic display rules for photobooks.
 - `activityCategories.ts` is the single source for category order, labels, compact labels, and icons.
 
 Required domain fields should stay in the TypeScript interfaces, while truly optional
@@ -164,7 +168,7 @@ Recommended fields:
 - `startDate`: machine-readable first date in `YYYY-MM-DD` for a continuous date range.
 - `endDate`: machine-readable last date in `YYYY-MM-DD`; omit it for a single-day activity.
 - `performances`: exact non-consecutive dates or timed performances. A performance uses either `occursOn: YYYY-MM-DD` or `startAt: YYYY-MM-DDTHH:mm` JST, and can have a bilingual `label`.
-- `milestones`: optional display-only times within a performance, such as an update, merchandise sales, or doors opening. They never change whether the performance is all-day, its end time, or activity status. `at` and `until` use same-day `HH:mm` JST values, not full date-times.
+- `milestones`: optional supplementary times within a performance, such as an update, merchandise sales, or doors opening. They can be selected for calendar export, but never change whether the parent performance is all-day, its end time, or activity status. `at` and `until` use same-day `HH:mm` JST values, not full date-times.
 - `durationMinutes`: shared duration for timed performances. An individual performance's `endAt` overrides it.
 - `recurrence`: marks an ongoing program and describes how its known occurrences are supplied. Use `type: manual` for monthly/irregular programs, or the bounded `type: weekly` rule described below.
 - `venue.ja` and `venue.en`: the activity venue shared by activity, ticket, and future calendar displays.
@@ -174,7 +178,7 @@ Date behavior:
 
 - Use either `performances` or the continuous `startDate`/`endDate` range for one activity, not both.
 - Each normalized occurrence becomes a separate calendar item. An activity becomes past after its final occurrence ends.
-- A timed performance ends at its own `endAt`, otherwise after the activity's `durationMinutes`, otherwise after the system default of 60 minutes. Durations may cross midnight.
+- A timed performance ends at its own `endAt`, otherwise after the activity's `durationMinutes`, otherwise after the system default of 90 minutes. Durations may cross midnight.
 - A date-only `occursOn` performance is treated as an all-day occurrence and remains current through `23:59` JST.
 - A milestone uses `kind: update`, `merch`, `doors`, or `other` with an `at: HH:mm` JST time. `update` is an information/content publication time, `merch` is merchandise sales, `doors` is when the venue opens for entry (not the performance start), and `other` is any separately labelled supplementary time. Add `until: HH:mm` for a same-day interval. `other` requires a bilingual `label`; a label on a standard kind overrides its default name.
 - `endAt` belongs to the same performance item as `startAt`: align the two fields and do not add another list marker (`-`) before `endAt`.
@@ -262,7 +266,7 @@ Example with two performances on the same day:
   link: "https://example.com"
 ```
 
-Example with display-only times:
+Example with supplementary times:
 
 ```yaml
 - id: "2026-example-program"
@@ -321,20 +325,22 @@ export instead of silently downloading a partial schedule. The existing site cal
 and automatic archive rules are unchanged.
 
 - Only occurrences that have not ended (using the site's JST status rules) are offered.
-- **Performance Schedule** and **Add all shows** share one toolbar. Expand the schedule
-  to find **Add this show** next to each eligible performance; each button downloads
-  only that performance. Add all shows downloads all remaining eligible performances
-  directly.
+- **Performance Schedule**, bulk calendar export, and calendar settings share one toolbar.
+  Calendar settings select performance starts, doors, merchandise sales, and other
+  supplementary times for both bulk and individual-performance downloads. At least one
+  type always remains selected.
 - Date-only entries and continuous ranges require `enabled`; each date is an all-day
   placeholder. Only use ranges when every day is intended.
 - Exact times are converted from JST to the visitor's browser timezone. The ICS contains
   a `VTIMEZONE` definition and uses that timezone on `DTSTART` and `DTEND`, including
   daylight-saving transitions where applicable.
 - Explicit `endAt` overrides `durationMinutes`. When neither is provided, the generated
-  event uses the same 60-minute default as the site's status logic.
+  event uses the same 90-minute default as the site's status logic.
 - Manual recurring programs export only explicitly listed dates. Weekly programs export only occurrences generated inside their finite confirmed range; ICS files never contain an open-ended recurrence rule.
-- The ICS contains the title, performance label, venue, and one standard `URL` property
-  per event. It intentionally omits `DESCRIPTION`; milestone times remain display-only.
+- Each generated `VEVENT` contains the title, performance label, optional venue, and one
+  standard `URL` property. It intentionally omits `DESCRIPTION`. A milestone with
+  `until` uses that end time; doors and merchandise otherwise end at the performance
+  start, while other times use the default 60-minute duration.
 
 ICS downloads are **one-time snapshots, not subscriptions**. Updating YAML and deploying
 the site affects future downloads; it cannot update events already imported by visitors.
@@ -351,10 +357,8 @@ Refresh timing is controlled by the subscribing app. It is not implemented here.
 The schedule renderer exposes toolbar, per-performance action, and footer slots.
 `AddToCalendar` connects these to `useCalendarDownload`; file delivery is independent
 of display. `buildActivityCalendar` accepts a typed `selection` (`all` or explicit
-performance keys), so future selection controls can reuse it. Milestones remain
-structured data and are currently display-only.
-Standalone milestone export should add its own selection variant, eligibility rules,
-and UID namespace; it must not change the meaning of “all shows” or reuse a show's UID.
+performance keys) plus selected event types. Milestones use their own UID namespace and
+do not change the parent performance's status or duration.
 
 Run `npm run test:calendar`, `npm run lint`, and `npm run build` after changing export logic.
 
@@ -450,3 +454,77 @@ This project is licensed under the Apache License 2.0. See `LICENSE`.
 ## Disclaimer
 
 This is an unofficial fan project. It is not affiliated with or endorsed by LIBERTE or Coco Hayashi. All event and ticket information should be verified against official sources before use.
+
+## Museum collections
+
+Museum has four direct child routes and no per-record detail routes:
+
+- `/museum/credits`: anime, game, screen, and audio credits from `credits.yaml`.
+- `/museum/activities`: finished scheduled activities from `activities.yaml`.
+- `/museum/programs`: show and project archives from `programs.yaml`.
+- `/museum/media`: one filterable view over `photobooks.yaml`, `magazines.yaml`, and `notes.yaml`.
+
+Card titles and descriptions are localized in `src/i18n.ts`; card order, icons,
+and routes are defined by `src/pages/Museum.tsx`. Catalogue details use inline
+native disclosures rather than deeper routes.
+
+Activity-related X / Instagram posts, merchandise announcements, photos, videos,
+and reports remain in `src/data/activity-resources.yaml`. Each resource owns its
+publication date, kind, platform, localized title, optional description, and optional
+status. Use `url` for an individual resource. For a large set of cast/staff photos,
+use `links` instead: its entries may be plain URL strings for fast bulk entry or
+objects with per-link `date`, `label`, `platform`, and `status` overrides. The UI
+derives compact X handles or host names for unlabeled links, counts actual links,
+and keeps the collection in a second initially collapsed section. A resource's
+`activityId` must match `activities.yaml`. Current and archived activity cards render
+matching resources inside an initially collapsed disclosure, sorted newest first.
+Ticket history is likewise rendered inline from the activity's unchanged
+`ticketInfo` structure. Run resource checks with
+`node --test tests/activityResources.test.mjs`.
+
+Programs, photobooks, magazines, and articles use the same optional
+`relatedResources` structure directly on each record. This field is reserved for
+supplementary posts, photos, videos, reports, and similar material; it accepts the
+same single `url` or bulk `links` forms and renders through the same collapsed UI.
+Existing link fields keep their narrower roles: a program's `url` and an article's
+`link` are the primary destination, photobook/magazine `links` are official,
+publisher, or purchase destinations, and an article's `relatedLinks` represents
+named continuations such as later parts of the same interview. YAML templates in
+all four data files include a `relatedResources` example.
+
+Deferred editor follow-up (after the grouped-resource presentation is approved):
+add a multiline “one URL per line” input that removes duplicates, detects the
+platform, and emits the compact `links` YAML form. This is intentionally not part
+of the current activity editor yet.
+
+## Dense archive catalogues
+
+`src/components/ArchiveCatalog.tsx` provides `ArchiveCatalog`, `CatalogGrid`, and
+`CatalogEntry` for compact reference pages, with styles in `src/index.css`.
+Credits, programs, activities, photobooks, magazines, and articles use compact
+headers and short-reading-width entries: two columns when the content container is
+at least 46rem wide, otherwise one column.
+
+Add magazine appearances to `src/data/magazines.yaml`. Only `title` is required;
+all other top-level fields are optional. Text accepts a plain string or a partial
+`ja`/`en` object, with fallback to the available language. Publication dates may be
+YYYY, YYYY-MM, or YYYY-MM-DD; undated entries sort last. Covers have no empty
+placeholder when omitted or unavailable. Each supplied cover or link requires a
+URL. The YAML includes a commented template. The prepared title/content search
+and publication-year filtering UI is disabled pending further refinement. Run
+`node --test tests/magazines.test.mjs` for focused checks.
+
+
+### Shared museum layout and inline activity history
+
+All museum child pages use `ArchiveCatalog`, `CatalogGrid`, and `CatalogEntry`
+from `src/components/ArchiveCatalog.tsx`. `CatalogDisclosure` provides a shared,
+keyboard-accessible, initially collapsed detail section for ticket records and
+photobook descriptions. Desktop catalogues use two columns and narrow containers
+use one; opening a detail section stays in the same card and does not navigate.
+
+`ArchivedActivityEntry` shows ticket entries and activity resources belonging to a
+finished activity. Entry-specific ticket prices and links take precedence over
+activity-level defaults. Empty disclosures are omitted. The current-ticket page
+keeps its existing filtering behavior. Verify with
+`node --test tests/archiveCatalog.test.mjs`.

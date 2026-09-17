@@ -6,7 +6,6 @@ import type { Activity, Language } from "../types"
 import {
   compareActivitiesByStart,
   getCurrentActivities,
-  getPastActivities,
 } from "../utils/activityStatus"
 import { getActivityCategoryLabel } from "../utils/categoryLabels"
 import { hasCurrentTicketInfo } from "../utils/ticketStatus"
@@ -14,7 +13,6 @@ import { ACTIVITY_CATEGORY_META, ACTIVITY_CATEGORY_ORDER } from "../config/activ
 import useJapanNow from "../hooks/useJapanNow"
 import ActivityRow from "../components/ActivityRow"
 import AddToCalendar from "../components/AddToCalendar"
-import ArchiveLink from "../components/ArchiveLink"
 import { PageHeader, PageLayout } from "../components/PageLayout"
 
 export default function Activities({ lang }: { lang: Language }) {
@@ -24,7 +22,6 @@ export default function Activities({ lang }: { lang: Language }) {
   const now = useJapanNow()
   const activities = ACTIVITIES as Activity[]
   const currentActivities = getCurrentActivities(activities, now)
-  const pastActivities = getPastActivities(activities, now)
 
   useEffect(() => {
     const activityId = (location.state as { activityId?: string })?.activityId
@@ -41,7 +38,7 @@ export default function Activities({ lang }: { lang: Language }) {
 
   return (
     <PageLayout>
-      <PageHeader title={t.activities} subtitle="Performance Schedule & History" />
+      <PageHeader title={t.activities} subtitle="Performance Schedule" />
 
       <div className="space-y-18">
         {ACTIVITY_CATEGORY_ORDER.map((category) => {
@@ -82,13 +79,6 @@ export default function Activities({ lang }: { lang: Language }) {
         })}
       </div>
 
-      {pastActivities.length > 0 && (
-        <ArchiveLink
-          to="/activities/past"
-          title={t.view_past_activities}
-          description={t.view_past_activities_description}
-        />
-      )}
     </PageLayout>
   )
 }

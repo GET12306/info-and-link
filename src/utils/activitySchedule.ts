@@ -13,7 +13,7 @@ import {
   normalizeJapanDateTimeKey,
 } from "./japanTime"
 
-export const DEFAULT_ACTIVITY_DURATION_MINUTES = 60
+export const DEFAULT_ACTIVITY_DURATION_MINUTES = 90
 
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/
 const DATE_TIME_PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/
@@ -202,4 +202,11 @@ export function getActivityOccurrences(activity: Activity) {
   return performanceOccurrences.length
     ? performanceOccurrences
     : getDateRangeOccurrences(activity.startDate, activity.endDate)
+}
+
+export function getNextActivityOccurrence(activity: Activity, now: string) {
+  const today = normalizeJapanDateTimeKey(now).substring(0, 10)
+  return getActivityOccurrences(activity).find(
+    (occurrence) => occurrence.date >= today
+  ) ?? null
 }

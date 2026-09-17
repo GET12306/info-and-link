@@ -8,19 +8,20 @@ import Loading from "./components/Loading"
 import NavBar from "./components/NavBar"
 import { useLanguage } from "./hooks/useLanguage"
 
+const Museum = lazy(() => import("./pages/Museum"))
+const Credits = lazy(() => import("./pages/Credits"))
+const Programs = lazy(() => import("./pages/Programs"))
+const Media = lazy(() => import("./pages/Media"))
 const Home = lazy(() => import("./pages/Home"))
 const Activities = lazy(() => import("./pages/Activities"))
 const PastActivities = lazy(() => import("./pages/PastActivities"))
 const TicketInfo = lazy(() => import("./pages/TicketInfo"))
-const PastTickets = lazy(() => import("./pages/PastTickets"))
-const HistoricalResources = lazy(() => import("./pages/HistoricalResources"))
-const Notes = lazy(() => import("./pages/Notes"))
-const PhotoBooks = lazy(() => import("./pages/PhotoBooks"))
 const About = lazy(() => import("./pages/About"))
 
 function AnimatedRoutes({ lang }: { lang: Language }) {
   const location = useLocation()
   const isHome = location.pathname === "/"
+  const isCatalog = location.pathname.startsWith("/museum/")
   return (
     <main className="relative w-full py-32">
       <Suspense fallback={<Loading />}>
@@ -31,20 +32,20 @@ function AnimatedRoutes({ lang }: { lang: Language }) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -10 }}
             transition={{ duration: 0.4 }}
-            className={`min-h-[60vh] min-w-0 px-6 md:px-12 ${
-              isHome ? "w-full" : "mx-auto w-full max-w-7xl"
+            className={`min-h-[60vh] min-w-0 ${
+              isHome ? "home-container" : "mx-auto w-full max-w-7xl px-6 md:px-12"
             }`}
           >
-            <div className={isHome ? "w-full" : "max-w-4xl"}>
+            <div className={isHome || isCatalog ? "w-full" : "max-w-4xl"}>
               <Routes location={location}>
                 <Route path="/" element={<Home lang={lang} />} />
                 <Route path="/activities" element={<Activities lang={lang} />} />
-                <Route path="/activities/past" element={<PastActivities lang={lang} />} />
+                <Route path="/museum/activities" element={<PastActivities lang={lang} />} />
                 <Route path="/tickets" element={<TicketInfo lang={lang} />} />
-                <Route path="/tickets/past" element={<PastTickets lang={lang} />} />
-                <Route path="/resources" element={<HistoricalResources lang={lang} />} />
-                <Route path="/notes" element={<Notes lang={lang} />} />
-                <Route path="/photobooks" element={<PhotoBooks lang={lang} />} />
+                <Route path="/museum" element={<Museum lang={lang} />} />
+                <Route path="/museum/credits" element={<Credits lang={lang} />} />
+                <Route path="/museum/programs" element={<Programs lang={lang} />} />
+                <Route path="/museum/media" element={<Media lang={lang} />} />
                 <Route path="/about" element={<About lang={lang} />} />
                 <Route path="/wardrobe" element={<Navigate to="/" replace />} />
               </Routes>

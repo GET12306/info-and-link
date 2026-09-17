@@ -9,8 +9,14 @@ const server = await createServer({
   appType: "custom",
 })
 after(() => server.close())
-const { getCalendarOccurrences, buildActivityCalendar } = await server.ssrLoadModule("/src/utils/activityCalendar.ts")
+const {
+  getAvailableCalendarEventKinds,
+  getCalendarOccurrences,
+  buildActivityCalendar,
+  occurrenceHasCalendarEventKinds,
+} = await server.ssrLoadModule("/src/utils/activityCalendar.ts")
 const { compareActivitiesByStart } = await server.ssrLoadModule("/src/utils/activityStatus.ts")
+const { getNextActivityOccurrence } = await server.ssrLoadModule("/src/utils/activitySchedule.ts")
 const activity = {
   id: "test-live", category: "Live", scheduleLabel: "Display only", title: { ja: "ライブ", en: "Live" },
   link: "https://example.com/event", venue: { ja: "東京", en: "Tokyo" },
@@ -40,6 +46,31 @@ test("current activity categories put chronological one-time events before stabl
     "recurring-second",
     "unknown",
   ])
+})
+
+test("recurring activity display keeps today's update and otherwise selects only the next date", () => {
+  const recurring = {
+    ...activity,
+    recurrence: { type: "manual" },
+    performances: [
+      { occursOn: "2026-09-10" },
+      { occursOn: "2026-09-12" },
+      { startAt: "2026-09-19T22:00" },
+    ],
+  }
+
+  assert.equal(
+    getNextActivityOccurrence(recurring, "2026-09-12T23:30")?.date,
+    "2026-09-12"
+  )
+  assert.equal(
+    getNextActivityOccurrence(recurring, "2026-09-13T00:00")?.date,
+    "2026-09-19"
+  )
+  assert.equal(
+    getNextActivityOccurrence(recurring, "2026-09-20T00:00"),
+    null
+  )
 })
 
 test("explicit selections export only the chosen shows", async () => {
@@ -86,7 +117,7 @@ test("invalid or contradictory data cannot silently produce a partial calendar",
   ]) assert.equal(getCalendarOccurrences({ ...activity, calendarExport: "enabled", ...overrides }).length, 0, JSON.stringify(overrides))
 })
 
-test("JST converts to the downloader's timezone and default duration is 60 minutes", async () => {
+test("JST converts to the downloader's timezone and default duration is 90 minutes", async () => {
   const ics = unfold(await buildActivityCalendar(activity, "en", {
     ...options,
     timeZone: "America/Los_Angeles",
@@ -96,7 +127,7 @@ test("JST converts to the downloader's timezone and default duration is 60 minut
   assert.match(ics, /TZOFFSETTO:-0700/)
   assert.match(ics, /TZOFFSETTO:-0800/)
   assert.match(ics, /DTSTART;TZID=America\/Los_Angeles:20260911T083000/)
-  assert.match(ics, /DTEND;TZID=America\/Los_Angeles:20260911T093000/)
+  assert.match(ics, /DTEND;TZID=America\/Los_Angeles:20260911T100000/)
   assert.doesNotMatch(ics, /DESCRIPTION|DURATION|RRULE/)
   assert.match(ics, /LOCATION:Tokyo/)
   assert.match(ics, /URL:https:\/\/example.com\/event/)
@@ -120,7 +151,7 @@ test("all-day export uses an exclusive end date across a year boundary", async (
   assert.equal((await buildActivityCalendar(range, "ja", options)).match(/BEGIN:VEVENT/g).length, 3)
 })
 
-test("display-only milestones do not change all-day or duration semantics", async () => {
+test("milestones do not change their parent performance's all-day or duration semantics", async () => {
   const allDay = {
     ...activity,
     calendarExport: "enabled",
@@ -155,6 +186,54 @@ test("display-only milestones do not change all-day or duration semantics", asyn
   const timedIcs = unfold(await buildActivityCalendar(timed, "en", options))
   assert.doesNotMatch(timedIcs, /DESCRIPTION|Merch|Doors/)
   assert.match(timedIcs, /DTEND;TZID=Asia\/Tokyo:20260912T200000/)
+})
+
+test("calendar settings export milestone events with venue, URL, and the intended durations", async () => {
+  const event = {
+    ...activity,
+    performances: [{
+      startAt: "2026-09-12T18:00",
+      label: { ja: "夜公演", en: "Evening" },
+      milestones: [
+        { kind: "merch", at: "14:00", until: "16:30" },
+        { kind: "doors", at: "17:00" },
+        {
+          kind: "other",
+          at: "20:30",
+          label: { ja: "お見送り", en: "Send-off" },
+        },
+      ],
+    }],
+  }
+  const [occurrence] = getCalendarOccurrences(event)
+  assert.deepEqual(
+    getAvailableCalendarEventKinds([occurrence]),
+    ["performance", "doors", "merch", "other"]
+  )
+  assert.equal(occurrenceHasCalendarEventKinds(occurrence, ["doors"]), true)
+  assert.equal(occurrenceHasCalendarEventKinds(occurrence, []), false)
+
+  const ics = unfold(await buildActivityCalendar(event, "en", {
+    ...options,
+    selection: {
+      kind: "all",
+      eventKinds: ["doors", "merch", "other"],
+    },
+  }))
+  assert.equal(ics.match(/BEGIN:VEVENT/g).length, 3)
+  assert.match(ics, /SUMMARY:Live — Evening — Merch/)
+  assert.match(ics, /DTSTART;TZID=Asia\/Tokyo:20260912T140000\r\nDTEND;TZID=Asia\/Tokyo:20260912T163000/)
+  assert.match(ics, /SUMMARY:Live — Evening — Doors/)
+  assert.match(ics, /DTSTART;TZID=Asia\/Tokyo:20260912T170000\r\nDTEND;TZID=Asia\/Tokyo:20260912T180000/)
+  assert.match(ics, /SUMMARY:Live — Evening — Send-off/)
+  assert.match(ics, /DTSTART;TZID=Asia\/Tokyo:20260912T203000\r\nDTEND;TZID=Asia\/Tokyo:20260912T213000/)
+  assert.equal(ics.match(/URL:https:\/\/example.com\/event/g).length, 3)
+  assert.equal(ics.match(/LOCATION:Tokyo/g).length, 3)
+  assert.doesNotMatch(ics, /DESCRIPTION/)
+  assert.equal(await buildActivityCalendar(event, "en", {
+    ...options,
+    selection: { kind: "all", eventKinds: [] },
+  }), null)
 })
 
 test("invalid milestones block calendar export instead of being partially omitted", () => {

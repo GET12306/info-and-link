@@ -1,0 +1,148 @@
+# 通用模板：仅 title 必填，其他字段不需要时直接删除。
+# 文本可写成单个字符串；需要双语时使用 ja / en，缺少一种语言会回退到另一种。
+# - title:
+#     ja: "雑誌名"
+#     en: "Magazine title"
+#   id: "example-issue"
+#   issue: "2025年春号"
+#   publicationDate: "2025-03" # YYYY、YYYY-MM 或 YYYY-MM-DD
+#   publisher:
+#     ja: "出版社名"
+#     en: "Publisher name"
+#   feature:
+#     ja: "インタビュー"
+#     en: "Interview"
+#   pages: "24–29"
+#   isbn: "杂志代码或 ISBN"
+#   notes: "补充说明"
+#   cover:
+#     url: "https://example.com/cover.jpg"
+#     alt: "封面说明"
+#     sourceUrl: "https://example.com/issue"
+#   links:
+#     - url: "https://example.com/issue"
+#       label: "出版社介绍"
+#       status: "expired"
+#   relatedResources: # [可选] 告知投稿、拍摄返图、相关视频或报道
+#     - date: "2025-03-01"
+#       kind: "photo"
+#       platform: "x"
+#       title: "撮影写真"
+#       links: # 单条使用 url；批量资料使用 links
+#         - "https://x.com/example/status/1"
+#         - "https://x.com/example/status/2"
+# feature 用于简短概述刊载内容；长说明放 notes。纯数字编号请加引号。
+
+- title:
+    ja: "My Girl vol.37"
+    en: "My Girl vol.37"
+  id: "my-girl-v0037"
+  publicationDate: "2023-07-12"
+  publisher: "KADOKAWA"
+  feature:
+    ja: "インタビュー"
+    en: "Interview"
+  pages: "68-75"
+  isbn: "9784047376212"
+  notes: 
+    ja: "頑張った自分への最高級のご褒美"
+    en: "The ultimate reward for all my hard work"
+  links:
+    - url: https://www.kadokawa.co.jp/product/322305000770/
+      label: 
+        ja: "リンク"
+        en: "Link"
+
+- title:
+    ja: "My Girl vol.38"
+    en: "My Girl vol.38"
+  id: "my-girl-v0038"
+  publicationDate: "2023-12-22"
+  publisher: "KADOKAWA"
+  feature:
+    ja: "前田佳織里に対するコメント"
+    en: "Comments on Kaori Maeda"
+  isbn: "9784047378223"
+  links:
+    - url: https://www.kadokawa.co.jp/product/322310001067/
+      label: 
+        ja: "リンク"
+        en: "Link"
+
+- title:
+    ja: "My Girl vol.39"
+    en: "My Girl vol.39"
+  id: "my-girl-v0039"
+  publicationDate: "2024-02-17"
+  publisher: "KADOKAWA"
+  feature:
+    ja: "表紙・34ページ特集"
+    en: "Cover · 34-Page Feature"
+  isbn: "9784047378940"
+  notes: 
+    ja: "LoveLive! Series Presents ユニット甲子園 2024 逢田梨香子 x 林鼓子 x 青山なぎさ x 野中ここな"
+    en: "LoveLive! Series Presents Unit Koshien 2024: Rikako Aida x Coco Hayashi x Nagisa Aoyama x Kokona Nonaka"
+  links:
+    - url: https://www.kadokawa.co.jp/product/322312000833/
+      label: 
+        ja: "リンク"
+        en: "Link"
+
+- title:
+    ja: "VOICE+ VOL.8"
+    en: "VOICE+ VOL.8"
+  id: "voice-plus-v8"
+  publicationDate: "2024-08-27"
+  publisher:
+    ja: "コスミック出版"
+    en: "Cosmic Publishing"
+  feature:
+    ja: "裏表紙・巻末特集"
+    en: "Back Cover and Special Feature at the End of the Book"
+  isbn: "9784047378940"
+  notes: 
+    ja: "TVアニメ『BanG Dream! It's MyGO!!!!!』椎名立希役など数多くの作品に出演し注目を集めている彼女がソロでは本誌初登場で初裏表紙! 人気コーナーの100の質問でパーソナルを徹底解剖!"
+    en: "She has garnered attention for her roles in numerous works, including as Riki Shiina in the TV anime BanG Dream! It's MyGO!!!!!, and this marks her first solo appearance in this magazine—and her first time on the back cover! We take an in-depth look at her personal life in our popular “100 Questions” feature!"
+  links:
+    - url: https://x.com/VOICEChannel4/status/1828275287689437299
+      label: 
+        ja: "リンク"
+        en: "Link"
+
+- title: 
+    ja: "声優グランプリ 2026年5月号"
+    en: "Voice Actor Grand Prix, May 2026 Issue"
+  id: "sei-g-2026-05"
+  publicationDate: "2026-04-10"
+  publisher:
+    ja: "主婦の友社"
+    en: "Shufu no Tomo"
+  feature:
+    en: "Pickup"
+  notes: 
+    ja: "写真集の情報と綴じ込み付録 林鼓子 ポスター"
+    en: "Informarion about the Photobook and Enclosed Supplement: Coco Hayashi Poster"
+  links:
+    - url: https://seigura.com/magazine_books/167248/
+      label: 
+        ja: "リンク"
+        en: "Link"
+
+- title: 
+    ja: "声優グランプリ 2026年6月号"
+    en: "Voice Actor Grand Prix, June 2026 Issue"
+  id: "sei-g-2026-06"
+  publicationDate: "2026-05-09"
+  publisher:
+    ja: "主婦の友社"
+    en: "Shufu no Tomo"
+  feature:
+    en: "Pickup"
+  notes: 
+    ja: "写真集の情報"
+    en: "Informarion about the Photobook"
+  links:
+    - url: https://seigura.com/magazine_books/167930/
+      label: 
+        ja: "リンク"
+        en: "Link"

@@ -1,6 +1,10 @@
 import type { Activity, Language } from "../types"
 import { getActivityOccurrences, getPerformanceOccurrences, type ActivityOccurrence } from "./activitySchedule"
-import { isValidActivityMilestone } from "./activityMilestones"
+import {
+  getActivityMilestoneLabel,
+  isValidActivityMilestone,
+} from "./activityMilestones"
+import { addMinutesToJapanDateTimeKey } from "./japanTime"
 
 // Export is stricter than the display calendar: never silently repair bad dates
 // or export only the valid subset of an activity's schedule.
@@ -184,19 +188,82 @@ export function getCalendarOccurrenceKey(occurrence: ActivityOccurrence) {
   return occurrence.startAt ?? occurrence.date
 }
 
-// An explicit selection keeps download controls independent of serialization.
-// Add a separate milestone variant here when standalone milestone export ships;
-// "all" deliberately means performances, not every supplementary time.
-export type CalendarSelection =
-  | { kind: "all" }
-  | { kind: "performances"; keys: readonly string[] }
+export type CalendarEventKind = "performance" | "doors" | "merch" | "other"
 
-async function occurrenceUid(activity: Activity, occurrence: ActivityOccurrence) {
+const CALENDAR_EVENT_KINDS = new Set<CalendarEventKind>([
+  "performance",
+  "doors",
+  "merch",
+  "other",
+])
+
+function getMilestoneCalendarKind(
+  milestone: ActivityOccurrence["milestones"][number]
+): Exclude<CalendarEventKind, "performance"> {
+  if (milestone.kind === "doors") return "doors"
+  if (milestone.kind === "merch") return "merch"
+  return "other"
+}
+
+export function getAvailableCalendarEventKinds(
+  occurrences: readonly ActivityOccurrence[]
+) {
+  const available = new Set<CalendarEventKind>()
+  if (occurrences.length) available.add("performance")
+  for (const occurrence of occurrences) {
+    for (const milestone of occurrence.milestones) {
+      available.add(getMilestoneCalendarKind(milestone))
+    }
+  }
+  return (["performance", "doors", "merch", "other"] as const).filter(
+    (kind) => available.has(kind)
+  )
+}
+
+export function occurrenceHasCalendarEventKinds(
+  occurrence: ActivityOccurrence,
+  eventKinds: readonly CalendarEventKind[]
+) {
+  const selected = new Set(eventKinds)
+  return selected.has("performance") || occurrence.milestones.some((milestone) =>
+    selected.has(getMilestoneCalendarKind(milestone))
+  )
+}
+
+export type CalendarSelection =
+  | { kind: "all"; eventKinds?: readonly CalendarEventKind[] }
+  | { kind: "performances"; keys: readonly string[]; eventKinds?: readonly CalendarEventKind[] }
+
+async function calendarEventUid(identity: readonly unknown[]) {
   // Independent of download time, display language, and YAML list order.
   // A UID does not make a downloaded file a live subscription.
-  const identity = JSON.stringify([activity.id, occurrence.startAt ?? occurrence.date])
-  const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(identity))
+  const digest = await crypto.subtle.digest(
+    "SHA-256",
+    new TextEncoder().encode(JSON.stringify(identity))
+  )
   return `${Array.from(new Uint8Array(digest), (byte) => byte.toString(16).padStart(2, "0")).join("")}@coco-info-hub`
+}
+
+interface CalendarExportEvent {
+  identity: readonly unknown[]
+  title: string
+  startAt?: string
+  endAt: string
+  allDay: boolean
+}
+
+function getMilestoneEndAt(
+  occurrence: ActivityOccurrence,
+  milestone: ActivityOccurrence["milestones"][number]
+) {
+  const startAt = `${occurrence.date}T${milestone.at}`
+  if (milestone.until) return `${occurrence.date}T${milestone.until}`
+  if (
+    (milestone.kind === "doors" || milestone.kind === "merch") &&
+    occurrence.startAt &&
+    occurrence.startAt > startAt
+  ) return occurrence.startAt
+  return addMinutesToJapanDateTimeKey(startAt, 60)
 }
 
 export async function buildActivityCalendar(
@@ -209,11 +276,54 @@ export async function buildActivityCalendar(
     : { kind: "all" as const })
   const occurrences = getCalendarOccurrences(activity, options.now).filter((occurrence) =>
     selection.kind === "all" || selection.keys.includes(getCalendarOccurrenceKey(occurrence)))
-  if (!occurrences.length) return null
+  const requestedKinds = selection.eventKinds ?? ["performance"]
+  const eventKinds = new Set(
+    requestedKinds.filter((kind): kind is CalendarEventKind =>
+      CALENDAR_EVENT_KINDS.has(kind)
+    )
+  )
+  if (!occurrences.length || !eventKinds.size) return null
+
+  const events: CalendarExportEvent[] = []
+  for (const occurrence of occurrences) {
+    const occurrenceKey = getCalendarOccurrenceKey(occurrence)
+    const titleParts = [activity.title[lang], occurrence.label?.[lang]].filter(Boolean)
+    if (eventKinds.has("performance")) {
+      events.push({
+        identity: [activity.id, occurrenceKey],
+        title: titleParts.join(" — "),
+        startAt: occurrence.startAt,
+        endAt: occurrence.endAt,
+        allDay: occurrence.allDay,
+      })
+    }
+    for (const milestone of occurrence.milestones) {
+      const kind = getMilestoneCalendarKind(milestone)
+      if (!eventKinds.has(kind)) continue
+      const milestoneLabel = getActivityMilestoneLabel(milestone, lang)
+      events.push({
+        identity: [
+          activity.id,
+          occurrenceKey,
+          "milestone",
+          milestone.kind,
+          milestone.at,
+          milestone.label?.ja ?? "",
+          milestone.label?.en ?? "",
+        ],
+        title: [...titleParts, milestoneLabel].join(" — "),
+        startAt: `${occurrence.date}T${milestone.at}`,
+        endAt: getMilestoneEndAt(occurrence, milestone),
+        allDay: false,
+      })
+    }
+  }
+  if (!events.length) return null
+
   const stamp = utcStamp(options.generatedAt ?? new Date())
   const timeZone = getTimeZone(options.timeZone)
-  const timedDates = occurrences.flatMap((occurrence) => occurrence.startAt
-    ? [new Date(`${occurrence.startAt}:00+09:00`), new Date(`${occurrence.endAt}:00+09:00`)]
+  const timedDates = events.flatMap((event) => event.startAt
+    ? [new Date(`${event.startAt}:00+09:00`), new Date(`${event.endAt}:00+09:00`)]
     : [])
   const lines = [
     "BEGIN:VCALENDAR", "VERSION:2.0",
@@ -221,21 +331,21 @@ export async function buildActivityCalendar(
     "CALSCALE:GREGORIAN", `X-WR-TIMEZONE:${timeZone}`,
     ...(timedDates.length ? buildTimeZone(timeZone, timedDates) : []),
   ]
-  for (const occurrence of occurrences) {
-    const title = [activity.title[lang], occurrence.label?.[lang]].filter(Boolean).join(" — ")
-    lines.push("BEGIN:VEVENT", `UID:${await occurrenceUid(activity, occurrence)}`, `DTSTAMP:${stamp}`,
-      `SUMMARY:${escapeText(title)}`,
+  for (const event of events) {
+    lines.push("BEGIN:VEVENT", `UID:${await calendarEventUid(event.identity)}`, `DTSTAMP:${stamp}`,
+      `SUMMARY:${escapeText(event.title)}`,
       `URL:${new URL(activity.link).href}`)
     if (activity.venue?.[lang]) lines.push(`LOCATION:${escapeText(activity.venue[lang])}`)
-    if (occurrence.allDay) {
-      const nextDay = new Date(`${occurrence.date}T00:00:00Z`)
+    if (event.allDay) {
+      const date = event.endAt.substring(0, 10)
+      const nextDay = new Date(`${date}T00:00:00Z`)
       nextDay.setUTCDate(nextDay.getUTCDate() + 1)
-      lines.push(`DTSTART;VALUE=DATE:${occurrence.date.replace(/-/g, "")}`,
+      lines.push(`DTSTART;VALUE=DATE:${date.replace(/-/g, "")}`,
         `DTEND;VALUE=DATE:${nextDay.toISOString().substring(0, 10).replace(/-/g, "")}`)
     } else {
       lines.push(
-        `DTSTART;TZID=${timeZone}:${zonedStamp(new Date(`${occurrence.startAt}:00+09:00`), timeZone)}`,
-        `DTEND;TZID=${timeZone}:${zonedStamp(new Date(`${occurrence.endAt}:00+09:00`), timeZone)}`
+        `DTSTART;TZID=${timeZone}:${zonedStamp(new Date(`${event.startAt}:00+09:00`), timeZone)}`,
+        `DTEND;TZID=${timeZone}:${zonedStamp(new Date(`${event.endAt}:00+09:00`), timeZone)}`
       )
     }
     lines.push("END:VEVENT")

@@ -61,7 +61,7 @@ export default function About({ lang }: { lang: Language }) {
                     <li key={link.url}>
                       <ExternalAnchor
                         href={link.url}
-                        className="text-coco-ink/55 underline decoration-coco-ink/20 underline-offset-4 hover:text-coco-accent"
+                        className="text-coco-ink/55 transition-colors hover:text-coco-accent"
                       >
                         {link.label[lang]}
                       </ExternalAnchor>

@@ -1,0 +1,73 @@
+# 数据结构参考（本文件顶层为节目与企划档案列表）
+# activities.yaml 继续保存有具体日期、时间、票务或日历用途的单次节目日程；
+# 本文件保存节目本体、播出期间和不需要活动状态计算的历史记录。
+#
+# - date: "2023-2025"                  # [必填] 页面显示的时期文字，不参与排序
+#   title:                              # [必填] 节目或企划名称
+#     ja: "番組名"
+#     en: "Program title"
+#   description:                        # [可选] 资源状态或内容补充
+#     ja: "説明"
+#     en: "Description"
+#   url: "https://example.com/archive" # [可选] 省略时仅作为记录展示，不可点击
+#   status: "available"                # [必填] available=链接可用；expired=已失效/仅存档
+#   relatedResources:                   # [可选] 返图、相关视频、报道等补充资料
+#     - date: "2026-08-28"             # [可选] 资料公开日期
+#       kind: "photo"                  # announcement | merchandise | post | photo | video | report | other
+#       platform: "x"                  # x | instagram | youtube | web | other
+#       title:
+#         ja: "出演者による写真"
+#         en: "Photos from the Cast"
+#       links:                          # 单条使用 url；批量资料使用 links
+#         - "https://x.com/example/status/1"
+#         - "https://x.com/example/status/2"
+
+- date: "2026.08.28"
+  title:
+    ja: "ラブカ部 最強プレイヤーへの道!! 第16回"
+    en: "The Love Card Club: The Path to Becoming the Strongest Player!! The 16th"
+  url: "https://www.youtube.com/watch?v=LkTa9Vg5JIE"
+  status: "available"
+  relatedResources:
+    - date: "2026-08-28"
+      kind: "photo"
+      platform: "x"
+      title:
+        ja: "出演者による収録写真"
+        en: "Recording Photos from the Cast"
+      links:
+        - https://x.com/uchida_shu0524/status/2093500718149996642
+        - https://x.com/homoto_akina/status/2093312775498113422
+  
+- date: "2026.08.08"
+  title:
+    ja: "第2回 LoveLive! Masters Tournament ~第二幕~の開会挨拶"
+    en: "Opening Remarks for the 2nd LoveLive! Masters Tournament ~Act 2~"
+  url: "https://x.com/LL_cardgame/status/2085903119893094770"
+  status: "available"
+
+- date: "2026.08.07"
+  title:
+    ja: "ラブカ部 最強プレイヤーへの道!! 第15回"
+    en: "The Love Card Club: The Path to Becoming the Strongest Player!! The 15th"
+  url: "https://www.youtube.com/watch?v=neoWkRwLj84"
+  status: "available"
+
+- date: "2023-2025"
+  title:
+    ja: "林鼓子のココいちばん！"
+    en: "Coco Hayashi's “Coco First!”"
+  description:
+    ja: "「林鼓子のココいちばん！」は林鼓子によるニコニコチャンネルです。"
+    en: "“Coco Hayashi's ‘Coco First!’” is a Niconico channel hosted by Coco Hayashi."
+  url: "https://ch.nicovideo.jp/cocoichiban"
+  status: "available"
+
+- date: "2023-2025"
+  title:
+    ja: "私立リサココ超！学園"
+    en: "Lisacoco Super! Academy"
+  description:
+    ja: "視聴可能期間が過ぎています。"
+    en: "The viewing period has expired."
+  status: "expired"

@@ -1,0 +1,72 @@
+# 出演作品档案
+#
+# 本文件记录“作品中的出演履历”，不记录有具体举行日期的舞台、Live、线下活动或节目单次播出。
+# 这些有日程的项目继续保存在 activities.yaml。
+#
+# medium 的可选值：
+# - anime:       TV / Web / OVA / 剧场版动画
+# - game:        主机、PC、手机及街机游戏
+# - film:        真人电影
+# - television:  真人电视节目或电视剧中的角色出演
+# - audio:       有声书、语音剧、Voice PV 等音声作品
+# - other:       无法归入以上类别的出演作品
+#
+# 数据结构参考：
+# - id: "2023-example-work-character" # [必填] 全局唯一且稳定的英文标识
+#   year: "2023"                      # [必填] 首次出演或该条履历对应的年份
+#   medium: "anime"                   # [必填] 上述 medium 之一
+#   title:                             # [必填] 作品名称
+#     ja: "作品名"
+#     en: "Work title"
+#   role:                              # [可选] 角色名；无公开角色名时省略
+#     ja: "役名"
+#     en: "Character name"
+#   notes:                             # [可选] 季数、版本、出演方式等补充说明
+#     ja: "補足"
+#     en: "Additional note"
+#   links:                             # [可选] 作品官网、角色页等展示链接
+#     - url: "https://example.com/work"
+#       label:
+#         ja: "公式サイト"
+#         en: "Official Website"
+#       status: "available"           # [可选] available | expired
+#   sources:                           # [可选] 用于核对该条履历的来源
+#     - url: "https://example.com/cast"
+#       label:
+#         ja: "出演者情報"
+#         en: "Cast Information"
+#   verification: "verified"          # [可选] seed | verified | needs-review
+#                                      # seed=仅由履历页确认；verified=已由作品官方来源复核
+
+- id: "2018-kiratto-prichan-mirai-momoyama"
+  year: "2018"
+  medium: "anime"
+  title:
+    ja: "キラッとプリ☆チャン"
+    en: "Kiratto Pri☆Chan"
+  role:
+    ja: "桃山みらい"
+    en: "Mirai Momoyama"
+  verification: "seed"
+
+- id: "2023-nijigasaki-setsuna-yuki"
+  year: "2023"
+  medium: "anime"
+  title:
+    ja: "ラブライブ！虹ヶ咲学園スクールアイドル同好会"
+    en: "Love Live! Nijigasaki High School Idol Club"
+  role:
+    ja: "優木せつ菜"
+    en: "Setsuna Yuki"
+  verification: "seed"
+
+- id: "2023-bang-dream-mygo-taki-shiina"
+  year: "2023"
+  medium: "anime"
+  title:
+    ja: "BanG Dream! It's MyGO!!!!!"
+    en: "BanG Dream! It's MyGO!!!!!"
+  role:
+    ja: "椎名立希"
+    en: "Taki Shiina"
+  verification: "seed"

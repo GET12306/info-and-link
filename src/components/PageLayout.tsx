@@ -40,7 +40,7 @@ export function PageHeader({
       )}
 
       <div>
-        <h1 className="mb-4 text-5xl font-serif md:text-7xl">{title}</h1>
+        <h1 className={`${subtitle || children ? "mb-4 " : ""}text-5xl font-serif md:text-7xl`}>{title}</h1>
         {subtitle && (
           <p className="text-xs uppercase tracking-widest text-coco-ink/50">{subtitle}</p>
         )}

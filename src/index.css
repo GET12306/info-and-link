@@ -37,3 +37,55 @@
 .nav-link {
   @apply text-xs uppercase tracking-[0.2em] font-medium opacity-40 hover:opacity-100 transition-opacity duration-300;
 }
+
+/* Shared fluid width keeps every home section aligned while resizing. */
+.home-container {
+  width: 100%;
+  max-width: 100rem;
+  margin-inline: auto;
+  padding-inline: clamp(1.5rem, 4vw, 4rem);
+}
+
+.home-sections {
+  display: grid;
+  gap: clamp(4rem, 7vw, 8rem);
+}
+
+.home-section {
+  min-width: 0;
+  display: grid;
+  gap: clamp(1.75rem, 3vw, 3rem);
+}
+
+.home-title {
+  font-size: clamp(3rem, 7vw, 6rem);
+}
+
+.home-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  column-gap: clamp(1rem, 3vw, 3rem);
+}
+
+.profile-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(13rem, 100%), 1fr));
+  gap: clamp(1.5rem, 2.5vw, 2.5rem);
+}
+
+/* Keep two stable columns across desktop sizes; stack only on small screens. */
+@media (max-width: 39.999rem) {
+  .home-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+/* Dense archive catalogue: short reading lines and reusable compact entries. */
+.archive-catalog { container-type: inline-size; display: grid; gap: 1.25rem; padding-bottom: 4rem; }
+.catalog-header { border-bottom: 1px solid color-mix(in srgb, var(--color-coco-ink) 12%, transparent); padding-bottom: 1.25rem; }
+.catalog-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: .75rem; align-items: start; }
+.catalog-entry { min-width: 0; padding: 1rem; border: 1px solid color-mix(in srgb, var(--color-coco-ink) 12%, transparent); border-radius: .375rem; overflow-wrap: anywhere; }
+.catalog-toolbar { display: flex; flex-wrap: wrap; align-items: end; gap: .75rem; }
+.catalog-toolbar label { flex: 1 1 10rem; min-width: 0; }
+.catalog-toolbar select, .catalog-toolbar input { width: 100%; min-width: 0; min-height: 2.5rem; border: 1px solid color-mix(in srgb, var(--color-coco-ink) 15%, transparent); border-radius: .25rem; padding: .375rem .625rem; background: var(--color-coco-bg); color: var(--color-coco-ink); font-size: .8125rem; }
+@container (min-width: 46rem) { .catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); } }

@@ -1,7 +1,7 @@
-import { useState, useEffect, useRef } from "react"
+import { useState, useEffect } from "react"
 import { NavLink, Link } from "react-router-dom"
 import { AnimatePresence, motion } from "motion/react"
-import { ChevronDown, Sun, Moon, Menu, X } from "lucide-react"
+import { Sun, Moon, Menu, X } from "lucide-react"
 import { TRANSLATIONS } from "../i18n"
 import type { Theme } from "../hooks/useDarkMode"
 import type { Language } from "../types"
@@ -12,12 +12,7 @@ const primaryTabs = [
   { id: "home", path: "/", labelKey: "home" as const },
   { id: "activities", path: "/activities", labelKey: "activities" as const },
   { id: "ticket_info", path: "/tickets", labelKey: "ticket_info" as const },
-]
-
-const moreLinks = [
-  { id: "photobooks", path: "/photobooks", labelKey: "photobooks" as const },
-  { id: "historical_resources", path: "/resources", labelKey: "historical_resources" as const },
-  { id: "notes", path: "/notes", labelKey: "notes" as const },
+  { id: "museum", path: "/museum", labelKey: "museum" as const },
 ]
 
 const themeOptions: { value: Theme; labelKey: TranslationKey }[] = [
@@ -39,36 +34,14 @@ export default function NavBar({
 }) {
   const t = TRANSLATIONS[lang]
   const [open, setOpen] = useState(false)
-  const [mobileMoreOpen, setMobileMoreOpen] = useState(false)
-  const [desktopMoreHovered, setDesktopMoreHovered] = useState(false)
-  const [desktopMoreClicked, setDesktopMoreClicked] = useState(false)
-  const desktopMoreRef = useRef<HTMLDivElement>(null)
-  const desktopMoreOpen = desktopMoreHovered || desktopMoreClicked
-
   useEffect(() => {
-    if (!open && !desktopMoreOpen) return
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") {
-        setOpen(false)
-        setMobileMoreOpen(false)
-        setDesktopMoreHovered(false)
-        setDesktopMoreClicked(false)
-      }
+    if (!open) return
+    const onKey = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setOpen(false)
     }
     document.addEventListener("keydown", onKey)
     return () => document.removeEventListener("keydown", onKey)
-  }, [open, desktopMoreOpen])
-
-  useEffect(() => {
-    if (!desktopMoreClicked) return
-    const onPointerDown = (event: PointerEvent) => {
-      if (!desktopMoreRef.current?.contains(event.target as Node)) {
-        setDesktopMoreClicked(false)
-      }
-    }
-    document.addEventListener("pointerdown", onPointerDown)
-    return () => document.removeEventListener("pointerdown", onPointerDown)
-  }, [desktopMoreClicked])
+  }, [open])
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : ""
@@ -77,7 +50,6 @@ export default function NavBar({
 
   const close = () => {
     setOpen(false)
-    setMobileMoreOpen(false)
   }
 
   return (
@@ -107,60 +79,7 @@ export default function NavBar({
                 {t[tab.labelKey]}
               </NavLink>
             ))}
-            <div
-              ref={desktopMoreRef}
-              className="relative"
-              onMouseEnter={() => setDesktopMoreHovered(true)}
-              onMouseLeave={() => {
-                setDesktopMoreHovered(false)
-                setDesktopMoreClicked(false)
-              }}
-              onBlur={(event) => {
-                if (!event.currentTarget.contains(event.relatedTarget)) {
-                  setDesktopMoreClicked(false)
-                }
-              }}
-            >
-              <button
-                type="button"
-                onClick={() => setDesktopMoreClicked((value) => !value)}
-                className="flex items-center gap-1 px-4 lg:px-6 py-1.5 rounded-full text-[10px] lg:text-xs font-bold uppercase tracking-widest text-coco-ink/40 transition-all hover:text-coco-ink"
-                aria-haspopup="true"
-                aria-expanded={desktopMoreOpen}
-                aria-controls="desktop-more-menu"
-              >
-                {t.more}
-                <ChevronDown className={`w-3 h-3 transition-transform ${desktopMoreOpen ? "rotate-180" : ""}`} />
-              </button>
-              <div
-                id="desktop-more-menu"
-                className={`absolute left-1/2 top-full z-50 w-56 -translate-x-1/2 pt-3 transition-all duration-150 ${
-                  desktopMoreOpen ? "visible opacity-100" : "invisible opacity-0"
-                }`}
-              >
-                <div className="rounded-lg border grid-line bg-coco-bg/95 p-2 shadow-xl backdrop-blur-md">
-                  {moreLinks.map((item) => (
-                    <NavLink
-                      key={item.id}
-                      to={item.path}
-                      onClick={() => {
-                        setDesktopMoreHovered(false)
-                        setDesktopMoreClicked(false)
-                      }}
-                      className={({ isActive }) =>
-                        `block rounded px-4 py-3 text-xs font-bold uppercase tracking-widest transition-colors ${
-                          isActive
-                            ? "bg-coco-accent text-white"
-                            : "text-coco-ink/55 hover:bg-coco-accent/5 hover:text-coco-accent"
-                        }`
-                      }
-                    >
-                      {t[item.labelKey]}
-                    </NavLink>
-                  ))}
-                </div>
-              </div>
-            </div>
+
           </div>
 
           <div className="hidden lg:flex items-center gap-2">
@@ -234,46 +153,7 @@ export default function NavBar({
                     {t[tab.labelKey]}
                   </NavLink>
                 ))}
-                <div>
-                  <button
-                    onClick={() => setMobileMoreOpen((value) => !value)}
-                    className="flex w-full items-center justify-between px-4 py-3 rounded text-sm font-bold uppercase tracking-widest text-coco-ink/60 transition-all hover:text-coco-ink hover:bg-coco-accent/5"
-                    aria-expanded={mobileMoreOpen}
-                  >
-                    {t.more}
-                    <ChevronDown className={`w-4 h-4 transition-transform ${mobileMoreOpen ? "rotate-180" : ""}`} />
-                  </button>
-                  <AnimatePresence initial={false}>
-                    {mobileMoreOpen && (
-                      <motion.div
-                        initial={{ height: 0, opacity: 0 }}
-                        animate={{ height: "auto", opacity: 1 }}
-                        exit={{ height: 0, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="ml-4 mt-1 border-l grid-line pl-3">
-                          {moreLinks.map((item) => (
-                            <NavLink
-                              key={item.id}
-                              to={item.path}
-                              onClick={close}
-                              className={({ isActive }) =>
-                                `block rounded px-4 py-3 text-xs font-bold uppercase tracking-widest transition-all ${
-                                  isActive
-                                    ? "bg-coco-accent text-white"
-                                    : "text-coco-ink/45 hover:text-coco-accent hover:bg-coco-accent/5"
-                                }`
-                              }
-                            >
-                              {t[item.labelKey]}
-                            </NavLink>
-                          ))}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
+
               </nav>
 
               <hr className="my-6 border-coco-ink/10" />

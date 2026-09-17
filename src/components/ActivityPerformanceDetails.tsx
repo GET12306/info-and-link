@@ -95,19 +95,25 @@ export default function ActivityPerformanceDetails({
   durationMinutes,
   lang,
   actions,
+  toolbarPanel,
   renderPerformanceAction,
   footer,
   occurrences,
   startLabel,
+  inlineLabel,
+  emptyLabel,
 }: {
   performances?: ActivityPerformance[]
   durationMinutes?: number
   lang: Language
   actions?: ReactNode
+  toolbarPanel?: ReactNode
   renderPerformanceAction?: (occurrence: ActivityOccurrence) => ReactNode
   footer?: ReactNode
   occurrences?: ActivityOccurrence[]
   startLabel?: string
+  inlineLabel?: string
+  emptyLabel?: string
 }) {
   const [open, setOpen] = useState(false)
   const panelId = useId()
@@ -116,7 +122,59 @@ export default function ActivityPerformanceDetails({
     occurrences ?? getPerformanceOccurrences(performances, durationMinutes),
     lang
   )
-  if (displayPerformances.length === 0) return <>{footer}</>
+
+  if (inlineLabel) {
+    const performance = displayPerformances[0]
+    if (!performance) {
+      return <>
+        {emptyLabel && (
+          <div className="mt-4 text-sm leading-6 text-coco-ink/50">
+            {emptyLabel}
+          </div>
+        )}
+        {footer}
+      </>
+    }
+
+    const updateMilestone = performance.milestones.find(
+      (milestone) => milestone.kind === "update"
+    )
+    const updateTime = updateMilestone
+      ? {
+          dateTime: `${performance.date}T${updateMilestone.at}`,
+          label: getActivityMilestoneTime(updateMilestone),
+        }
+      : performance.startAt
+        ? {
+            dateTime: performance.startAt,
+            label: getJapanTimeLabel(performance.startAt),
+          }
+        : null
+
+    return (
+      <div className="mt-4">
+        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm leading-6 text-coco-ink/50">
+          <span>{inlineLabel}{lang === "ja" ? "：" : ":"}</span>
+          <time dateTime={performance.date} className="text-coco-ink/65">
+            {formatDate(performance.date, lang)}
+          </time>
+          {updateTime && (
+            <time dateTime={updateTime.dateTime} className="text-coco-ink/65">
+              {updateTime.label}
+            </time>
+          )}
+          {actions}
+          {renderPerformanceAction?.(performance.occurrence)}
+        </div>
+        {toolbarPanel}
+        {footer}
+      </div>
+    )
+  }
+
+  if (displayPerformances.length === 0) {
+    return <>{footer}</>
+  }
 
   const performancesByDate = displayPerformances.reduce<
     Array<[string, DisplayPerformance[]]>
@@ -133,9 +191,10 @@ export default function ActivityPerformanceDetails({
   return (
     <div className="mt-4">
       <div className="flex flex-wrap items-center gap-2">
-        <button type="button" aria-expanded={open} aria-controls={panelId} onClick={() => setOpen(!open)} className="inline-flex min-h-9 shrink-0 cursor-pointer items-center gap-2 rounded-full border grid-line px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-coco-ink/50 transition-colors hover:border-coco-accent hover:text-coco-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coco-accent">
+        <button type="button" aria-expanded={open} aria-controls={panelId} aria-label={t.performance_schedule} onClick={() => setOpen(!open)} className="inline-flex min-h-9 shrink-0 cursor-pointer items-center gap-2 rounded-full border grid-line px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-coco-ink/50 transition-colors hover:border-coco-accent hover:text-coco-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coco-accent">
           <CalendarClock className="h-3.5 w-3.5" aria-hidden="true" />
-          <span>{t.performance_schedule}</span>
+          <span className="sm:hidden">{t.performance_schedule_short}</span>
+          <span className="hidden sm:inline">{t.performance_schedule}</span>
           <span className="rounded-full bg-coco-ink/5 px-1.5 py-0.5 text-[9px] leading-none">
             {displayPerformances.length}
           </span>
@@ -146,6 +205,7 @@ export default function ActivityPerformanceDetails({
         </button>
         {actions}
       </div>
+      {toolbarPanel}
 
       <div id={panelId} hidden={!open} className="mt-3 overflow-hidden rounded border grid-line bg-coco-ink/2.5 dark:bg-white/2.5">
         {performancesByDate.map(([date, datePerformances]) => (

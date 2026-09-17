@@ -12,10 +12,37 @@ export interface ActivityMilestone {
   label?: LocalizedText;
 }
 
-export interface Role {
+export type CreditMedium =
+  | "anime"
+  | "game"
+  | "film"
+  | "television"
+  | "audio"
+  | "other";
+
+export type CreditVerification = "seed" | "verified" | "needs-review";
+
+export interface CreditLink {
+  url: string;
+  label?: LocalizedText;
+  status?: "available" | "expired";
+}
+
+export interface CreditSource {
+  url: string;
+  label?: LocalizedText;
+}
+
+export interface Credit {
+  id: string;
   year: string;
+  medium: CreditMedium;
   title: LocalizedText;
-  character: LocalizedText;
+  role?: LocalizedText;
+  notes?: LocalizedText;
+  links?: CreditLink[];
+  sources?: CreditSource[];
+  verification?: CreditVerification;
 }
 
 export interface Activity {
@@ -89,14 +116,6 @@ export type ActivityPerformance =
   | TimedActivityPerformance
   | DateOnlyActivityPerformance;
 
-export interface FanProject {
-  title: LocalizedText;
-  organizer: string;
-  organizerUrl?: string;
-  url: string;
-  description: LocalizedText;
-}
-
 export interface LinkItem {
   platform: LocalizedText;
   url: string;
@@ -104,12 +123,13 @@ export interface LinkItem {
   icon: string;
 }
 
-export interface HistoricalResource {
+export interface ProgramArchiveEntry {
   date: string;
   title: LocalizedText;
   description?: LocalizedText;
   url?: string;
   status: "available" | "expired";
+  relatedResources?: RelatedResource[];
 }
 
 export interface Note {
@@ -120,6 +140,7 @@ export interface Note {
   link?: string;
   status?: "available" | "expired";
   relatedLinks?: NoteRelatedLink[];
+  relatedResources?: RelatedResource[];
 }
 
 export interface NoteRelatedLink {
@@ -154,6 +175,7 @@ export interface PhotoBook {
   format?: LocalizedText;
   price?: LocalizedText;
   links: PhotoBookLink[];
+  relatedResources?: RelatedResource[];
 }
 
 export interface TicketInfo {
@@ -206,4 +228,71 @@ export interface WardrobeItem {
     note?: LocalizedText;
   };
   sources: WardrobeSource[];
+}
+
+export type ActivityResourceKind = "announcement" | "merchandise" | "post" | "photo" | "video" | "report" | "other";
+export type ActivityResourcePlatform = "x" | "instagram" | "youtube" | "web" | "other";
+
+interface RelatedResourceBase {
+  date?: string;
+  kind: ActivityResourceKind;
+  platform: ActivityResourcePlatform;
+  title: ArchiveText;
+  description?: ArchiveText;
+  status?: "available" | "expired";
+}
+
+export interface RelatedResourceSingle extends RelatedResourceBase {
+  url: string;
+  links?: never;
+}
+
+export interface RelatedResourceLink {
+  url: string;
+  date?: string;
+  label?: ArchiveText;
+  platform?: ActivityResourcePlatform;
+  status?: "available" | "expired";
+}
+
+export interface RelatedResourceCollection extends RelatedResourceBase {
+  links: (string | RelatedResourceLink)[];
+  url?: never;
+}
+
+export type RelatedResource = RelatedResourceSingle | RelatedResourceCollection;
+export type ActivityResource = RelatedResource & {
+  activityId: string;
+  date: string;
+  title: LocalizedText;
+  description?: LocalizedText;
+};
+
+/** Archive copy may be a single string or a partially translated value. */
+export type ArchiveText = string | Partial<LocalizedText>;
+
+export interface ProfileItem {
+  id: string;
+  label: ArchiveText;
+  value: ArchiveText;
+}
+
+export interface Profile {
+  name: ArchiveText;
+  items: ProfileItem[];
+}
+
+export interface Magazine {
+  title: ArchiveText;
+  id?: string;
+  issue?: ArchiveText;
+  publicationDate?: string;
+  publisher?: ArchiveText;
+  feature?: ArchiveText;
+  pages?: ArchiveText;
+  isbn?: ArchiveText;
+  notes?: ArchiveText;
+  cover?: { url: string; alt?: ArchiveText; sourceUrl?: string };
+  links?: { url: string; label?: ArchiveText; status?: "available" | "expired" }[];
+  relatedResources?: RelatedResource[];
 }

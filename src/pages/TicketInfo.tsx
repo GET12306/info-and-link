@@ -4,8 +4,6 @@ import { TRANSLATIONS } from "../i18n"
 import ACTIVITIES from "../data/activities.yaml"
 import type { Activity, Language } from "../types"
 import { getCurrentTicketGroups } from "../utils/ticketStatus"
-import ArchiveLink from "../components/ArchiveLink"
-import EmptyState from "../components/EmptyState"
 import { PageHeader, PageLayout } from "../components/PageLayout"
 import TicketGroup from "../components/TicketGroup"
 import useJapanNow from "../hooks/useJapanNow"
@@ -36,27 +34,17 @@ export default function TicketInfo({ lang }: { lang: Language }) {
     <PageLayout>
       <PageHeader title={t.ticket_info} subtitle="Ticket Schedule & Prices" />
 
-      {ticketGroups.length > 0 ? (
-        <div className="space-y-12">
-          {ticketGroups.map((group) => (
-            <TicketGroup
-              key={group.activity.id}
-              group={group}
-              lang={lang}
-              variant="current"
-              highlighted={highlighted === group.activity.id}
-            />
-          ))}
-        </div>
-      ) : (
-        <EmptyState title={t.no_ticket_info} />
-      )}
-
-      <ArchiveLink
-        to="/tickets/past"
-        title={t.view_past_tickets}
-        description={t.view_past_tickets_description}
-      />
+      <div className="space-y-12">
+        {ticketGroups.map((group) => (
+          <TicketGroup
+            key={group.activity.id}
+            group={group}
+            lang={lang}
+            variant="current"
+            highlighted={highlighted === group.activity.id}
+          />
+        ))}
+      </div>
     </PageLayout>
   )
 }

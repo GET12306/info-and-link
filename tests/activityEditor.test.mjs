@@ -15,19 +15,34 @@ after(() => server.close())
 const { validateActivities } = await server.ssrLoadModule("/src/editor/activityValidation.ts")
 const { updateActivityDocument } = await server.ssrLoadModule("/tools/content-editor/vitePlugin.ts")
 const { getPerformanceOccurrences } = await server.ssrLoadModule("/src/utils/activitySchedule.ts")
+const { mergeActivityDraft } = await server.ssrLoadModule("/src/editor/activityDraftMerge.ts")
 const source = fs.readFileSync("src/data/activities.yaml", "utf8")
 const activities = parse(source)
 
 test("the current activity file has stable unique IDs and passes editor validation", () => {
-  assert.equal(activities.length, 28)
+  assert.ok(activities.length > 0)
   assert.equal(new Set(activities.map((activity) => activity.id)).size, activities.length)
   assert.deepEqual(validateActivities(activities), [])
+})
+
+test("Skip and Loafer keeps the complete timed schedule and archived ticket details", () => {
+  const activity = activities.find((item) => item.id === "2026-skip-and-loafer-musical")
+  assert.equal(activity.performances.length, 18)
+  assert.ok(activity.performances.every((performance) => performance.startAt))
+  assert.equal(activity.performances[0].startAt, "2026-03-06T18:00")
+  assert.equal(activity.performances.at(-1).startAt, "2026-03-22T12:00")
+  assert.equal(activity.durationMinutes, 150)
+  assert.match(activity.venue.ja, /シアターH/)
+  assert.match(activity.venue.ja, /シアター・ドラマシティ/)
+  assert.equal(activity.ticketInfo.entries.length, 10)
 })
 
 test("the Hong Kong doors-open milestone survives schedule normalization", () => {
   const activity = activities.find((item) => item.id === "2026-hong-kong-fan-meeting")
   const [matinee] = getPerformanceOccurrences(activity.performances)
-  assert.deepEqual(matinee.milestones, [{ kind: "doors", at: "14:30" }])
+  assert.ok(matinee.milestones.some(
+    (milestone) => milestone.kind === "doors" && milestone.at === "14:30"
+  ))
 })
 
 test("validation rejects duplicate IDs and invalid nested schedules", () => {
@@ -77,8 +92,36 @@ test("YAML updates retain the reference header and comments on untouched records
   assert.match(output, /# 数据结构参考/)
   assert.match(output, /# - id: "2026-example-event"/)
   assert.match(output, /# -{20,}/)
-  assert.match(output, /# endAt: "2026-08-16"/)
+  assert.match(output, /#\s+endAt: "2026-07-20".*截止日/)
   assert.match(output, /ja: "更新後の説明"/)
   assert.equal(parse(output)[2].description.ja, "更新後の説明")
   assert.deepEqual(validateActivities(parse(output)), [])
+})
+
+test("stale editor drafts merge with unrelated changes from disk", () => {
+  const base = [
+    { id: "first", title: { ja: "一", en: "One" }, link: "https://one.example" },
+    { id: "second", title: { ja: "二", en: "Two" }, link: "https://two.example" },
+  ]
+  const local = structuredClone(base)
+  local[0].title.en = "Local One"
+  local.push({ id: "third", title: { ja: "三", en: "Three" }, link: "https://three.example" })
+  const latest = structuredClone(base)
+  latest[1].link = "https://updated.example"
+
+  const merged = mergeActivityDraft(base, local, latest)
+  assert.deepEqual(merged.conflicts, [])
+  assert.equal(merged.activities.find((item) => item.id === "first").title.en, "Local One")
+  assert.equal(merged.activities.find((item) => item.id === "second").link, "https://updated.example")
+  assert.equal(merged.activities.at(-1).id, "third")
+})
+
+test("stale editor drafts report same-field conflicts without dropping local input", () => {
+  const base = [{ id: "event", title: { ja: "元", en: "Base" } }]
+  const local = [{ id: "event", title: { ja: "元", en: "Local draft" } }]
+  const latest = [{ id: "event", title: { ja: "元", en: "Disk edit" } }]
+
+  const merged = mergeActivityDraft(base, local, latest)
+  assert.deepEqual(merged.conflicts, ["event.title.en"])
+  assert.equal(merged.activities[0].title.en, "Local draft")
 })

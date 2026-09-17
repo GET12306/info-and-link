@@ -35,6 +35,7 @@ import {
   validateActivities,
   type ActivityValidationIssue,
 } from "./activityValidation"
+import { mergeActivityDraft } from "./activityDraftMerge"
 
 type EditorActivity = Activity & Record<string, unknown>
 type EditorPerformance = ActivityPerformance & Record<string, unknown>
@@ -51,6 +52,14 @@ interface EditorResponse {
 
 const API_PATH = "/__activity-editor/activities"
 const EMPTY_LOCALIZED_TEXT: LocalizedText = { ja: "", en: "" }
+const AUTO_REFRESH_INTERVAL_MS = 15_000
+
+async function fetchEditorData() {
+  const response = await fetch(API_PATH, { cache: "no-store" })
+  const payload = await response.json() as EditorResponse & { error?: string }
+  if (!response.ok) throw new Error(payload.error ?? "读取失败")
+  return payload
+}
 
 function setOptional<T extends Record<string, unknown>>(
   value: T,
@@ -755,9 +764,7 @@ export default function ActivityEditorApp() {
     setLoading(true)
     setMessage("")
     try {
-      const response = await fetch(API_PATH, { cache: "no-store" })
-      const payload = await response.json() as EditorResponse & { error?: string }
-      if (!response.ok) throw new Error(payload.error ?? "读取失败")
+      const payload = await fetchEditorData()
       setActivities(payload.activities)
       setSavedActivities(structuredClone(payload.activities))
       setRevision(payload.revision)
@@ -773,6 +780,39 @@ export default function ActivityEditorApp() {
 
   useEffect(() => { void load() }, [])
   useEffect(() => {
+    if (dirty || loading || saving || !revision) return
+    let cancelled = false
+
+    const refreshIfChanged = async () => {
+      try {
+        const payload = await fetchEditorData()
+        if (cancelled || payload.revision === revision) return
+        setActivities(payload.activities)
+        setSavedActivities(structuredClone(payload.activities))
+        setRevision(payload.revision)
+        setSelectedId((current) => payload.activities.some((activity) => activity.id === current)
+          ? current
+          : payload.activities[0]?.id ?? "")
+        setMessage("检测到磁盘内容更新，已自动载入最新版本。")
+      } catch {
+        // A manual reload or save will surface connection/read errors.
+      }
+    }
+
+    const refreshOnVisible = () => {
+      if (document.visibilityState === "visible") void refreshIfChanged()
+    }
+    const interval = window.setInterval(() => void refreshIfChanged(), AUTO_REFRESH_INTERVAL_MS)
+    window.addEventListener("focus", refreshIfChanged)
+    document.addEventListener("visibilitychange", refreshOnVisible)
+    return () => {
+      cancelled = true
+      window.clearInterval(interval)
+      window.removeEventListener("focus", refreshIfChanged)
+      document.removeEventListener("visibilitychange", refreshOnVisible)
+    }
+  }, [dirty, loading, revision, saving])
+  useEffect(() => {
     const warn = (event: BeforeUnloadEvent) => {
       if (!dirty) return
       event.preventDefault()
@@ -782,6 +822,7 @@ export default function ActivityEditorApp() {
   }, [dirty])
 
   const updateSelected = (activity: EditorActivity) => {
+    setMessage("")
     setActivities((current) => current.map((item, index) => index === selectedIndex ? activity : item))
     if (activity.id !== selectedId) setSelectedId(activity.id)
   }
@@ -812,16 +853,36 @@ export default function ActivityEditorApp() {
     setSaving(true)
     setMessage("")
     try {
+      const latest = await fetchEditorData()
+      const sourceChanged = latest.revision !== revision
+      const merged = sourceChanged
+        ? mergeActivityDraft(savedActivities, activities, latest.activities)
+        : { activities, conflicts: [] }
+
+      if (merged.conflicts.length > 0) {
+        const paths = merged.conflicts.slice(0, 3).join(", ")
+        const remaining = merged.conflicts.length > 3
+          ? ` 等 ${merged.conflicts.length} 处`
+          : ""
+        throw new Error(`磁盘与当前表单同时修改了 ${paths}${remaining}。当前输入已保留，请先处理这些冲突。`)
+      }
+
       const response = await fetch(API_PATH, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ activities, revision }),
+        body: JSON.stringify({
+          activities: merged.activities,
+          revision: latest.revision,
+        }),
       })
       const payload = await response.json() as { revision?: string; error?: string }
       if (!response.ok || !payload.revision) throw new Error(payload.error ?? "保存失败")
       setRevision(payload.revision)
-      setSavedActivities(structuredClone(activities))
-      setMessage("已安全写入 src/data/activities.yaml")
+      setActivities(merged.activities)
+      setSavedActivities(structuredClone(merged.activities))
+      setMessage(sourceChanged
+        ? "已合并磁盘最新内容并安全写入 src/data/activities.yaml"
+        : "已安全写入 src/data/activities.yaml")
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "保存失败")
     } finally {
@@ -875,8 +936,8 @@ export default function ActivityEditorApp() {
         </div>
         <div className="header-actions">
           <a href="/#/activities" target="_blank" rel="noreferrer"><ExternalLink /> 网站预览</a>
-          <button type="button" className="secondary-button" onClick={() => void load(true)} disabled={loading}>
-            <RefreshCw /> 重新载入
+          <button type="button" className="reload-button" onClick={() => void load(true)} disabled={loading}>
+            <RefreshCw /> 载入磁盘最新版本
           </button>
           <button type="button" className="primary-button" onClick={() => void save()} disabled={!dirty || saving || errorCount > 0}>
             <Save /> {saving ? "保存中…" : "保存 YAML"}
@@ -887,7 +948,6 @@ export default function ActivityEditorApp() {
       <div className="status-bar">
         <span className={dirty ? "dirty" : "saved"}>{dirty ? "有未保存修改" : "内容已同步"}</span>
         <span className={errorCount ? "errors" : "valid"}>{errorCount ? `${errorCount} 个错误` : "校验通过"}</span>
-        {message && <strong>{message}</strong>}
       </div>
 
       <main className="editor-layout">
@@ -929,17 +989,6 @@ export default function ActivityEditorApp() {
                   <button type="button" className="danger-button" onClick={removeActivity}><Trash2 /> 删除</button>
                 </div>
               </div>
-
-              {selectedIssues.length > 0 && (
-                <div className="issue-panel">
-                  {selectedIssues.map((issue, index) => (
-                    <div key={`${issue.path}-${index}`} className={issue.severity}>
-                      {issue.severity === "error" ? <AlertCircle /> : <CheckCircle2 />}
-                      <span><strong>{issue.path.replace(`activities[${selectedIndex}].`, "")}</strong>{issue.message}</span>
-                    </div>
-                  ))}
-                </div>
-              )}
 
               {ACTIVITY_EDITOR_SECTIONS.slice(0, 1).map((section) => (
                 <section className="editor-section" key={section.id}>
@@ -998,6 +1047,28 @@ export default function ActivityEditorApp() {
           )}
         </section>
       </main>
+
+      {(message || selectedIssues.length > 0) && (
+        <aside className="notification-stack" aria-live="polite" aria-label="编辑器通知">
+          {message && <div className="message-toast">{message}</div>}
+          {selectedIssues.length > 0 && (
+            <div className="issue-panel">
+              <div className="issue-panel-heading">
+                <AlertCircle />
+                <strong>当前条目有 {selectedIssues.length} 条校验提示</strong>
+              </div>
+              <div className="issue-list">
+                {selectedIssues.map((issue, index) => (
+                  <div key={`${issue.path}-${index}`} className={issue.severity}>
+                    {issue.severity === "error" ? <AlertCircle /> : <CheckCircle2 />}
+                    <span><strong>{issue.path.replace(`activities[${selectedIndex}].`, "")}</strong>{issue.message}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </aside>
+      )}
     </div>
   )
 }

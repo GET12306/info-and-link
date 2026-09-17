@@ -1,29 +1,33 @@
 # 活动相关信息与资源
 #
-# 本文件顶层为列表，页面可按 date 从新到旧排序。
-# activityId 必须与 activities.yaml 中某项的 id 完全一致。
-# 一条信息可以包含多个来源链接，例如同一份场贩通知的官网、X 和 Instagram。
+# 本文件顶层为资源列表。每条记录可以代表一个独立链接，或一组同类链接。
+# 页面先按 activityId 聚类，再在每个活动内按 date 从新到旧排序。
+# activityId 必须与 activities.yaml 中某项的 id 完全一致；同一活动可关联任意数量的资源。
 # 票务信息仍保存在 activities.yaml 的 ticketInfo 中，不放在本文件。
 #
 # 数据结构参考：
-# - date: "2026-08-30"               # [必填] 信息公开日期，YYYY-MM-DD（日本时间）
-#   activityId: "2026-example-event" # [必填] 对应 activities.yaml 中的活动 id
+# - activityId: "2026-example-event" # [必填] 对应 activities.yaml 中的活动 id
+#   date: "2026-08-30"               # [必填] 此链接内容的公开日期，YYYY-MM-DD（日本时间）
 #   kind: "post"                     # [必填] announcement | merchandise | post | photo | video | report | other
-#   title:                            # [必填] 这条信息的标题
+#   platform: "x"                    # [必填] x | instagram | youtube | web | other
+#   title:                            # [必填] 此链接内容的标题；页面以标题作为链接
 #     ja: "出演後コメント"
 #     en: "Post-performance Comment"
-#   description:                      # [可选] 必要的补充说明
+#   description:                      # [可选] 此链接专用的补充说明
 #     ja: "イベント出演後に公開されたコメントです。"
 #     en: "A comment published after the event."
-#   links:                            # [必填] 至少一个相关链接
-#     - platform: "x"                # [必填] x | instagram | youtube | web | other
-#       url: "https://x.com/example/status/123456789"
-#       label:                        # [可选] 省略时页面可使用平台名称
-#         ja: "Xの投稿を見る"
-#         en: "View on X"
-#       status: "expired"             # [可选] expired=显示失效标记；available 或省略时不显示
+#   url: "https://x.com/example/status/123456789" # [单条资源必填] 资源地址
+#   links:                           # [资源组必填] 与 url 二选一；字符串适合快速批量粘贴
+#     - "https://x.com/example/status/123456789"
+#     - url: "https://x.com/example/status/987654321" # 需要时可单独覆盖字段
+#       date: "2026-08-31"
+#       label:
+#         ja: "出演者による投稿"
+#         en: "Post from a cast member"
+#       status: "expired"
+#   status: "expired"                # [可选] expired=显示失效标记；available 或省略时不显示
 #
-# kind 表示“信息是什么”，platform 表示“链接在哪里”，两者不要混用。
+# kind 表示“资源是什么”，platform 表示“链接在哪里”，两者不要混用。
 # - announcement: 官方通知、出演决定、时间变更等
 # - merchandise: 会场物贩、商品与购买信息（票务除外）
 # - post: X、Instagram 等平台发布的活动相关投稿
@@ -32,49 +36,138 @@
 # - report: 新闻报道、活动报告、采访
 # - other: 无法归入以上类别的内容
 #
+# 大量返图使用 links 资源组。字符串链接会根据 URL 自动显示 X 账号名或网站域名；
+# 只有需要独立标题、日期或状态的链接才写成对象。页面计数按实际链接数计算。
+#
 # -----------------------------------------------------------------------------
 # 填写示例 1：活动结束后的 X 投稿
 #
-# - date: "2026-03-22"
-#   activityId: "2026-skip-and-loafer-musical"
+# - activityId: "2026-skip-and-loafer-musical"
+#   date: "2026-03-22"
 #   kind: "post"
+#   platform: "x"
 #   title:
 #     ja: "千秋楽終演後コメント"
 #     en: "Closing-day Post-performance Comment"
 #   description:
 #     ja: "千秋楽の終演後に公開された投稿。"
 #     en: "A post published after the closing performance."
-#   links:
-#     - platform: "x"
-#       url: "https://x.com/example/status/123456789"
-#       label:
-#         ja: "Xの投稿を見る"
-#         en: "View on X"
+#   url: "https://x.com/example/status/123456789"
 #
 # -----------------------------------------------------------------------------
-# 填写示例 2：同一条场贩信息包含官网和 Instagram 两个来源
+# 填写示例 2：同一活动的 Instagram 场贩信息作为另一条独立资源
 #
-# - date: "2026-03-01"
-#   activityId: "2026-skip-and-loafer-musical"
+# - activityId: "2026-skip-and-loafer-musical"
+#   date: "2026-03-01"
 #   kind: "merchandise"
+#   platform: "instagram"
 #   title:
 #     ja: "劇場販売グッズ情報"
 #     en: "Theater Merchandise Information"
 #   description:
 #     ja: "公演会場で販売される商品の一覧と案内。"
 #     en: "Details and a list of merchandise sold at the venue."
-#   links:
-#     - platform: "web"
-#       url: "https://example.com/events/skip-and-loafer/goods"
-#       label:
-#         ja: "公式サイトの商品一覧"
-#         en: "Official Merchandise List"
-#     - platform: "instagram"
-#       url: "https://www.instagram.com/p/EXAMPLE/"
-#       label:
-#         ja: "Instagramの告知を見る"
-#         en: "View the Instagram Announcement"
-#       status: "expired"
+#   url: "https://www.instagram.com/p/EXAMPLE/"
+#   status: "expired"
 #
-# 添加第一条正式数据时，请删除下面的 []，再按照上述格式填写。
-[]
+
+- activityId: "2026-liberte-first-act"
+  date: "2026-09-13"
+  kind: "photo"
+  platform: "x"
+  title:
+    ja: "公演の写真"
+    en: "Photos from the Performance"
+  url: https://x.com/cocohayashi515/status/2099000953504686197
+
+- activityId: "2026-piano-bar-claps"
+  date: "2026-08-30"
+  kind: "video"
+  platform: "x"
+  title:
+    ja: "ありがとうございました！の舞🫶"
+    en: "“Thank You!” Dance 🫶"
+  url: https://x.com/FC_coco2025/status/2094022292338888925
+
+- activityId: "2026-piano-bar-claps"
+  date: "2026-08-27"
+  kind: "photo"
+  platform: "x"
+  title:
+    ja: "「Piano Bar C*LAPS」リハ終りに、林さん&矢島さんの仲良し2ショット!"
+    en: "“Piano Bar C*LAPS” After rehearsal, a cute photo of Ms. Hayashi and Ms. Yajima!"
+  url: https://x.com/artistslinks/status/2092938452065038506
+
+- activityId: "2026-piano-bar-claps"
+  date: "2026-08-30"
+  kind: "photo"
+  platform: "x"
+  title:
+    ja: "出演者・関係者による公演写真"
+    en: "Performance Photos from Cast and Staff"
+  links:
+    - https://x.com/artistslinks/status/2091139898103533926
+    - https://x.com/artistslinks/status/2093353786958041211
+    - https://x.com/artistslinks/status/2093668952664932734
+    - https://x.com/artistslinks/status/2094070097535189470
+    - https://x.com/LIBERTE__2024/status/2094052788045271458
+    - https://x.com/Y_Minon2001/status/2093495613749088524
+    - https://x.com/Y_Minon2001/status/2094059992181866710
+    - https://x.com/Y_Minon2001/status/2093865116018303044
+    - https://x.com/yuki_wr1/status/2094053298688970752
+
+- activityId: "2026-piano-bar-claps"
+  date: "2026-08-23"
+  kind: "video"
+  platform: "x"
+  title:
+    ja: "「Piano Bar C*LAPS」林鼓子さんのコメント動画"
+    en: "“Piano Bar C*LAPS” Comments Video by Coco Hayashi"
+  url: https://x.com/artistslinks/status/2091492744002998517
+
+- activityId: "2026-0803-okada-mei-channel"
+  date: "2026-08-21"
+  kind: "video"
+  platform: "youtube"
+  title:
+    ja: "夢以と鼓子の浴衣紹介𓈒"
+    en: "Introducing Mei and Coco's Yukatas"
+  url: https://www.youtube.com/shorts/Bj-Y0kprdBM
+
+- date: "2026-08-21"
+  activityId: "2026-taipei-fan-meeting"
+  kind: "video"
+  platform: "x"
+  title:
+    ja: "台北ファンミーティングのご挨拶動画"
+    en: "Greeting Video for the Taipei Fan Meeting"
+  url: https://x.com/bridgebond_llc/status/2090740746290880950
+
+- date: "2026-08-21"
+  activityId: "2026-hong-kong-fan-meeting"
+  kind: "video"
+  platform: "x"
+  title:
+    ja: "香港ファンミーティングのご挨拶動画"
+    en: "Greeting Video for the Hong Kong Fan Meeting"
+  url: https://x.com/flashinglightCM/status/2090740707803709933
+
+- date: "2026-08-09"
+  activityId: "2026-luckyfes"
+  kind: "video"
+  platform: "x"
+  title:
+    ja: "ライブ前のココちゃん🎥𓈒"
+    en: "Coco before the live🎥𓈒"
+  url: https://x.com/FC_coco2025/status/2086394327551676560
+  status: "available"
+
+- date: "2026-08-09"
+  activityId: "2026-luckyfes"
+  kind: "video"
+  platform: "x"
+  title:
+    ja: "LuckyFes 出演後コメント"
+    en: "Post-Performance Comments from LuckyFes"
+  url: "https://x.com/luckyfm_fes/status/2086340095314108526"
+  status: "available"

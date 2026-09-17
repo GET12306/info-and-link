@@ -20,6 +20,16 @@
 #       type:                           # [可选] 链接前方的短类别
 #         ja: "動画"
 #         en: "Video"
+#   relatedResources:                   # [可选] 采访返图、相关视频、告知投稿等补充资料
+#     - date: "2026-07-16"
+#       kind: "photo"
+#       platform: "x"
+#       title:
+#         ja: "取材写真"
+#         en: "Interview Photos"
+#       links:                          # 单条使用 url；批量资料使用 links
+#         - "https://x.com/example/status/1"
+#         - "https://x.com/example/status/2"
 #
 
 - title:

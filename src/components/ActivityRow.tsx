@@ -6,6 +6,7 @@ import { TRANSLATIONS } from "../i18n"
 import ActivityPerformanceDetails from "./ActivityPerformanceDetails"
 import ExternalAnchor from "./ExternalAnchor"
 import VenueLabel from "./VenueLabel"
+import ActivityResourcesDisclosure from "./ActivityResourcesDisclosure"
 
 export default function ActivityRow({
   activity,
@@ -28,7 +29,6 @@ export default function ActivityRow({
 }) {
   const supportsHighlight = highlighted !== undefined
   const t = TRANSLATIONS[lang]
-
   return (
     <article
       id={supportsHighlight ? `event-${activity.id}` : undefined}
@@ -72,6 +72,7 @@ export default function ActivityRow({
             lang={lang}
             startLabel={activity.category === "Program" ? t.milestone_update : undefined}
           />}
+          <ActivityResourcesDisclosure activityId={activity.id} lang={lang} />
         </div>
 
         {ticketAction && (

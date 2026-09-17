@@ -2,8 +2,7 @@ import { useState } from "react"
 import type { Activity, Language } from "../types"
 import { buildActivityCalendar, type CalendarSelection } from "../utils/activityCalendar"
 
-// Browser file delivery is shared by all calendar selections. Future milestone
-// selection can use this hook without changing the schedule's rendering.
+// Browser file delivery is shared by all calendar selections.
 export default function useCalendarDownload(activity: Activity, lang: Language, now: string) {
   const [busy, setBusy] = useState(false)
   const [failed, setFailed] = useState(false)

@@ -38,6 +38,16 @@
 #         ja: "出版社のお知らせ"          # [必填] 链接文字
 #         en: "Publisher announcement"
 #       url: "https://example.com/release" # [必填] 外部链接
+#   relatedResources:                   # [可选] 返图、宣传视频、采访或其他补充资料
+#     - date: "2026-05-15"
+#       kind: "photo"
+#       platform: "x"
+#       title:
+#         ja: "発売記念写真"
+#         en: "Release Photos"
+#       links:                          # 单条使用 url；批量资料使用 links
+#         - "https://x.com/example/status/1"
+#         - "https://x.com/example/status/2"
 
 - id: "coco-1st-photobook"
   title:
@@ -173,7 +183,3 @@
         en: "And More 2"
       url: "https://cho-animedia.jp/article/2022/07/07/33937.html"
   secretLink: [https://hayashi-coco-20anniv-official-store.com/, https://web.archive.org/web/20220601091504/https://hayashi-coco-20anniv-official-store.com]
-    
-    
-
-    
