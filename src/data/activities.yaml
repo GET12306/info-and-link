@@ -1170,3 +1170,16 @@
           en: "General Sale"
         startAt: "2023-07-29T10:00"
         scheduleLabel: "2023.07.29 10:00-"
+- id: "bang-dream-tv-live-2026"
+  category: "Program"
+  scheduleLabel: "Weekly"
+  title:
+    ja: "バンドリ！TV LIVE"
+    en: "BanG Dream! TV LIVE"
+  link: "https://www.youtube.com/watch?v=CvajtQ_yXf0"
+  recurrence:
+    type: "manual"
+  performances:
+    - startAt: "2026-09-24T22:00"
+      endAt: "2026-09-24T23:00"
+  calendarExport: "disabled"
