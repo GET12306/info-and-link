@@ -47,6 +47,11 @@
   role:
     ja: "桃山みらい"
     en: "Mirai Momoyama"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
   verification: "seed"
 
 - id: "2023-nijigasaki-setsuna-yuki"
@@ -58,6 +63,11 @@
   role:
     ja: "優木せつ菜"
     en: "Setsuna Yuki"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
   verification: "seed"
 
 - id: "2023-bang-dream-mygo-taki-shiina"
@@ -69,4 +79,943 @@
   role:
     ja: "椎名立希"
     en: "Taki Shiina"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+# 以下は LIBERTE「主な芸歴 > 声の出演」の年別掲載順に収録。
+# 映画欄のアニメ作品は medium: anime とし、役名がない掲載は role を省略する。
+
+- id: "2026-mf-ghost-third-season-mami-sato"
+  year: "2026"
+  medium: "anime"
+  title:
+    ja: "MFゴースト 3rd Season"
+    en: "MF Ghost 3rd Season"
+  role:
+    ja: "佐藤真美"
+    en: "Mami Sato"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2026-kyoto-xanadu-fuka-rokudo"
+  year: "2026"
+  medium: "game"
+  title:
+    ja: "亰都ザナドゥ -桜花幻舞-"
+    en: "亰都ザナドゥ -桜花幻舞-"
+  role:
+    ja: "六道楓華"
+    en: "六道楓華"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2025-city-the-animation-kamome-adatara"
+  year: "2025"
+  medium: "anime"
+  title:
+    ja: "CITY THE ANIMATION"
+    en: "CITY THE ANIMATION"
+  role:
+    ja: "安達太良かもめ ほか"
+    en: "Kamome Adatara and others"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2025-punirunes-puni-2-utarun"
+  year: "2025"
+  medium: "anime"
+  title:
+    ja: "ぷにるんず ぷに２"
+    en: "ぷにるんず ぷに２"
+  role:
+    ja: "うたるん"
+    en: "Utarun"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2025-azur-lane-massena"
+  year: "2025"
+  medium: "game"
+  title:
+    ja: "アズールレーン"
+    en: "Azur Lane"
+  role:
+    ja: "マッセナ"
+    en: "Masséna"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2025-new-moon-yorki"
+  year: "2025"
+  medium: "game"
+  title:
+    ja: "新月同行"
+    en: "新月同行"
+  role:
+    ja: "ヨルキ"
+    en: "ヨルキ"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2025-nijigasaki-tokimeki-map-setsuna-yuki"
+  year: "2025"
+  medium: "game"
+  title:
+    ja: "ラブライブ！虹ヶ咲学園スクールアイドル同好会 トキメキの未来地図"
+    en: "ラブライブ！虹ヶ咲学園スクールアイドル同好会 トキメキの未来地図"
+  role:
+    ja: "優木せつ菜"
+    en: "Setsuna Yuki"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2025-progress-orders-sophine"
+  year: "2025"
+  medium: "game"
+  title:
+    ja: "PROGRESS ORDERS"
+    en: "PROGRESS ORDERS"
+  role:
+    ja: "ソフィーネ"
+    en: "Sophine"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2025-touhou-fantasy-eclipse-shiki-eiki"
+  year: "2025"
+  medium: "game"
+  title:
+    ja: "東方幻想エクリプス"
+    en: "東方幻想エクリプス"
+  role:
+    ja: "四季映姫・ヤマザナドゥ"
+    en: "Eiki Shiki, Yamaxanadu"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2025-castle-and-dragon-panda-girl"
+  year: "2025"
+  medium: "game"
+  title:
+    ja: "城とドラゴン"
+    en: "城とドラゴン"
+  role:
+    ja: "パンダガール"
+    en: "Panda Girl"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2025-nijigasaki-final-chapter-2"
+  year: "2025"
+  medium: "anime"
+  title:
+    ja: "映画 ラブライブ！虹ヶ咲学園スクールアイドル同好会 完結編 第2章"
+    en: "Love Live! Nijigasaki High School Idol Club Final Chapter Part 2"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴（役名記載なし）"
+        en: "LIBERTE performance credits (role not specified)"
+  verification: "seed"
+
+- id: "2025-arashi-ni-mau-psyche-mitsuba-uno"
+  year: "2025"
+  medium: "audio"
+  title:
+    ja: "嵐に舞うプシュケ"
+    en: "嵐に舞うプシュケ"
+  role:
+    ja: "卯野みつば"
+    en: "Mitsuba Uno"
+  notes:
+    ja: "ボイスPV"
+    en: "Voice PV"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2025-onsen-musume-kaishi-gamagori"
+  year: "2025"
+  medium: "other"
+  title:
+    ja: "温泉むすめ"
+    en: "Onsen Musume"
+  role:
+    ja: "蒲郡海詩"
+    en: "Kaishi Gamagori"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2024-mf-ghost-second-season-mami-sato"
+  year: "2024"
+  medium: "anime"
+  title:
+    ja: "MFゴースト 2nd Season"
+    en: "MF Ghost 2nd Season"
+  role:
+    ja: "佐藤真美"
+    en: "Mami Sato"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2024-bang-dream-mygo-film-taki-shiina"
+  year: "2024"
+  medium: "anime"
+  title:
+    ja: "劇場版 BanG Dream! It's MyGO!!!!!"
+    en: "BanG Dream! It's MyGO!!!!! The Movie"
+  role:
+    ja: "椎名立希"
+    en: "Taki Shiina"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2024-nijigasaki-final-chapter-1-setsuna-yuki"
+  year: "2024"
+  medium: "anime"
+  title:
+    ja: "映画 ラブライブ！虹ヶ咲学園スクールアイドル同好会 完結編 第1章"
+    en: "Love Live! Nijigasaki High School Idol Club Final Chapter Part 1"
+  role:
+    ja: "優木せつ菜"
+    en: "Setsuna Yuki"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2024-ekimemo-akehi-kakunodate"
+  year: "2024"
+  medium: "game"
+  title:
+    ja: "駅メモ！ - ステーションメモリーズ！-"
+    en: "駅メモ！ - ステーションメモリーズ！-"
+  role:
+    ja: "角館あけひ"
+    en: "Akehi Kakunodate"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2024-assault-lily-last-bullet-shiera-tada"
+  year: "2024"
+  medium: "game"
+  title:
+    ja: "アサルトリリィ Last Bullet"
+    en: "Assault Lily Last Bullet"
+  role:
+    ja: "多田紫恵楽"
+    en: "Shiera Tada"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2023-tonikaku-kawaii-high-school-haru-miyako"
+  year: "2023"
+  medium: "anime"
+  title:
+    ja: "トニカクカワイイ 女子高編"
+    en: "TONIKAWA: Over The Moon For You — High School Days"
+  role:
+    ja: "都 春"
+    en: "Haru Miyako"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2023-world-dai-star-ikuko-kamiyashiki"
+  year: "2023"
+  medium: "anime"
+  title:
+    ja: "ワールドダイスター"
+    en: "World Dai Star"
+  role:
+    ja: "紙屋敷育子"
+    en: "Ikuko Kamiyashiki"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2023-nijigasaki-next-sky-setsuna-yuki"
+  year: "2023"
+  medium: "anime"
+  title:
+    ja: "ラブライブ！虹ヶ咲学園スクールアイドル同好会 NEXT SKY"
+    en: "Love Live! Nijigasaki High School Idol Club NEXT SKY"
+  role:
+    ja: "優木せつ菜"
+    en: "Setsuna Yuki"
+  notes:
+    ja: "新作エピソードOVA"
+    en: "Original video animation"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2023-mf-ghost-mami"
+  year: "2023"
+  medium: "anime"
+  title:
+    ja: "MFゴースト"
+    en: "MF Ghost"
+  role:
+    ja: "真美"
+    en: "Mami"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2023-sega-net-mahjong-mj-ryanpeko"
+  year: "2023"
+  medium: "game"
+  title:
+    ja: "セガNET麻雀 MJ"
+    en: "Sega NET Mahjong MJ"
+  role:
+    ja: "リャンペーコー"
+    en: "Ryanpeko"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2023-monster-strike-matsudaira-katamori"
+  year: "2023"
+  medium: "game"
+  title:
+    ja: "モンスターストライク"
+    en: "Monster Strike"
+  role:
+    ja: "松平容保"
+    en: "Katamori Matsudaira"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2023-tower-of-god-new-world-khun-kiseia"
+  year: "2023"
+  medium: "game"
+  title:
+    ja: "神之塔：NEW WORLD"
+    en: "Tower of God: NEW WORLD"
+  role:
+    ja: "クン・キセア"
+    en: "Khun Kiseia"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2023-brown-dust-akasha"
+  year: "2023"
+  medium: "game"
+  title:
+    ja: "ブラウンダスト"
+    en: "Brown Dust"
+  role:
+    ja: "アーカーシャ"
+    en: "Akasha"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2023-love-live-sif2-setsuna-yuki"
+  year: "2023"
+  medium: "game"
+  title:
+    ja: "ラブライブ！スクールアイドルフェスティバル2 MIRACLE LIVE!"
+    en: "Love Live! School Idol Festival 2 MIRACLE LIVE!"
+  role:
+    ja: "優木せつ菜"
+    en: "Setsuna Yuki"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2022-idolland-pripara-pororo"
+  year: "2022"
+  medium: "anime"
+  title:
+    ja: "アイドルランドプリパラ"
+    en: "Idol Land PriPara"
+  role:
+    ja: "ポォロロ"
+    en: "Pororo"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2022-black-summoner-munchan"
+  year: "2022"
+  medium: "anime"
+  title:
+    ja: "黒の召喚士"
+    en: "Black Summoner"
+  role:
+    ja: "ムンちゃん"
+    en: "Mun-chan"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2022-bakugan-evolutions-gene"
+  year: "2022"
+  medium: "anime"
+  title:
+    ja: "爆丸エボリューションズ"
+    en: "Bakugan: Evolutions"
+  role:
+    ja: "ジーン"
+    en: "Gene"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2022-monster-strike-azot"
+  year: "2022"
+  medium: "game"
+  title:
+    ja: "モンスターストライク"
+    en: "Monster Strike"
+  role:
+    ja: "アゾット"
+    en: "Azot"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2021-puraore-ruri-sakai"
+  year: "2021"
+  medium: "anime"
+  title:
+    ja: "プラオレ！〜PRIDE OF ORANGE〜"
+    en: "PuraOre! Pride of Orange"
+  role:
+    ja: "酒井瑠璃"
+    en: "Ruri Sakai"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2021-muv-luv-alternative-madoka-saotome"
+  year: "2021"
+  medium: "anime"
+  title:
+    ja: "マブラヴ オルタネイティヴ"
+    en: "Muv-Luv Alternative"
+  role:
+    ja: "早乙女まどか"
+    en: "Madoka Saotome"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2021-love-live-superstar"
+  year: "2021"
+  medium: "anime"
+  title:
+    ja: "ラブライブ！スーパースター!!"
+    en: "Love Live! Superstar!!"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴（役名記載なし）"
+        en: "LIBERTE performance credits (role not specified)"
+  verification: "seed"
+
+- id: "2021-pretty-all-friends-selection-mirai-momoyama"
+  year: "2021"
+  medium: "anime"
+  title:
+    ja: "プリティーオールフレンズセレクション"
+    en: "Pretty All Friends Selection"
+  role:
+    ja: "桃山みらい"
+    en: "Mirai Momoyama"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2021-high-rise-invasion-sai-mask"
+  year: "2021"
+  medium: "anime"
+  title:
+    ja: "天空侵犯"
+    en: "High-Rise Invasion"
+  role:
+    ja: "サイ仮面"
+    en: "Sai Mask"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2021-puzzle-girls-veneto-agano"
+  year: "2021"
+  medium: "game"
+  title:
+    ja: "パズルガールズ"
+    en: "パズルガールズ"
+  role:
+    ja: "ヴェネト、阿賀野"
+    en: "Veneto and Agano"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2021-blue-archive-sora"
+  year: "2021"
+  medium: "game"
+  title:
+    ja: "ブルーアーカイブ -Blue Archive-"
+    en: "Blue Archive"
+  role:
+    ja: "ソラ"
+    en: "Sora"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2020-brigandine-legend-of-runersia-sugar"
+  year: "2020"
+  medium: "game"
+  title:
+    ja: "ブリガンダイン ルーナジア戦記"
+    en: "Brigandine: The Legend of Runersia"
+  role:
+    ja: "シュガー"
+    en: "Sugar"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2019-assassins-pride-grace"
+  year: "2019"
+  medium: "anime"
+  title:
+    ja: "アサシンズプライド"
+    en: "Assassins Pride"
+  role:
+    ja: "グレイス、女生徒、下級生"
+    en: "Grace, female student, and junior student"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2019-king-of-prism-shiny-seven-stars-nagisa-wataru"
+  year: "2019"
+  medium: "anime"
+  title:
+    ja: "KING OF PRISM -Shiny Seven Stars-"
+    en: "KING OF PRISM -Shiny Seven Stars-"
+  role:
+    ja: "鷹梁渚、鷹梁航"
+    en: "Nagisa Takahashi and Wataru Takahashi"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2019-the-promised-neverland-eugene-damdin-rossy"
+  year: "2019"
+  medium: "anime"
+  title:
+    ja: "約束のネバーランド"
+    en: "The Promised Neverland"
+  role:
+    ja: "エウゲン、ダムディン、ロッシー"
+    en: "Eugene, Damdin, and Rossy"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2019-love-live-sunshine-over-the-rainbow"
+  year: "2019"
+  medium: "anime"
+  title:
+    ja: "ラブライブ！サンシャイン!! The School Idol Movie Over the Rainbow"
+    en: "Love Live! Sunshine!! The School Idol Movie Over the Rainbow"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴（役名記載なし）"
+        en: "LIBERTE performance credits (role not specified)"
+  verification: "seed"
+
+- id: "2019-shachibato-still-till"
+  year: "2019"
+  medium: "game"
+  title:
+    ja: "社長、バトルの時間です！"
+    en: "社長、バトルの時間です！"
+  role:
+    ja: "シュティル・ティル"
+    en: "Still Till"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2019-quiz-rpg-wiz-nonoka-yuto"
+  year: "2019"
+  medium: "game"
+  title:
+    ja: "魔法使いと黒猫のウィズ"
+    en: "魔法使いと黒猫のウィズ"
+  role:
+    ja: "神崎川ののか／エニグマチューリップ、塚口優斗"
+    en: "Nonoka Kanzakigawa / Enigma Tulip, and Yuto Tsukaguchi"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2018-pripara-prichan-memorial-live-mirai-momoyama"
+  year: "2018"
+  medium: "anime"
+  title:
+    ja: "劇場版 プリパラ＆キラッとプリ☆チャン ～きらきらメモリアルライブ～"
+    en: "劇場版 プリパラ＆キラッとプリ☆チャン ～きらきらメモリアルライブ～"
+  role:
+    ja: "桃山みらい"
+    en: "Mirai Momoyama"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2018-luster-meigetsu"
+  year: "2018"
+  medium: "game"
+  title:
+    ja: "月煌ーLusterー"
+    en: "月煌ーLusterー"
+  role:
+    ja: "明月"
+    en: "明月"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2018-wake-up-girls-new-angel-ayu-hayashi"
+  year: "2018"
+  medium: "game"
+  title:
+    ja: "Wake Up, Girls! 新星の天使"
+    en: "Wake Up, Girls! 新星の天使"
+  role:
+    ja: "速志歩"
+    en: "Ayu Hayashi"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2018-kiratto-prichan-game-mirai-momoyama"
+  year: "2018"
+  medium: "game"
+  title:
+    ja: "キラッとプリ☆チャン"
+    en: "Kiratto Pri☆Chan"
+  role:
+    ja: "桃山みらい"
+    en: "Mirai Momoyama"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2018-pripara-all-idol-perfect-stage-mirai-momoyama"
+  year: "2018"
+  medium: "game"
+  title:
+    ja: "プリパラ オールアイドルパーフェクトステージ！"
+    en: "プリパラ オールアイドルパーフェクトステージ！"
+  role:
+    ja: "桃山みらい"
+    en: "Mirai Momoyama"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2017-wake-up-girls-new-chapter-ayu-hayashi"
+  year: "2017"
+  medium: "anime"
+  title:
+    ja: "Wake Up, Girls! 新章"
+    en: "Wake Up, Girls! New Chapter"
+  role:
+    ja: "速志歩"
+    en: "Ayu Hayashi"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+# 以下为 LIBERTE 履历页中“TV・映画”“WEB”与“LIVE・イベントなど”栏里，
+# 明确以角色或作品形式出演的履历。有具体举办日期的单次演出仍归 activities.yaml。
+
+- id: "2024-high-school-kiratto-prichan-mirai-momoyama"
+  year: "2024"
+  medium: "other"
+  title:
+    ja: "バーチャルミュージカル「ハイスクール！キラッとプリ☆チャン」"
+    en: "Virtual Musical: High School! Kiratto Pri☆Chan"
+  role:
+    ja: "桃山みらい"
+    en: "Mirai Momoyama"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2023-tenmo-enjo-kagutsuchi-audiobook-inui-kyoko"
+  year: "2023"
+  medium: "audio"
+  title:
+    ja: "天網炎上カグツチ オーディオブック版"
+    en: "Tenmo Enjo Kagutsuchi (Audiobook)"
+  role:
+    ja: "戌井京子"
+    en: "Kyoko Inui"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2023-voice-and-stories-yoko-hachiken"
+  year: "2023"
+  medium: "other"
+  title:
+    ja: "新感覚メディアミックスプロジェクト「Voice & Stories」"
+    en: "Voice & Stories"
+  role:
+    ja: "蜂堅燿子"
+    en: "Yoko Hachiken"
+  notes:
+    ja: "第5弾ユニットとして参加"
+    en: "Joined as part of the fifth unit"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2022-fuayu-audiobook-yura-yuki-kotobuki"
+  year: "2022"
+  medium: "audio"
+  title:
+    ja: "ふあゆ オーディオブック版"
+    en: "Fuayu (Audiobook)"
+  role:
+    ja: "寿ユラ、寿ユキほか"
+    en: "Yura Kotobuki, Yuki Kotobuki, and others"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2020-joshi-mote-imoto-audiobook-kyoko-hinata"
+  year: "2020"
+  medium: "audio"
+  title:
+    ja: "女子モテな妹と受難な俺 オーディオブック版"
+    en: "Joshi Mote na Imoto to Junan na Ore (Audiobook)"
+  role:
+    ja: "日向今日子"
+    en: "Kyoko Hinata"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2019-phantomirage-episode-17-mirai-momoyama"
+  year: "2019"
+  medium: "television"
+  title:
+    ja: "ひみつ×戦士 ファントミラージュ！ 第17話"
+    en: "Secret × Heroine Phantomirage! Episode 17"
+  role:
+    ja: "桃山みらい"
+    en: "Mirai Momoyama"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
+  verification: "seed"
+
+- id: "2019-toaru-hikushi-no-seiyaku-audiobook-mio-seira"
+  year: "2019"
+  medium: "audio"
+  title:
+    ja: "とある飛空士への誓約 オーディオブック版"
+    en: "A Pilot's Promise (Audiobook)"
+  role:
+    ja: "ミオ・セイラ"
+    en: "Mio Seira"
+  sources:
+    - url: "https://liberte2024.com/talent/hayashicoco"
+      label:
+        ja: "LIBERTE 出演履歴"
+        en: "LIBERTE performance credits"
   verification: "seed"

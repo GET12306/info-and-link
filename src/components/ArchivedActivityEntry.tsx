@@ -10,14 +10,18 @@ import ActivityResourcesDisclosure from "./ActivityResourcesDisclosure"
 export default function ArchivedActivityEntry({ activity, lang }: { activity: Activity; lang: Language }) {
   const t = TRANSLATIONS[lang]
   const tickets = activity.ticketInfo?.entries ?? []
-  return <CatalogEntry>
+  return <CatalogEntry id={`archive-activity-${activity.id}`}>
     <div className="mb-2 flex flex-wrap gap-x-3 text-xs leading-5 text-coco-ink/50">
       <span>{activity.scheduleLabel}</span><span>{getActivityCategoryLabel(activity.category, t)}</span>
     </div>
     <CatalogEntryTitle href={activity.link}>{activity.title[lang]}</CatalogEntryTitle>
-    {activity.venue && <div className="mt-2"><VenueLabel venue={activity.venue[lang]} /></div>}
+    {(activity.venueIds?.length || activity.venueNote) && (
+      <div className="mt-2">
+        <VenueLabel venueIds={activity.venueIds} venueNote={activity.venueNote} lang={lang} />
+      </div>
+    )}
     {activity.description && <p className="mt-2 text-sm leading-6 text-coco-ink/60">{activity.description[lang]}</p>}
-    <ActivityPerformanceDetails performances={activity.performances} durationMinutes={activity.durationMinutes} lang={lang} startLabel={activity.category === "Program" ? t.milestone_update : undefined} />
+    <ActivityPerformanceDetails compact performances={activity.performances} durationMinutes={activity.durationMinutes} lang={lang} startLabel={activity.category === "Program" ? t.milestone_update : undefined} />
     <ActivityResourcesDisclosure activityId={activity.id} lang={lang} />
     {tickets.length > 0 && <CatalogDisclosure label={t.archived_ticket_records.replace("{count}", String(tickets.length))}>
       <div className="divide-y divide-coco-ink/10">

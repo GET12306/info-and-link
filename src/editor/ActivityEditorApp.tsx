@@ -36,6 +36,7 @@ import {
   type ActivityValidationIssue,
 } from "./activityValidation"
 import { mergeActivityDraft } from "./activityDraftMerge"
+import { VENUES } from "../data/venues"
 
 type EditorActivity = Activity & Record<string, unknown>
 type EditorPerformance = ActivityPerformance & Record<string, unknown>
@@ -127,6 +128,39 @@ function LocalizedEditor({
           </label>
         ))}
       </div>
+    </fieldset>
+  )
+}
+
+function VenueEditor({
+  value,
+  onChange,
+}: {
+  value?: string[]
+  onChange: (value: string[] | undefined) => void
+}) {
+  return (
+    <fieldset className="localized-field">
+      <legend>venueIds <span className="optional">optional</span></legend>
+      <label>
+        <span>venues.yaml 中的场馆（可多选）</span>
+        <select
+          multiple
+          size={8}
+          value={value ?? []}
+          onChange={(event) => {
+            const next = Array.from(event.currentTarget.selectedOptions, (option) => option.value)
+            onChange(next.length ? next : undefined)
+          }}
+        >
+          {VENUES.map((venue) => (
+            <option key={venue.id} value={venue.id}>
+              {venue.name.ja} ({venue.id})
+            </option>
+          ))}
+        </select>
+      </label>
+      <small>Command / Ctrl 可选择多个场馆；顺序按 venues.yaml 中的显示顺序保存。</small>
     </fieldset>
   )
 }
@@ -836,7 +870,7 @@ export default function ActivityEditorApp() {
   }
 
   const updateLocalized = (
-    key: "title" | "venue" | "description",
+    key: "title" | "venueNote" | "description",
     value: LocalizedText | undefined
   ) => {
     if (!selectedActivity) return
@@ -997,7 +1031,11 @@ export default function ActivityEditorApp() {
                     {section.fields.map((field) => <ScalarField key={field.key} field={field} activity={selectedActivity} onChange={updateScalar} />)}
                   </div>
                   <LocalizedEditor label="title" value={selectedActivity.title} required onChange={(value) => updateLocalized("title", value)} />
-                  <LocalizedEditor label="venue" value={selectedActivity.venue} onChange={(value) => updateLocalized("venue", value)} />
+                  <VenueEditor
+                    value={selectedActivity.venueIds}
+                    onChange={(value) => updateSelected(setOptional(selectedActivity, "venueIds", value) as EditorActivity)}
+                  />
+                  <LocalizedEditor label="venueNote" value={selectedActivity.venueNote} onChange={(value) => updateLocalized("venueNote", value)} />
                   <LocalizedEditor label="description" value={selectedActivity.description} multiline onChange={(value) => updateLocalized("description", value)} />
                 </section>
               ))}

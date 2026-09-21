@@ -1,7 +1,7 @@
 import { ExternalLink } from "lucide-react"
 import { TRANSLATIONS } from "../i18n"
 import type { Language, RelatedResource, RelatedResourceLink } from "../types"
-import { archiveText } from "../utils/magazines"
+import { localizedText as archiveText } from "../utils/localizedText"
 import {
   isRelatedResourceCollection,
   relatedResourceLinkCount,

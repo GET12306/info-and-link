@@ -367,7 +367,23 @@ export function validateActivities(value: unknown): ActivityValidationIssue[] {
       issues.push({ path: `${path}.scheduleLabel`, message: "显示日程不能为空", severity: "error" })
     }
     validateLocalized(activity.title, `${path}.title`, issues, true)
-    validateLocalized(activity.venue, `${path}.venue`, issues, false)
+    if (activity.venueIds !== undefined) {
+      if (!Array.isArray(activity.venueIds) || activity.venueIds.length === 0) {
+        issues.push({ path: `${path}.venueIds`, message: "场馆 ID 必须是非空数组", severity: "error" })
+      } else {
+        const seenVenueIds = new Set<string>()
+        activity.venueIds.forEach((venueId, venueIndex) => {
+          const venuePath = `${path}.venueIds[${venueIndex}]`
+          if (typeof venueId !== "string" || !ID_PATTERN.test(venueId)) {
+            issues.push({ path: venuePath, message: `场馆 ID 格式无效：${String(venueId)}`, severity: "error" })
+          } else if (seenVenueIds.has(venueId)) {
+            issues.push({ path: venuePath, message: "同一活动不能重复引用场馆", severity: "error" })
+          }
+          seenVenueIds.add(String(venueId))
+        })
+      }
+    }
+    validateLocalized(activity.venueNote, `${path}.venueNote`, issues, false)
     validateLocalized(activity.description, `${path}.description`, issues, false)
     if (!isHttpUrl(activity.link)) {
       issues.push({ path: `${path}.link`, message: "活动链接必须是 HTTP(S) URL", severity: "error" })

@@ -56,10 +56,66 @@ export interface Activity {
   calendarExport?: "auto" | "enabled" | "disabled";
   performances?: ActivityPerformance[];
   title: LocalizedText;
+  /** Legacy inline venue text retained while records move to venueIds/venueNote. */
   venue?: LocalizedText;
+  /** Stable references into venues.yaml. Multiple IDs support multi-city events. */
+  venueIds?: string[];
+  /** Free-form location text for an area or an as-yet unannounced venue. */
+  venueNote?: LocalizedText;
   description?: LocalizedText;
   link: string;
   ticketInfo?: TicketInfo;
+}
+
+export interface VenueSource {
+  label: string;
+  url: string;
+  covers?: string[];
+}
+
+export interface VenueAddress {
+  postalCode?: string;
+  region?: LocalizedText;
+  locality?: LocalizedText;
+  street?: LocalizedText;
+  note?: LocalizedText;
+}
+
+export interface VenueCapacity {
+  seated?: number;
+  standing?: number;
+  maximum?: number;
+  wheelchairSpaces?: number;
+  temporarySeats?: number;
+  note?: LocalizedText;
+}
+
+export interface VenueTransport {
+  type?: string;
+  station?: LocalizedText;
+  line?: LocalizedText;
+  exit?: string | LocalizedText;
+  walkingMinutes?: number;
+  connected?: boolean;
+}
+
+export interface Venue {
+  id: string;
+  name: LocalizedText;
+  formalName?: LocalizedText;
+  formerName?: LocalizedText;
+  aliases?: Partial<Record<Language, string[]>>;
+  countryCode: string;
+  timeZone: string;
+  address: VenueAddress;
+  capacity?: VenueCapacity;
+  transport?: VenueTransport[];
+  spaces?: Array<Record<string, unknown>>;
+  officialUrl: string;
+  sources: VenueSource[];
+  status?: "closed" | "historical" | string;
+  closedOn?: string;
+  notes?: Array<{ text?: LocalizedText; sourceUrl?: string; effectiveFrom?: string }>;
 }
 
 export type ActivityWeekday =
@@ -196,40 +252,6 @@ export interface TicketEntry {
   link?: string;
 }
 
-export type WardrobeCategory =
-  | "tops"
-  | "outerwear"
-  | "bottoms"
-  | "dress"
-  | "shoes"
-  | "bag"
-  | "accessory"
-  | "other";
-
-export type WardrobeIdentificationStatus = "confirmed" | "probable" | "similar" | "unknown";
-
-export interface WardrobeSource {
-  type: "x" | "instagram" | "youtube" | "official" | "store" | "article" | "other";
-  label: LocalizedText;
-  url: string;
-  date?: string;
-}
-
-export interface WardrobeItem {
-  id: string;
-  category: WardrobeCategory;
-  color?: LocalizedText;
-  title: LocalizedText;
-  description: LocalizedText;
-  brand?: string;
-  productName?: string;
-  identification: {
-    status: WardrobeIdentificationStatus;
-    note?: LocalizedText;
-  };
-  sources: WardrobeSource[];
-}
-
 export type ActivityResourceKind = "announcement" | "merchandise" | "post" | "photo" | "video" | "report" | "other";
 export type ActivityResourcePlatform = "x" | "instagram" | "youtube" | "web" | "other";
 
@@ -295,4 +317,16 @@ export interface Magazine {
   cover?: { url: string; alt?: ArchiveText; sourceUrl?: string };
   links?: { url: string; label?: ArchiveText; status?: "available" | "expired" }[];
   relatedResources?: RelatedResource[];
+}
+
+/** Standalone everyday posts; no activity or program association required. */
+export interface DailyPost {
+  title: ArchiveText;
+  url: string;
+  id?: string;
+  date?: string;
+  platform?: ActivityResourcePlatform;
+  description?: ArchiveText;
+  tags?: ArchiveText[];
+  status?: "available" | "expired";
 }

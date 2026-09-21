@@ -5,6 +5,7 @@ import {
   isValidActivityMilestone,
 } from "./activityMilestones"
 import { addMinutesToJapanDateTimeKey } from "./japanTime"
+import { getActivityCalendarLocation } from "../data/venues"
 
 // Export is stricter than the display calendar: never silently repair bad dates
 // or export only the valid subset of an activity's schedule.
@@ -335,7 +336,8 @@ export async function buildActivityCalendar(
     lines.push("BEGIN:VEVENT", `UID:${await calendarEventUid(event.identity)}`, `DTSTAMP:${stamp}`,
       `SUMMARY:${escapeText(event.title)}`,
       `URL:${new URL(activity.link).href}`)
-    if (activity.venue?.[lang]) lines.push(`LOCATION:${escapeText(activity.venue[lang])}`)
+    const location = getActivityCalendarLocation(activity, lang)
+    if (location) lines.push(`LOCATION:${escapeText(location)}`)
     if (event.allDay) {
       const date = event.endAt.substring(0, 10)
       const nextDay = new Date(`${date}T00:00:00Z`)

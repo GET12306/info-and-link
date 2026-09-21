@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react"
-import { HashRouter, Routes, Route, Navigate, useLocation, Link } from "react-router-dom"
+import { HashRouter, Routes, Route, useLocation, Link } from "react-router-dom"
 import { motion, AnimatePresence } from "motion/react"
 import { Globe } from "lucide-react"
 import { useTheme } from "./hooks/useDarkMode"
@@ -8,6 +8,7 @@ import Loading from "./components/Loading"
 import NavBar from "./components/NavBar"
 import { useLanguage } from "./hooks/useLanguage"
 
+const DailyPosts = lazy(() => import("./pages/DailyPosts"))
 const Museum = lazy(() => import("./pages/Museum"))
 const Credits = lazy(() => import("./pages/Credits"))
 const Programs = lazy(() => import("./pages/Programs"))
@@ -17,6 +18,7 @@ const Activities = lazy(() => import("./pages/Activities"))
 const PastActivities = lazy(() => import("./pages/PastActivities"))
 const TicketInfo = lazy(() => import("./pages/TicketInfo"))
 const About = lazy(() => import("./pages/About"))
+const VenueDetails = lazy(() => import("./pages/VenueDetails"))
 
 function AnimatedRoutes({ lang }: { lang: Language }) {
   const location = useLocation()
@@ -40,14 +42,15 @@ function AnimatedRoutes({ lang }: { lang: Language }) {
               <Routes location={location}>
                 <Route path="/" element={<Home lang={lang} />} />
                 <Route path="/activities" element={<Activities lang={lang} />} />
+                <Route path="/venues/:venueId" element={<VenueDetails lang={lang} />} />
                 <Route path="/museum/activities" element={<PastActivities lang={lang} />} />
                 <Route path="/tickets" element={<TicketInfo lang={lang} />} />
                 <Route path="/museum" element={<Museum lang={lang} />} />
                 <Route path="/museum/credits" element={<Credits lang={lang} />} />
                 <Route path="/museum/programs" element={<Programs lang={lang} />} />
+                <Route path="/museum/daily-posts" element={<DailyPosts lang={lang} />} />
                 <Route path="/museum/media" element={<Media lang={lang} />} />
                 <Route path="/about" element={<About lang={lang} />} />
-                <Route path="/wardrobe" element={<Navigate to="/" replace />} />
               </Routes>
             </div>
           </motion.div>

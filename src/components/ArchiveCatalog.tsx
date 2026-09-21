@@ -18,8 +18,8 @@ export function ArchiveCatalog({ title, backLabel, children }: {
 export function CatalogGrid({ children }: { children: ReactNode }) {
   return <div className="catalog-grid">{children}</div>
 }
-export function CatalogEntry({ children }: { children: ReactNode }) {
-  return <article className="catalog-entry">{children}</article>
+export function CatalogEntry({ children, id }: { children: ReactNode; id?: string }) {
+  return <article id={id} className="catalog-entry scroll-mt-24">{children}</article>
 }
 
 /** Shared pill filters for archive collections. */

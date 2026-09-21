@@ -1,6 +1,5 @@
 import type { Activity } from "../types"
 import {
-  getJapanDateKey,
   getJapanDateTimeKey,
   normalizeJapanDateTimeKey,
 } from "./japanTime"
@@ -10,10 +9,6 @@ import {
 } from "./activitySchedule"
 
 export type ActivityStatus = "upcoming" | "ongoing" | "past"
-
-export function getTodayKey(date = new Date()) {
-  return getJapanDateKey(date)
-}
 
 function getOccurrenceBounds(occurrences: ActivityOccurrence[]) {
   let startAt: string | null = null

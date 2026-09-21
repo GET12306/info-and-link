@@ -47,10 +47,11 @@
 #   title:                             # [必填] 活动标题
 #     ja: "活动名"
 #     en: "Activity title"
-#   venue:                              # [可选] 活动场地；活动页、票务页及未来日历共同使用
-#     ja: "会場名"
-#     en: "Venue"
-#   description:                       # [可选] 角色、出演方式等补充说明；场地请写入 venue
+#   venueIds: ["example-venue"]        # [可选] venues.yaml 中的场馆 ID；多场馆按显示顺序填写多个 ID
+#   venueNote:                         # [可选] 城市、区域或尚未公布的场馆等无法使用 ID 的地点说明
+#     ja: "東京都内"
+#     en: "Tokyo"
+#   description:                       # [可选] 角色、出演方式等补充说明；场地请写入 venueIds / venueNote
 #     ja: "ゲスト出演"
 #     en: "Guest appearance"
 #   link: "https://example.com/event" # [必填] 活动链接；也是票务条目链接的最终回退地址
@@ -148,9 +149,7 @@
   title:
     ja: "ミュージカル「スキップとローファー」"
     en: "Musical 'Skip and Loafer'"
-  venue:
-    ja: "シアターH(東京)／梅田芸術劇場 シアター・ドラマシティ（大阪）"
-    en: "Theater H (Tokyo) / Umeda Arts Theater, Theater Drama City (Osaka)"
+  venueIds: ["theater-h", "umeda-theater-drama-city"]
   description:
     ja: "江頭ミカ役"
     en: "As Mika Egashira"
@@ -271,9 +270,7 @@
   title:
     ja: "きっといいKotoあるravel"
     en: "I'm sure something good will happen, ravel"
-  venue:
-    ja: "シアターサンモール"
-    en: "Theater Sunmall"
+  venueIds: ["theater-sunmall"]
   description:
     ja: "演劇集団Z-Lion『きっといいKotoあるravel』再演決定! 笑って泣ける、9年ぶりの再演。"
     en: "Theater Group Z-Lion's “Something Good Will Happen, I'm Sure” to Be Revived! A revival after nine years that will make you laugh and cry."
@@ -331,9 +328,7 @@
   title:
     ja: "未送信フォルダ - #送れなかった言葉 -"
     en: "Unsent Folder - #Words I Couldn't Send -"
-  venue:
-    ja: "あうるすぽっと"
-    en: "Auru Spot"
+  venueIds: ["owlspot"]
   description:
     ja: "七海役 *07.31-08.02のみご出演"
     en: "As Nanami *Performs only from July 31 to August 2"
@@ -385,9 +380,7 @@
   title:
     ja: "スライム倒して300年"
     en: "300 Years of Slaying Slimes"
-  venue:
-    ja: "シアターサンモール"
-    en: "Theater Sunmall"
+  venueIds: ["theater-sunmall"]
   description:
     ja: "主人公 アズサ役 *特定の日程のみ出演"
     en: "As Azusa *Performs only on specific dates"
@@ -453,9 +446,7 @@
   title:
     ja: "異空間リーディングステージ 「アサルトリリィ」 vol.2"
     en: "Alternative Dimension Reading Stage: “Assault Lily” Vol. 2"
-  venue:
-    ja: "シアターサンモール"
-    en: "Theater Sunmall"
+  venueIds: ["theater-sunmall"]
   description:
     ja: "⻑坂稀星役"
     en: "As Maho Nagasaka"
@@ -492,9 +483,7 @@
   title:
     ja: "「トゲナシトゲアリのトゲラジ～川崎から世界へ～」番組公開収録"
     en: "'Togenashi Togeari's Toge Radio: From Kawasaki to the World' Live Public Recording"
-  venue:
-    ja: "西荻地域区民センター・勤労福祉会館"
-    en: "Nishiogi Community Center Labor Welfare Hall"
+  venueIds: ["nishiogi-community-center"]
   description:
     ja: "昼の部出演"
     en: "Matinee performance"
@@ -516,9 +505,7 @@
   title:
     ja: "MyGO!!!!!の「迷子集会」出張版 第三弾 - 日常の築葉書 -"
     en: "MyGO!!!!! 「Maigo Center」 Pop-up Special Vol.3 - Letters from Daily Life -"
-  venue:
-    ja: "鴻巣市文化センター（クレアこうのす） 大ホール"
-    en: "Kounosu Cultural Center (Clair Kounosu) Main Hall"
+  venueIds: ["clea-konosu-main-hall"]
   description:
     ja: "椎名立希役"
     en: "As Taki Shiina"
@@ -534,9 +521,7 @@
   title:
     ja: "進藤あまねの「あまね部!」リアルイベントVol.5"
     en: "Amane Shindo's “Amane Club!” Live Event Vol.5"
-  venue:
-    ja: "R'sアートコート"
-    en: "R's Art Court"
+  venueIds: ["rs-art-court"]
   description:
     ja: "2部ゲスト出演"
     en: "Guest appearance in part 2"
@@ -567,9 +552,7 @@
   title:
     ja: "林鼓子 2026香港ファンミーティング"
     en: "Coco Hayashi 2026 Hong Kong Fan Meeting"
-  venue:
-    ja: "歷山酒店-宴會廳"
-    en: "Hotel Alexandra"
+  venueIds: ["hotel-alexandra-grand-ballroom"]
   link: "https://x.com/flashinglightCM/status/2089200550961148103"
   ticketInfo:
     price:
@@ -612,9 +595,7 @@
   title:
     ja: "林鼓子 2026台北ファンミーティング"
     en: "Coco Hayashi 2026 Taipei Fan Meeting"
-  venue:
-    ja: "HANASPACE 花漾展演空間"
-    en: "Hanaspace"
+  venueIds: ["hanaspace-taipei"]
   link: "https://x.com/bridgebond_llc/status/2078329086263656795"
   ticketInfo:
     link: "https://digitalidea.kktix.cc/events/2d9b4d89?locale=zh-TW"
@@ -755,9 +736,7 @@
   title:
     ja: "林鼓子 BIRTHDAY TALK&LIVE2026 －Amour！－"
     en: "BIRTHDAY TALK&LIVE2026 －Amour！－"
-  venue:
-    ja: "恵比寿 ザ・ガーデンルーム"
-    en: "Ebisu The Garden Room"
+  venueIds: ["ebisu-the-garden-room"]
   link: "https://fan.pia.jp/cocohayashi/news/detail/44"
 
 - id: "2026-nijigasaki-8th-live"
@@ -772,9 +751,7 @@
   title:
     ja: "ラブライブ！虹ヶ咲学園スクールアイドル同好会 8th Live! TOKIMEKI Express"
     en: "Love Live! Nijigasaki High School Idol Club 8th Live! TOKIMEKI Express"
-  venue:
-    ja: "大阪城ホール / 京王アリーナ TOKYO"
-    en: "Osaka-Jo Hall / Keio Arena Tokyo"
+  venueIds: ["osaka-jo-hall", "keio-arena-tokyo"]
   description:
     ja: "優木せつ菜役"
     en: "As Setsuna Yuki"
@@ -788,9 +765,7 @@
   title:
     ja: "MUSIC AWARDS JAPAN WEEK SPECIAL LIVE リスアニ! LIVE on TOKYO ANIME MUSIC HIGHLIGHTS"
     en: "MUSIC AWARDS JAPAN WEEK SPECIAL LIVE Risuani! LIVE on TOKYO ANIME MUSIC HIGHLIGHTS"
-  venue:
-    ja: "TOYOTA ARENA TOKYO"
-    en: "TOYOTA ARENA TOKYO"
+  venueIds: ["toyota-arena-tokyo"]
   description:
     ja: "椎名立希役(MyGo!!!!!)"
     en: "As Taki Shiina (MyGo!!!!!)"
@@ -805,9 +780,7 @@
   title:
     ja: "MyGO!!!!! 9th LIVE「つなぎ目の向こうに」"
     en: "MyGO!!!!! 9th LIVE 「Beyond the Seam」"
-  venue:
-    ja: "ぴあアリーナMM"
-    en: "PIA Arena MM"
+  venueIds: ["pia-arena-mm"]
   description:
     ja: "椎名立希役"
     en: "As Taki Shiina"
@@ -821,9 +794,7 @@
   title:
     ja: "LuckyFes'26"
     en: "LuckyFes'26"
-  venue:
-    ja: "茨城県ひたちなか市 国営ひたち海浜公園"
-    en: "Hitachi Seaside Park"
+  venueIds: ["hitachi-seaside-park"]
   description:
     ja: "椎名立希役(MyGo!!!!!)"
     en: "As Taki Shiina (MyGo!!!!!)"
@@ -853,9 +824,7 @@
   title:
     ja: "Piano BAR C*LAPS"
     en: "Piano BAR C*LAPS"
-  venue:
-    ja: "六本木C*LAPS"
-    en: "Roppongi C*LAPS"
+  venueIds: ["roppongi-claps"]
   link: "https://artistslinks.com/1151"
   ticketInfo:
     price:
@@ -891,9 +860,7 @@
   title:
     ja: "LIBERTE LIVE 2026 ~ First Act ~"
     en: "LIBERTE LIVE 2026 ~ First Act ~"
-  venue:
-    ja: "KIWA TENNOZ"
-    en: "KIWA TENNOZ"
+  venueIds: ["kiwa-tennoz"]
   performances:
     - startAt: "2026-09-12T14:30"
       label:
@@ -954,9 +921,7 @@
   title:
     ja: "LoveLive! Series 15th Anniversary ラブライブ！フェス 前夜祭 FILM LIVE ～未来へ届けるタイムカプセル～"
     en: "LoveLive! Series 15th Anniversary Love Live! Festival Eve FILM LIVE ~A Time Capsule for the Future~"
-  venue:
-    ja: "Shibuya LOVEZ"
-    en: "Shibuya LOVEZ"
+  venueIds: ["shibuya-lovez"]
   description:
     ja: "優木せつ菜役"
     en: "As Setsuna Yuki"
@@ -1003,9 +968,7 @@
   title:
     ja: "MyGO!!!!! 9th LIVE「つなぎ目の向こうに」 - 神戸再景編 -"
     en: "MyGO!!!!! 9th LIVE 「Beyond the Seam」 - Kobe Revival Edition -"
-  venue:
-    ja: "ワールド記念ホール（神戸ポートアイランドホール）"
-    en: "World Memorial Hall (Kobe Port Island Hall)"
+  venueIds: ["world-memorial-hall"]
   description:
     ja: "椎名立希役"
     en: "As Setsuna Yuki"
@@ -1046,9 +1009,7 @@
       milestones:
         - kind: "doors"
           at: "11:00"
-  venue:
-    ja: "韓国・KINTEX HALL 7·8·9·10"
-    en: "KINTEX HALL 7·8·9·10, Korea"
+  venueIds: ["kintex-2-halls-7-10"]
   description:
     ja: "椎名立希役(MyGo!!!!!)"
     en: "As Taki Shiina (MyGo!!!!!)"
@@ -1079,12 +1040,11 @@
     ja: "MyGO!!!!!メンバーがランダムでパーソナリティを務めるYouTubeラジオ番組です。"
     en: "This is a YouTube radio where MyGO!!!!! members randomly take turns as hosts."
   recurrence:
-    type: "weekly"
-    startOn: "2026-09-01"
-    endOn: "2027-01-31"
-    weekday: "wednesday"
-    startTime: "19:00"
+    type: "manual"
   calendarExport: "disabled"
+  performances:
+    - startAt: "2026-07-29T19:00"
+    - startAt: "2026-07-22T19:00"
 - id: "coco-fc2025-event2027-01"
   category: "Event"
   scheduleLabel: "2027.01.30"
@@ -1095,9 +1055,7 @@
   description:
     ja: "詳細・チケット先行販売に関しましては、少々お待ちください。"
     en: "Please wait a moment for details and information regarding the advance ticket sale."
-  venue:
-    ja: "都内某所"
-    en: "Somewhere in Tokyo"
+  venueNote: { ja: "都内某所", en: "Somewhere in Tokyo" }
   startDate: "2027-01-30"
   endDate: "2027-01-30"
   durationMinutes: 90
@@ -1128,9 +1086,7 @@
   title:
     ja: "ミュージカル「Neo Doll」"
     en: "Musical 'Neo Doll'"
-  venue:
-    ja: "シアターサンモール"
-    en: "Theater Sunmall"
+  venueIds: ["theater-sunmall"]
   description:
     ja: "スズラン役（Bouquet／teamRibbon）※林鼓子出演回のみ記載"
     en: "As Suzuran (Bouquet / teamRibbon); only Coco Hayashi's performances are listed"
@@ -1183,3 +1139,2653 @@
     - startAt: "2026-09-24T22:00"
       endAt: "2026-09-24T23:00"
   calendarExport: "disabled"
+
+# ------------------------------------------------------------------------------------------------------------
+# 事务所履历「舞台」补录。每条 link 同时作为该条目的来源页；已存在的同名活动不在此处重复。
+- id: "2025-hikarare-shi-onnadomo-happy-christmas"
+  category: "Musical"
+  scheduleLabel: "2025.12.13-14"
+  performances:
+    - startAt: "2025-12-13T13:00"
+      label:
+        ja: "昼公演"
+        en: "Matinee"
+    - startAt: "2025-12-13T17:30"
+      label:
+        ja: "夜公演"
+        en: "Evening"
+    - startAt: "2025-12-14T12:30"
+      label:
+        ja: "昼公演"
+        en: "Matinee"
+    - startAt: "2025-12-14T17:00"
+      label:
+        ja: "夜公演"
+        en: "Evening"
+  title:
+    ja: "「朗読ミュージカル 光られし女どもVol.3」／「Happyクリスマス☆ミュージカルコンサート2025」"
+    en: "Reading Musical 'Illuminated Women Vol. 3' / Happy Christmas Musical Concert 2025"
+  venueIds: ["toyosu-civic-center-hall"]
+  link: "https://fan.pia.jp/cocohayashi/news/detail/18/"
+
+- id: "2025-assault-lily-reading-red-blue"
+  category: "Reading"
+  scheduleLabel: "2025.11.29-12.07"
+  performances:
+    - startAt: "2025-11-29T18:00"
+    - startAt: "2025-11-30T13:00"
+    - startAt: "2025-12-02T19:00"
+    - startAt: "2025-12-03T19:00"
+    - startAt: "2025-12-04T19:00"
+    - startAt: "2025-12-07T12:00"
+      label:
+        ja: "昼公演"
+        en: "Matinee"
+    - startAt: "2025-12-07T16:30"
+      label:
+        ja: "夜公演"
+        en: "Evening"
+  title:
+    ja: "異空間リーディングステージ「アサルトリリィ」- RED - & - BLUE -"
+    en: "Alternative Dimension Reading Stage 'Assault Lily' - RED - & - BLUE -"
+  venueIds: ["theater-sunmall"]
+  description:
+    ja: "長坂稀星役（BLUE公演のみ出演）"
+    en: "As Maho Nagasaka; appearing in BLUE performances only"
+  link: "https://assaultlily-stage.jp/2511stage/"
+
+- id: "2025-heaven-burns-red-stage"
+  category: "Stage"
+  scheduleLabel: "2025.10.31-11.09"
+  startDate: "2025-10-31"
+  endDate: "2025-11-09"
+  title:
+    ja: "舞台「ヘブンバーンズレッド」"
+    en: "Heaven Burns Red: The Stage"
+  venueIds: ["theater-g-rosso"]
+  description:
+    ja: "樋口聖華役（10月31日プレビュー公演を含む）"
+    en: "As Seika Higuchi; includes the October 31 preview"
+  link: "https://officeendless.com/sp/hbr_stage/"
+
+- id: "2025-assault-lily-shinsetsu-odaiba"
+  category: "Stage"
+  scheduleLabel: "2025.09.20-25"
+  startDate: "2025-09-20"
+  endDate: "2025-09-25"
+  title:
+    ja: "舞台「アサルトリリィ」-眞說・御台場迎撃戦-"
+    en: "Assault Lily: The True Story of the Odaiba Counteroffensive"
+  venueIds: ["theatre-1010"]
+  description:
+    ja: "多田紫恵楽役"
+    en: "As Shiera Tada"
+  link: "https://assaultlily-stage.jp/2509stage/"
+
+- id: "2025-tokyo-night-crab"
+  category: "Stage"
+  scheduleLabel: "2025.07.17-21"
+  startDate: "2025-07-17"
+  endDate: "2025-07-21"
+  title:
+    ja: "NLTプロデュース公演「TOKYO NIGHT CRAB」"
+    en: "NLT Produce: TOKYO NIGHT CRAB"
+  venueIds: ["hakuhinkan-theater"]
+  link: "https://www.queens-ave.com/info/10499/"
+
+- id: "2025-kamishibai-kai"
+  category: "Stage"
+  scheduleLabel: "2025.06.25-29"
+  startDate: "2025-06-25"
+  endDate: "2025-06-29"
+  title:
+    ja: "舞台「カミシバイ-開-」"
+    en: "Kamishibai -Kai-"
+  venueIds: ["rikkoukai-hall"]
+  description:
+    ja: "ミコト役"
+    en: "As Mikoto"
+  link: "https://www.kami-shibai.com/%E8%A4%87%E8%A3%BD-%E8%88%9E%E5%8F%B0-%E3%82%AB%E3%83%9F%E3%82%B7%E3%83%90%E3%82%A4-%E5%85%AC%E5%BC%8F%EF%BD%88%EF%BD%90"
+
+- id: "2025-assault-lily-sturm"
+  category: "Stage"
+  scheduleLabel: "2025.04.29-30"
+  performances:
+    - startAt: "2025-04-29T13:00"
+      label:
+        ja: "昼公演"
+        en: "Matinee"
+    - startAt: "2025-04-29T18:00"
+      label:
+        ja: "夜公演"
+        en: "Evening"
+    - startAt: "2025-04-30T13:00"
+  title:
+    ja: "舞台「アサルトリリィ・シュツルム」～サングリーズル編～"
+    en: "Assault Lily: Sturm - Sanngriðr Chapter"
+  venueIds: ["kameari-lirio-hall"]
+  description:
+    ja: "長坂稀星役（Wキャスト、林鼓子出演回のみ記載）"
+    en: "As Maho Nagasaka; double cast, only Coco Hayashi's performances are listed"
+  link: "https://www.assaultlily.com/news/1907.html/"
+
+- id: "2025-yume-no-kakera-wo-uta-ni-nosetara"
+  category: "Stage"
+  scheduleLabel: "2025.01.08-11"
+  startDate: "2025-01-08"
+  endDate: "2025-01-11"
+  title:
+    ja: "舞台「夢のかけらを歌に乗せたら」"
+    en: "If We Put the Pieces of Our Dreams into Song"
+  venueIds: ["shinjukumura-live"]
+  description:
+    ja: "主演・館山こずえ役"
+    en: "Lead role as Kozue Tateyama"
+  link: "https://spice.eplus.jp/articles/332918"
+
+- id: "2024-tsuki-yo-joou-ni-warae"
+  category: "Stage"
+  scheduleLabel: "2024.11.28-12.01"
+  startDate: "2024-11-28"
+  endDate: "2024-12-01"
+  title:
+    ja: "舞台「月よ女王に嗤え」"
+    en: "Moon, Laugh at the Queen"
+  venueIds: ["rikkoukai-hall"]
+  description:
+    ja: "ヘカテー役"
+    en: "As Hecate"
+  link: "https://queenstage-series.net/works/tsukiyojyoouniwarae"
+
+- id: "2024-chill-moratorium"
+  category: "Reading"
+  scheduleLabel: "2024.09.16, 09.18"
+  performances:
+    - startAt: "2024-09-16T14:00"
+    - startAt: "2024-09-18T14:00"
+  title:
+    ja: "DisGOONie Presents Vol.14 reading mindfulness「chill moratorium」"
+    en: "DisGOONie Presents Vol.14 reading mindfulness 'chill moratorium'"
+  venueIds: ["theater-h"]
+  description:
+    ja: "林鼓子出演回のみ記載"
+    en: "Only Coco Hayashi's performances are listed"
+  link: "https://disgoonie.jp/stage/vol14/"
+
+- id: "2024-voice-stories-13"
+  category: "Reading"
+  scheduleLabel: "2024.09.15 14:30"
+  performances:
+    - startAt: "2024-09-15T14:30"
+  title:
+    ja: "ボイスト13／ボイスト1周年記念 ダンデライオンV.S. Peek a Boo!「9回裏ツーアウト満塁、バッターはShow hey!」"
+    en: "Voice & Stories 13 / 1st Anniversary: Dandelion vs. Peek a Boo!"
+  venueIds: ["esp-club-1ne-2wo"]
+  description:
+    ja: "蜂堅燿子役（昼公演のみ。夜公演は出演見送り）"
+    en: "As Yoko Hachiken; matinee only, evening appearance canceled"
+  link: "https://voice-stories.com/2024060902-2/"
+
+- id: "2024-itsuka-nemuri-ni-tsuku-hi"
+  category: "Reading"
+  scheduleLabel: "2024.08.17"
+  performances:
+    - startAt: "2024-08-17T14:30"
+      label:
+        ja: "昼公演"
+        en: "Matinee"
+    - startAt: "2024-08-17T18:00"
+      label:
+        ja: "夜公演"
+        en: "Evening"
+  title:
+    ja: "キミに贈る朗読会「いつか、眠りにつく日」"
+    en: "A Reading for You: The Day I Will Someday Fall Asleep"
+  venueIds: ["tokyo-fm-hall"]
+  link: "https://www.eventernote.com/events/384761"
+
+- id: "2024-voice-stories-10"
+  category: "Reading"
+  scheduleLabel: "2024.06.09"
+  performances:
+    - startAt: "2024-06-09T14:30"
+      label:
+        ja: "昼公演"
+        en: "Matinee"
+    - startAt: "2024-06-09T18:00"
+      label:
+        ja: "夜公演"
+        en: "Evening"
+  title:
+    ja: "ボイスト10 ～Voice & Stories 予選Bブロック「Peek a Boo! vs. UNDERCΦDE」～"
+    en: "Voice & Stories 10, Qualifying Block B: Peek a Boo! vs. UNDERCΦDE"
+  venueIds: ["ebisu-echo-theater"]
+  description:
+    ja: "蜂堅燿子役"
+    en: "As Yoko Hachiken"
+  link: "https://anime.eiga.com/event/165628/"
+
+- id: "2024-assault-lily-new-chapter"
+  category: "Stage"
+  scheduleLabel: "2024.05.17-22"
+  startDate: "2024-05-17"
+  endDate: "2024-05-22"
+  title:
+    ja: "舞台「アサルトリリィ・新章」サングリーズル編「花々の黄昏」／大島近海ネスト調査隊編「玲瓏たる深潭」"
+    en: "Assault Lily: New Chapter - Twilight of the Flowers / The Crystal-Clear Abyss"
+  venueIds: ["kameari-lirio-hall"]
+  description:
+    ja: "長坂稀星役"
+    en: "As Maho Nagasaka"
+  link: "https://assaultlily-stage.jp/2405stage/"
+
+- id: "2024-iroawase-vol-4-project-aile"
+  category: "Reading"
+  scheduleLabel: "2024.05.31-06.02"
+  startDate: "2024-05-31"
+  endDate: "2024-06-02"
+  title:
+    ja: "イロアワセ vol.4「Project Aile」"
+    en: "Iroawase Vol. 4: Project Aile"
+  venueIds: ["cbgk-shibugeki"]
+  description:
+    ja: "283役"
+    en: "As 283"
+  link: "https://styleoffice-produce.com/stage/top/"
+
+- id: "2024-maguro-tsutte-kimasu-reading"
+  category: "Reading"
+  scheduleLabel: "2024.01.24, 01.26-27"
+  performances:
+    - startAt: "2024-01-24T16:00"
+    - startAt: "2024-01-24T19:30"
+    - startAt: "2024-01-26T16:00"
+    - startAt: "2024-01-26T19:30"
+    - startAt: "2024-01-27T16:00"
+    - startAt: "2024-01-27T19:30"
+  title:
+    ja: "爆走おとな小学生 朗読劇「マグロ釣ってきます。たくあん買っておいてください。」"
+    en: "Bakusou Otona Shougakusei Reading: I'm Going Tuna Fishing. Please Buy Takuan."
+  venueIds: ["sangubashi-transmission"]
+  description:
+    ja: "三好瀬凪人役（林鼓子出演回のみ記載）"
+    en: "As Nagito Miyoshise; only Coco Hayashi's performances are listed"
+  link: "https://www.otonapro.com/blog/98102086169"
+
+- id: "2024-reiwa-rakugo-spring-first"
+  category: "Reading"
+  scheduleLabel: "2024.02.17"
+  performances:
+    - startAt: "2024-02-17T11:00"
+    - startAt: "2024-02-17T14:30"
+    - startAt: "2024-02-17T18:00"
+  title:
+    ja: "麗和落語～二〇二四 春の陣～ 第一陣"
+    en: "Reiwa Rakugo: Spring 2024, First Program"
+  venueIds: ["musashino-performing-arts-small-theatre"]
+  link: "https://www.illuminus-creative.net/works/reiwa-rakugo-spring2024"
+
+- id: "2023-classic-movie-reading-vol-1"
+  category: "Reading"
+  scheduleLabel: "2023.11.05"
+  performances:
+    - startAt: "2023-11-05T13:00"
+      endAt: "2023-11-05T15:00"
+    - startAt: "2023-11-05T16:30"
+      endAt: "2023-11-05T18:30"
+  title:
+    ja: "Classic Movie Reading Vol.1「ローマの休日／自転車泥棒」"
+    en: "Classic Movie Reading Vol. 1: Roman Holiday / Bicycle Thieves"
+  venueIds: ["shinjukumura-live"]
+  description:
+    ja: "「ローマの休日」アン王女役"
+    en: "As Princess Ann in Roman Holiday"
+  link: "https://lp.p.pia.jp/article/news/290295/index.html?detail=true"
+
+- id: "2023-hoshi-yo-joou-ni-otsu"
+  category: "Stage"
+  scheduleLabel: "2023.10.02-08"
+  performances:
+    - startAt: "2023-10-02T19:00"
+    - startAt: "2023-10-03T19:00"
+    - startAt: "2023-10-05T13:00"
+    - startAt: "2023-10-06T19:00"
+    - startAt: "2023-10-08T12:00"
+      label:
+        ja: "昼公演"
+        en: "Matinee"
+    - startAt: "2023-10-08T16:30"
+      label:
+        ja: "夜公演"
+        en: "Evening"
+  title:
+    ja: "舞台「星よ女王に堕つ」"
+    en: "Stars, Fall to the Queen"
+  venueIds: ["rikkoukai-hall"]
+  description:
+    ja: "ギブール役（Coffin、林鼓子出演回のみ記載）"
+    en: "As Gibour; Coffin cast, only Coco Hayashi's performances are listed"
+  link: "https://queenstage-series.net/works/hoshiyojyoouniochitsu"
+
+- id: "2022-yadorigi-no-yousei-tachi"
+  category: "Reading"
+  scheduleLabel: "2022.12.17-18"
+  performances:
+    - startAt: "2022-12-17T12:00"
+    - startAt: "2022-12-17T15:30"
+    - startAt: "2022-12-17T19:00"
+    - startAt: "2022-12-18T12:00"
+    - startAt: "2022-12-18T15:00"
+    - startAt: "2022-12-18T18:00"
+  title:
+    ja: "朗読劇「ヤドリギの妖精たち」"
+    en: "Reading Drama: The Mistletoe Fairies"
+  venueIds: ["shinjuku-theater-miracle"]
+  link: "https://mittma.com/news/%E6%9C%97%E8%AA%AD%E5%8A%87%E3%80%8E%E3%83%A4%E3%83%89%E3%83%AA%E3%82%AE%E3%81%AE%E5%A6%96%E7%B2%BE%E3%81%9F%E3%81%A1%E3%80%8F%E5%87%BA%E6%BC%94/"
+
+- id: "2022-maid-ranker"
+  category: "Stage"
+  scheduleLabel: "2022.11.27"
+  performances:
+    - startAt: "2022-11-27T12:00"
+      label:
+        ja: "昼公演"
+        en: "Matinee"
+    - startAt: "2022-11-27T16:30"
+      label:
+        ja: "夜公演"
+        en: "Evening"
+  title:
+    ja: "舞台「メイドランカー！詰り蹴落とし跪け乙女」"
+    en: "Maid Ranker! Girls, Taunt, Kick Down, and Kneel"
+  venueIds: ["cbgk-shibugeki"]
+  description:
+    ja: "日替わりゲスト出演"
+    en: "Daily guest appearance"
+  link: "https://rungirlsrun.jp/news/detail.php?id=1103841"
+
+- id: "2022-synapstory-ibara-hime-revival"
+  category: "Reading"
+  scheduleLabel: "2022.10.01"
+  performances:
+    - startAt: "2022-10-01T14:00"
+      label:
+        ja: "昼公演"
+        en: "Matinee"
+    - startAt: "2022-10-01T18:00"
+      label:
+        ja: "夜公演"
+        en: "Evening"
+  title:
+    ja: "朗読劇「SynapstoRy～荊姫～」再演"
+    en: "SynapstoRy: Ibara-hime, Revival"
+  venueIds: ["cbgk-shibugeki"]
+  link: "https://sasakirico.com/synapstory2022/revival.html"
+
+- id: "2022-honey-lemon-soda-reading"
+  category: "Reading"
+  scheduleLabel: "2022.09.09 19:00"
+  performances:
+    - startAt: "2022-09-09T19:00"
+  title:
+    ja: "アニマックス朗読劇「ハニーレモンソーダ」"
+    en: "Animax Reading Drama: Honey Lemon Soda"
+  venueIds: ["hulic-hall-tokyo"]
+  description:
+    ja: "遠藤あゆみ役"
+    en: "As Ayumi Endo"
+  link: "https://prtimes.jp/main/html/rd/p/000000415.000003633.html"
+
+- id: "2022-girls-reading-theater-gw-special"
+  category: "Reading"
+  scheduleLabel: "2022.05.05"
+  performances:
+    - startAt: "2022-05-05T12:00"
+      endAt: "2022-05-05T13:30"
+      label: { ja: "1部", en: "Part 1" }
+    - startAt: "2022-05-05T18:30"
+      endAt: "2022-05-05T20:00"
+      label: { ja: "3部", en: "Part 3" }
+  title:
+    ja: "Girls Reading Theater「童話シリーズ」GW Special"
+    en: "Girls Reading Theater: Fairy Tale Series GW Special"
+  venueIds: ["asakusa-hana-theater"]
+  description:
+    ja: "林鼓子出演日のみ記載"
+    en: "Only Coco Hayashi's appearance date is listed"
+  link: "https://www.supergirls.jp/news/detail.php?id=1099201"
+
+- id: "2022-uzume-dareka-mo-shiranai"
+  category: "Stage"
+  scheduleLabel: "2022.04.13-17"
+  startDate: "2022-04-13"
+  endDate: "2022-04-17"
+  title:
+    ja: "Uzume第7回公演「誰かも知らない。」"
+    en: "Uzume 7th Performance: Nobody Knows"
+  venueIds: ["theater-alpha-tokyo"]
+  description:
+    ja: "五十嵐ゆい役"
+    en: "As Yui Igarashi"
+  link: "https://lp.p.pia.jp/article/news/218855/index.html"
+
+- id: "2022-girls-reading-aloud-yokohama-vol-5"
+  category: "Reading"
+  scheduleLabel: "2022.03.20"
+  performances:
+    - startAt: "2022-03-20T15:45"
+      endAt: "2022-03-20T17:15"
+      label: { ja: "第2部", en: "Part 2" }
+    - startAt: "2022-03-20T19:00"
+      endAt: "2022-03-20T20:30"
+      label: { ja: "第3部", en: "Part 3" }
+  title:
+    ja: "Girls Reading Aloud in Yokohama -童話シリーズ vol.5-"
+    en: "Girls Reading Aloud in Yokohama: Fairy Tale Series Vol. 5"
+  venueIds: ["yokohama-landmark-hall"]
+  description:
+    ja: "第2部・第3部出演"
+    en: "Appeared in Parts 2 and 3"
+  link: "https://ticketstage.jp/risecom/news/index.php?detail=86"
+
+- id: "2022-synapstory-ibara-hime"
+  category: "Reading"
+  scheduleLabel: "2022.02.20"
+  performances:
+    - startAt: "2022-02-20T14:00"
+      label:
+        ja: "昼公演"
+        en: "Matinee"
+    - startAt: "2022-02-20T18:00"
+      label:
+        ja: "夜公演"
+        en: "Evening"
+  title:
+    ja: "朗読劇「SynapstoRy～荊姫～」"
+    en: "SynapstoRy: Ibara-hime"
+  venueIds: ["kanda-myojin-hall"]
+  link: "https://sasakirico.com/synapstory2022/"
+
+- id: "2021-synapstory-jeanne-darc"
+  category: "Reading"
+  scheduleLabel: "2021.10.03"
+  performances:
+    - startAt: "2021-10-03T14:30"
+      label:
+        ja: "昼公演"
+        en: "Matinee"
+    - startAt: "2021-10-03T18:30"
+      label:
+        ja: "夜公演"
+        en: "Evening"
+  title:
+    ja: "朗読劇「SynapstoRy～魔女と呼ばれたジャンヌダルク～」"
+    en: "SynapstoRy: Joan of Arc, Called a Witch"
+  venueIds: ["shinagawa-grand-hall"]
+  description:
+    ja: "ゲスト出演"
+    en: "Guest appearance"
+  link: "https://sasakirico.com/synapstory2021/"
+
+- id: "2021-synapstory-pinocchio"
+  category: "Reading"
+  scheduleLabel: "2021.08.29"
+  performances:
+    - startAt: "2021-08-29T14:00"
+      label:
+        ja: "昼公演"
+        en: "Matinee"
+    - startAt: "2021-08-29T18:00"
+      label:
+        ja: "夜公演"
+        en: "Evening"
+  title:
+    ja: "朗読劇「SynapstoRy～完璧になりたかったピノキオ～」"
+    en: "SynapstoRy: Pinocchio Who Wanted to Be Perfect"
+  venueIds: ["kanda-myojin-hall"]
+  description:
+    ja: "ゲスト出演"
+    en: "Guest appearance"
+  link: "https://seigura.com/news/70328/"
+
+- id: "2021-project-tokyo-dolls-garden-sky-tower"
+  category: "Stage"
+  scheduleLabel: "2021.02.20-28"
+  startDate: "2021-02-20"
+  endDate: "2021-02-28"
+  title:
+    ja: "舞台「プロジェクト東京ドールズ THE GARDEN／SKY TOWER」"
+    en: "Project Tokyo Dolls: THE GARDEN / SKY TOWER"
+  venueIds: ["theatre-1010"]
+  description:
+    ja: "アヤ役（B日程。2月18日・19日の公演中止後に実施された公演期間）"
+    en: "As Aya in Schedule B; dates reflect the run after the February 18 and 19 cancellations"
+  link: "https://stagedolls.tokyo/"
+
+- id: "2020-nanaste-sweety-stories-origin"
+  category: "Stage"
+  scheduleLabel: "2020.04.01-05（公演中止）"
+  startDate: "2020-04-01"
+  endDate: "2020-04-05"
+  title:
+    ja: "ナナステ☆スイーティブストーリーズ～起源・永遠の願い～"
+    en: "Nana Stage: Sweety Stories - Origin, an Eternal Wish"
+  venueIds: ["shinjukumura-live"]
+  description:
+    ja: "周役（全公演中止）"
+    en: "As Itaru; all performances were canceled"
+  link: "https://www.odd-inc.co.jp/stage/7st_kigen/index.html"
+
+# LIBERTE 履历页“LIVE・イベントなど”与“WEB”中有具体举办日期的记录。
+# 已在上方收录的当期活动、舞台作品，以及 notes.yaml 中的新温泉町访问不重复添加。
+
+- id: "2026-bang-dream-special-live-taipei"
+  category: "Live"
+  scheduleLabel: "2026.04.11"
+  performances:
+    - occursOn: "2026-04-11"
+  title:
+    ja: "BanG Dream! Special LIVE in TAIPEI DAY1：MyGO!!!!!×Ave Mujica「\"moment / memory\"」"
+    en: "BanG Dream! Special LIVE in TAIPEI Day 1: MyGO!!!!! × Ave Mujica 'moment / memory'"
+  venueIds: ["dajia-riverside-park"]
+  description:
+    ja: "DAY1にMyGO!!!!!として出演"
+    en: "Appeared on Day 1 as a member of MyGO!!!!!"
+  link: "https://bang-dream.com/bsl-taipei2026/"
+
+- id: "2026-animejapan-mygo-avemujica-talk"
+  category: "Event"
+  scheduleLabel: "2026.03.28-29"
+  performances:
+    - startAt: "2026-03-28T12:00"
+      label:
+        ja: "DAY1"
+        en: "Day 1"
+    - startAt: "2026-03-29T12:00"
+      label:
+        ja: "DAY2"
+        en: "Day 2"
+  title:
+    ja: "AnimeJapan 2026「BanG Dream! It's MyGO!!!!! / Ave Mujica」トークステージ"
+    en: "AnimeJapan 2026: BanG Dream! It's MyGO!!!!! / Ave Mujica Talk Stage"
+  venueIds: ["tokyo-big-sight"]
+  link: "https://www.vap.co.jp/aj2026/"
+
+- id: "2026-mygo-avemujica-moment-memory"
+  category: "Live"
+  scheduleLabel: "2026.03.01 17:00"
+  performances:
+    - startAt: "2026-03-01T17:00"
+  title:
+    ja: "MyGO!!!!!×Ave Mujica ツーマンライブ「\"moment / memory\"」"
+    en: "MyGO!!!!! × Ave Mujica Two-Man Live 'moment / memory'"
+  venueIds: ["k-arena-yokohama"]
+  link: "https://bang-dream.com/events/mygo-avemujica2026/"
+
+- id: "2026-bang-dream-10th-anniversary-live"
+  category: "Live"
+  scheduleLabel: "2026.02.28 15:00"
+  performances:
+    - startAt: "2026-02-28T15:00"
+  title:
+    ja: "BanG Dream! 10th Anniversary LIVE「In the name of BanG Dream!」"
+    en: "BanG Dream! 10th Anniversary LIVE: In the name of BanG Dream!"
+  venueIds: ["k-arena-yokohama"]
+  description:
+    ja: "MyGO!!!!!として出演"
+    en: "Appeared as a member of MyGO!!!!!"
+  link: "https://bang-dream.com/events/bangdream-10th-anniversary-live/"
+
+- id: "2026-aipri-prichan-pripri-live"
+  category: "Live"
+  scheduleLabel: "2026.01.24"
+  performances:
+    - startAt: "2026-01-24T13:30"
+      label:
+        ja: "昼の部"
+        en: "Matinee"
+    - startAt: "2026-01-24T17:30"
+      label:
+        ja: "夜の部"
+        en: "Evening"
+  title:
+    ja: "ひみつのアイプリ×キラッとプリ☆チャン プリ♡プリライブ"
+    en: "Himitsu no AiPri × Kiratto Pri☆Chan Pri♡Pri Live"
+  venueIds: ["bunkyo-civic-hall-main-hall"]
+  description:
+    ja: "桃山みらい役"
+    en: "As Mirai Momoyama"
+  link: "https://aipri.jp/anime/series/himitsu/topics/post-85/"
+
+- id: "2026-nijigasaki-flower-music-live"
+  category: "Live"
+  scheduleLabel: "2026.01.18 16:00"
+  performances:
+    - startAt: "2026-01-18T16:00"
+      label:
+        ja: "DAY2"
+        en: "Day 2"
+  title:
+    ja: "ラブライブ！虹ヶ咲学園スクールアイドル同好会 FLOWER MUSIC LIVE『Boooooom Boooooom Bee!!』"
+    en: "Love Live! Nijigasaki High School Idol Club FLOWER MUSIC LIVE 'Boooooom Boooooom Bee!!'"
+  venueIds: ["keio-arena-tokyo"]
+  description:
+    ja: "DAY2に優木せつ菜役として出演"
+    en: "Appeared on Day 2 as Setsuna Yuki"
+  link: "https://www.lovelive-anime.jp/nijigasaki/live/live_detail.php?p=flower_live"
+
+- id: "2025-mygo-8th-live"
+  category: "Live"
+  scheduleLabel: "2025.12.06 18:00"
+  performances:
+    - startAt: "2025-12-06T18:00"
+  title:
+    ja: "MyGO!!!!! 8th LIVE「想いのかたちが積もるとき」"
+    en: "MyGO!!!!! 8th LIVE: When the Shapes of Our Feelings Accumulate"
+  venueIds: ["keio-arena-tokyo"]
+  link: "https://bang-dream.com/events/mygo_8th/"
+
+- id: "2025-mygo-avemujica-shanghai-extra"
+  category: "Live"
+  scheduleLabel: "2025.10.11-12"
+  performances:
+    - occursOn: "2025-10-11"
+      label:
+        ja: "DAY1"
+        en: "Day 1"
+    - occursOn: "2025-10-12"
+      label:
+        ja: "DAY2"
+        en: "Day 2"
+  title:
+    ja: "BanG Dream!上海公演2025 MyGO!!!!!×Ave Mujica 合同ライブ「わかれ道の、その先へ」上海追加公演"
+    en: "BanG Dream! Shanghai 2025: MyGO!!!!! × Ave Mujica 'Beyond the Crossroads' Additional Shows"
+  venueIds: ["mercedes-benz-arena-shanghai"]
+  link: "https://bang-dream.com/events/mygo-avemujica2025_shanghai/"
+
+- id: "2025-tricolor-premier-evenement"
+  category: "Event"
+  scheduleLabel: "2025.09.07"
+  performances:
+    - startAt: "2025-09-07T14:00"
+      endAt: "2025-09-07T15:30"
+      label: { ja: "アン部", en: "Un part" }
+    - startAt: "2025-09-07T18:00"
+      endAt: "2025-09-07T19:30"
+      label: { ja: "ドゥ部", en: "Deux part" }
+  title:
+    ja: "礒部花凜・土屋李央・林鼓子 トリコロールカラー premier événement"
+    en: "Karin Isobe, Rio Tsuchiya & Coco Hayashi: Tricolor Color Premier Événement"
+  venueIds: ["science-hall"]
+  link: "https://www.onsen.ag/program/tricolor"
+
+- id: "2025-aiscream-topping-live"
+  category: "Live"
+  scheduleLabel: "2025.09.06 17:00"
+  performances:
+    - startAt: "2025-09-06T17:00"
+      label:
+        ja: "DAY1"
+        en: "Day 1"
+  title:
+    ja: "AiScReam presents TOPPING LIVE とけちゃう前に会いに来て♡♡♡"
+    en: "AiScReam presents TOPPING LIVE: Come See Me Before I Melt♡♡♡"
+  venueIds: ["pacifico-yokohama"]
+  description:
+    ja: "DAY1にトッピングメンバーとして出演"
+    en: "Appeared on Day 1 as a Topping Member"
+  link: "https://ib.eplus.jp/aiscream_tl_ol?sl=tw"
+
+- id: "2025-maigo-center-vol-2"
+  category: "Event"
+  scheduleLabel: "2025.08.16"
+  performances:
+    - occursOn: "2025-08-16"
+  title:
+    ja: "MyGO!!!!!の「迷子集会」出張版 第二弾 - 日常の欠片 -"
+    en: "MyGO!!!!! Lost Girls Gathering on Tour Vol. 2: Fragments of Everyday Life"
+  venueIds: ["hikosen-theater"]
+  link: "https://bushiroad.com/press-releases/2025/7735"
+
+- id: "2025-nijigasaki-summer-festival-kanda"
+  category: "Live"
+  scheduleLabel: "2025.08.08 19:00"
+  performances:
+    - startAt: "2025-08-08T19:00"
+  title:
+    ja: "ラブライブ！虹ヶ咲学園スクールアイドル同好会 夏祭りin 神田明神納涼祭り"
+    en: "Love Live! Nijigasaki High School Idol Club Summer Festival at Kanda Myojin"
+  venueIds: ["kanda-myojin"]
+  link: "https://www.lovelive-anime.jp/news/01_5002.html"
+
+- id: "2025-birthday-wonder-coco-party"
+  category: "Event"
+  scheduleLabel: "2025.05.24"
+  performances:
+    - startAt: "2025-05-24T14:30"
+      label:
+        ja: "昼公演"
+        en: "Matinee"
+    - startAt: "2025-05-24T19:00"
+      label:
+        ja: "夜公演"
+        en: "Evening"
+  title:
+    ja: "林鼓子 Birthday Event 2025 -WonderCOCOParty-"
+    en: "Coco Hayashi Birthday Event 2025: WonderCOCOParty"
+  venueIds: ["im-a-show"]
+  link: "https://www.zan-live.com/zh-TW/live/detail/10601"
+
+- id: "2025-mygo-avemujica-wakaremichi"
+  category: "Live"
+  scheduleLabel: "2025.04.26-27"
+  performances:
+    - occursOn: "2025-04-26"
+      label:
+        ja: "DAY1"
+        en: "Day 1"
+    - occursOn: "2025-04-27"
+      label:
+        ja: "DAY2"
+        en: "Day 2"
+  title:
+    ja: "MyGO!!!!!×Ave Mujica 合同ライブ「わかれ道の、その先へ」"
+    en: "MyGO!!!!! × Ave Mujica Joint Live: Beyond the Crossroads"
+  venueIds: ["k-arena-yokohama"]
+  link: "https://bang-dream.com/events/mygo-avemujica2025/"
+
+- id: "2025-nijigaku-kogai-gakushu-osaka-miyagi"
+  category: "Live"
+  scheduleLabel: "2025.04.05-06・05.17-18"
+  performances:
+    - occursOn: "2025-04-05"
+      label:
+        ja: "大阪 DAY1"
+        en: "Osaka Day 1"
+    - occursOn: "2025-04-06"
+      label:
+        ja: "大阪 DAY2"
+        en: "Osaka Day 2"
+    - occursOn: "2025-05-17"
+      label:
+        ja: "宮城 DAY1"
+        en: "Miyagi Day 1"
+    - occursOn: "2025-05-18"
+      label:
+        ja: "宮城 DAY2"
+        en: "Miyagi Day 2"
+  title:
+    ja: "ラブライブ！虹ヶ咲学園スクールアイドル同好会 LIVE＆FAN MEETING TOUR ニジガク校外学習～歌おう♪踊ろう♪語ろう♪～"
+    en: "Love Live! Nijigasaki High School Idol Club LIVE & FAN MEETING TOUR: Nijigaku Field Trip"
+  venueIds: ["orix-theater", "sendai-sunplaza-hall"]
+  description:
+    ja: "林鼓子の出演日程のみ収録"
+    en: "Only the dates on which Coco Hayashi appeared are included"
+  link: "https://lovelive-anime.jp/nijigasaki/live/live_detail.php?p=fanmeeting2025"
+
+- id: "2025-lisani-live"
+  category: "Live"
+  scheduleLabel: "2025.01.24"
+  performances:
+    - occursOn: "2025-01-24"
+  title:
+    ja: "リスアニ！LIVE 2025"
+    en: "LisAni! LIVE 2025"
+  venueIds: ["nippon-budokan"]
+  description:
+    ja: "MyGO!!!!!としてFRIDAY STAGEに出演"
+    en: "Appeared on the Friday Stage as a member of MyGO!!!!!"
+  link: "https://bang-dream.com/events/lisani2025/"
+
+- id: "2025-mygo-togenashi-avoid-note"
+  category: "Live"
+  scheduleLabel: "2025.01.12 18:00"
+  performances:
+    - startAt: "2025-01-12T18:00"
+  title:
+    ja: "MyGO!!!!!×トゲナシトゲアリ「Avoid Note」"
+    en: "MyGO!!!!! × Togenashi Togeari: Avoid Note"
+  venueIds: ["kanadevia-hall"]
+  description:
+    ja: "LIBERTE履歴では2024年欄に掲載されているが、実際の開催日に合わせて2025年として収録"
+    en: "Listed under 2024 by LIBERTE; filed under 2025 here to match the actual event date"
+  link: "https://www.universal-music.co.jp/togenashitogeari/news/2024-09-25/"
+
+- id: "2024-kyoto-university-talk-show"
+  category: "Event"
+  scheduleLabel: "2024.11.23 11:00"
+  performances:
+    - startAt: "2024-11-23T11:00"
+  title:
+    ja: "第66回京都大学11月祭「林鼓子&青木陽菜トークショーin京都大学～鼓陽日和～」"
+    en: "66th Kyoto University November Festival: Coco Hayashi & Hina Aoki Talk Show"
+  venueIds: ["kyoto-university-yoshida-campus"]
+  link: "https://mittma.com/news/%E7%AC%AC66%E5%9B%9E%E4%BA%AC%E9%83%BD%E5%A4%A7%E5%AD%A611%E6%9C%88%E7%A5%AD%E3%80%8E%E6%9E%97%E9%BC%93%E5%AD%90%E9%9D%92%E6%9C%A8%E9%99%BD%E8%8F%9C%E3%83%88%E3%83%BC%E3%82%AF%E3%82%B7%E3%83%A7-2/"
+
+- id: "2024-mygo-6th-shanghai-extra"
+  category: "Live"
+  scheduleLabel: "2024.09.21"
+  performances:
+    - occursOn: "2024-09-21"
+  title:
+    ja: "MyGO!!!!! 6th LIVE「見つけた景色、たずさえて」上海追加公演"
+    en: "MyGO!!!!! 6th LIVE: Carrying the Scenery We Found — Shanghai Additional Show"
+  venueIds: ["necc-shanghai-rainbow-hall"]
+  link: "https://bang-dream.com/events/mygo_6th_shanghai/"
+
+- id: "2024-pretty-series-crossing-live"
+  category: "Live"
+  scheduleLabel: "2024.11.16"
+  performances:
+    - startAt: "2024-11-16T13:00"
+      label:
+        ja: "昼の部"
+        en: "Matinee"
+    - startAt: "2024-11-16T18:00"
+      label:
+        ja: "夜の部"
+        en: "Evening"
+  title:
+    ja: "プリティーシリーズ Crossing Live 2024"
+    en: "Pretty Series Crossing Live 2024"
+  venueIds: ["pacifico-yokohama"]
+  link: "https://avex.jp/prichan/live/detail.php?id=1000627"
+
+- id: "2024-mygo-7th-live"
+  category: "Live"
+  scheduleLabel: "2024.12.22 18:00"
+  performances:
+    - startAt: "2024-12-22T18:00"
+  title:
+    ja: "MyGO!!!!! 7th LIVE「こたえなんてなくても」"
+    en: "MyGO!!!!! 7th LIVE: Even Without an Answer"
+  venueIds: ["hibiya-open-air-concert-hall"]
+  link: "https://bang-dream.com/events/mygo_7th/"
+
+- id: "2024-2025-lovelive-asia-tour"
+  category: "Live"
+  scheduleLabel: "2024.12.14-15・2025.02.01-02"
+  performances:
+    - occursOn: "2024-12-14"
+      label:
+        ja: "ソウル DAY1"
+        en: "Seoul Day 1"
+    - occursOn: "2024-12-15"
+      label:
+        ja: "ソウル DAY2"
+        en: "Seoul Day 2"
+    - occursOn: "2025-02-01"
+      label:
+        ja: "横浜 DAY1"
+        en: "Yokohama Day 1"
+    - occursOn: "2025-02-02"
+      label:
+        ja: "横浜 DAY2"
+        en: "Yokohama Day 2"
+  title:
+    ja: "LoveLive! Series Presents Asia Tour 2024 ～みんなで叶える物語～"
+    en: "LoveLive! Series Presents Asia Tour 2024: A Story We Make Come True Together"
+  venueIds: ["korea-university-hwajeong-gymnasium", "k-arena-yokohama"]
+  description:
+    ja: "林鼓子の出演公演のみ収録"
+    en: "Only the shows on which Coco Hayashi appeared are included"
+  link: "https://mittma.com/news/%E3%80%8Elovelive-series-presents-asia-tour-2024-%EF%BD%9E-%E3%81%BF%E3%82%93%E3%81%AA%E3%81%A7%E5%8F%B6%E3%81%88%E3%82%8B%E7%89%A9%E8%AA%9E-%EF%BD%9E%E3%80%8F%E5%87%BA%E6%BC%94/"
+
+- id: "2024-animelo-summer-live"
+  category: "Live"
+  scheduleLabel: "2024.08.31"
+  performances:
+    - occursOn: "2024-08-31"
+  title:
+    ja: "Animelo Summer Live 2024 -Stargazer-"
+    en: "Animelo Summer Live 2024: Stargazer"
+  venueIds: ["gmo-arena-saitama"]
+  description:
+    ja: "MyGO!!!!!としてDAY2に出演"
+    en: "Appeared on Day 2 as a member of MyGO!!!!!"
+  link: "https://bang-dream.com/events/asl2024/"
+
+- id: "2024-pripara-friendship-memory"
+  category: "Live"
+  scheduleLabel: "2024.04.20"
+  performances:
+    - occursOn: "2024-04-20"
+  title:
+    ja: "プリパラフレンドシップメモリー"
+    en: "PriPara Friendship Memory"
+  venueIds: ["tachikawa-stage-garden"]
+  description:
+    ja: "ポォロロ役"
+    en: "As Pororo"
+  link: "https://www.animatetimes.com/news/details.php?id=1713620182"
+
+- id: "2024-mygo-6th-live"
+  category: "Live"
+  scheduleLabel: "2024.07.27-28"
+  performances:
+    - occursOn: "2024-07-27"
+      label:
+        ja: "DAY1"
+        en: "Day 1"
+    - occursOn: "2024-07-28"
+      label:
+        ja: "DAY2"
+        en: "Day 2"
+  title:
+    ja: "MyGO!!!!! 6th LIVE「見つけた景色、たずさえて」"
+    en: "MyGO!!!!! 6th LIVE: Carrying the Scenery We Found"
+  venueIds: ["keio-arena-tokyo"]
+  link: "https://bang-dream.com/events/mygo_6th/"
+
+- id: "2024-voice-stories-6"
+  category: "Reading"
+  scheduleLabel: "2024.02.18"
+  performances:
+    - occursOn: "2024-02-18"
+  title:
+    ja: "ボイスト6 ～Peek a Boo first voice「声と拳で頂点へ」～"
+    en: "Voice Stories 6: Peek a Boo First Voice — To the Top with Voice and Fists"
+  link: "https://voice-stories.com/liveevent/20240218/"
+
+- id: "2024-mygo-zepp-tour"
+  category: "Live"
+  scheduleLabel: "2024.02.12-04.11"
+  performances:
+    - occursOn: "2024-02-12"
+      label:
+        ja: "東京"
+        en: "Tokyo"
+    - occursOn: "2024-03-19"
+      label:
+        ja: "福岡"
+        en: "Fukuoka"
+    - occursOn: "2024-03-22"
+      label:
+        ja: "大阪"
+        en: "Osaka"
+    - occursOn: "2024-04-11"
+      label:
+        ja: "愛知"
+        en: "Aichi"
+  title:
+    ja: "MyGO!!!!! ZEPP TOUR 2024「彷徨する渇望」"
+    en: "MyGO!!!!! ZEPP TOUR 2024: Wandering Thirst"
+  venueIds: ["zepp-haneda", "zepp-fukuoka", "zepp-osaka-bayside", "zepp-nagoya"]
+  link: "https://bang-dream.com/events/mygo_tour2024/"
+
+- id: "2024-lisani-live"
+  category: "Live"
+  scheduleLabel: "2024.01.28"
+  performances:
+    - occursOn: "2024-01-28"
+  title:
+    ja: "リスアニ！LIVE 2024"
+    en: "LisAni! LIVE 2024"
+  venueIds: ["nippon-budokan"]
+  description:
+    ja: "MyGO!!!!!としてSUNDAY STAGEに出演"
+    en: "Appeared on the Sunday Stage as a member of MyGO!!!!!"
+  link: "https://bang-dream.com/events/lisani2024/"
+
+- id: "2024-love-live-unit-koshien"
+  category: "Live"
+  scheduleLabel: "2024.03.09-10 16:30"
+  performances:
+    - startAt: "2024-03-09T16:30"
+      label:
+        ja: "DAY1"
+        en: "Day 1"
+    - startAt: "2024-03-10T16:30"
+      label:
+        ja: "DAY2"
+        en: "Day 2"
+  title:
+    ja: "LoveLive! Series Presents ユニット甲子園 2024"
+    en: "LoveLive! Series Presents Unit Koshien 2024"
+  venueIds: ["k-arena-yokohama"]
+  link: "https://lovelive-anime.jp/special/live/live_detail.php?p=unitlive2024"
+
+- id: "2023-showa-idol-archives-winter"
+  category: "Live"
+  scheduleLabel: "2023.11.23 18:30"
+  performances:
+    - startAt: "2023-11-23T18:30"
+  title:
+    ja: "昭和アイドルアーカイブス スペシャル 2023 Winter"
+    en: "Showa Idol Archives Special 2023 Winter"
+  venueIds: ["tokyo-culture-culture"]
+  link: "https://tokyocultureculture.com/event_tag/%E6%98%AD%E5%92%8C"
+
+- id: "2023-pretty-series-winter-live"
+  category: "Live"
+  scheduleLabel: "2023.12.03"
+  performances:
+    - startAt: "2023-12-03T13:00"
+      label:
+        ja: "昼の部"
+        en: "Matinee"
+    - startAt: "2023-12-03T18:00"
+      label:
+        ja: "夜の部"
+        en: "Evening"
+  title:
+    ja: "プリパラ＆キラッとプリ☆チャン＆ワッチャプリマジ！ Winter Live 2023"
+    en: "PriPara & Kiratto Pri☆Chan & Waccha PriMagi! Winter Live 2023"
+  venueIds: ["makuhari-messe"]
+  link: "https://avex.jp/prichan/live/detail.php?id=1000581"
+
+- id: "2023-radio-animedia-event-9"
+  category: "Event"
+  scheduleLabel: "2023.11.11 15:30"
+  performances:
+    - startAt: "2023-11-11T15:30"
+      label:
+        ja: "第2部"
+        en: "Part 2"
+  title:
+    ja: "ラジオアニメージュのイベント9～ボタクの語り人～"
+    en: "Radio Animedia Event 9: Botaku Storytellers"
+  venueIds: ["joqr-media-plus-hall"]
+  description:
+    ja: "第2部に出演"
+    en: "Appeared in Part 2"
+  link: "https://www.joqr.co.jp/ag/article/104702/"
+
+- id: "2023-bang-dream-12th-live-mygo"
+  category: "Live"
+  scheduleLabel: "2023.11.04 18:00"
+  performances:
+    - startAt: "2023-11-04T18:00"
+  title:
+    ja: "BanG Dream! 12th☆LIVE DAY2：MyGO!!!!!「ちいさな一瞬」"
+    en: "BanG Dream! 12th☆LIVE Day 2: MyGO!!!!! 'A Small Moment'"
+  venueIds: ["tokyo-garden-theater"]
+  link: "https://bang-dream.com/12th-live/"
+
+- id: "2023-roselia-farbe-opening-act"
+  category: "Live"
+  scheduleLabel: "2023.09.16 18:00"
+  performances:
+    - startAt: "2023-09-16T18:00"
+  title:
+    ja: "Roselia「Farbe」DAY1"
+    en: "Roselia 'Farbe' Day 1"
+  venueIds: ["ariake-arena"]
+  description:
+    ja: "MyGO!!!!!としてオープニングアクトに出演"
+    en: "Appeared as MyGO!!!!! in the opening act"
+  link: "https://bang-dream.com/events/roselia_2023/"
+
+- id: "2023-animax-musix"
+  category: "Live"
+  scheduleLabel: "2023.11.18"
+  performances:
+    - occursOn: "2023-11-18"
+  title:
+    ja: "ANIMAX MUSIX 2023"
+    en: "ANIMAX MUSIX 2023"
+  venueIds: ["yokohama-arena"]
+  description:
+    ja: "MyGO!!!!!として出演"
+    en: "Appeared as a member of MyGO!!!!!"
+  link: "https://www.animax.co.jp/animaxmusix/archive/archive_2023.html"
+
+- id: "2023-ijigen-fes-idolmaster-lovelive"
+  category: "Live"
+  scheduleLabel: "2023.12.09-10"
+  performances:
+    - occursOn: "2023-12-09"
+      label:
+        ja: "DAY1"
+        en: "Day 1"
+    - occursOn: "2023-12-10"
+      label:
+        ja: "DAY2"
+        en: "Day 2"
+  title:
+    ja: "異次元フェス アイドルマスター★♥ラブライブ！歌合戦"
+    en: "Ijigen Fes: The Idolmaster ★ Love Live! Song Battle"
+  venueIds: ["tokyo-dome"]
+  link: "https://www.bandainamcomusiclive.co.jp/info/pdf.php?id=19"
+
+- id: "2023-nagano-aniera-festa"
+  category: "Live"
+  scheduleLabel: "2023.09.17"
+  performances:
+    - occursOn: "2023-09-17"
+  title:
+    ja: "ナガノアニエラフェスタ2023"
+    en: "Nagano Aniera Festa 2023"
+  venueIds: ["komaba-park-saku"]
+  description:
+    ja: "虹ヶ咲学園スクールアイドル同好会として9月17日に出演"
+    en: "Appeared on September 17 as part of the Nijigasaki High School Idol Club"
+  link: "https://aniera-festa.com/news/timetable-2023/"
+
+- id: "2023-prichan-fanfare"
+  category: "Live"
+  scheduleLabel: "2023.07.15"
+  performances:
+    - startAt: "2023-07-15T14:00"
+      label:
+        ja: "昼の部"
+        en: "Matinee"
+    - startAt: "2023-07-15T18:00"
+      label:
+        ja: "夜の部"
+        en: "Evening"
+  title:
+    ja: "プリ☆チャン ファンファーレ！2023"
+    en: "Pri☆Chan Fanfare! 2023"
+  venueIds: ["jcom-hall-hachioji"]
+  description:
+    ja: "桃山みらい役"
+    en: "As Mirai Momoyama"
+  link: "https://avex.jp/prichan/live/detail.php?id=1000577"
+
+- id: "2023-bushiroad-rock-festival"
+  category: "Live"
+  scheduleLabel: "2023.05.27 15:00"
+  performances:
+    - startAt: "2023-05-27T15:00"
+  title:
+    ja: "BUSHIROAD ROCK FESTIVAL 2023"
+    en: "BUSHIROAD ROCK FESTIVAL 2023"
+  venueIds: ["fujiq-conifer-forest"]
+  description:
+    ja: "優木せつ菜役として出演"
+    en: "Appeared as Setsuna Yuki"
+  link: "https://bang-dream.com/events/brfes2023/"
+
+- id: "2023-animelo-summer-live"
+  category: "Live"
+  scheduleLabel: "2023.08.27"
+  performances:
+    - occursOn: "2023-08-27"
+  title:
+    ja: "Animelo Summer Live 2023 -AXEL-"
+    en: "Animelo Summer Live 2023: AXEL"
+  venueIds: ["gmo-arena-saitama"]
+  description:
+    ja: "MyGO!!!!!としてDAY3に出演"
+    en: "Appeared on Day 3 as a member of MyGO!!!!!"
+  link: "https://bang-dream.com/events/asl2023/"
+
+- id: "2023-mygo-5th-live"
+  category: "Live"
+  scheduleLabel: "2023.08.12 18:00"
+  performances:
+    - startAt: "2023-08-12T18:00"
+  title:
+    ja: "MyGO!!!!! 5th LIVE「迷うことに迷わない」"
+    en: "MyGO!!!!! 5th LIVE: Don't Hesitate to Lose Your Way"
+  venueIds: ["kt-zepp-yokohama"]
+  link: "https://bang-dream.com/events/mygo_5th/"
+
+- id: "2023-nijitabi-fan-meeting-tour"
+  category: "Live"
+  scheduleLabel: "2023.04.22-07.17"
+  performances:
+    - startAt: "2023-04-22T18:00"
+      label: { ja: "広島 DAY1", en: "Hiroshima Day 1" }
+    - startAt: "2023-04-23T13:00"
+      label: { ja: "広島 DAY2 昼", en: "Hiroshima Day 2 Matinee" }
+    - startAt: "2023-04-23T17:00"
+      label: { ja: "広島 DAY2 夜", en: "Hiroshima Day 2 Evening" }
+    - startAt: "2023-05-06T18:00"
+      label: { ja: "東京 DAY1", en: "Tokyo Day 1" }
+    - startAt: "2023-05-07T13:00"
+      label: { ja: "東京 DAY2 昼", en: "Tokyo Day 2 Matinee" }
+    - startAt: "2023-05-07T17:00"
+      label: { ja: "東京 DAY2 夜", en: "Tokyo Day 2 Evening" }
+    - startAt: "2023-05-13T18:00"
+      label: { ja: "愛知 DAY1", en: "Aichi Day 1" }
+    - startAt: "2023-05-14T13:00"
+      label: { ja: "愛知 DAY2 昼", en: "Aichi Day 2 Matinee" }
+    - startAt: "2023-05-14T17:00"
+      label: { ja: "愛知 DAY2 夜", en: "Aichi Day 2 Evening" }
+    - startAt: "2023-06-17T18:00"
+      label: { ja: "福岡 DAY1", en: "Fukuoka Day 1" }
+    - startAt: "2023-06-18T13:00"
+      label: { ja: "福岡 DAY2 昼", en: "Fukuoka Day 2 Matinee" }
+    - startAt: "2023-06-18T17:00"
+      label: { ja: "福岡 DAY2 夜", en: "Fukuoka Day 2 Evening" }
+    - startAt: "2023-07-01T18:00"
+      label: { ja: "大阪 DAY1", en: "Osaka Day 1" }
+    - startAt: "2023-07-02T13:00"
+      label: { ja: "大阪 DAY2 昼", en: "Osaka Day 2 Matinee" }
+    - startAt: "2023-07-02T17:00"
+      label: { ja: "大阪 DAY2 夜", en: "Osaka Day 2 Evening" }
+    - startAt: "2023-07-16T18:00"
+      label: { ja: "北海道 DAY1", en: "Hokkaido Day 1" }
+    - startAt: "2023-07-17T13:00"
+      label: { ja: "北海道 DAY2 昼", en: "Hokkaido Day 2 Matinee" }
+    - startAt: "2023-07-17T17:00"
+      label: { ja: "北海道 DAY2 夜", en: "Hokkaido Day 2 Evening" }
+  title:
+    ja: "ラブライブ！虹ヶ咲学園スクールアイドル同好会「にじたび！TOKIMEKI FAN MEETING TOUR」"
+    en: "Love Live! Nijigasaki High School Idol Club: Nijitabi! TOKIMEKI FAN MEETING TOUR"
+  venueNote: { ja: "広島／東京／愛知／福岡／大阪／北海道", en: "Hiroshima / Tokyo / Aichi / Fukuoka / Osaka / Hokkaido" }
+  description:
+    ja: "林鼓子は全公演に出演"
+    en: "Coco Hayashi appeared in every performance"
+  link: "https://lovelive-anime.jp/nijigasaki/live/live_detail.php?p=nijitabi"
+
+- id: "2023-mygo-4th-live"
+  category: "Live"
+  scheduleLabel: "2023.04.09 18:00"
+  performances:
+    - startAt: "2023-04-09T18:00"
+  title:
+    ja: "MyGO!!!!! 4th LIVE「前へ進む音の中で」"
+    en: "MyGO!!!!! 4th LIVE: In the Sound Moving Forward"
+  venueIds: ["tachikawa-stage-garden"]
+  link: "https://bang-dream.com/events/mygo_4th/"
+
+- id: "2023-run-girls-run-final-live"
+  category: "Live"
+  scheduleLabel: "2023.03.25"
+  performances:
+    - startAt: "2023-03-25T13:30"
+      label:
+        ja: "昼公演"
+        en: "Matinee"
+    - startAt: "2023-03-25T18:00"
+      label:
+        ja: "夜公演"
+        en: "Evening"
+  title:
+    ja: "Run Girls, Run！FINAL LIVE ～新しい道の先へ～"
+    en: "Run Girls, Run! FINAL LIVE: Beyond the New Road"
+  venueIds: ["yamano-hall"]
+  link: "https://rungirlsrun.jp/event/detail.php?id=1002423"
+
+- id: "2023-coco-birthday-party-zero"
+  category: "Event"
+  scheduleLabel: "2023.05.15 19:30"
+  performances:
+    - startAt: "2023-05-15T19:30"
+  title:
+    ja: "林鼓子バースデーパーティ2023～林鼓子のココいちばん！第0回～"
+    en: "Coco Hayashi Birthday Party 2023: Coco Ichiban! Episode 0"
+  venueIds: ["pasela-ginza-grace-bali-grande"]
+  description:
+    ja: "会場開催とニコニコ生放送"
+    en: "Held in person and streamed on Niconico Live"
+  link: "https://mittma.com/news/%E3%80%8E%E6%9E%97%E9%BC%93%E5%AD%90%E3%83%90%E3%83%BC%E3%82%B9%E3%83%87%E3%83%BC%E3%83%91%E3%83%BC%E3%83%86%E3%82%A32023%E3%80%9C%E6%9E%97%E9%BC%93%E5%AD%90%E3%81%AE%E3%82%B3%E3%82%B3%E3%81%84/"
+
+- id: "2022-pretty-series-winter-live"
+  category: "Live"
+  scheduleLabel: "2022.12.04"
+  performances:
+    - startAt: "2022-12-04T13:00"
+      label:
+        ja: "昼の部"
+        en: "Matinee"
+    - startAt: "2022-12-04T18:00"
+      label:
+        ja: "夜の部"
+        en: "Evening"
+  title:
+    ja: "プリパラ＆キラッとプリ☆チャン＆ワッチャプリマジ！ Winter Live 2022"
+    en: "PriPara & Kiratto Pri☆Chan & Waccha PriMagi! Winter Live 2022"
+  venueIds: ["makuhari-messe"]
+  link: "https://avex.jp/prichan/live/"
+
+- id: "2022-tokyo-idol-festival"
+  category: "Live"
+  scheduleLabel: "2022.08.06"
+  performances:
+    - occursOn: "2022-08-06"
+  title:
+    ja: "TOKYO IDOL FESTIVAL 2022 supported by にしたんクリニック"
+    en: "TOKYO IDOL FESTIVAL 2022 supported by Nishitan Clinic"
+  venueNote: { ja: "お台場・青海周辺エリア", en: "Odaiba and Aomi Area" }
+  description:
+    ja: "Run Girls, Run！として8月6日に出演"
+    en: "Appeared on August 6 as a member of Run Girls, Run!"
+  link: "https://rungirlsrun.jp/news/detail.php?id=1100647"
+
+- id: "2022-run-girls-run-5th-tour"
+  category: "Live"
+  scheduleLabel: "2022.07.31-09.25"
+  performances:
+    - startAt: "2022-07-31T14:00"
+      label: { ja: "宮城 昼", en: "Miyagi Matinee" }
+    - startAt: "2022-07-31T17:30"
+      label: { ja: "宮城 夜", en: "Miyagi Evening" }
+    - startAt: "2022-08-13T15:00"
+      label: { ja: "大阪 昼", en: "Osaka Matinee" }
+    - startAt: "2022-08-13T18:30"
+      label: { ja: "大阪 夜", en: "Osaka Evening" }
+    - startAt: "2022-09-25T14:00"
+      label: { ja: "東京 昼", en: "Tokyo Matinee" }
+    - startAt: "2022-09-25T18:00"
+      label: { ja: "東京 夜", en: "Tokyo Evening" }
+  title:
+    ja: "Run Girls, Run！5th Anniversary Live Tour Get Set, 5！"
+    en: "Run Girls, Run! 5th Anniversary Live Tour: Get Set, 5!"
+  venueIds: ["sendai-pit", "bigcat", "shinagawa-intercity-hall"]
+  link: "https://rungirlsrun.jp/event/detail.php?id=1002358"
+
+- id: "2022-pretty-live-all-for-one"
+  category: "Live"
+  scheduleLabel: "2022.09.24"
+  performances:
+    - startAt: "2022-09-24T14:00"
+      label:
+        ja: "昼の部"
+        en: "Matinee"
+    - startAt: "2022-09-24T18:00"
+      label:
+        ja: "夜の部"
+        en: "Evening"
+  title:
+    ja: "プリティーシリーズスペシャルライブ「Pretty Live！～All for One !!!～」"
+    en: "Pretty Series Special Live: Pretty Live! All for One!!!"
+  venueIds: ["nakano-sunplaza"]
+  link: "https://natalie.mu/comic/news/494891"
+
+- id: "2022-pretty-live-one-for-all"
+  category: "Live"
+  scheduleLabel: "2022.07.03"
+  performances:
+    - startAt: "2022-07-03T14:00"
+      endAt: "2022-07-03T16:00"
+      label: { ja: "昼の部", en: "Matinee" }
+    - startAt: "2022-07-03T18:00"
+      endAt: "2022-07-03T20:00"
+      label: { ja: "夜の部", en: "Evening" }
+  title:
+    ja: "プリティーシリーズスペシャルライブ「Pretty Live！～One for All !!!～」"
+    en: "Pretty Series Special Live: Pretty Live! One for All!!!"
+  venueIds: ["nakano-sunplaza"]
+  link: "https://avex.jp/prichan/live/"
+
+- id: "2022-tif-asia-tour-harevutai"
+  category: "Live"
+  scheduleLabel: "2022.06.12 19:30"
+  performances:
+    - startAt: "2022-06-12T19:30"
+      label:
+        ja: "第2部"
+        en: "Part 2"
+  title:
+    ja: "TIF ASIA TOUR 2022 in harevutai"
+    en: "TIF ASIA TOUR 2022 in harevutai"
+  venueIds: ["harevutai"]
+  description:
+    ja: "第2部にRun Girls, Run！として出演"
+    en: "Appeared in Part 2 as a member of Run Girls, Run!"
+  link: "https://liberte2024.com/talent/hayashicoco"
+
+- id: "2022-coco-20th-birthday-live"
+  category: "Live"
+  scheduleLabel: "2022.05.22"
+  performances:
+    - startAt: "2022-05-22T14:00"
+      label:
+        ja: "昼公演"
+        en: "Matinee"
+    - startAt: "2022-05-22T17:00"
+      label:
+        ja: "夜公演"
+        en: "Evening"
+  title:
+    ja: "林鼓子 20th Birthday Live～ここから。～"
+    en: "Coco Hayashi 20th Birthday Live: From Here"
+  venueIds: ["asakusa-hana-theater"]
+  link: "https://rungirlsrun.jp/news/detail.php?id=1099600"
+
+- id: "2021-pretty-series-winter-live"
+  category: "Live"
+  scheduleLabel: "2021.12.05"
+  performances:
+    - occursOn: "2021-12-05"
+  title:
+    ja: "プリパラ＆キラッとプリ☆チャン＆ワッチャプリマジ！ Winter Live 2021"
+    en: "PriPara & Kiratto Pri☆Chan & Waccha PriMagi! Winter Live 2021"
+  venueIds: ["makuhari-messe"]
+  link: "https://avex.jp/prichan/live/"
+
+- id: "2021-run-girls-run-4th-anniversary-live"
+  category: "Live"
+  scheduleLabel: "2021.11.27・12.19"
+  performances:
+    - startAt: "2021-11-27T14:00"
+      label: { ja: "宮城 昼", en: "Miyagi Matinee" }
+    - startAt: "2021-11-27T18:00"
+      label: { ja: "宮城 夜", en: "Miyagi Evening" }
+    - startAt: "2021-12-19T14:00"
+      label: { ja: "東京 昼", en: "Tokyo Matinee" }
+    - startAt: "2021-12-19T18:00"
+      label: { ja: "東京 夜", en: "Tokyo Evening" }
+  title:
+    ja: "Run Girls, Run！4th Anniversary LIVE Run 4 You!!!"
+    en: "Run Girls, Run! 4th Anniversary LIVE: Run 4 You!!!"
+  venueIds: ["sendai-pit", "yamano-hall"]
+  description:
+    ja: "延期後の振替公演日を収録"
+    en: "Dates reflect the rescheduled performances"
+  link: "https://rungirlsrun.jp/event/detail.php?id=1002257"
+
+- id: "2021-welcome-to-prichan-land"
+  category: "Live"
+  scheduleLabel: "2021.08.22"
+  performances:
+    - occursOn: "2021-08-22"
+  title:
+    ja: "Welcome to プリ☆チャンランド！"
+    en: "Welcome to Pri☆Chan Land!"
+  venueIds: ["nakano-sunplaza"]
+  link: "https://avexnet.jp/contents/KIRAP-XXXX-XXXX/discography/1018719"
+
+- id: "2021-pretty-series-10th-festival"
+  category: "Live"
+  scheduleLabel: "2021.05.22-23"
+  performances:
+    - startAt: "2021-05-22T18:00"
+      label: { ja: "DAY1 夜", en: "Day 1 Evening" }
+    - startAt: "2021-05-23T13:30"
+      label: { ja: "DAY2 昼", en: "Day 2 Matinee" }
+    - startAt: "2021-05-23T18:00"
+      label: { ja: "DAY2 夜", en: "Day 2 Evening" }
+  title:
+    ja: "Pretty series 10th Anniversary Pretty Festival"
+    en: "Pretty Series 10th Anniversary Pretty Festival"
+  venueIds: ["makuhari-messe"]
+  link: "https://avexnet.jp/contents/KIRAP-XXXX-XXXX/news/1091403"
+
+- id: "2021-coco-19th-birthday-event"
+  category: "Event"
+  scheduleLabel: "2021.05.16 21:00"
+  performances:
+    - startAt: "2021-05-16T21:00"
+  title:
+    ja: "林鼓子 19th Birthday Event ～NO \"OSHI\" NO LIFE～"
+    en: "Coco Hayashi 19th Birthday Event: NO 'OSHI' NO LIFE"
+  description:
+    ja: "無観客配信イベント"
+    en: "Online-only event without an in-person audience"
+  link: "https://mittma.com/news/%E3%80%8E%E6%9E%97%E9%BC%93%E5%AD%90-19th-birthday-eventno-oshi-no-life%E3%80%8F%E5%87%BA%E6%BC%94/"
+
+- id: "2020-pretty-series-winter-live"
+  category: "Live"
+  scheduleLabel: "2020.12.06"
+  performances:
+    - startAt: "2020-12-06T13:00"
+      label:
+        ja: "昼の部"
+        en: "Matinee"
+    - startAt: "2020-12-06T18:00"
+      label:
+        ja: "夜の部"
+        en: "Evening"
+  title:
+    ja: "プリパラ＆キラッとプリ☆チャン Winter Live 2020"
+    en: "PriPara & Kiratto Pri☆Chan Winter Live 2020"
+  venueIds: ["makuhari-messe"]
+  link: "https://www.m-messe.co.jp/event/detail/6516"
+
+- id: "2020-tokyo-idol-festival-online"
+  category: "Live"
+  scheduleLabel: "2020.10.02 12:30"
+  performances:
+    - startAt: "2020-10-02T12:30"
+  title:
+    ja: "TOKYO IDOL FESTIVAL オンライン 2020"
+    en: "TOKYO IDOL FESTIVAL Online 2020"
+  description:
+    ja: "Run Girls, Run！として10月2日に出演"
+    en: "Appeared on October 2 as a member of Run Girls, Run!"
+  link: "https://rungirlsrun.jp/news/detail.php?id=1085388"
+
+- id: "2020-run-girls-run-online-live"
+  category: "Live"
+  scheduleLabel: "2020.09.26・10.11"
+  performances:
+    - startAt: "2020-09-26T15:00"
+      label: { ja: "9月26日 昼", en: "September 26 Matinee" }
+    - startAt: "2020-09-26T19:00"
+      label: { ja: "9月26日 夜", en: "September 26 Evening" }
+    - startAt: "2020-10-11T14:30"
+      label: { ja: "10月11日 昼", en: "October 11 Matinee" }
+    - startAt: "2020-10-11T17:30"
+      label: { ja: "10月11日 夜", en: "October 11 Evening" }
+  title:
+    ja: "Run Girls, Run！ Online Live ～ランガリング・リンクライブ♪～"
+    en: "Run Girls, Run! Online Live: Rangaring Link Live♪"
+  description:
+    ja: "無観客生配信"
+    en: "Live-streamed without an in-person audience"
+  link: "https://rungirlsrun.jp/event/detail.php?id=1002207"
+
+- id: "2020-hello-prichan-world"
+  category: "Live"
+  scheduleLabel: "2020.07.18"
+  performances:
+    - startAt: "2020-07-18T14:00"
+      label:
+        ja: "昼公演"
+        en: "Matinee"
+    - startAt: "2020-07-18T18:00"
+      label:
+        ja: "夜公演"
+        en: "Evening"
+  title:
+    ja: "Hello！プリ☆チャンワールド"
+    en: "Hello! Pri☆Chan World"
+  description:
+    ja: "無観客生配信で開催されたプリ☆チャン初の単独ライブ"
+    en: "The first standalone Pri☆Chan live, held as an audience-free live stream"
+  link: "https://avex.jp/prichan/discography/detail.php?id=1017745"
+
+- id: "2019-pretty-series-winter-live"
+  category: "Live"
+  scheduleLabel: "2019.12.15"
+  performances:
+    - startAt: "2019-12-15T13:00"
+      label:
+        ja: "昼の部"
+        en: "Matinee"
+    - startAt: "2019-12-15T18:00"
+      label:
+        ja: "夜の部"
+        en: "Evening"
+  title:
+    ja: "プリパラ＆キラッとプリ☆チャン Winter Live 2019"
+    en: "PriPara & Kiratto Pri☆Chan Winter Live 2019"
+  venueIds: ["makuhari-messe"]
+  link: "https://avex.jp/prichan/live/?page=2"
+
+- id: "2019-pripara-prichan-autumn-tour"
+  category: "Live"
+  scheduleLabel: "2019.09.15・09.22"
+  performances:
+    - occursOn: "2019-09-15"
+      label:
+        ja: "東京"
+        en: "Tokyo"
+    - occursOn: "2019-09-22"
+      label:
+        ja: "大阪"
+        en: "Osaka"
+  title:
+    ja: "プリパラ＆キラッとプリ☆チャン AUTUMN LIVE TOUR 2019 ～キラッと！アイドルはじめる時間だよ！～"
+    en: "PriPara & Kiratto Pri☆Chan Autumn Live Tour 2019"
+  venueIds: ["maihama-amphitheater", "orix-theater"]
+  link: "https://avex.jp/prichan/news/detail.php?artist_cd=KIRAP&id=1084142"
+
+- id: "2019-ciao-summer-festival"
+  category: "Event"
+  scheduleLabel: "2019.08.17"
+  performances:
+    - occursOn: "2019-08-17"
+  title:
+    ja: "ちゃおサマーフェスティバル2019"
+    en: "Ciao Summer Festival 2019"
+  venueIds: ["pacifico-yokohama"]
+  link: "https://www.oricon.co.jp/news/2142415/full/"
+
+- id: "2019-run-girls-run-2nd-anniversary-live"
+  category: "Live"
+  scheduleLabel: "2019.08.04・11.24"
+  performances:
+    - startAt: "2019-08-04T15:00"
+      label: { ja: "東京 昼", en: "Tokyo Matinee" }
+    - startAt: "2019-08-04T18:30"
+      label: { ja: "東京 夜", en: "Tokyo Evening" }
+    - startAt: "2019-11-24T14:30"
+      label: { ja: "京都追加公演 昼", en: "Kyoto Additional Matinee" }
+    - startAt: "2019-11-24T18:00"
+      label: { ja: "京都追加公演 夜", en: "Kyoto Additional Evening" }
+  title:
+    ja: "Run Girls, Run！ 2nd Anniversary LIVE 1.2.3ジャンプ！！！"
+    en: "Run Girls, Run! 2nd Anniversary LIVE: 1.2.3 Jump!!!"
+  venueIds: ["shibuya-club-quattro", "kyoto-fanj"]
+  link: "https://animatetimes.com/news/details.php?id=1565139090"
+
+- id: "2019-c3-shanghai"
+  category: "Live"
+  scheduleLabel: "2019.04.06 14:00"
+  performances:
+    - startAt: "2019-04-06T14:00"
+  title:
+    ja: "Run Girls, Run！ Special Live in C3 Shanghai 2019"
+    en: "Run Girls, Run! Special Live in C3 Shanghai 2019"
+  description:
+    ja: "Run Girls, Run！として出演"
+    en: "Appeared as a member of Run Girls, Run!"
+  link: "https://www.giftshow.co.jp/shanghai/c3shanghai2020/pdf/2019c3report.pdf"
+
+- id: "2019-animax-musix-osaka"
+  category: "Live"
+  scheduleLabel: "2019.01.19 14:00"
+  performances:
+    - startAt: "2019-01-19T14:00"
+  title:
+    ja: "ANIMAX MUSIX 2019 OSAKA"
+    en: "ANIMAX MUSIX 2019 OSAKA"
+  venueIds: ["osaka-jo-hall"]
+  description:
+    ja: "Run Girls, Run！として出演"
+    en: "Appeared as a member of Run Girls, Run!"
+  link: "https://www.animax.co.jp/animaxmusix/archive/archive_2019_osaka.html"
+
+- id: "2018-anime-jam"
+  category: "Live"
+  scheduleLabel: "2018.12.23"
+  performances:
+    - startAt: "2018-12-23T14:00"
+      label:
+        ja: "昼の部"
+        en: "Matinee"
+    - startAt: "2018-12-23T18:30"
+      label:
+        ja: "夜の部"
+        en: "Evening"
+  title:
+    ja: "アニメJAM 2018"
+    en: "Anime JAM 2018"
+  venueIds: ["maihama-amphitheater"]
+  link: "https://anime-jam.com/2018/"
+
+- id: "2018-minna-de-kiratto-pretty-live"
+  category: "Live"
+  scheduleLabel: "2018.12.09"
+  performances:
+    - startAt: "2018-12-09T13:00"
+      label:
+        ja: "昼の部"
+        en: "Matinee"
+    - startAt: "2018-12-09T18:00"
+      label:
+        ja: "夜の部"
+        en: "Evening"
+  title:
+    ja: "み～んなでキラッとプリティーライブ2018"
+    en: "Minna de Kiratto Pretty Live 2018"
+  venueIds: ["makuhari-messe"]
+  link: "https://avex.jp/prichan/news/detail.php?artist_cd=KIRAP&id=1065354"
+
+- id: "2018-run-girls-run-1st-tour"
+  category: "Live"
+  scheduleLabel: "2018.10.28-11.10"
+  performances:
+    - occursOn: "2018-10-28"
+      label: { ja: "大阪", en: "Osaka" }
+    - occursOn: "2018-11-04"
+      label: { ja: "宮城", en: "Miyagi" }
+    - occursOn: "2018-11-10"
+      label: { ja: "東京", en: "Tokyo" }
+  title:
+    ja: "Run Girls, Run！ 1st LIVE TOUR「止まってなんかいられない」"
+    en: "Run Girls, Run! 1st LIVE TOUR: We Can't Stand Still"
+  venueIds: ["esaka-muse", "sendai-gigs", "shinagawa-stellar-ball"]
+  link: "https://rungirlsrun.jp/news/detail.php?id=1061320"
+
+- id: "2018-pripara-prichan-autumn-tour"
+  category: "Live"
+  scheduleLabel: "2018.09.09・09.29"
+  performances:
+    - occursOn: "2018-09-09"
+    - occursOn: "2018-09-29"
+  title:
+    ja: "プリパラ＆キラッとプリ☆チャン AUTUMN LIVE TOUR み～んなでアイドルやってみた！"
+    en: "PriPara & Kiratto Pri☆Chan Autumn Live Tour: Everyone Tried Being an Idol!"
+  link: "https://liberte2024.com/talent/hayashicoco"
+
+- id: "2018-tokyo-idol-festival"
+  category: "Live"
+  scheduleLabel: "2018.08.03"
+  performances:
+    - startAt: "2018-08-03T13:55"
+      label:
+        ja: "DREAM STAGE"
+        en: "Dream Stage"
+    - startAt: "2018-08-03T17:30"
+      label:
+        ja: "SKY STAGE"
+        en: "Sky Stage"
+  title:
+    ja: "TOKYO IDOL FESTIVAL 2018"
+    en: "TOKYO IDOL FESTIVAL 2018"
+  venueNote: { ja: "お台場・青海周辺エリア", en: "Odaiba and Aomi Area" }
+  description:
+    ja: "Run Girls, Run！として出演"
+    en: "Appeared as a member of Run Girls, Run!"
+  link: "https://www.idolfes.com/2018/timetable/stage/dream_stage.html"
+
+- id: "2017-run-girls-run-showcase"
+  category: "Live"
+  scheduleLabel: "2017.09.24-11.25"
+  performances:
+    - occursOn: "2017-09-24"
+      label: { ja: "Vol.1", en: "Vol. 1" }
+    - occursOn: "2017-10-28"
+      label: { ja: "Vol.2", en: "Vol. 2" }
+    - occursOn: "2017-11-25"
+      label: { ja: "Vol.3", en: "Vol. 3" }
+  title:
+    ja: "Run Girls, Run！ ショーケースイベント「位置についてよーいドン！」"
+    en: "Run Girls, Run! Showcase Event: On Your Marks, Get Set, Go!"
+  venueIds: ["live-labo-yoyogi", "akiba-cultures-theater"]
+  description:
+    ja: "全3回・各日2公演"
+    en: "Three installments, with two performances on each date"
+  link: "https://anime.eiga.com/event/120064/"
+
+# Eventernote 出演者欄で「林鼓子」を確認した補完データ。
+# 同一企画の複数部・複数会場は、カードの重複を避けるため一つの活動にまとめる。
+- id: "2026-coco-1st-photobook-release-events"
+  category: "Event"
+  scheduleLabel: "2026.05.30・07.04-05・07.12"
+  performances:
+    - occursOn: "2026-05-30"
+      label: { ja: "インフォスクエア回", en: "Infosquare session" }
+    - occursOn: "2026-07-04"
+      label: { ja: "東京会場", en: "Tokyo" }
+    - occursOn: "2026-07-05"
+      label: { ja: "大阪会場", en: "Osaka" }
+    - occursOn: "2026-07-12"
+      label: { ja: "インフォスクエア追加開催", en: "Additional Infosquare session" }
+  title:
+    ja: "『林鼓子1st写真集 coco』発売記念イベント"
+    en: "Coco Hayashi 1st Photobook 'coco' Release Events"
+  venueNote: { ja: "東京／大阪", en: "Tokyo / Osaka" }
+  link: "https://www.eventernote.com/events/469267"
+
+- id: "2026-nijigasaki-8th-live-sendoff"
+  category: "Event"
+  scheduleLabel: "2026.06.06-07・06.13-14"
+  performances:
+    - occursOn: "2026-06-06"
+      label: { ja: "大阪公演 DAY1", en: "Osaka Day 1" }
+    - occursOn: "2026-06-07"
+      label: { ja: "大阪公演 DAY2", en: "Osaka Day 2" }
+    - occursOn: "2026-06-13"
+      label: { ja: "東京公演 DAY1", en: "Tokyo Day 1" }
+    - occursOn: "2026-06-14"
+      label: { ja: "東京公演 DAY2", en: "Tokyo Day 2" }
+  title:
+    ja: "虹ヶ咲学園スクールアイドル同好会 8th Live! TOKIMEKI Express お見送り会"
+    en: "Nijigasaki 8th Live! TOKIMEKI Express Send-off Events"
+  venueIds: ["osaka-jo-hall", "keio-arena-tokyo"]
+  link: "https://www.eventernote.com/events/481932"
+
+- id: "2026-amour-meet-and-greet"
+  category: "Event"
+  scheduleLabel: "2026.05.22-23"
+  performances:
+    - occursOn: "2026-05-22"
+      label: { ja: "DAY1 終演後", en: "After Day 1" }
+    - occursOn: "2026-05-23"
+      label: { ja: "昼・夜公演終演後", en: "After the matinee and evening shows" }
+  title:
+    ja: "林鼓子 BIRTHDAY TALK＆LIVE2026 －Amour！－ お見送り会"
+    en: "Coco Hayashi BIRTHDAY TALK & LIVE 2026 -Amour!- Meet & Greet"
+  venueIds: ["ebisu-the-garden-room"]
+  link: "https://www.eventernote.com/events/478253"
+
+- id: "2025-wakaremichi-live-film-christmas-screening"
+  category: "Event"
+  scheduleLabel: "2025.12.24 18:30"
+  performances:
+    - startAt: "2025-12-24T18:30"
+      endAt: "2025-12-24T22:30"
+  title:
+    ja: "MyGO!!!!!×Ave Mujica「わかれ道の、その先へ」LIVE FILM クリスマス轟音上映会"
+    en: "MyGO!!!!! x Ave Mujica 'Wakaremichi no, Sono Saki e' Live Film Christmas Screening"
+  venueIds: ["hikosen-theater"]
+  link: "https://www.eventernote.com/events/454540"
+
+- id: "2025-nijigasaki-final-chapter-2-stage-greetings"
+  category: "Event"
+  scheduleLabel: "2025.11.23"
+  performances:
+    - startAt: "2025-11-23T10:00"
+      endAt: "2025-11-23T12:05"
+      label: { ja: "MOVIX京都 10:00の回", en: "MOVIX Kyoto, 10:00" }
+    - startAt: "2025-11-23T12:35"
+      endAt: "2025-11-23T14:40"
+      label: { ja: "MOVIX京都 12:35の回", en: "MOVIX Kyoto, 12:35" }
+    - startAt: "2025-11-23T18:00"
+      endAt: "2025-11-23T20:05"
+      label: { ja: "なんばパークスシネマ", en: "Namba Parks Cinema" }
+  title:
+    ja: "映画『ラブライブ！虹ヶ咲学園スクールアイドル同好会 完結編 第2章』京都・大阪舞台挨拶"
+    en: "Love Live! Nijigasaki Final Chapter Part 2 Kyoto/Osaka Stage Greetings"
+  venueIds: ["movix-kyoto", "namba-parks-cinema"]
+  link: "https://www.eventernote.com/events/446637"
+
+- id: "2025-assault-lily-shinsetsu-talk-event"
+  category: "Event"
+  scheduleLabel: "2025.09.25 16:00"
+  performances:
+    - startAt: "2025-09-25T16:00"
+      endAt: "2025-09-25T18:00"
+  title:
+    ja: "舞台『アサルトリリィ』-眞說・御台場迎撃戦- トークイベント"
+    en: "Assault Lily: The True Story of the Odaiba Counteroffensive Talk Event"
+  venueIds: ["theatre-1010"]
+  link: "https://www.eventernote.com/events/439275"
+
+- id: "2025-eternalize-love-release-event-osaka"
+  category: "Event"
+  scheduleLabel: "2025.04.07 18:30"
+  performances:
+    - startAt: "2025-04-07T18:30"
+      endAt: "2025-04-07T20:00"
+  title:
+    ja: "『Eternalize Love!!』発売記念イベント 大阪"
+    en: "'Eternalize Love!!' Release Event in Osaka"
+  venueIds: ["abeno-qs-mall-sky-court"]
+  link: "https://www.eventernote.com/events/421414"
+
+- id: "2025-animejapan-nijigasaki-news-stage"
+  category: "Event"
+  scheduleLabel: "2025.03.23 15:35"
+  performances:
+    - startAt: "2025-03-23T15:35"
+      endAt: "2025-03-23T16:10"
+  title:
+    ja: "AnimeJapan 2025『虹ヶ咲学園スクールアイドル同好会 最新情報発表会』"
+    en: "AnimeJapan 2025: Nijigasaki High School Idol Club News Presentation"
+  venueIds: ["tokyo-big-sight"]
+  link: "https://www.eventernote.com/events/413066"
+
+- id: "2025-chikanaso-after-school-talk-23"
+  category: "Event"
+  scheduleLabel: "2025.02.23 12:00"
+  performances:
+    - startAt: "2025-02-23T12:00"
+      endAt: "2025-02-23T13:00"
+  title:
+    ja: "安藤千伽奈の『ちかなその放課後トーク』#23"
+    en: "Chikana Ando's Chikanaso After-school Talk #23"
+  venueIds: ["wallop-studio-waros"]
+  link: "https://www.eventernote.com/events/418904"
+
+- id: "2025-mygo-taipei-voice-actor-meeting"
+  category: "Event"
+  scheduleLabel: "2025.02.15"
+  performances:
+    - startAt: "2025-02-15T14:00"
+      endAt: "2025-02-15T15:00"
+      label: { ja: "第一場", en: "Session 1" }
+    - startAt: "2025-02-15T16:00"
+      endAt: "2025-02-15T17:00"
+      label: { ja: "第二場", en: "Session 2" }
+  title:
+    ja: "BanG Dream! ガルパ7周年記念 MyGO!!!!! 2025声優見面会"
+    en: "BanG Dream! Girls Band Party 7th Anniversary MyGO!!!!! 2025 Voice Actor Meeting"
+  venueIds: ["ticc-room-101"]
+  link: "https://www.eventernote.com/events/402808"
+
+- id: "2025-tanaka-no-kanata-public-recording"
+  category: "Event"
+  scheduleLabel: "2025.01.26 13:00"
+  performances:
+    - startAt: "2025-01-26T13:00"
+      endAt: "2025-01-26T14:30"
+  title:
+    ja: "田中ちえ美のたなかのカナタ！公開録音イベント"
+    en: "Chiemi Tanaka's Tanaka no Kanata! Public Recording Event"
+  venueNote: { ja: "東京都内某所", en: "Tokyo venue" }
+  link: "https://www.eventernote.com/events/405322"
+
+- id: "2024-lovelive-asia-tour-seoul-sendoff"
+  category: "Event"
+  scheduleLabel: "2024.12.14 20:30"
+  performances:
+    - startAt: "2024-12-14T20:30"
+      endAt: "2024-12-14T21:30"
+  title:
+    ja: "LoveLive! Series Asia Tour 2024 ソウル公演 Day.1 お見送り会"
+    en: "LoveLive! Series Asia Tour 2024 Seoul Day 1 Send-off Event"
+  venueIds: ["korea-university-hwajeong-gymnasium"]
+  link: "https://www.eventernote.com/events/448465"
+
+- id: "2024-ak-garden-26-assault-lily-keynote"
+  category: "Event"
+  scheduleLabel: "2024.11.10 13:00"
+  performances:
+    - startAt: "2024-11-10T13:00"
+      endAt: "2024-11-10T15:00"
+  title:
+    ja: "AK-GARDEN【26】アサルトリリィ基調講演 ALPC24"
+    en: "AK-GARDEN 26 Assault Lily Keynote ALPC24"
+  venueIds: ["tokyo-trade-center-hamamatsucho"]
+  link: "https://www.eventernote.com/events/396898"
+
+- id: "2024-mygo-movie-part-2-stage-greetings"
+  category: "Event"
+  scheduleLabel: "2024.11.08"
+  performances:
+    - startAt: "2024-11-08T10:10"
+      endAt: "2024-11-08T13:10"
+    - startAt: "2024-11-08T13:40"
+      endAt: "2024-11-08T16:40"
+  title:
+    ja: "劇場版『BanG Dream! It's MyGO!!!!! 後編』公開記念舞台挨拶"
+    en: "BanG Dream! It's MyGO!!!!! Movie Part 2 Opening Stage Greetings"
+  venueIds: ["grand-cinema-sunshine"]
+  link: "https://www.eventernote.com/events/398023"
+
+- id: "2024-voice-plus-vol-8-handover-events"
+  category: "Event"
+  scheduleLabel: "2024.10.27"
+  performances:
+    - occursOn: "2024-10-27"
+      label: { ja: "アニメイト回・ゲーマーズ回", en: "Animate and Gamers" }
+    - startAt: "2024-10-27T13:00"
+      endAt: "2024-10-27T14:00"
+      label: { ja: "HMVエソラ池袋回", en: "HMV Esora Ikebukuro" }
+  title:
+    ja: "『VOICE＋ VOL.8』発売記念 林鼓子 特典お渡し会"
+    en: "VOICE+ Vol. 8 Release Commemorative Coco Hayashi Handover Events"
+  venueIds: ["hmv-esola-ikebukuro"]
+  venueNote: { ja: "東京都内", en: "Tokyo" }
+  link: "https://www.eventernote.com/events/383666"
+
+- id: "2024-nijigasaki-7th-live-sendoff"
+  category: "Event"
+  scheduleLabel: "2024.10.19-20"
+  performances:
+    - occursOn: "2024-10-19"
+      label: { ja: "DAY1", en: "Day 1" }
+    - occursOn: "2024-10-20"
+      label: { ja: "DAY2", en: "Day 2" }
+  title:
+    ja: "虹ヶ咲学園スクールアイドル同好会 7th Live! NEW TOKIMEKI LAND お見送り会"
+    en: "Nijigasaki 7th Live! NEW TOKIMEKI LAND Send-off Events"
+  venueIds: ["k-arena-yokohama"]
+  link: "https://www.eventernote.com/events/394394"
+
+- id: "2024-coco-ichiban-photobook-release-events"
+  category: "Event"
+  scheduleLabel: "2024.07.13・09.28"
+  performances:
+    - startAt: "2024-07-13T10:30"
+      endAt: "2024-07-13T11:30"
+      label: { ja: "リリースイベント 1部", en: "Release event, Part 1" }
+    - startAt: "2024-07-13T13:30"
+      endAt: "2024-07-13T14:30"
+      label: { ja: "リリースイベント 2部", en: "Release event, Part 2" }
+    - startAt: "2024-07-13T16:00"
+      endAt: "2024-07-13T17:00"
+      label: { ja: "リリースイベント 3部", en: "Release event, Part 3" }
+    - startAt: "2024-07-13T18:30"
+      endAt: "2024-07-13T19:30"
+      label: { ja: "リリースイベント 4部", en: "Release event, Part 4" }
+    - startAt: "2024-09-28T12:00"
+      endAt: "2024-09-28T13:00"
+      label: { ja: "発売記念イベント 1部", en: "Commemorative event, Part 1" }
+    - startAt: "2024-09-28T14:00"
+      endAt: "2024-09-28T15:00"
+      label: { ja: "発売記念イベント 2部", en: "Commemorative event, Part 2" }
+  title:
+    ja: "『林鼓子 旅PHOTOBOOK ココいちばん！』発売記念イベント"
+    en: "Coco Hayashi Travel Photobook 'Coco Ichiban!' Release Events"
+  venueNote: { ja: "東京都内", en: "Tokyo" }
+  link: "https://www.eventernote.com/events/378590"
+
+- id: "2024-mygo-movie-part-1-stage-greetings"
+  category: "Event"
+  scheduleLabel: "2024.09.27"
+  performances:
+    - startAt: "2024-09-27T10:20"
+      endAt: "2024-09-27T13:00"
+    - startAt: "2024-09-27T13:40"
+      endAt: "2024-09-27T16:20"
+  title:
+    ja: "劇場版『BanG Dream! It's MyGO!!!!! 前編』公開記念舞台挨拶"
+    en: "BanG Dream! It's MyGO!!!!! Movie Part 1 Opening Stage Greetings"
+  venueIds: ["grand-cinema-sunshine"]
+  link: "https://www.eventernote.com/events/392920"
+
+- id: "2024-onsen-festival"
+  category: "Event"
+  scheduleLabel: "2024.09.07 13:20"
+  performances:
+    - startAt: "2024-09-07T13:20"
+      endAt: "2024-09-07T18:30"
+  title:
+    ja: "音泉祭り2024 ～アニラジといえば、音泉だね！～"
+    en: "Onsen Festival 2024"
+  venueIds: ["tachikawa-stage-garden"]
+  link: "https://www.eventernote.com/events/377717"
+
+- id: "2024-hareza-mygo-special-talk"
+  category: "Event"
+  scheduleLabel: "2024.08.04 17:30"
+  performances:
+    - startAt: "2024-08-04T17:30"
+      endAt: "2024-08-04T18:15"
+  title:
+    ja: "Harezaの日 4th Anniversary 劇場版『BanG Dream! It’s MyGO!!!!!』スペシャルトーク"
+    en: "Hareza Day 4th Anniversary BanG Dream! It's MyGO!!!!! Special Talk"
+  venueIds: ["naka-ikebukuro-park"]
+  link: "https://www.eventernote.com/events/387955"
+
+- id: "2024-prichan-virtual-musical-screening"
+  category: "Event"
+  scheduleLabel: "2024.08.03 14:30"
+  performances:
+    - startAt: "2024-08-03T14:30"
+      endAt: "2024-08-03T19:15"
+  title:
+    ja: "バーチャルミュージカル ハイスクール！キラッとプリ☆チャン応援上映会"
+    en: "Virtual Musical High School! Kiratto PriChan Cheer Screening"
+  venueIds: ["ikebukuro-humax-cinemas"]
+  link: "https://www.eventernote.com/events/384790"
+
+- id: "2024-prichan-spaceship-adventure"
+  category: "Live"
+  scheduleLabel: "2024.07.21"
+  performances:
+    - startAt: "2024-07-21T14:00"
+      endAt: "2024-07-21T16:00"
+      label: { ja: "昼の部", en: "Matinee" }
+    - startAt: "2024-07-21T18:00"
+      endAt: "2024-07-21T20:00"
+      label: { ja: "夜の部", en: "Evening" }
+  title:
+    ja: "キラッとプリ☆チャン スペースシップアドベンチャー"
+    en: "Kiratto PriChan Spaceship Adventure"
+  venueIds: ["omiya-sonic-city-main-hall"]
+  link: "https://www.eventernote.com/events/377278"
+
+- id: "2024-tsumugi-birthday-gourmerian"
+  category: "Event"
+  scheduleLabel: "2024.07.06 16:00"
+  performances:
+    - startAt: "2024-07-06T16:00"
+      endAt: "2024-07-06T17:00"
+  title:
+    ja: "紡木吏佐バースデーイベント『#紡木爆誕祭～グルメリアン～』第2部"
+    en: "Risa Tsumugi Birthday Event: #Tsumugi Birthday Festival - Gourmerian, Part 2"
+  venueIds: ["tiat-sky-hall"]
+  link: "https://www.eventernote.com/events/381899"
+
+- id: "2024-ak-garden-25-defense-conference"
+  category: "Event"
+  scheduleLabel: "2024.06.16 13:00"
+  performances:
+    - startAt: "2024-06-16T13:00"
+      endAt: "2024-06-16T15:00"
+  title:
+    ja: "AK-GARDEN25トークショー『第2回東京圏防衛構想会議』"
+    en: "AK-GARDEN 25 Talk Show: 2nd Tokyo Area Defense Planning Conference"
+  venueIds: ["tokyo-trade-center-hamamatsucho"]
+  link: "https://www.eventernote.com/events/380244"
+
+- id: "2024-coco-birthday-live-im-here"
+  category: "Live"
+  scheduleLabel: "2024.06.15"
+  performances:
+    - startAt: "2024-06-15T14:00"
+      endAt: "2024-06-15T16:00"
+      label: { ja: "第一部", en: "Part 1" }
+    - startAt: "2024-06-15T18:00"
+      endAt: "2024-06-15T20:00"
+      label: { ja: "第二部", en: "Part 2" }
+  title:
+    ja: "Coco Hayashi Birthday Live 2024～I’m here.～"
+    en: "Coco Hayashi Birthday Live 2024 - I'm here."
+  venueIds: ["yokohama-ytj-hall"]
+  link: "https://www.eventernote.com/events/373391"
+
+- id: "2024-shimono-yuki-birthday-event"
+  category: "Event"
+  scheduleLabel: "2024.04.06 14:00"
+  performances:
+    - startAt: "2024-04-06T14:00"
+      endAt: "2024-04-06T16:00"
+  title:
+    ja: "下野由貴バースデーイベント～第2回ゆきぐみ会合!?～ 1部"
+    en: "Yuki Shimono Birthday Event: 2nd Yukigumi Meeting, Part 1"
+  venueIds: ["theater-shinjuku-starfield"]
+  link: "https://www.eventernote.com/events/374119"
+
+- id: "2024-hodoyoku-kogosei"
+  category: "Event"
+  scheduleLabel: "2024.02.25"
+  performances:
+    - startAt: "2024-02-25T13:00"
+      endAt: "2024-02-25T15:00"
+      label: { ja: "1部", en: "Part 1" }
+    - startAt: "2024-02-25T18:00"
+      endAt: "2024-02-25T20:00"
+      label: { ja: "2部", en: "Part 2" }
+  title:
+    ja: "林鼓子と西葉瑞希の、ほどよく光合成してみませんか？"
+    en: "Coco Hayashi and Mizuki Saiba: Shall We Photosynthesize Just Right?"
+  venueIds: ["wallop-studio-waros"]
+  link: "https://www.eventernote.com/events/368983"
+
+- id: "2024-odaiband-one-day-manager"
+  category: "Event"
+  scheduleLabel: "2024.02.03"
+  performances:
+    - occursOn: "2024-02-03"
+  title:
+    ja: "『ODAIBAND』優木せつ菜役・林鼓子 1日店長イベント"
+    en: "ODAIBAND Coco Hayashi One-day Store Manager Event"
+  venueNote: { ja: "東京都内某所", en: "Tokyo venue" }
+  link: "https://www.eventernote.com/events/365105"
+
+- id: "2024-first-haohun-sports-day"
+  category: "Event"
+  scheduleLabel: "2024.01.21"
+  performances:
+    - startAt: "2024-01-21T14:15"
+      endAt: "2024-01-21T15:45"
+      label: { ja: "昼公演", en: "Matinee" }
+    - startAt: "2024-01-21T18:00"
+      endAt: "2024-01-21T19:30"
+      label: { ja: "夜公演", en: "Evening" }
+  title:
+    ja: "第一回 好好運動会"
+    en: "1st Haohao Sports Day"
+  venueIds: ["sumida-futsal-arena"]
+  link: "https://www.eventernote.com/events/357885"
+
+- id: "2023-chikanaso-after-school-talk-8"
+  category: "Event"
+  scheduleLabel: "2023.11.26 16:00"
+  performances:
+    - { startAt: "2023-11-26T16:00", endAt: "2023-11-26T17:00" }
+  title: { ja: "安藤千伽奈の『ちかなその放課後トーク』#8", en: "Chikana Ando's Chikanaso After-school Talk #8" }
+  venueIds: ["wallop-studio-waros"]
+  link: "https://www.eventernote.com/events/359474"
+
+- id: "2023-seiyu-grand-prix-halloween-party"
+  category: "Event"
+  scheduleLabel: "2023.11.12 17:00"
+  performances:
+    - { startAt: "2023-11-12T17:00", endAt: "2023-11-12T18:30" }
+  title: { ja: "声優グランプリpresents Trick or Treat!～ハロウィーンパーティー2023～ Twilight Party", en: "Seiyu Grand Prix presents Trick or Treat! Halloween Party 2023 - Twilight Party" }
+  venueIds: ["hino-nanao-public-hall"]
+  link: "https://www.eventernote.com/events/352533"
+
+- id: "2023-washizaki-acogi-fun-club-79"
+  category: "Live"
+  scheduleLabel: "2023.10.20 19:30"
+  performances:
+    - { startAt: "2023-10-20T19:30", endAt: "2023-10-20T21:00" }
+  title: { ja: "鷲崎健のアコギFUN！クラブ #79", en: "Takeshi Washizaki's Acogi FUN! Club #79" }
+  venueIds: ["selene-b2"]
+  link: "https://www.eventernote.com/events/354632"
+
+- id: "2023-hodoyoku-waratte-vol-8"
+  category: "Event"
+  scheduleLabel: "2023.10.14 19:00"
+  performances:
+    - { startAt: "2023-10-14T19:00", endAt: "2023-10-14T21:00" }
+  title: { ja: "STAR TV『西葉瑞希の、ほどよく笑ってみませんか？』vol.8", en: "STAR TV: Mizuki Saiba's Shall We Laugh Just Right? Vol. 8" }
+  venueIds: ["wallop-studio-waros"]
+  link: "https://www.eventernote.com/events/351504"
+
+- id: "2023-utau-seiyu-joshi-live"
+  category: "Live"
+  scheduleLabel: "2023.10.07 17:00"
+  performances:
+    - { startAt: "2023-10-07T17:00", endAt: "2023-10-07T19:00" }
+  title: { ja: "歌う！声優女子LIVE ゆるシェアルームへようこそ！秋の声優“歌”祭り！", en: "Singing Voice Actress LIVE: Welcome to the Relaxed Share Room! Autumn Song Festival" }
+  venueIds: ["shibuya-stream-hall"]
+  link: "https://www.eventernote.com/events/347968"
+
+- id: "2023-kanon-sonata-birthday-event"
+  category: "Event"
+  scheduleLabel: "2023.09.10 17:00"
+  performances:
+    - { startAt: "2023-09-10T17:00", endAt: "2023-09-10T19:00" }
+  title: { ja: "高尾奏音の『かのんソナタ～第二楽章～』誕生日イベント 夜の部", en: "Kanon Takao's Kanon Sonata - Second Movement Birthday Event, Evening" }
+  venueIds: ["tokiwa-hall"]
+  link: "https://www.eventernote.com/events/347412"
+
+- id: "2023-washizaki-acogi-fun-club-74"
+  category: "Live"
+  scheduleLabel: "2023.05.19 19:30"
+  performances:
+    - { startAt: "2023-05-19T19:30", endAt: "2023-05-19T21:00" }
+  title: { ja: "鷲崎健のアコギFUN！クラブ #74", en: "Takeshi Washizaki's Acogi FUN! Club #74" }
+  venueIds: ["selene-b2"]
+  link: "https://www.eventernote.com/events/340708"
+
+- id: "2023-prichan-virtual-live-screening"
+  category: "Event"
+  scheduleLabel: "2023.05.01 19:00"
+  performances:
+    - { startAt: "2023-05-01T19:00", endAt: "2023-05-01T20:45" }
+  title: { ja: "『キラッとプリ☆チャン』舞台挨拶＆ミニトーク付き バーチャルライブ応援上映会", en: "Kiratto PriChan Virtual Live Cheer Screening with Stage Greeting and Mini Talk" }
+  venueIds: ["hall-mixa"]
+  link: "https://www.eventernote.com/events/340581"
+
+- id: "2023-kokokara-offline-talk-event"
+  category: "Event"
+  scheduleLabel: "2023.01.21 12:00"
+  performances:
+    - { startAt: "2023-01-21T12:00", endAt: "2023-01-21T17:00" }
+  title: { ja: "『林鼓子 ここから。』コンプリートセット購入者限定オフラインお話会", en: "Coco Hayashi 'Kokokara.' Complete Set Purchasers Offline Talk Event" }
+  venueNote: { ja: "東京都内某所", en: "Tokyo venue" }
+  link: "https://www.eventernote.com/events/329977"
+
+- id: "2022-sankaku-kankei-home-party"
+  category: "Event"
+  scheduleLabel: "2022.12.10 17:30"
+  performances:
+    - { startAt: "2022-12-10T17:30", endAt: "2022-12-10T19:00" }
+  title: { ja: "さやとみはるのさんかくカンケイ はじめてのホームパーティー", en: "Saya and Miharu's Triangle Relationship: First Home Party" }
+  venueIds: ["seiseki-aura-hall"]
+  link: "https://www.eventernote.com/events/322094"
+
+- id: "2022-onsen-joshikosei-graduation"
+  category: "Event"
+  scheduleLabel: "2022.12.10 13:30"
+  performances:
+    - { startAt: "2022-12-10T13:30", endAt: "2022-12-10T15:00" }
+  title: { ja: "音泉女子高生 ～卒業式～", en: "Onsen High School Girls - Graduation Ceremony" }
+  venueIds: ["seiseki-aura-hall"]
+  link: "https://www.eventernote.com/events/321230"
+
+- id: "2022-rgr-get-set-5-kickoff-events"
+  category: "Event"
+  scheduleLabel: "2022.07.30・08.14・09.18"
+  performances:
+    - { startAt: "2022-07-30T14:00", endAt: "2022-07-30T15:00", label: { ja: "仙台②", en: "Sendai 2" } }
+    - { startAt: "2022-08-14T13:00", endAt: "2022-08-14T14:00", label: { ja: "大阪①", en: "Osaka 1" } }
+    - { startAt: "2022-08-14T15:00", endAt: "2022-08-14T16:00", label: { ja: "大阪②", en: "Osaka 2" } }
+    - { startAt: "2022-08-14T17:00", endAt: "2022-08-14T18:00", label: { ja: "大阪③", en: "Osaka 3" } }
+    - { startAt: "2022-09-18T15:30", endAt: "2022-09-18T17:00", label: { ja: "東京②", en: "Tokyo 2" } }
+    - { startAt: "2022-09-18T18:00", endAt: "2022-09-18T19:30", label: { ja: "東京③", en: "Tokyo 3" } }
+  title: { ja: "Run Girls, Run！5th Anniversary Live Tour 開催記念決起集会", en: "Run Girls, Run! 5th Anniversary Live Tour Kickoff Events" }
+  venueNote: { ja: "仙台／大阪／東京", en: "Sendai / Osaka / Tokyo" }
+  link: "https://www.eventernote.com/events/312369"
+
+- id: "2022-project-tokyo-dolls-final-book-stream"
+  category: "Program"
+  scheduleLabel: "2022.06.17 21:00"
+  performances:
+    - { startAt: "2022-06-17T21:00", endAt: "2022-06-17T22:00" }
+  title: { ja: "プロジェクト東京ドールズ 最終本発売記念配信", en: "Project Tokyo Dolls Final Book Release Commemorative Stream" }
+  venueIds: ["ilca-chroma-key-satellite-studio"]
+  link: "https://www.eventernote.com/events/310924"
+
+- id: "2022-animejapan-rgr-events"
+  category: "Event"
+  scheduleLabel: "2022.03.27"
+  performances:
+    - { startAt: "2022-03-27T14:00", endAt: "2022-03-27T14:40", label: { ja: "お話会", en: "Talk session" } }
+    - { startAt: "2022-03-27T16:00", endAt: "2022-03-27T16:55", label: { ja: "Run Girls, Radio!!＋ミニライブ", en: "Run Girls, Radio!! + Mini Live" } }
+  title: { ja: "AnimeJapan 2022 Run Girls, Run！ステージ", en: "AnimeJapan 2022 Run Girls, Run! Events" }
+  venueIds: ["tokyo-big-sight"]
+  link: "https://www.eventernote.com/events/301895"
+
+- id: "2022-rgr-white-day-event"
+  category: "Event"
+  scheduleLabel: "2022.03.13 18:00"
+  performances:
+    - { startAt: "2022-03-13T18:00", endAt: "2022-03-13T20:00" }
+  title: { ja: "Run Girls, Run！ホワイトデーイベント!!! ～sweet Angel♡～ 夜公演", en: "Run Girls, Run! White Day Event - sweet Angel, Evening" }
+  venueIds: ["shibuya-pleasure-pleasure"]
+  link: "https://www.eventernote.com/events/297712"
+
+- id: "2022-rgr-valentine-event"
+  category: "Event"
+  scheduleLabel: "2022.02.27 18:00"
+  performances:
+    - { startAt: "2022-02-27T18:00", endAt: "2022-02-27T20:00" }
+  title: { ja: "Run Girls, Run！バレンタインイベント!!! ～sweet Devil♡～ 夜公演", en: "Run Girls, Run! Valentine Event - sweet Devil, Evening" }
+  venueIds: ["kanda-myojin-hall"]
+  link: "https://www.eventernote.com/events/297711"
+
+- id: "2021-project-tokyo-dolls-special-event"
+  category: "Event"
+  scheduleLabel: "2021.11.26 18:30"
+  performances:
+    - { startAt: "2021-11-26T18:30", endAt: "2021-11-26T20:30" }
+  title: { ja: "プロジェクト東京ドールズ 特別イベント", en: "Project Tokyo Dolls Special Event" }
+  venueIds: ["harevutai"]
+  link: "https://www.eventernote.com/events/291245"
+
+- id: "2021-onsen-joshikosei-seishun-mode-release-live"
+  category: "Live"
+  scheduleLabel: "2021.11.14"
+  performances:
+    - { startAt: "2021-11-14T12:00", endAt: "2021-11-14T12:30", label: { ja: "1部", en: "Part 1" } }
+    - { startAt: "2021-11-14T14:00", endAt: "2021-11-14T15:00", label: { ja: "2部", en: "Part 2" } }
+    - { startAt: "2021-11-14T16:00", endAt: "2021-11-14T17:00", label: { ja: "3部", en: "Part 3" } }
+  title: { ja: "音泉女子高生テーマソング『#青春モード』発売記念ライブ", en: "Onsen High School Girls '#Seishun Mode' Release Live" }
+  venueNote: { ja: "東京都内", en: "Tokyo" }
+  link: "https://www.eventernote.com/events/284021"
+
+- id: "2020-karaoke-max-11"
+  category: "Live"
+  scheduleLabel: "2020.02.08 18:00"
+  performances:
+    - { startAt: "2020-02-08T18:00", endAt: "2020-02-08T21:00" }
+  title: { ja: "JOYSOUND presents 小山剛志カラオケ企画 第11弾『カラオケMAX』夜公演", en: "JOYSOUND presents Tsuyoshi Koyama Karaoke Project Vol. 11: Karaoke MAX, Evening" }
+  venueIds: ["culttz-kawasaki"]
+  link: "https://www.eventernote.com/events/241211"
+
+- id: "2020-onsen-festival-winter"
+  category: "Event"
+  scheduleLabel: "2020.02.02 14:00"
+  performances:
+    - { startAt: "2020-02-02T14:00", endAt: "2020-02-02T19:35" }
+  title: { ja: "インターネットラジオステーション＜音泉＞祭り2020冬", en: "Internet Radio Station Onsen Festival Winter 2020" }
+  venueIds: ["nakano-zero-main-hall"]
+  link: "https://www.eventernote.com/events/232345"
+
+- id: "2019-assassins-pride-share-the-light-release"
+  category: "Event"
+  scheduleLabel: "2019.11.16 19:30"
+  performances:
+    - { startAt: "2019-11-16T19:30", endAt: "2019-11-16T20:30" }
+  title: { ja: "TVアニメ『アサシンズプライド』OP主題歌『Share the light』リリースイベント", en: "Assassins Pride OP 'Share the light' Release Event" }
+  venueIds: ["animate-shibuya"]
+  link: "https://www.eventernote.com/events/224958"
+
+- id: "2019-rgr-komazawa-autumn-festival"
+  category: "Event"
+  scheduleLabel: "2019.11.02 13:00"
+  performances:
+    - { startAt: "2019-11-02T13:00", endAt: "2019-11-02T14:40" }
+  title: { ja: "駒澤大学オータムフェスティバル Run Girls, Run!の駒澤までよーいドン!", en: "Komazawa University Autumn Festival: Run Girls, Run! Ready, Set, Komazawa!" }
+  venueIds: ["komazawa-university-campus"]
+  link: "https://www.eventernote.com/events/226435"
+
+- id: "2019-reanimation-sendai-anime-fes"
+  category: "Live"
+  scheduleLabel: "2019.10.19 17:00"
+  performances:
+    - { startAt: "2019-10-19T17:00", endAt: "2019-10-19T21:00" }
+  title: { ja: "Re:animation Special in 仙台アニメフェス", en: "Re:animation Special at Sendai Anime Fes" }
+  venueIds: ["yume-messe-miyagi"]
+  link: "https://www.eventernote.com/events/221513"
+
+- id: "2019-prichan-cafe-cast-event"
+  category: "Event"
+  scheduleLabel: "2019.08.11 19:30"
+  performances:
+    - { startAt: "2019-08-11T19:30", endAt: "2019-08-11T21:00" }
+  title: { ja: "プリチャンカフェ開催記念！ミラクル☆キラッツ キャスト来店イベント", en: "PriChan Cafe Commemorative Miracle Kiratts Cast Visit Event" }
+  venueIds: ["amo-cafe-harajuku"]
+  link: "https://www.eventernote.com/events/220301"
+
+- id: "2019-girly-air-force-special-event"
+  category: "Event"
+  scheduleLabel: "2019.05.26"
+  performances:
+    - { startAt: "2019-05-26T14:30", endAt: "2019-05-26T16:30", label: { ja: "昼の部", en: "Matinee" } }
+    - { startAt: "2019-05-26T18:45", endAt: "2019-05-26T20:55", label: { ja: "夜の部", en: "Evening" } }
+  title: { ja: "『ガーリー・エアフォース』スペシャルイベント", en: "Girly Air Force Special Event" }
+  venueIds: ["new-pier-hall"]
+  link: "https://www.eventernote.com/events/199649"
+
+- id: "2019-diamond-smile-free-event"
+  category: "Live"
+  scheduleLabel: "2019.05.19 15:00"
+  performances:
+    - { startAt: "2019-05-19T15:00", endAt: "2019-05-19T16:10" }
+  title: { ja: "『ダイヤモンドスマイル』リリース記念 Run Girls, Run！スペシャルフリーイベント", en: "Diamond Smile Release Run Girls, Run! Special Free Event" }
+  venueIds: ["senzoku-maeda-hall"]
+  link: "https://www.eventernote.com/events/203866"
+
+- id: "2019-hayamaru-to-asobou"
+  category: "Event"
+  scheduleLabel: "2019.05.15 19:30"
+  performances:
+    - { startAt: "2019-05-15T19:30", endAt: "2019-05-15T20:30" }
+  title: { ja: "ダイヤモンドスマイル リリース記念イベント『はやまるとあそぼう』", en: "Diamond Smile Release Event: Let's Play with Hayamaru" }
+  link: "https://www.eventernote.com/events/204186"
+
+- id: "2019-animejapan-rgr-prichan-events"
+  category: "Event"
+  scheduleLabel: "2019.03.24"
+  performances:
+    - { startAt: "2019-03-24T10:10", endAt: "2019-03-24T10:45", label: { ja: "プリ☆チャン シーズン2放送直前ステージ", en: "PriChan Season 2 pre-broadcast stage" } }
+    - { startAt: "2019-03-24T15:35", endAt: "2019-03-24T16:45", label: { ja: "Run Girls, Run！ステージ2", en: "Run Girls, Run! Stage 2" } }
+  title: { ja: "AnimeJapan 2019 Run Girls, Run！／キラッとプリ☆チャン ステージ", en: "AnimeJapan 2019 Run Girls, Run! / Kiratto PriChan Events" }
+  venueIds: ["tokyo-big-sight"]
+  link: "https://www.eventernote.com/events/193312"
+
+- id: "2019-iris-wug-rgr-valentine-live"
+  category: "Live"
+  scheduleLabel: "2019.02.02"
+  performances:
+    - { startAt: "2019-02-02T14:30", endAt: "2019-02-02T16:30", label: { ja: "昼の部", en: "Matinee" } }
+    - { startAt: "2019-02-02T18:30", endAt: "2019-02-02T20:30", label: { ja: "夜の部", en: "Evening" } }
+  title: { ja: "i☆Ris＆Wake Up, Girls！＆Run Girls, Run！バレンタインLive 2019", en: "iRis & Wake Up, Girls! & Run Girls, Run! Valentine Live 2019" }
+  venueIds: ["mori-no-hall-21"]
+  link: "https://www.eventernote.com/events/188091"
+
+- id: "2019-run-girls-radio-special-public-recording"
+  category: "Event"
+  scheduleLabel: "2019.01.22 19:30"
+  performances:
+    - { startAt: "2019-01-22T19:30", endAt: "2019-01-22T21:00" }
+  title: { ja: "Run Girls, Radio !! SPECIAL -カケル×WUG- 公開録音", en: "Run Girls, Radio!! SPECIAL - Kakeru x WUG Public Recording" }
+  link: "https://www.eventernote.com/events/190766"
+
+- id: "2019-pripara-prichan-movie-encore-stage-greetings"
+  category: "Event"
+  scheduleLabel: "2019.01.04"
+  performances:
+    - { startAt: "2019-01-04T13:00", endAt: "2019-01-04T14:50" }
+    - { startAt: "2019-01-04T15:05", endAt: "2019-01-04T16:35" }
+  title: { ja: "劇場版『プリパラ＆キラッとプリ☆チャン』アンコール上映 舞台挨拶", en: "PriPara & Kiratto PriChan Movie Encore Screening Stage Greetings" }
+  venueIds: ["aeon-cinema-ebina"]
+  link: "https://www.eventernote.com/events/187106"
+
+- id: "2018-rgr-christmas-card-event"
+  category: "Event"
+  scheduleLabel: "2018.12.24 13:00"
+  performances: [ { startAt: "2018-12-24T13:00", endAt: "2018-12-24T15:00" } ]
+  title: { ja: "Run Girls, Run！とクリスマスカードを作ろう！の会", en: "Make Christmas Cards with Run Girls, Run!" }
+  venueIds: ["animate-ikebukuro"]
+  link: "https://www.eventernote.com/events/185645"
+
+- id: "2018-wasuta-autumn-festival-rgr-handover"
+  category: "Event"
+  scheduleLabel: "2018.11.23 13:30"
+  performances: [ { startAt: "2018-11-23T13:30", endAt: "2018-11-23T14:30" } ]
+  title: { ja: "わーすた presents わんわんにゃんにゃん秋祭 Run Girls, Run! お渡し会", en: "Wasuta Autumn Festival Run Girls, Run! Handover Event" }
+  venueIds: ["yomiuriland-rokkaku-hall"]
+  link: "https://www.eventernote.com/events/183419"
+
+- id: "2018-prichan-police-exhibition-stage"
+  category: "Event"
+  scheduleLabel: "2018.11.17-18"
+  performances:
+    - { startAt: "2018-11-17T14:30", endAt: "2018-11-17T15:00", label: { ja: "1日目", en: "Day 1" } }
+    - { startAt: "2018-11-18T11:30", endAt: "2018-11-18T12:30", label: { ja: "2日目", en: "Day 2" } }
+  title: { ja: "『キラッとプリ☆チャンステージ』in 親と子の警察展", en: "Kiratto PriChan Stage at the Parent and Child Police Exhibition" }
+  venueIds: ["tokyo-solamachi-space-634"]
+  link: "https://www.eventernote.com/events/181752"
+
+- id: "2018-go-up-stardom-release-events"
+  category: "Event"
+  scheduleLabel: "2018.09.23・10.13・10.20"
+  performances:
+    - { startAt: "2018-09-23T12:00", endAt: "2018-09-23T13:40", label: { ja: "秋葉原", en: "Akihabara" } }
+    - { startAt: "2018-10-13T16:30", endAt: "2018-10-13T17:30", label: { ja: "とらのあななんば", en: "Toranoana Namba" } }
+    - { startAt: "2018-10-13T17:45", endAt: "2018-10-13T18:45", label: { ja: "ゲーマーズなんば", en: "Gamers Namba" } }
+    - { startAt: "2018-10-20T13:30", endAt: "2018-10-20T14:30", label: { ja: "ゲーマーズ仙台", en: "Gamers Sendai" } }
+    - { startAt: "2018-10-20T16:45", endAt: "2018-10-20T17:45", label: { ja: "とらのあな仙台", en: "Toranoana Sendai" } }
+  title: { ja: "Run Girls, Run！『Go! Up! スターダム！』リリースイベント", en: "Run Girls, Run! 'Go! Up! Stardom!' Release Events" }
+  venueNote: { ja: "東京／大阪／仙台", en: "Tokyo / Osaka / Sendai" }
+  link: "https://www.eventernote.com/events/169091"
+
+- id: "2018-prism-stone-cafe-closing-event"
+  category: "Event"
+  scheduleLabel: "2018.09.17"
+  performances:
+    - { startAt: "2018-09-17T14:00", endAt: "2018-09-17T15:30", label: { ja: "第一部", en: "Part 1" } }
+    - { startAt: "2018-09-17T17:00", endAt: "2018-09-17T18:30", label: { ja: "第二部", en: "Part 2" } }
+  title: { ja: "ミラクル☆キラッツ presents プリズムストーンカフェ クロージングイベント", en: "Miracle Kiratts presents Prism Stone Cafe Closing Event" }
+  venueIds: ["amo-cafe-harajuku"]
+  link: "https://www.eventernote.com/events/174238"
+
+- id: "2018-rgr-autumn-tour-sendoff"
+  category: "Event"
+  scheduleLabel: "2018.09.09 16:00"
+  performances: [ { startAt: "2018-09-09T16:00", endAt: "2018-09-09T17:00" } ]
+  title: { ja: "Run Girls, Run！チケット購入特典お見送り会", en: "Run Girls, Run! Ticket Purchaser Send-off Event" }
+  venueIds: ["namba-hatch"]
+  link: "https://www.eventernote.com/events/174121"
+
+- id: "2018-prichan-song-collection-1-release"
+  category: "Event"
+  scheduleLabel: "2018.09.01"
+  performances:
+    - { startAt: "2018-09-01T12:00", endAt: "2018-09-01T13:00", label: { ja: "1回目", en: "Session 1" } }
+    - { startAt: "2018-09-01T14:00", endAt: "2018-09-01T15:00", label: { ja: "2回目", en: "Session 2" } }
+  title: { ja: "『キラッとプリ☆チャン♪ソングコレクション～1stチャンネル～』発売記念イベント", en: "Kiratto PriChan Song Collection - 1st Channel Release Event" }
+  link: "https://www.eventernote.com/events/169877"
+
+- id: "2018-anisama-ok-stage"
+  category: "Live"
+  scheduleLabel: "2018.08.24 12:15"
+  performances: [ { startAt: "2018-08-24T12:15", endAt: "2018-08-24T13:00" } ]
+  title: { ja: "アニサマ OK! ステージ DAMアーティストライブステージ", en: "Animelo Summer Live OK! Stage: DAM Artist Live Stage" }
+  venueIds: ["keyaki-hiroba"]
+  link: "https://www.eventernote.com/events/170735"
+
+- id: "2018-prism-stone-yokohama-handover"
+  category: "Event"
+  scheduleLabel: "2018.08.12 15:00"
+  performances: [ { startAt: "2018-08-12T15:00", endAt: "2018-08-12T16:00" } ]
+  title: { ja: "プリズムストーン横浜出張所OPEN記念 ミラクル☆キラッツ特典お渡し会", en: "Prism Stone Yokohama Opening Miracle Kiratts Handover Event" }
+  venueIds: ["prism-stone-yokohama"]
+  link: "https://www.eventernote.com/events/170050"
+
+- id: "2018-rgr-debut-first-anniversary-event"
+  category: "Event"
+  scheduleLabel: "2018.07.29 15:00"
+  performances: [ { startAt: "2018-07-29T15:00", endAt: "2018-07-29T16:00" } ]
+  title: { ja: "Run Girls, Run！デビュー1周年記念イベント 第一部", en: "Run Girls, Run! Debut 1st Anniversary Event, Part 1" }
+  venueIds: ["prism-stone-harajuku"]
+  link: "https://www.eventernote.com/events/165267"
+
+- id: "2018-prism-stone-matsumoto-coco-handover"
+  category: "Event"
+  scheduleLabel: "2018.07.21 14:30"
+  performances: [ { startAt: "2018-07-21T14:30", endAt: "2018-07-21T16:00" } ]
+  title: { ja: "プリズムストーン松本店OPEN記念 林鼓子 特典お渡し会", en: "Prism Stone Matsumoto Opening Coco Hayashi Handover Event" }
+  venueIds: ["bunkyodo-joy-matsumoto"]
+  link: "https://www.eventernote.com/events/167827"
+
+- id: "2018-rgr-gamers-manager-card-handover"
+  category: "Event"
+  scheduleLabel: "2018.05.25 19:00"
+  performances: [ { startAt: "2018-05-25T19:00", endAt: "2018-05-25T20:00" } ]
+  title: { ja: "Run Girls, Run！×AKIHABARAゲーマーズ本店 店長名刺お渡し会", en: "Run Girls, Run! x AKIHABARA Gamers Manager Card Handover" }
+  link: "https://www.eventernote.com/events/156718"
+
+- id: "2018-green-leaves-fes"
+  category: "Live"
+  scheduleLabel: "2018.05.12"
+  performances:
+    - { startAt: "2018-05-12T14:00", endAt: "2018-05-12T16:00", label: { ja: "昼の部", en: "Matinee" } }
+    - { startAt: "2018-05-12T18:00", endAt: "2018-05-12T20:00", label: { ja: "夜の部", en: "Evening" } }
+  title: { ja: "Green Leaves Fes", en: "Green Leaves Fes" }
+  venueIds: ["makuhari-messe"]
+  link: "https://www.eventernote.com/events/132817"
+
+- id: "2018-pripara-prichan-movie-opening-stage-greetings"
+  category: "Event"
+  scheduleLabel: "2018.05.05"
+  performances:
+    - { startAt: "2018-05-05T08:20", endAt: "2018-05-05T10:00", label: { ja: "新宿 8:20", en: "Shinjuku 8:20" } }
+    - { startAt: "2018-05-05T10:30", endAt: "2018-05-05T12:00", label: { ja: "新宿 10:30", en: "Shinjuku 10:30" } }
+    - { startAt: "2018-05-05T11:05", endAt: "2018-05-05T12:35", label: { ja: "新宿 11:05", en: "Shinjuku 11:05" } }
+    - { startAt: "2018-05-05T13:45", endAt: "2018-05-05T15:15", label: { ja: "海老名 13:45", en: "Ebina 13:45" } }
+    - { startAt: "2018-05-05T15:55", endAt: "2018-05-05T17:25", label: { ja: "海老名 15:55", en: "Ebina 15:55" } }
+  title: { ja: "劇場版『プリパラ＆キラッとプリ☆チャン』初日舞台挨拶", en: "PriPara & Kiratto PriChan Movie Opening Day Stage Greetings" }
+  venueIds: ["shinjuku-wald-9", "aeon-cinema-ebina"]
+  link: "https://www.eventernote.com/events/156314"
+
+- id: "2018-kiratto-start-release-events"
+  category: "Event"
+  scheduleLabel: "2018.04.14・04.21-22"
+  performances:
+    - { startAt: "2018-04-14T12:00", endAt: "2018-04-14T13:00", label: { ja: "ゲーマーズ名古屋", en: "Gamers Nagoya" } }
+    - { startAt: "2018-04-14T14:45", endAt: "2018-04-14T15:45", label: { ja: "とらのあな名古屋", en: "Toranoana Nagoya" } }
+    - { startAt: "2018-04-21T15:30", endAt: "2018-04-21T16:30", label: { ja: "タワーレコード新宿", en: "Tower Records Shinjuku" } }
+    - { startAt: "2018-04-22T12:00", endAt: "2018-04-22T13:00", label: { ja: "アニメイト大阪日本橋", en: "Animate Osaka Nipponbashi" } }
+  title: { ja: "Run Girls, Run！『キラッとスタート』リリースイベント", en: "Run Girls, Run! 'Kiratto Start' Release Events" }
+  venueNote: { ja: "名古屋／東京／大阪", en: "Nagoya / Tokyo / Osaka" }
+  link: "https://www.eventernote.com/events/152960"
+
+- id: "2018-animejapan-rgr-stage"
+  category: "Event"
+  scheduleLabel: "2018.03.24 14:00"
+  performances: [ { startAt: "2018-03-24T14:00", endAt: "2018-03-24T15:00" } ]
+  title: { ja: "AnimeJapan 2018 Run Girls, Run！位置について、よーい！AnimeJapan！ステージ", en: "AnimeJapan 2018 Run Girls, Run! Stage" }
+  venueIds: ["tokyo-big-sight"]
+  link: "https://www.eventernote.com/events/151189"
+
+- id: "2018-death-march-animate-yokohama-handover"
+  category: "Event"
+  scheduleLabel: "2018.03.04"
+  performances:
+    - { startAt: "2018-03-04T12:30", endAt: "2018-03-04T12:50", label: { ja: "①", en: "Session 1" } }
+    - { startAt: "2018-03-04T14:00", endAt: "2018-03-04T15:00", label: { ja: "②", en: "Session 2" } }
+    - { startAt: "2018-03-04T15:30", endAt: "2018-03-04T16:00", label: { ja: "③", en: "Session 3" } }
+  title: { ja: "『デスマーチからはじまる異世界狂想曲』オンリーショップ お渡し会", en: "Death March to the Parallel World Rhapsody Only Shop Handover Event" }
+  venueIds: ["animate-yokohama"]
+  link: "https://www.eventernote.com/events/147092"
+
+- id: "2018-slide-ride-release-handover-events"
+  category: "Event"
+  scheduleLabel: "2018.02.04・02.17・02.24"
+  performances:
+    - { startAt: "2018-02-04T11:10", endAt: "2018-02-04T11:40", label: { ja: "アニメイト仙台", en: "Animate Sendai" } }
+    - { startAt: "2018-02-04T13:00", endAt: "2018-02-04T13:30", label: { ja: "ゲーマーズ仙台", en: "Gamers Sendai" } }
+    - { startAt: "2018-02-04T15:15", endAt: "2018-02-04T15:30", label: { ja: "とらのあな仙台", en: "Toranoana Sendai" } }
+    - { startAt: "2018-02-17T11:30", endAt: "2018-02-17T11:45", label: { ja: "アニメイト大阪日本橋", en: "Animate Osaka Nipponbashi" } }
+    - { startAt: "2018-02-17T16:00", endAt: "2018-02-17T16:30", label: { ja: "とらのあななんば", en: "Toranoana Namba" } }
+    - { startAt: "2018-02-17T17:30", endAt: "2018-02-17T18:00", label: { ja: "ゲーマーズなんば", en: "Gamers Namba" } }
+    - { startAt: "2018-02-24T11:00", endAt: "2018-02-24T11:40", label: { ja: "アニメイト渋谷", en: "Animate Shibuya" } }
+    - { startAt: "2018-02-24T13:30", endAt: "2018-02-24T14:00", label: { ja: "とらのあな秋葉原", en: "Toranoana Akihabara" } }
+    - { startAt: "2018-02-24T18:00", endAt: "2018-02-24T19:20", label: { ja: "AKIHABARAゲーマーズ", en: "AKIHABARA Gamers" } }
+  title: { ja: "Run Girls, Run！『スライドライド』リリース記念お渡し会", en: "Run Girls, Run! 'Slide Ride' Release Handover Events" }
+  venueNote: { ja: "仙台／大阪／東京", en: "Sendai / Osaka / Tokyo" }
+  link: "https://www.eventernote.com/events/145033"
+
+- id: "2017-rgr-sendai-pr-ambassador"
+  category: "Event"
+  scheduleLabel: "2017.11.11"
+  performances:
+    - { startAt: "2017-11-11T12:30", endAt: "2017-11-11T12:50", label: { ja: "1部", en: "Part 1" } }
+    - { startAt: "2017-11-11T13:30", endAt: "2017-11-11T13:55", label: { ja: "2部", en: "Part 2" } }
+  title: { ja: "Run Girls, Run！一日宣伝大使 名刺お渡し会", en: "Run Girls, Run! One-day PR Ambassador Card Handover" }
+  venueIds: ["animate-sendai"]
+  link: "https://www.eventernote.com/events/131695"
+
+- id: "2017-kyomaf-rgr-handover"
+  category: "Event"
+  scheduleLabel: "2017.09.17 14:00"
+  performances: [ { startAt: "2017-09-17T14:00", endAt: "2017-09-17T15:00" } ]
+  title: { ja: "京まふ2017 Wake Up, Girls！予約者イベント Run Girls, Run！お渡し会", en: "Kyomaf 2017 Wake Up, Girls! Purchaser Event: Run Girls, Run! Handover" }
+  venueIds: ["miyako-messe"]
+  link: "https://www.eventernote.com/events/127186"
+
+- id: "2017-anikara-world-special-stage"
+  category: "Live"
+  scheduleLabel: "2017.08.25 12:15"
+  performances: [ { startAt: "2017-08-25T12:15", endAt: "2017-08-25T12:35" } ]
+  title: { ja: "アニカラ THE わ～るど スペシャルステージ", en: "Anikara THE World Special Stage" }
+  venueIds: ["keyaki-hiroba"]
+  link: "https://www.eventernote.com/events/126322"
+
+- id: "2017-wonder-festival-wug-new-cast-announcement"
+  category: "Event"
+  scheduleLabel: "2017.07.30 11:15"
+  performances: [ { startAt: "2017-07-30T11:15", endAt: "2017-07-30T12:00" } ]
+  title: { ja: "ワンダーフェスティバル2017[夏]『Wake Up, Girls！新章』新キャスト＆新キャラクター発表会", en: "Wonder Festival 2017 Summer: Wake Up, Girls! New Chapter Cast and Character Announcement" }
+  venueIds: ["makuhari-messe"]
+  link: "https://www.eventernote.com/events/120687"

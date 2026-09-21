@@ -3,9 +3,11 @@ import fs from "node:fs"
 import { after, test } from "node:test"
 import { parse } from "yaml"
 import { createServer } from "vite"
+import yaml from "@modyfi/vite-plugin-yaml"
 
 const server = await createServer({
   configFile: false,
+  plugins: [yaml()],
   server: { middlewareMode: true, ws: false, watch: null },
   optimizeDeps: { noDiscovery: true, include: [] },
   appType: "custom",
@@ -18,11 +20,17 @@ const { getPerformanceOccurrences } = await server.ssrLoadModule("/src/utils/act
 const { mergeActivityDraft } = await server.ssrLoadModule("/src/editor/activityDraftMerge.ts")
 const source = fs.readFileSync("src/data/activities.yaml", "utf8")
 const activities = parse(source)
+const venueIds = new Set(parse(fs.readFileSync("src/data/venues.yaml", "utf8")).venues.map((venue) => venue.id))
 
 test("the current activity file has stable unique IDs and passes editor validation", () => {
   assert.ok(activities.length > 0)
   assert.equal(new Set(activities.map((activity) => activity.id)).size, activities.length)
   assert.deepEqual(validateActivities(activities), [])
+  assert.deepEqual(
+    [...new Set(activities.flatMap((activity) => activity.venueIds ?? []))]
+      .filter((venueId) => !venueIds.has(venueId)),
+    []
+  )
 })
 
 test("Skip and Loafer keeps the complete timed schedule and archived ticket details", () => {
@@ -32,8 +40,7 @@ test("Skip and Loafer keeps the complete timed schedule and archived ticket deta
   assert.equal(activity.performances[0].startAt, "2026-03-06T18:00")
   assert.equal(activity.performances.at(-1).startAt, "2026-03-22T12:00")
   assert.equal(activity.durationMinutes, 150)
-  assert.match(activity.venue.ja, /シアターH/)
-  assert.match(activity.venue.ja, /シアター・ドラマシティ/)
+  assert.deepEqual(activity.venueIds, ["theater-h", "umeda-theater-drama-city"])
   assert.equal(activity.ticketInfo.entries.length, 10)
 })
 

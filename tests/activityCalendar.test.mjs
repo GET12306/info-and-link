@@ -1,9 +1,11 @@
 import assert from "node:assert/strict"
 import { after, test } from "node:test"
 import { createServer } from "vite"
+import yaml from "@modyfi/vite-plugin-yaml"
 
 const server = await createServer({
   configFile: false,
+  plugins: [yaml()],
   server: { middlewareMode: true, ws: false, watch: null },
   optimizeDeps: { noDiscovery: true, include: [] },
   appType: "custom",
@@ -19,7 +21,7 @@ const { compareActivitiesByStart } = await server.ssrLoadModule("/src/utils/acti
 const { getNextActivityOccurrence } = await server.ssrLoadModule("/src/utils/activitySchedule.ts")
 const activity = {
   id: "test-live", category: "Live", scheduleLabel: "Display only", title: { ja: "ライブ", en: "Live" },
-  link: "https://example.com/event", venue: { ja: "東京", en: "Tokyo" },
+  link: "https://example.com/event", venueIds: ["theater-sunmall"],
   performances: [{ startAt: "2026-09-12T00:30" }],
 }
 const options = {
@@ -129,7 +131,7 @@ test("JST converts to the downloader's timezone and default duration is 90 minut
   assert.match(ics, /DTSTART;TZID=America\/Los_Angeles:20260911T083000/)
   assert.match(ics, /DTEND;TZID=America\/Los_Angeles:20260911T100000/)
   assert.doesNotMatch(ics, /DESCRIPTION|DURATION|RRULE/)
-  assert.match(ics, /LOCATION:Tokyo/)
+  assert.match(ics, /LOCATION:Theater Sunmall/)
   assert.match(ics, /URL:https:\/\/example.com\/event/)
   assert.equal(ics.match(/URL:https:\/\/example.com\/event/g)?.length, 1)
 })
@@ -228,7 +230,8 @@ test("calendar settings export milestone events with venue, URL, and the intende
   assert.match(ics, /SUMMARY:Live — Evening — Send-off/)
   assert.match(ics, /DTSTART;TZID=Asia\/Tokyo:20260912T203000\r\nDTEND;TZID=Asia\/Tokyo:20260912T213000/)
   assert.equal(ics.match(/URL:https:\/\/example.com\/event/g).length, 3)
-  assert.equal(ics.match(/LOCATION:Tokyo/g).length, 3)
+  assert.equal(ics.match(/LOCATION:Theater Sunmall/g).length, 3)
+  assert.equal(ics.match(/Sunmall Crest B1/g).length, 3)
   assert.doesNotMatch(ics, /DESCRIPTION/)
   assert.equal(await buildActivityCalendar(event, "en", {
     ...options,

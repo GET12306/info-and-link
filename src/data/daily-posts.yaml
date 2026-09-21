@@ -1,0 +1,51 @@
+# 日常投稿档案：保存不属于某场活动或节目的日常生活帖子。
+# 只有 title、url 必填；不需要 activityId。其余字段均可省略。
+# title / description / tags 的每项可写字符串或 { ja: "日文", en: "英文" }。
+# 可以只填写一种语言，另一语言会自动回退。
+# 按发布日期倒序展示，无日期的记录放在末尾。
+# platform 可省略：根据 URL 识别 X、Instagram、YouTube，其他域名按 web 处理。
+# 支持的平台值：x | instagram | youtube | web | other。
+# 以下只是格式示例，不会作为真实记录展示。
+#
+# 最简填写：
+# - title: "日常の写真"
+#   url: "https://x.com/example/status/123456789"
+#
+# 完整示例：
+# - id: "daily-2026-09-19"       # 可选，唯一标识
+#   date: "2026-09-19"          # 可选，发布日期（日本时间），YYYY-MM-DD
+#   title:
+#     ja: "カフェでのひととき"
+#     en: "A moment at a cafe"
+#   url: "https://www.instagram.com/p/EXAMPLE/"
+#   platform: "instagram"      # 可选，覆盖自动识别结果
+#   description: "カフェで過ごした日の投稿。" # 可选，自由说明，便于回顾
+#   tags: ["カフェ", "日常"]    # 可选，可自由添加关键词，不是固定枚举
+#   status: "expired"          # 可选，仅已失效的链接需要填写
+#
+
+- id: "daily-2026-09-19"
+  date: "2026-09-19"
+  title:
+    ja: "ディズニー 🎃 ハロウィン"
+    en: "Disney 🎃 Halloween"
+  url: https://x.com/yuuu_ka0316/status/2101274132956729694
+  platform: "x"
+  description: |
+    ディズニー🎃ハロウィン꙳⋆ 
+    with ここてゃん❤
+  tags: ["森嶋優花", "ディズニー"]
+
+
+- id: "daily-2026-09-21"
+  date: "2026-09-21"
+  title:
+    ja: "ディズニー 🎃 ハロウィン"
+    en: "Disney 🎃 Halloween"
+  url: https://x.com/cocohayashi515/status/2102032248279302496
+  # https://x.com/cocohayashi515/status/2102036299272388801
+  platform: "x"
+  description: |
+    もっちーとDハロ行ってきた🎶🎃
+    明日空いてる？行こ！のテンションで集まれるってワケ。ネ申。
+  tags: ["林鼓子", "ディズニー"]

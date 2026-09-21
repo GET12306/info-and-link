@@ -28,6 +28,7 @@ function CalendarEventCard({
   now,
   layout,
   onSelect,
+  actionLabel,
 }: {
   event: CalendarEvent
   activity: Activity
@@ -35,6 +36,7 @@ function CalendarEventCard({
   now?: string
   layout: "mobile" | "desktop"
   onSelect: (activityId: string) => void
+  actionLabel?: string
 }) {
   const t = TRANSLATIONS[lang]
   const isPast = now ? now > event.endAt : false
@@ -71,7 +73,7 @@ function CalendarEventCard({
           isPast
             ? accessibleLabel
             : `${accessibleLabel} — ${
-                lang === "ja" ? "活動ページへ" : "View event details"
+            actionLabel ?? (lang === "ja" ? "活動ページへ" : "View event details")
               }`
         }
       >
@@ -119,7 +121,7 @@ function CalendarEventCard({
         isPast
           ? accessibleLabel
           : `${accessibleLabel} — ${
-              lang === "ja" ? "活動ページへ" : "View event details"
+              actionLabel ?? (lang === "ja" ? "活動ページへ" : "View event details")
             }`
       }
     >
@@ -165,6 +167,7 @@ export default function CalendarMonth({
   onNext,
   monthKeys,
   onSelectMonth,
+  eventActionLabel,
   className = "",
 }: {
   month: CalendarMonthData
@@ -179,6 +182,7 @@ export default function CalendarMonth({
   onNext: () => void
   monthKeys: string[]
   onSelectMonth: (monthKey: string) => void
+  eventActionLabel?: string
   className?: string
 }) {
   const labels = lang === "ja" ? DAY_LABELS_JA : DAY_LABELS_EN
@@ -195,7 +199,7 @@ export default function CalendarMonth({
           onClick={onPrev}
           disabled={!hasPrev}
           className="p-1 rounded hover:bg-coco-accent/10 transition-colors disabled:opacity-20 disabled:cursor-not-allowed"
-          aria-label="Previous month"
+          aria-label={lang === "ja" ? "前の月" : "Previous month"}
         >
           <ChevronLeft className="w-4 h-4" />
         </button>
@@ -221,7 +225,7 @@ export default function CalendarMonth({
           onClick={onNext}
           disabled={!hasNext}
           className="p-1 rounded hover:bg-coco-accent/10 transition-colors disabled:opacity-20 disabled:cursor-not-allowed"
-          aria-label="Next month"
+          aria-label={lang === "ja" ? "次の月" : "Next month"}
         >
           <ChevronRight className="w-4 h-4" />
         </button>
@@ -317,6 +321,7 @@ export default function CalendarMonth({
                                 now={now}
                                 layout="mobile"
                                 onSelect={onSelectEvent}
+                                actionLabel={eventActionLabel}
                               />
                             )
                           })}
@@ -386,6 +391,7 @@ export default function CalendarMonth({
                                 now={now}
                                 layout="desktop"
                                 onSelect={onSelectEvent}
+                                actionLabel={eventActionLabel}
                               />
                             )
                           })}

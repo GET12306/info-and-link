@@ -76,10 +76,11 @@ The dev script starts Vite with the project-defined host and port settings.
 Useful scripts:
 
 ```bash
-npm run editor    # Open the local activity YAML editor on 127.0.0.1:7231
+npm run editor    # Open the local YAML content editor on 127.0.0.1:7231
 npm run lint      # Type-check with TypeScript
 npm run test:calendar # Calendar export and readiness regression tests
 npm run test:editor   # Activity schema, ID, and YAML round-trip tests
+npm run test:resources-editor # Resource editor validation and YAML round-trip tests
 npm run test:tickets  # Ticket boundary and status regression tests
 npm run build     # Build the production bundle
 npm run preview   # Build and preview through Wrangler
@@ -89,18 +90,20 @@ npm run clean     # Remove dist/
 
 No local environment variables are required for normal development.
 
-## Local Activity Editor
+## Local YAML Editor
 
-For routine activity and ticket updates, start the repository-local editor:
+For routine activity, ticket, and resource updates, start the repository-local editor:
 
 ```bash
 npm run editor
 ```
 
-Then open `http://127.0.0.1:7231/editor.html`. The editor can search, create,
+Then open `http://127.0.0.1:7231/editor.html`. Use the top tabs to switch between
+`activities.yaml`, `activity-resources.yaml`, `magazines.yaml`, `notes.yaml`, and
+`programs.yaml`. The editor can search, create,
 duplicate, and delete activities; edit and reorder performances, milestones, and
 ticket entries; preview the selected YAML; and validate the entire file before saving.
-It writes directly to `src/data/activities.yaml`, so review the Git diff as usual.
+It writes directly to the selected file under `src/data/`, so review the Git diff as usual.
 
 The editor server binds only to the loopback interface, rejects non-local API calls,
 checks that the YAML has not changed since it was loaded, validates again on save,
@@ -112,6 +115,11 @@ future text, URL, date, number, checkbox, or select field can be added to the fo
 updating that schema. Nested structures with their own ordering or conditional rules
 still need a focused editor component. Unknown fields are retained when existing data
 is edited and are surfaced in the UI rather than silently discarded.
+
+Resource-file fields and their nested structures are configured in
+`src/editor/resourceEditorSchema.ts`. Existing entries refresh automatically while
+unchanged. If a file changes during an unsaved edit, saving stops without discarding
+the form rather than overwriting the newer file.
 
 ## UI Composition
 
@@ -528,3 +536,16 @@ finished activity. Entry-specific ticket prices and links take precedence over
 activity-level defaults. Empty disclosures are omitted. The current-ticket page
 keeps its existing filtering behavior. Verify with
 `node --test tests/archiveCatalog.test.mjs`.
+
+### Everyday posts
+
+`/museum/daily-posts` collects standalone daily-life posts in
+`src/data/daily-posts.yaml`, without activity or program IDs. Only `title` and
+`url` are required. Optional fields are `id`, `date` (YYYY-MM-DD), `platform`,
+`description`, `tags`, and link `status`. Text accepts a string or a partially
+translated ja/en object. The YAML contains commented examples; replace `[]`
+with actual records. X, Instagram, and YouTube are detected from the URL unless
+`platform` is specified. The page shows a simple list without search or filter controls. Dated entries sort newest first,
+followed by undated entries. The page reuses the shared archive catalogue,
+entry title, grid, and expired-link badge components. Run
+`node --test tests/dailyPosts.test.mjs` for focused checks.

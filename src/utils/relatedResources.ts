@@ -1,5 +1,5 @@
 import type { Language, RelatedResource, RelatedResourceCollection, RelatedResourceLink } from "../types"
-import { archiveText } from "./magazines"
+import { localizedText as archiveText } from "./localizedText"
 
 export function isRelatedResourceCollection(resource: RelatedResource): resource is RelatedResourceCollection {
   return "links" in resource && Array.isArray(resource.links)

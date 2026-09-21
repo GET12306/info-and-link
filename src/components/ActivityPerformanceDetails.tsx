@@ -12,6 +12,7 @@ import {
   getActivityMilestoneLabel,
   getActivityMilestoneTime,
 } from "../utils/activityMilestones"
+import { CatalogDisclosure } from "./ArchiveCatalog"
 
 const JAPAN_TIME_ZONE = "Asia/Tokyo"
 interface DisplayPerformance {
@@ -102,6 +103,7 @@ export default function ActivityPerformanceDetails({
   startLabel,
   inlineLabel,
   emptyLabel,
+  compact = false,
 }: {
   performances?: ActivityPerformance[]
   durationMinutes?: number
@@ -114,6 +116,7 @@ export default function ActivityPerformanceDetails({
   startLabel?: string
   inlineLabel?: string
   emptyLabel?: string
+  compact?: boolean
 }) {
   const [open, setOpen] = useState(false)
   const panelId = useId()
@@ -188,6 +191,74 @@ export default function ActivityPerformanceDetails({
     return groups
   }, [])
 
+  const schedulePanel = <div className="overflow-hidden rounded border grid-line bg-coco-ink/2.5 dark:bg-white/2.5">
+    {performancesByDate.map(([date, datePerformances]) => (
+      <div
+        key={date}
+        className="grid gap-2 border-b grid-line px-4 py-3 last:border-b-0 sm:grid-cols-[10rem_minmax(0,1fr)] sm:gap-5"
+      >
+        <time
+          dateTime={date}
+          className="text-sm leading-6 text-coco-ink/60"
+        >
+          {formatDate(date, lang)}
+        </time>
+        <ul className="space-y-1.5">
+          {datePerformances.map((performance) => {
+            const timeItems = getTimeItems(performance, lang, startLabel)
+            return (
+              <li
+                key={`${performance.startAt ?? performance.date}-${performance.label ?? ""}`}
+                className="flex flex-wrap items-start justify-between gap-2 border-b grid-line py-2 first:pt-0 last:border-b-0 last:pb-0"
+              >
+                <div className="min-w-0 flex-1 space-y-1">
+                  {performance.label && (
+                    <span className="block text-xs font-medium text-coco-ink/65">
+                      {performance.label}
+                    </span>
+                  )}
+                  <div className="flex flex-wrap gap-x-4 gap-y-1">
+                    {timeItems.map((item) => (
+                      <span
+                        key={`${item.dateTime}-${item.label}`}
+                        className="inline-flex items-baseline gap-1.5"
+                      >
+                        <span className="text-xs text-coco-ink/45">
+                          {item.label}
+                        </span>
+                        <time
+                          dateTime={item.dateTime}
+                          className="text-sm leading-6 text-coco-ink/65"
+                        >
+                          {item.time}
+                        </time>
+                      </span>
+                    ))}
+                    {timeItems.length === 0 && (
+                      <span className="text-sm leading-6 text-coco-ink/60">
+                        {formatTimeRange(performance, lang)}
+                      </span>
+                    )}
+                  </div>
+                </div>
+                {renderPerformanceAction?.(performance.occurrence)}
+              </li>
+            )
+          })}
+        </ul>
+      </div>
+    ))}
+  </div>
+
+  if (compact) {
+    return <>
+      <CatalogDisclosure label={`${t.performance_schedule} (${displayPerformances.length})`}>
+        {schedulePanel}
+      </CatalogDisclosure>
+      {footer}
+    </>
+  }
+
   return (
     <div className="mt-4">
       <div className="flex flex-wrap items-center gap-2">
@@ -207,64 +278,7 @@ export default function ActivityPerformanceDetails({
       </div>
       {toolbarPanel}
 
-      <div id={panelId} hidden={!open} className="mt-3 overflow-hidden rounded border grid-line bg-coco-ink/2.5 dark:bg-white/2.5">
-        {performancesByDate.map(([date, datePerformances]) => (
-          <div
-            key={date}
-            className="grid gap-2 border-b grid-line px-4 py-3 last:border-b-0 sm:grid-cols-[10rem_minmax(0,1fr)] sm:gap-5"
-          >
-            <time
-              dateTime={date}
-              className="text-sm leading-6 text-coco-ink/60"
-            >
-              {formatDate(date, lang)}
-            </time>
-            <ul className="space-y-1.5">
-              {datePerformances.map((performance) => {
-                const timeItems = getTimeItems(performance, lang, startLabel)
-                return (
-                  <li
-                    key={`${performance.startAt ?? performance.date}-${performance.label ?? ""}`}
-                    className="flex flex-wrap items-start justify-between gap-2 border-b grid-line py-2 first:pt-0 last:border-b-0 last:pb-0"
-                  >
-                    <div className="min-w-0 flex-1 space-y-1">
-                      {performance.label && (
-                        <span className="block text-xs font-medium text-coco-ink/65">
-                          {performance.label}
-                        </span>
-                      )}
-                      <div className="flex flex-wrap gap-x-4 gap-y-1">
-                        {timeItems.map((item) => (
-                          <span
-                            key={`${item.dateTime}-${item.label}`}
-                            className="inline-flex items-baseline gap-1.5"
-                          >
-                            <span className="text-xs text-coco-ink/45">
-                              {item.label}
-                            </span>
-                            <time
-                              dateTime={item.dateTime}
-                              className="text-sm leading-6 text-coco-ink/65"
-                            >
-                              {item.time}
-                            </time>
-                          </span>
-                        ))}
-                        {timeItems.length === 0 && (
-                          <span className="text-sm leading-6 text-coco-ink/60">
-                            {formatTimeRange(performance, lang)}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                    {renderPerformanceAction?.(performance.occurrence)}
-                  </li>
-                )
-              })}
-            </ul>
-          </div>
-        ))}
-      </div>
+      <div id={panelId} hidden={!open} className="mt-3">{schedulePanel}</div>
       {footer}
     </div>
   )

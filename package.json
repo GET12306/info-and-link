@@ -13,6 +13,7 @@
     "lint": "tsc --noEmit",
     "test:calendar": "node --test tests/activityCalendar.test.mjs",
     "test:editor": "node --test tests/activityEditor.test.mjs",
+    "test:resources-editor": "node --test tests/resourceEditor.test.mjs",
     "test:tickets": "node --test tests/ticketStatus.test.mjs",
     "deploy": "npm run build && wrangler deploy"
   },

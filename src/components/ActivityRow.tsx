@@ -59,7 +59,14 @@ export default function ActivityRow({
             {activity.title[lang]}
           </ExternalAnchor>
           <div className="mt-1 space-y-1">
-            {activity.venue && <VenueLabel venue={activity.venue[lang]} />}
+            {(activity.venueIds?.length || activity.venueNote) && (
+              <VenueLabel
+                venueIds={activity.venueIds}
+                venueNote={activity.venueNote}
+                lang={lang}
+                linked
+              />
+            )}
             {activity.description && (
               <div className="text-sm leading-6 text-coco-ink/60">
                 {activity.description[lang]}

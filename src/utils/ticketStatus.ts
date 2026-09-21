@@ -83,19 +83,6 @@ export function getCurrentTicketGroups(
   return groupTicketEntries(entries)
 }
 
-export function getPastTicketGroups(
-  activities: Activity[],
-  nowKey = getJapanDateTimeKey()
-) {
-  const entries = getTicketEntries(activities, nowKey)
-    .filter((entry) => entry.status === "past")
-    .sort((a, b) =>
-      (b.entry.endAt ?? "").localeCompare(a.entry.endAt ?? "")
-    )
-
-  return groupTicketEntries(entries)
-}
-
 export function hasCurrentTicketInfo(
   activity: Activity,
   nowKey = getJapanDateTimeKey()

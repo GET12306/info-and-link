@@ -71,3 +71,142 @@
     ja: "視聴可能期間が過ぎています。"
     en: "The viewing period has expired."
   status: "expired"
+
+# LIBERTE 履历页的常规节目、TV、广播与 WEB 节目档案。
+# 具有一次性日程的公开收录、生日会及线上 Live 另存 activities.yaml。
+
+- date: "2024-2026"
+  title:
+    ja: "ラブライブ！虹ヶ咲学園～にじちず放送室～"
+    en: "Love Live! Nijigasaki High School: Nijichizu Broadcasting Room"
+  description:
+    ja: "HiBiKi Radio Stationで配信されたWebラジオ。"
+    en: "A web radio program distributed by HiBiKi Radio Station."
+  url: "https://game.bushiroad.com/news/post-16/"
+  status: "available"
+
+- date: "2024"
+  title:
+    ja: "NHK「ニュージェネ！」#5・#6"
+    en: "NHK New Generation! #5 and #6"
+  status: "expired"
+
+- date: "2024"
+  title:
+    ja: "川崎競馬スパーキングトーク LIVE LABO"
+    en: "Kawasaki Keiba Sparking Talk LIVE LABO"
+  status: "expired"
+
+- date: "2023.09"
+  title:
+    ja: "超！A&G+マンスリースペシャル 林鼓子 COCO ROCK RADIO"
+    en: "Cho! A&G+ Monthly Special: Coco Hayashi COCO ROCK RADIO"
+  description:
+    ja: "2023年9月の毎週火曜日に放送。"
+    en: "Broadcast every Tuesday in September 2023."
+  url: "https://www.joqr.co.jp/ag/article/100834/"
+  status: "available"
+
+- date: "2023"
+  title:
+    ja: "別冊MyGirlチャンネル #21"
+    en: "Bessatsu MyGirl Channel #21"
+  status: "expired"
+
+- date: "2021-2022"
+  title:
+    ja: "Run Girls, Run！のらんがちゃんねる"
+    en: "Run Girls, Run! Rangachan Channel"
+  description:
+    ja: "Run Girls, Run！の3人がさらなる表現者を目指す番組。"
+    en: "A program following the three members of Run Girls, Run! as they develop as performers."
+  url: "https://www.youtube.com/watch?v=1rjXNgaKNMw"
+  status: "available"
+
+- date: "2020"
+  title:
+    ja: "FMヨコハマ「Share the Night」"
+    en: "FM Yokohama: Share the Night"
+  status: "expired"
+
+- date: "2019.07-09"
+  title:
+    ja: "Run Girls, Run！のらんがばん！"
+    en: "Run Girls, Run! no Rangaban!"
+  description:
+    ja: "Run Girls, Run！による実写バラエティ番組。"
+    en: "A live-action variety program starring Run Girls, Run!"
+  url: "https://rungirlsrun.jp/rungaban/"
+  status: "available"
+
+- date: "2019"
+  title:
+    ja: "TOKYO MX「みんなで語る番組 かたりぽTV まっち×ボイス♪」"
+    en: "TOKYO MX: Kataripo TV Match × Voice♪"
+  status: "expired"
+
+- date: "2019"
+  title:
+    ja: "HiBiKi Radio Station「プリ☆チャンラジオ」"
+    en: "HiBiKi Radio Station: Pri☆Chan Radio"
+  description:
+    ja: "パーソナリティとして出演。"
+    en: "Appeared as a program host."
+  status: "expired"
+
+- date: "2019.04-06"
+  title:
+    ja: "林鼓子のココだけのハナシ"
+    en: "Coco Hayashi's Coco-dake no Hanashi"
+  description:
+    ja: "i-dio TS ONEチャンネルで放送。"
+    en: "Broadcast on the i-dio TS ONE channel."
+  status: "expired"
+
+- date: "2019"
+  title:
+    ja: "Run Girls, Run！のオールナイトニッポンi"
+    en: "Run Girls, Run! All Night Nippon i"
+  status: "expired"
+
+- date: "2019"
+  title:
+    ja: "Run Girls, Run！の3人4脚自由形"
+    en: "Run Girls, Run! Three-Person Four-Leg Freestyle"
+  status: "expired"
+
+- date: "2019"
+  title:
+    ja: "音泉女子高生"
+    en: "Onsen High School Girls"
+  status: "expired"
+
+- date: "2018"
+  title:
+    ja: "HiBiKi Radio Station「Run Girls, Radio!!」"
+    en: "HiBiKi Radio Station: Run Girls, Radio!!"
+  status: "expired"
+
+- date: "2017"
+  title:
+    ja: "HiBiKi Radio Station「Run Girls, Radio!」"
+    en: "HiBiKi Radio Station: Run Girls, Radio!"
+  status: "expired"
+
+- date: "2017"
+  title:
+    ja: "Wake Up, Girls！とRun Girls, Run！のオールナイトニッポンi"
+    en: "Wake Up, Girls! and Run Girls, Run! All Night Nippon i"
+  status: "expired"
+
+- date: "2013"
+  title:
+    ja: "テレビ東京「ピラメキーノ」"
+    en: "TV Tokyo: Piramekino"
+  status: "expired"
+
+- date: "2012"
+  title:
+    ja: "テレビ東京「おはスタ第1部『おはスタ645』」"
+    en: "TV Tokyo: Oha Suta Part 1 'Oha Suta 645'"
+  status: "expired"

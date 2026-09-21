@@ -43,7 +43,9 @@ export default function TicketGroup({
           {activity.title[lang]}
         </h2>
       </div>
-      {activity.venue && <VenueLabel venue={activity.venue[lang]} />}
+      {(activity.venueIds?.length || activity.venueNote) && (
+        <VenueLabel venueIds={activity.venueIds} venueNote={activity.venueNote} lang={lang} />
+      )}
 
       <div className="divide-y divide-gray-300 border-t grid-line dark:divide-white/10">
         {entries.map(({ entry, entryIndex, status }) => {

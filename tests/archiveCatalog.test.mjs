@@ -21,6 +21,12 @@ test("activities without ticket entries do not show an empty disclosure",()=>{
   assert.ok(!render(base).includes("Ticket records"))
   assert.ok(!render({...base,ticketInfo:{entries:[]}}).includes("Ticket records"))
 })
+test("archived performance schedules use the same compact disclosure as other records",()=>{
+  const html=render({...base,performances:[{startAt:"2025-01-01T18:00"}]})
+  assert.match(html,/<details class="catalog-disclosure">\s*<summary[^>]*>Performance Schedule \(1\)<\/summary>/)
+  assert.doesNotMatch(html,/aria-label="Performance Schedule"/)
+  assert.doesNotMatch(html,/rounded-full[^>]*>[^<]*<svg[^>]*lucide-calendar-clock/)
+})
 test("all remaining archive pages render the shared compact layout", async()=>{
   for(const page of ["PastActivities","Programs","Credits","Media"]){
     const {default: Page}=await server.ssrLoadModule(`/src/pages/${page}.tsx`)

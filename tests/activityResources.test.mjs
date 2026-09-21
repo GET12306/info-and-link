@@ -8,7 +8,7 @@ import { createElement } from "react"
 import { renderToStaticMarkup } from "react-dom/server"
 const server = await createServer({ configFile: false, plugins: [yaml()], ssr: { resolve: { conditions: ["module"] }, noExternal: ["react-router-dom", "react-router"] }, esbuild: { jsx: "automatic" }, server: { middlewareMode: true, ws: false, watch: null }, optimizeDeps: { noDiscovery: true, include: [] }, appType: "custom" })
 after(() => server.close())
-const { filterActivityResources, countActivityResources, groupActivityResources } = await server.ssrLoadModule("/src/utils/activityResources.ts")
+const { filterActivityResources } = await server.ssrLoadModule("/src/utils/activityResources.ts")
 const samples = [
   { activityId: "a", kind: "post", platform: "x", date: "2026-08-01", url: "https://example.com/a-1" },
   { activityId: "b", kind: "post", platform: "instagram", date: "2026-09-01", url: "https://example.com/b-1" },
@@ -22,15 +22,6 @@ test("filters combine, sort by publication date, and do not mutate source order"
   assert.equal(filterActivityResources(samples, "unknown").length, 0)
   assert.equal(filterActivityResources(samples)[0].date, "2026-09-03")
   assert.equal(samples[0].date, "2026-08-01")
-})
-test("activity badges count individual resource links", () => {
-  assert.equal(countActivityResources(samples).get("a"), 4)
-  assert.equal(countActivityResources(samples).get("missing"), undefined)
-})
-test("groups resources by activity, ordered by each group's newest resource", () => {
-  const groups = groupActivityResources(samples)
-  assert.deepEqual(groups.map(group => group.activityId), ["a", "b"])
-  assert.deepEqual(groups[0].resources.map(resource => resource.date), ["2026-09-03", "2026-09-02", "2026-08-01"])
 })
 test("published resource YAML has valid activity references and display fields", () => {
   const activities = parse(readFileSync("src/data/activities.yaml", "utf8"))

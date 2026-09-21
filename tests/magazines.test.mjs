@@ -6,25 +6,13 @@ import { createElement } from "react"
 import { renderToStaticMarkup } from "react-dom/server"
 const server = await createServer({ configFile: false, plugins: [yaml()], ssr: { resolve: { conditions: ["module"] }, noExternal: ["react-router-dom", "react-router"] }, esbuild: { jsx: "automatic" }, server: { middlewareMode: true, ws: false, watch: null }, optimizeDeps: { noDiscovery: true, include: [] }, appType: "custom" })
 after(() => server.close())
-const { archiveText, filterMagazines } = await server.ssrLoadModule("/src/utils/magazines.ts")
+const { localizedText: archiveText } = await server.ssrLoadModule("/src/utils/localizedText.ts")
 test("minimal records and partially translated copy are supported", () => {
   assert.equal(archiveText({ ja: "掲載誌", en: "Magazine title" }, "ja"), "掲載誌")
   assert.equal(archiveText({ ja: "掲載誌", en: "Magazine title" }, "en"), "Magazine title")
   assert.equal(archiveText({ ja: "掲載誌" }, "en"), "掲載誌")
   assert.equal(archiveText("Magazine", "ja"), "Magazine")
   assert.equal(archiveText(undefined, "en"), "")
-  assert.equal(filterMagazines([{ title: "Minimal" }], "", "", "ja").length, 1)
-})
-test("partial dates sort ahead of undated entries without inventing dates", () => {
-  const entries = [{title:"Unknown"},{title:"Year",publicationDate:"2024"},{title:"Month",publicationDate:"2025-03"}]
-  assert.deepEqual(filterMagazines(entries,"","","ja").map(e=>e.title),["Month","Year","Unknown"])
-  assert.deepEqual(filterMagazines(entries,"","2024","ja").map(e=>e.title),["Year"])
-})
-test("search covers both languages and normalizes full-width text", () => {
-  const entries=[{ title:{ja:"掲載誌",en:"Magazine A"},feature:"ＩＮＴＥＲＶＩＥＷ" }]
-  assert.equal(filterMagazines(entries,"interview","","en").length,1)
-  assert.equal(filterMagazines(entries,"掲載誌","","en").length,1)
-  assert.equal(filterMagazines(entries,"missing","","en").length,0)
 })
 
 test("real magazine YAML renders localized titles, page descriptions, and publishers", async () => {

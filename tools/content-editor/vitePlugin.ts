@@ -5,8 +5,11 @@ import type { IncomingMessage, ServerResponse } from "node:http"
 import type { Plugin } from "vite"
 import { isSeq, parseDocument, Scalar, visit } from "yaml"
 import { validateActivities } from "../../src/editor/activityValidation"
+import { RESOURCE_DOCUMENT_KEYS, type ResourceDocumentKey } from "../../src/editor/resourceEditorSchema"
+import { validateResourceDocument } from "../../src/editor/resourceValidation"
 
 const API_PATH = "/__activity-editor/activities"
+const RESOURCE_API_PREFIX = "/__activity-editor/data/"
 const MAX_REQUEST_BYTES = 2 * 1024 * 1024
 
 function revisionFor(source: string) {
@@ -41,21 +44,21 @@ async function readRequestBody(request: IncomingMessage) {
   return JSON.parse(Buffer.concat(chunks).toString("utf8")) as unknown
 }
 
-export function parseActivityDocument(source: string) {
+export function parseListDocument(source: string) {
   const document = parseDocument(source)
   if (document.errors.length > 0) {
     throw new Error(document.errors.map((error) => error.message).join("\n"))
   }
   const activities = document.toJS() as unknown
   if (!Array.isArray(activities) || !isSeq(document.contents)) {
-    throw new Error("activities.yaml 的根节点必须是数组")
+    throw new Error("YAML 的根节点必须是数组")
   }
   return { document, activities }
 }
 
-export function updateActivityDocument(source: string, nextActivities: unknown[]) {
-  const { document, activities: currentActivities } = parseActivityDocument(source)
-  if (!isSeq(document.contents)) throw new Error("activities.yaml 的根节点必须是数组")
+export function updateListDocument(source: string, nextActivities: unknown[]) {
+  const { document, activities: currentActivities } = parseListDocument(source)
+  if (!isSeq(document.contents)) throw new Error("YAML 的根节点必须是数组")
   const sequence = document.contents
 
   const currentById = new Map<string, { data: unknown; node: unknown }>()
@@ -74,6 +77,14 @@ export function updateActivityDocument(source: string, nextActivities: unknown[]
       ? String(activity.id)
       : ""
     const existing = currentById.get(id)
+    const matchingIndex = currentActivities.findIndex((current, currentIndex) =>
+      !usedNodes.has(sequence.items[currentIndex]) && JSON.stringify(current) === JSON.stringify(activity)
+    )
+    if (matchingIndex >= 0) {
+      const matchingNode = sequence.items[matchingIndex]
+      usedNodes.add(matchingNode)
+      return matchingNode
+    }
     if (existing && JSON.stringify(existing.data) === JSON.stringify(activity)) {
       usedNodes.add(existing.node)
       return existing.node as never
@@ -106,6 +117,9 @@ export function updateActivityDocument(source: string, nextActivities: unknown[]
   return document.toString({ lineWidth: 0 })
 }
 
+export const parseActivityDocument = parseListDocument
+export const updateActivityDocument = updateListDocument
+
 export function activityEditorPlugin(enabled: boolean): Plugin {
   return {
     name: "local-activity-editor",
@@ -113,57 +127,81 @@ export function activityEditorPlugin(enabled: boolean): Plugin {
     configureServer(server) {
       if (!enabled) return
       const dataPath = path.resolve(process.cwd(), "src/data/activities.yaml")
+      const resourceKeys = new Set<string>(RESOURCE_DOCUMENT_KEYS)
 
       server.middlewares.use(async (request, response, next) => {
         const requestUrl = new URL(request.url ?? "/", "http://localhost")
-        if (requestUrl.pathname !== API_PATH) return next()
+        const resourceKey = requestUrl.pathname.startsWith(RESOURCE_API_PREFIX)
+          ? requestUrl.pathname.slice(RESOURCE_API_PREFIX.length)
+          : null
+        if (requestUrl.pathname !== API_PATH && !resourceKeys.has(resourceKey ?? "")) return next()
+        const isActivity = requestUrl.pathname === API_PATH
+        const documentKey = resourceKey as ResourceDocumentKey | null
+        const currentPath = isActivity
+          ? dataPath
+          : path.resolve(process.cwd(), "src/data", `${documentKey}.yaml`)
+        const filename = isActivity ? "activities.yaml" : `${documentKey}.yaml`
         if (!isLoopbackRequest(request)) {
           return sendJson(response, 403, { error: "编辑器仅允许从本机访问" })
         }
 
         try {
           if (request.method === "GET") {
-            const source = await readFile(dataPath, "utf8")
-            const { activities } = parseActivityDocument(source)
-            const fileStat = await stat(dataPath)
+            const source = await readFile(currentPath, "utf8")
+            const { activities } = parseListDocument(source)
+            const fileStat = await stat(currentPath)
             return sendJson(response, 200, {
-              activities,
+              [isActivity ? "activities" : "entries"]: activities,
               revision: revisionFor(source),
               modifiedAt: fileStat.mtime.toISOString(),
-              path: "src/data/activities.yaml",
+              path: `src/data/${filename}`,
+              ...(!isActivity && documentKey === "activity-resources" ? {
+                activityIds: (parseListDocument(await readFile(dataPath, "utf8")).activities as Array<{ id: string }>).map(item => item.id),
+              } : {}),
             })
           }
 
           if (request.method === "PUT") {
             const payload = await readRequestBody(request)
+            const entriesKey = isActivity ? "activities" : "entries"
             if (!payload || typeof payload !== "object" ||
-              !("activities" in payload) || !("revision" in payload)) {
+              !(entriesKey in payload) || !("revision" in payload)) {
               return sendJson(response, 400, { error: "保存请求格式无效" })
             }
-            const activities = payload.activities
+            const activities = (payload as Record<string, unknown>)[entriesKey]
             const revision = payload.revision
             if (!Array.isArray(activities) || typeof revision !== "string") {
               return sendJson(response, 400, { error: "保存请求格式无效" })
             }
 
-            const issues = validateActivities(activities)
-            const errors = issues.filter((issue) => issue.severity === "error")
+            const activityIds = !isActivity && documentKey === "activity-resources"
+              ? new Set((parseListDocument(await readFile(dataPath, "utf8")).activities as Array<{ id: string }>).map(item => item.id))
+              : undefined
+            const issues = isActivity
+              ? validateActivities(activities)
+              : validateResourceDocument(documentKey!, activities, activityIds)
+            const errors = isActivity
+              ? issues.filter((issue) => "severity" in issue && issue.severity === "error")
+              : issues
             if (errors.length > 0) {
               return sendJson(response, 422, { error: "数据校验失败", issues })
             }
 
-            const currentSource = await readFile(dataPath, "utf8")
+            const currentSource = await readFile(currentPath, "utf8")
             if (revisionFor(currentSource) !== revision) {
               return sendJson(response, 409, {
-                error: "activities.yaml 已被其他程序修改，请重新载入后再保存",
+                error: `${filename} 已被其他程序修改；当前输入已保留，请先处理差异`,
               })
             }
 
-            const nextSource = updateActivityDocument(currentSource, activities)
-            const verification = parseActivityDocument(nextSource).activities
-            const verificationErrors = validateActivities(verification).filter(
-              (issue) => issue.severity === "error"
-            )
+            const nextSource = updateListDocument(currentSource, activities)
+            const verification = parseListDocument(nextSource).activities
+            const verificationIssues = isActivity
+              ? validateActivities(verification)
+              : validateResourceDocument(documentKey!, verification, activityIds)
+            const verificationErrors = isActivity
+              ? verificationIssues.filter((issue) => "severity" in issue && issue.severity === "error")
+              : verificationIssues
             if (verificationErrors.length > 0) {
               return sendJson(response, 500, {
                 error: "序列化后的 YAML 未通过校验",
@@ -172,11 +210,11 @@ export function activityEditorPlugin(enabled: boolean): Plugin {
             }
 
             const temporaryPath = path.join(
-              path.dirname(dataPath),
-              `.${path.basename(dataPath)}.${process.pid}.tmp`
+              path.dirname(currentPath),
+              `.${path.basename(currentPath)}.${process.pid}.tmp`
             )
             await writeFile(temporaryPath, nextSource, "utf8")
-            await rename(temporaryPath, dataPath)
+            await rename(temporaryPath, currentPath)
             return sendJson(response, 200, {
               revision: revisionFor(nextSource),
               modifiedAt: new Date().toISOString(),

@@ -16,7 +16,7 @@ defaults:
   countryCode: "JP"
   timeZone: "Asia/Tokyo"
 
-lastVerified: "2026-09-08"
+lastVerified: "2026-09-20"
 
 venues:
   - id: "theater-sunmall"
@@ -59,6 +59,8 @@ venues:
     formalName:
       ja: "豊島区立舞台芸術交流センター"
       en: "Toshima Performing Arts Center"
+    aliases:
+      en: ["Auru Spot"]
     address:
       postalCode: "170-0013"
       region:
@@ -116,6 +118,8 @@ venues:
     name:
       ja: "西荻地域区民センター・勤労福祉会館"
       en: "Nishiogi Community Center / Labor Welfare Hall"
+    aliases:
+      en: ["Nishiogi Community Center Labor Welfare Hall"]
     address:
       postalCode: "167-0034"
       region:
@@ -162,6 +166,8 @@ venues:
     name:
       ja: "鴻巣市文化センター（クレアこうのす） 大ホール"
       en: "Kounosu Cultural Center (Clea Kounosu) Main Hall"
+    aliases:
+      en: ["Kounosu Cultural Center (Clair Kounosu) Main Hall"]
     address:
       postalCode: "365-0032"
       region:
@@ -343,6 +349,9 @@ venues:
     formerName:
       ja: "武蔵野の森総合スポーツプラザ"
       en: "Musashino Forest Sport Plaza"
+    aliases:
+      ja: ["京王アリーナTOKYO", "武蔵野の森総合スポーツプラザ メインアリーナ"]
+      en: ["Musashino Forest Sport Plaza, Main Arena"]
     address:
       postalCode: "182-0032"
       region:
@@ -895,3 +904,986 @@ venues:
       - label: "WONDERLIVET 2026・会場発表"
         url: "https://corporate.pia.jp/news/detail_wonderlivet_20260826.html"
         covers: ["name", "spaces"]
+
+  # 以下は activities.yaml の追加会場（2026-09-20 確認）
+  - id: "amo-cafe-harajuku"
+    name: { ja: "AMO CAFE 原宿店", en: "AMO CAFE Harajuku" }
+    address:
+      postalCode: "150-0001"
+      region: { ja: "東京都", en: "Tokyo" }
+      locality: { ja: "渋谷区", en: "Shibuya City" }
+      street: { ja: "神宮前3-18-27 パルク表参道2F", en: "Parc Omotesando 2F, 3-18-27 Jingumae" }
+    officialUrl: "https://x.com/amo_cafe_info/"
+    sources:
+      - { label: "AMO CAFE 公式X", url: "https://x.com/amo_cafe_info/", covers: ["name", "officialUrl"] }
+
+  - id: "cbgk-shibugeki"
+    name: { ja: "CBGKシブゲキ!!", en: "CBGK Shibugeki!!" }
+    address:
+      postalCode: "150-0043"
+      region: { ja: "東京都", en: "Tokyo" }
+      locality: { ja: "渋谷区", en: "Shibuya City" }
+      street: { ja: "道玄坂2-29-5 ザ・プライム6F", en: "The Prime 6F, 2-29-5 Dogenzaka" }
+    capacity: { seated: 242, wheelchairSpaces: 2 }
+    officialUrl: "https://cbgk.jp/"
+    sources:
+      - { label: "CBGKシブゲキ!!・劇場概要", url: "https://cbgk.jp/about/", covers: ["name", "address", "capacity"] }
+
+  - id: "esp-club-1ne-2wo"
+    name: { ja: "ESPエンタテインメント東京 12号館ホール Club 1ne 2wo", en: "ESP Entertainment Tokyo Building 12 Hall Club 1ne 2wo" }
+    address:
+      postalCode: "169-0075"
+      region: { ja: "東京都", en: "Tokyo" }
+      locality: { ja: "新宿区", en: "Shinjuku City" }
+      street: { ja: "高田馬場3-4-7 12号館B2", en: "Building 12 B2, 3-4-7 Takadanobaba" }
+    officialUrl: "https://www.esp.ac.jp/tokyo/"
+    sources:
+      - { label: "ESPエンタテインメント東京・学校情報", url: "https://www.esp.ac.jp/tokyo/about/", covers: ["name", "officialUrl"] }
+      - { label: "チケットぴあ・会場情報", url: "https://t.pia.jp/pia/venue/venue.do?venueCd=UV31", covers: ["address", "transport"] }
+
+  - id: "esaka-muse"
+    name: { ja: "ESAKA MUSE", en: "ESAKA MUSE" }
+    address:
+      postalCode: "564-0051"
+      region: { ja: "大阪府", en: "Osaka" }
+      locality: { ja: "吹田市", en: "Suita City" }
+      street: { ja: "豊津町10-15 モアイビル5F", en: "Moai Building 5F, 10-15 Toyotsucho" }
+    officialUrl: "https://muse-live.com/esaka/"
+    sources:
+      - { label: "ESAKA MUSE・ACCESS", url: "https://muse-live.com/esaka/", covers: ["name", "address", "transport"] }
+
+  - id: "sendai-gigs"
+    name: { ja: "SENDAI GIGS", en: "SENDAI GIGS" }
+    address:
+      postalCode: "984-0032"
+      region: { ja: "宮城県", en: "Miyagi" }
+      locality: { ja: "仙台市若林区", en: "Wakabayashi Ward, Sendai" }
+      street: { ja: "荒井東1-4-1", en: "1-4-1 Arai-higashi" }
+    capacity: { maximum: 1560 }
+    officialUrl: "https://www.sendaigigs.com/"
+    sources:
+      - { label: "SENDAI GIGS 公式サイト", url: "https://www.sendaigigs.com/", covers: ["name", "address", "capacity"] }
+      - { label: "仙台市・企業インタビュー", url: "https://www.city.sendai.jp/invest/interview/sendaigigs.html", covers: ["capacity"] }
+
+  - id: "shinagawa-stellar-ball"
+    name: { ja: "品川ステラボール", en: "Shinagawa Stellar Ball" }
+    address:
+      postalCode: "108-8611"
+      region: { ja: "東京都", en: "Tokyo" }
+      locality: { ja: "港区", en: "Minato City" }
+      street: { ja: "高輪4-10-30 品川プリンスホテル内", en: "Shinagawa Prince Hotel, 4-10-30 Takanawa" }
+    capacity: { seated: 876 }
+    officialUrl: "https://www.princehotels.co.jp/shinagawa/stellarball/"
+    sources:
+      - { label: "品川ステラボール・施設概要", url: "https://www.princehotels.co.jp/shinagawa/stellarball/about.html", covers: ["name", "address", "capacity"] }
+
+  - id: "hall-mixa"
+    name: { ja: "Hall Mixa", en: "Hall Mixa" }
+    address:
+      postalCode: "170-0013"
+      region: { ja: "東京都", en: "Tokyo" }
+      locality: { ja: "豊島区", en: "Toshima City" }
+      street: { ja: "東池袋1-14-3 Mixalive TOKYO 4F", en: "Mixalive TOKYO 4F, 1-14-3 Higashi-Ikebukuro" }
+    capacity: { seated: 140 }
+    status: "closed"
+    officialUrl: "https://www.mixalivetokyo.com/"
+    sources:
+      - { label: "Mixalive TOKYO・施設資料", url: "https://www.mixalivetokyo.com/wp/wp-content/uploads/2021/05/20191206_mixalivetokyo.pdf", covers: ["name", "address", "capacity"] }
+      - { label: "Mixalive TOKYO・営業終了FAQ", url: "https://www.mixalivetokyo.com/faq/", covers: ["status"] }
+
+  - id: "im-a-show"
+    name: { ja: "I'M A SHOW", en: "I'M A SHOW" }
+    address:
+      postalCode: "100-0006"
+      region: { ja: "東京都", en: "Tokyo" }
+      locality: { ja: "千代田区", en: "Chiyoda City" }
+      street: { ja: "有楽町2-5-1 有楽町マリオン別館7F", en: "Yurakucho Marion Annex 7F, 2-5-1 Yurakucho" }
+    capacity: { seated: 392 }
+    officialUrl: "https://imashow.jp/"
+    sources:
+      - { label: "I'M A SHOW・ABOUT", url: "https://imashow.jp/about/", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "ilca-chroma-key-satellite-studio"
+    name: { ja: "ILCAクロマキーサテライトスタジオ", en: "ILCA Chroma Key Satellite Studio" }
+    address:
+      region: { ja: "東京都", en: "Tokyo" }
+      locality: { ja: "新宿区", en: "Shinjuku City" }
+      note: { ja: "活動告知に記載されたスタジオ名。番地は公式の一般公開情報で未確認", en: "Studio name from the event notice; street address is not confirmed in public official information" }
+    officialUrl: "https://www.ilca.co.jp/"
+    sources:
+      - { label: "ILCA 公式サイト", url: "https://www.ilca.co.jp/", covers: ["name", "officialUrl"] }
+
+  - id: "jcom-hall-hachioji"
+    name: { ja: "J:COMホール八王子", en: "J:COM Hall Hachioji" }
+    address:
+      postalCode: "192-0904"
+      region: { ja: "東京都", en: "Tokyo" }
+      locality: { ja: "八王子市", en: "Hachioji City" }
+      street: { ja: "子安町4-7-1 サザンスカイタワー八王子4F", en: "Southern Sky Tower Hachioji 4F, 4-7-1 Koyasumachi" }
+    capacity: { seated: 2021 }
+    officialUrl: "https://jcom.hall-info.jp/"
+    sources:
+      - { label: "J:COMホール八王子・施設概要", url: "https://jcom.hall-info.jp/facility/", covers: ["name", "address", "capacity"] }
+
+  - id: "kt-zepp-yokohama"
+    name: { ja: "KT Zepp Yokohama", en: "KT Zepp Yokohama" }
+    address:
+      postalCode: "220-0012"
+      region: { ja: "神奈川県", en: "Kanagawa" }
+      locality: { ja: "横浜市西区", en: "Nishi Ward, Yokohama" }
+      street: { ja: "みなとみらい4-3-6", en: "4-3-6 Minatomirai" }
+    capacity: { seated: 1251, standing: 2146, maximum: 2146 }
+    officialUrl: "https://www.zepp.co.jp/hall/yokohama/"
+    sources:
+      - { label: "KT Zepp Yokohama・施設情報", url: "https://www.zepp.co.jp/hall/yokohama/", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "k-arena-yokohama"
+    name: { ja: "Kアリーナ横浜", en: "K-Arena Yokohama" }
+    aliases:
+      en: ["K Arena Yokohama"]
+    address:
+      postalCode: "220-8507"
+      region: { ja: "神奈川県", en: "Kanagawa" }
+      locality: { ja: "横浜市西区", en: "Nishi Ward, Yokohama" }
+      street: { ja: "みなとみらい6-2-14", en: "6-2-14 Minatomirai" }
+    capacity: { seated: 20033 }
+    officialUrl: "https://k-arena.com/"
+    sources:
+      - { label: "Kアリーナ横浜 公式サイト", url: "https://k-arena.com/", covers: ["name", "address", "transport"] }
+      - { label: "横浜観光コンベンション・会場情報", url: "https://business.yokohamajapan.com/mice/ja/plan/venues/detail/?venue_id=1568", covers: ["capacity"] }
+
+  - id: "live-labo-yoyogi"
+    name: { ja: "LIVE labo YOYOGI", en: "LIVE labo YOYOGI" }
+    address:
+      postalCode: "151-0053"
+      region: { ja: "東京都", en: "Tokyo" }
+      locality: { ja: "渋谷区", en: "Shibuya City" }
+      street: { ja: "代々木1-31-12 日綜代々木ビルB1", en: "Nisso Yoyogi Building B1, 1-31-12 Yoyogi" }
+    officialUrl: "https://livelaboyoyogi.com/"
+    sources:
+      - { label: "LIVE labo YOYOGI 公式サイト", url: "https://livelaboyoyogi.com/", covers: ["name", "address", "transport"] }
+
+  - id: "akiba-cultures-theater"
+    name: { ja: "AKIBAカルチャーズ劇場", en: "AKIBA Cultures Theater" }
+    address:
+      postalCode: "101-0021"
+      region: { ja: "東京都", en: "Tokyo" }
+      locality: { ja: "千代田区", en: "Chiyoda City" }
+      street: { ja: "外神田1-7-6 AKIBAカルチャーズZONE B1", en: "AKIBA Cultures ZONE B1, 1-7-6 Sotokanda" }
+    capacity: { seated: 298 }
+    officialUrl: "https://akibalive.jp/"
+    sources:
+      - { label: "AKIBAカルチャーズ劇場 公式サイト", url: "https://akibalive.jp/", covers: ["name", "address", "capacity"] }
+
+  - id: "movix-kyoto"
+    name: { ja: "MOVIX京都", en: "MOVIX Kyoto" }
+    address:
+      postalCode: "604-8035"
+      region: { ja: "京都府", en: "Kyoto" }
+      locality: { ja: "京都市中京区", en: "Nakagyo Ward, Kyoto" }
+      street: { ja: "新京極三条下ル桜之町400", en: "400 Sakuranocho, Shinkyogoku Sanjo-sagaru" }
+    officialUrl: "https://www.smt-cinema.com/site/kyoto/"
+    sources:
+      - { label: "MOVIX京都・劇場案内", url: "https://www.smt-cinema.com/site/kyoto/", covers: ["name", "address", "transport"] }
+
+  - id: "namba-parks-cinema"
+    name: { ja: "なんばパークスシネマ", en: "Namba Parks Cinema" }
+    address:
+      postalCode: "556-0011"
+      region: { ja: "大阪府", en: "Osaka" }
+      locality: { ja: "大阪市浪速区", en: "Naniwa Ward, Osaka City" }
+      street: { ja: "難波中2-10-70 なんばパークス8F", en: "Namba Parks 8F, 2-10-70 Nambanaka" }
+    officialUrl: "https://www.parkscinema.com/"
+    sources:
+      - { label: "なんばパークスシネマ 公式サイト", url: "https://www.parkscinema.com/", covers: ["name", "address", "transport"] }
+
+  - id: "new-pier-hall"
+    name: { ja: "NEW PIER HALL", en: "NEW PIER HALL" }
+    aliases:
+      en: ["New Pier Hall"]
+    address:
+      postalCode: "105-0022"
+      region: { ja: "東京都", en: "Tokyo" }
+      locality: { ja: "港区", en: "Minato City" }
+      street: { ja: "海岸1-11-1 ニューピア竹芝ノースタワー1F", en: "New Pier Takeshiba North Tower 1F, 1-11-1 Kaigan" }
+    officialUrl: "https://www.newpier-hall.jp/"
+    sources:
+      - { label: "NEW PIER HALL 公式サイト", url: "https://www.newpier-hall.jp/", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "shibuya-club-quattro"
+    name: { ja: "SHIBUYA CLUB QUATTRO", en: "Shibuya Club Quattro" }
+    address:
+      postalCode: "150-0042"
+      region: { ja: "東京都", en: "Tokyo" }
+      locality: { ja: "渋谷区", en: "Shibuya City" }
+      street: { ja: "宇田川町32-13 4F・5F", en: "4F/5F, 32-13 Udagawacho" }
+    capacity: { standing: 800 }
+    officialUrl: "https://www.club-quattro.com/shibuya/"
+    sources:
+      - { label: "SHIBUYA CLUB QUATTRO・ACCESS", url: "https://www.club-quattro.com/shibuya/access/", covers: ["name", "address", "transport"] }
+
+  - id: "kyoto-fanj"
+    name: { ja: "京都FANJ", en: "Kyoto FANJ" }
+    address:
+      postalCode: "606-0053"
+      region: { ja: "京都府", en: "Kyoto" }
+      locality: { ja: "京都市左京区", en: "Sakyo Ward, Kyoto" }
+      street: { ja: "上高野車地町101 備前屋ビルB1", en: "Bizenya Building B1, 101 Kurumajicho, Kamitakano" }
+    officialUrl: "https://kyoto-fanj.com/"
+    sources:
+      - { label: "京都FANJ・ACCESS", url: "https://kyoto-fanj.com/access/", covers: ["name", "address", "transport"] }
+
+  - id: "shibuya-pleasure-pleasure"
+    name: { ja: "SHIBUYA PLEASURE PLEASURE", en: "Shibuya Pleasure Pleasure" }
+    address:
+      postalCode: "150-0043"
+      region: { ja: "東京都", en: "Tokyo" }
+      locality: { ja: "渋谷区", en: "Shibuya City" }
+      street: { ja: "道玄坂2-29-5 渋谷プライム6F", en: "Shibuya Prime 6F, 2-29-5 Dogenzaka" }
+    capacity: { seated: 318 }
+    officialUrl: "https://pleasure-pleasure.jp/"
+    sources:
+      - { label: "SHIBUYA PLEASURE PLEASURE 公式サイト", url: "https://pleasure-pleasure.jp/", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "theater-shinjuku-starfield"
+    name: { ja: "Theater新宿スターフィールド", en: "Theater Shinjuku Starfield" }
+    address:
+      postalCode: "160-0022"
+      region: { ja: "東京都", en: "Tokyo" }
+      locality: { ja: "新宿区", en: "Shinjuku City" }
+      street: { ja: "新宿2-13-6 光亜ビルB1", en: "Koa Building B1, 2-13-6 Shinjuku" }
+    officialUrl: "https://starfieldtheater.com/"
+    sources:
+      - { label: "Theater新宿スターフィールド 公式サイト", url: "https://starfieldtheater.com/", covers: ["name", "address", "transport"] }
+
+  - id: "kanadevia-hall"
+    name: { ja: "Kanadevia Hall", en: "Kanadevia Hall" }
+    formerName: { ja: "TOKYO DOME CITY HALL", en: "TOKYO DOME CITY HALL" }
+    aliases:
+      ja: ["東京ドームシティホール"]
+      en: ["Tokyo Dome City Hall"]
+    address:
+      postalCode: "112-8575"
+      region: { ja: "東京都", en: "Tokyo" }
+      locality: { ja: "文京区", en: "Bunkyo City" }
+      street: { ja: "後楽1-3-61 東京ドームシティ MEETS PORT", en: "Tokyo Dome City MEETS PORT, 1-3-61 Koraku" }
+    capacity: { seated: 2471, standing: 3190, maximum: 3190 }
+    officialUrl: "https://www.tokyo-dome.co.jp/tdc-hall/"
+    sources:
+      - { label: "Kanadevia Hall・施設概要", url: "https://www.tokyo-dome.co.jp/tdc-hall/organizer/facilities.html", covers: ["name", "formerName", "address", "capacity"] }
+
+  - id: "tokyo-fm-hall"
+    name: { ja: "TOKYO FM HALL", en: "TOKYO FM HALL" }
+    address:
+      postalCode: "102-8080"
+      region: { ja: "東京都", en: "Tokyo" }
+      locality: { ja: "千代田区", en: "Chiyoda City" }
+      street: { ja: "麹町1-7 FMセンター2F", en: "FM Center 2F, 1-7 Kojimachi" }
+    capacity: { maximum: 308 }
+    officialUrl: "https://www.tfmhall.com/"
+    sources:
+      - { label: "TOKYO FM HALL・ABOUT", url: "https://www.tfmhall.com/about", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "tachikawa-stage-garden"
+    name: { ja: "立川ステージガーデン", en: "Tachikawa Stage Garden" }
+    aliases:
+      en: ["TACHIKAWA STAGE GARDEN"]
+    address:
+      postalCode: "190-0014"
+      region: { ja: "東京都", en: "Tokyo" }
+      locality: { ja: "立川市", en: "Tachikawa City" }
+      street: { ja: "緑町3-3 N1", en: "N1, 3-3 Midoricho" }
+    capacity: { seated: 2448, standing: 3018, maximum: 3018 }
+    officialUrl: "https://www.t-sg.jp/"
+    sources:
+      - { label: "TACHIKAWA STAGE GARDEN・ABOUT", url: "https://www.t-sg.jp/about/", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "tiat-sky-hall"
+    name: { ja: "TIAT SKY HALL", en: "TIAT Sky Hall" }
+    address:
+      postalCode: "144-0041"
+      region: { ja: "東京都", en: "Tokyo" }
+      locality: { ja: "大田区", en: "Ota City" }
+      street: { ja: "羽田空港2-6-5 第3旅客ターミナル4F", en: "Terminal 3 4F, 2-6-5 Haneda Airport" }
+    capacity: { seated: 246, standing: 400, maximum: 400 }
+    officialUrl: "https://www.tiatskyhall.jp/"
+    sources:
+      - { label: "TIAT SKY HALL 公式サイト", url: "https://www.tiatskyhall.jp/", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "wallop-studio-waros"
+    name: { ja: "WALLOP放送局 3F STUDIO WAROS", en: "WALLOP 3F Studio WAROS" }
+    aliases:
+      ja: ["WALLOP押上スタジオ"]
+      en: ["WALLOP Oshiage Studio"]
+    address:
+      postalCode: "130-0002"
+      region: { ja: "東京都", en: "Tokyo" }
+      locality: { ja: "墨田区", en: "Sumida City" }
+      street: { ja: "業平4-16-6", en: "4-16-6 Narihira" }
+    officialUrl: "https://www.wallop.tv/"
+    sources:
+      - { label: "WALLOP 公式サイト", url: "https://www.wallop.tv/", covers: ["name", "address", "officialUrl"] }
+
+  - id: "zepp-haneda"
+    name: { ja: "Zepp Haneda (TOKYO)", en: "Zepp Haneda (TOKYO)" }
+    aliases: { ja: ["Zepp Haneda"], en: ["Zepp Haneda"] }
+    address:
+      postalCode: "144-0041"
+      region: { ja: "東京都", en: "Tokyo" }
+      locality: { ja: "大田区", en: "Ota City" }
+      street: { ja: "羽田空港1-1-4 HANEDA INNOVATION CITY ZONE H", en: "HANEDA INNOVATION CITY Zone H, 1-1-4 Haneda Airport" }
+    officialUrl: "https://www.zepp.co.jp/hall/haneda/"
+    sources:
+      - { label: "Zepp Haneda・施設情報", url: "https://www.zepp.co.jp/hall/haneda/", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "zepp-fukuoka"
+    name: { ja: "Zepp Fukuoka", en: "Zepp Fukuoka" }
+    address:
+      postalCode: "810-0065"
+      region: { ja: "福岡県", en: "Fukuoka" }
+      locality: { ja: "福岡市中央区", en: "Chuo Ward, Fukuoka" }
+      street: { ja: "地行浜2-2-1 MARK IS 福岡ももち2F", en: "MARK IS Fukuoka Momochi 2F, 2-2-1 Jigyohama" }
+    officialUrl: "https://www.zepp.co.jp/hall/fukuoka/"
+    sources:
+      - { label: "Zepp Fukuoka・施設情報", url: "https://www.zepp.co.jp/hall/fukuoka/", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "zepp-osaka-bayside"
+    name: { ja: "Zepp Osaka Bayside", en: "Zepp Osaka Bayside" }
+    address:
+      postalCode: "554-0031"
+      region: { ja: "大阪府", en: "Osaka" }
+      locality: { ja: "大阪市此花区", en: "Konohana Ward, Osaka City" }
+      street: { ja: "桜島1-1-61", en: "1-1-61 Sakurajima" }
+    officialUrl: "https://www.zepp.co.jp/hall/osakabayside/"
+    sources:
+      - { label: "Zepp Osaka Bayside・施設情報", url: "https://www.zepp.co.jp/hall/osakabayside/", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "zepp-nagoya"
+    name: { ja: "Zepp Nagoya", en: "Zepp Nagoya" }
+    address:
+      postalCode: "453-0872"
+      region: { ja: "愛知県", en: "Aichi" }
+      locality: { ja: "名古屋市中村区", en: "Nakamura Ward, Nagoya" }
+      street: { ja: "平池町4-60-7", en: "4-60-7 Hiraikecho" }
+    officialUrl: "https://www.zepp.co.jp/hall/nagoya/"
+    sources:
+      - { label: "Zepp Nagoya・施設情報", url: "https://www.zepp.co.jp/hall/nagoya/", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "harevutai"
+    name: { ja: "harevutai", en: "harevutai" }
+    address: { postalCode: "170-0013", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "豊島区", en: "Toshima City" }, street: { ja: "東池袋1-19-1 東京建物 Brillia HALL 1F", en: "Tokyo Tatemono Brillia HALL 1F, 1-19-1 Higashi-Ikebukuro" } }
+    capacity: { standing: 500 }
+    officialUrl: "https://harevutai.com/"
+    sources:
+      - { label: "harevutai・ABOUT", url: "https://harevutai.com/about/", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "abeno-qs-mall-sky-court"
+    name: { ja: "あべのキューズモール 3Fスカイコート", en: "Abeno Q's Mall 3F Sky Court" }
+    address: { postalCode: "545-0052", region: { ja: "大阪府", en: "Osaka" }, locality: { ja: "大阪市阿倍野区", en: "Abeno Ward, Osaka City" }, street: { ja: "阿倍野筋1-6-1 3F", en: "3F, 1-6-1 Abenosuji" } }
+    officialUrl: "https://qs-mall.jp/abeno/"
+    sources:
+      - { label: "あべのキューズモール・アクセス", url: "https://qs-mall.jp/abeno/access/", covers: ["name", "address", "transport"] }
+
+  - id: "kameari-lirio-hall"
+    name: { ja: "かめありリリオホール", en: "Kameari Lirio Hall" }
+    address: { postalCode: "125-0061", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "葛飾区", en: "Katsushika City" }, street: { ja: "亀有3-26-1 リリオ館8F・9F", en: "Lirio Building 8F/9F, 3-26-1 Kameari" } }
+    capacity: { seated: 610 }
+    officialUrl: "https://www.k-mil.gr.jp/institution/lirio/"
+    sources:
+      - { label: "葛飾区・かめありリリオホール", url: "https://www.city.katsushika.lg.jp/institution/1030225/1006814.html", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "gmo-arena-saitama"
+    name: { ja: "GMOアリーナさいたま", en: "GMO Arena Saitama" }
+    formerName: { ja: "さいたまスーパーアリーナ", en: "Saitama Super Arena" }
+    aliases: { ja: ["さいたまスーパーアリーナ"], en: ["Saitama Super Arena"] }
+    address: { postalCode: "330-9111", region: { ja: "埼玉県", en: "Saitama" }, locality: { ja: "さいたま市中央区", en: "Chuo Ward, Saitama City" }, street: { ja: "新都心8", en: "8 Shintoshin" } }
+    capacity: { maximum: 37000 }
+    officialUrl: "https://www.saitama-arena.co.jp/"
+    sources:
+      - { label: "さいたまスーパーアリーナ 公式サイト", url: "https://www.saitama-arena.co.jp/", covers: ["name", "formerName", "address", "capacity", "transport"] }
+      - { label: "埼玉県・施設案内", url: "https://www.pref.saitama.lg.jp/shisetsu/sonota/004.html", covers: ["name", "address"] }
+
+  - id: "keyaki-hiroba"
+    name: { ja: "さいたま新都心 けやきひろば", en: "Saitama-Shintoshin Keyaki Hiroba" }
+    address: { postalCode: "330-0081", region: { ja: "埼玉県", en: "Saitama" }, locality: { ja: "さいたま市中央区", en: "Chuo Ward, Saitama City" }, street: { ja: "新都心10", en: "10 Shintoshin" } }
+    officialUrl: "https://www.saitama-arena.co.jp/keyakihiroba/"
+    sources:
+      - { label: "けやきひろば 公式サイト", url: "https://www.saitama-arena.co.jp/keyakihiroba/", covers: ["name", "address", "transport"] }
+
+  - id: "sumida-futsal-arena"
+    name: { ja: "すみだフットサルアリーナ", en: "Sumida Futsal Arena" }
+    address: { region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "墨田区", en: "Sumida City" }, note: { ja: "活動記載の施設名。公式サイトで番地を再確認してください", en: "Facility name from the activity; verify the street address with the venue" } }
+    officialUrl: "https://www.sumidafutsal.com/"
+    sources:
+      - { label: "すみだフットサルアリーナ 公式サイト", url: "https://www.sumidafutsal.com/", covers: ["name", "officialUrl"] }
+
+  - id: "seiseki-aura-hall"
+    name: { ja: "せいせきアウラホール", en: "Seiseki Aura Hall" }
+    address: { postalCode: "206-0011", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "多摩市", en: "Tama City" }, street: { ja: "関戸1-10-1 京王聖蹟桜ヶ丘ショッピングセンターA館6F", en: "Keio Seiseki Sakuragaoka SC A Building 6F, 1-10-1 Sekido" } }
+    capacity: { maximum: 330 }
+    officialUrl: "https://www.keio-sc.jp/rentalspace/"
+    sources:
+      - { label: "せいせき・レンタルスペース", url: "https://www.keio-sc.jp/rentalspace/", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "namba-hatch"
+    name: { ja: "なんばHatch", en: "Namba Hatch" }
+    address: { postalCode: "556-0017", region: { ja: "大阪府", en: "Osaka" }, locality: { ja: "大阪市浪速区", en: "Naniwa Ward, Osaka City" }, street: { ja: "湊町1-3-1", en: "1-3-1 Minatomachi" } }
+    capacity: { maximum: 1931 }
+    officialUrl: "https://www.namba-hatch.com/"
+    sources:
+      - { label: "湊町リバープレイス・なんばHatch", url: "https://www.oud.co.jp/riverplace/about/namba-hatch.html", covers: ["name", "address", "capacity"] }
+
+  - id: "nakano-zero-main-hall"
+    name: { ja: "なかのZERO 大ホール", en: "Nakano ZERO Main Hall" }
+    address: { postalCode: "164-0001", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "中野区", en: "Nakano City" }, street: { ja: "中野2-9-7", en: "2-9-7 Nakano" } }
+    capacity: { seated: 1292 }
+    officialUrl: "https://www.naka-lab.jp/facilities/nakano-zero"
+    sources:
+      - { label: "なかのZERO・施設案内", url: "https://www.naka-lab.jp/facilities/nakano-zero", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "miyako-messe"
+    name: { ja: "みやこめっせ", en: "Miyako Messe" }
+    formalName: { ja: "京都市勧業館みやこめっせ", en: "Kyoto International Exhibition Hall Miyako Messe" }
+    address: { postalCode: "606-8343", region: { ja: "京都府", en: "Kyoto" }, locality: { ja: "京都市左京区", en: "Sakyo Ward, Kyoto" }, street: { ja: "岡崎成勝寺町9-1", en: "9-1 Okazaki Seishojicho" } }
+    officialUrl: "https://www.miyakomesse.jp/"
+    sources:
+      - { label: "みやこめっせ・ご利用案内", url: "https://www.miyakomesse.jp/planner/download/files/UsageGuide.pdf", covers: ["name", "address", "transport"] }
+
+  - id: "yomiuriland-rokkaku-hall"
+    name: { ja: "よみうりランド 六角ホール", en: "Yomiuriland Rokkaku Hall" }
+    address: { postalCode: "206-8725", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "稲城市", en: "Inagi City" }, street: { ja: "矢野口4015-1 よみうりランド内", en: "Yomiuriland, 4015-1 Yanokuchi" } }
+    officialUrl: "https://www.yomiuriland.com/"
+    sources:
+      - { label: "よみうりランド 公式サイト", url: "https://www.yomiuriland.com/", covers: ["name", "address", "transport"] }
+
+  - id: "animate-ikebukuro"
+    name: { ja: "アニメイト池袋本店", en: "Animate Ikebukuro" }
+    address: { postalCode: "170-0013", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "豊島区", en: "Toshima City" }, street: { ja: "東池袋1-20-7", en: "1-20-7 Higashi-Ikebukuro" } }
+    officialUrl: "https://www.animate.co.jp/shop/ikebukuro/"
+    sources:
+      - { label: "アニメイト池袋本店・店舗情報", url: "https://www.animate.co.jp/shop/ikebukuro/", covers: ["name", "address", "transport"] }
+
+  - id: "animate-shibuya"
+    name: { ja: "アニメイト渋谷", en: "Animate Shibuya" }
+    address: { postalCode: "150-0042", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "渋谷区", en: "Shibuya City" }, street: { ja: "宇田川町31-2 渋谷BEAM 3F", en: "Shibuya BEAM 3F, 31-2 Udagawacho" } }
+    officialUrl: "https://www.animate.co.jp/shop/shibuya/"
+    sources:
+      - { label: "アニメイト渋谷・店舗情報", url: "https://www.animate.co.jp/shop/shibuya/", covers: ["name", "address", "transport"] }
+
+  - id: "animate-yokohama"
+    name: { ja: "アニメイト横浜ビブレ", en: "Animate Yokohama Vivre" }
+    aliases: { ja: ["アニメイト横浜"], en: ["Animate Yokohama"] }
+    address: { postalCode: "220-0005", region: { ja: "神奈川県", en: "Kanagawa" }, locality: { ja: "横浜市西区", en: "Nishi Ward, Yokohama" }, street: { ja: "南幸2-15-13 横浜ビブレ8F", en: "Yokohama Vivre 8F, 2-15-13 Minamisaiwai" } }
+    officialUrl: "https://www.animate.co.jp/shop/yokohama-vivre/"
+    sources:
+      - { label: "アニメイト横浜ビブレ・店舗情報", url: "https://www.animate.co.jp/shop/yokohama-vivre/", covers: ["name", "address", "transport"] }
+
+  - id: "animate-sendai"
+    name: { ja: "アニメイト仙台", en: "Animate Sendai" }
+    address: { postalCode: "980-0021", region: { ja: "宮城県", en: "Miyagi" }, locality: { ja: "仙台市青葉区", en: "Aoba Ward, Sendai" }, street: { ja: "中央4-1-1 イービーンズ7F", en: "E-Beans 7F, 4-1-1 Chuo" } }
+    officialUrl: "https://www.animate.co.jp/shop/sendai/"
+    sources:
+      - { label: "アニメイト仙台・店舗情報", url: "https://www.animate.co.jp/shop/sendai/", covers: ["name", "address", "transport"] }
+
+  - id: "aeon-cinema-ebina"
+    name: { ja: "イオンシネマ海老名", en: "AEON Cinema Ebina" }
+    address: { postalCode: "243-0432", region: { ja: "神奈川県", en: "Kanagawa" }, locality: { ja: "海老名市", en: "Ebina City" }, street: { ja: "中央2-4-1 イオン海老名ショッピングセンター2F", en: "AEON Ebina SC 2F, 2-4-1 Chuo" } }
+    officialUrl: "https://www.aeoncinema.com/cinema/ebina/"
+    sources:
+      - { label: "イオンシネマ海老名・劇場案内", url: "https://www.aeoncinema.com/cinema/ebina/", covers: ["name", "address", "transport"] }
+
+  - id: "orix-theater"
+    name: { ja: "オリックス劇場", en: "Orix Theater" }
+    address: { postalCode: "550-0013", region: { ja: "大阪府", en: "Osaka" }, locality: { ja: "大阪市西区", en: "Nishi Ward, Osaka City" }, street: { ja: "新町1-14-15", en: "1-14-15 Shinmachi" } }
+    capacity: { seated: 2400 }
+    officialUrl: "https://www.orixtheater.jp/"
+    sources:
+      - { label: "オリックス劇場 公式サイト", url: "https://www.orixtheater.jp/", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "sendai-sunplaza-hall"
+    name: { ja: "仙台サンプラザホール", en: "Sendai Sunplaza Hall" }
+    address: { postalCode: "983-0852", region: { ja: "宮城県", en: "Miyagi" }, locality: { ja: "仙台市宮城野区", en: "Miyagino Ward, Sendai" }, street: { ja: "榴岡5-11-1", en: "5-11-1 Tsutsujigaoka" } }
+    capacity: { seated: 2710 }
+    officialUrl: "https://www.sendai-sunplaza.com/hall/"
+    sources:
+      - { label: "仙台サンプラザホール 公式サイト", url: "https://www.sendai-sunplaza.com/hall/", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "culttz-kawasaki"
+    name: { ja: "カルッツかわさき", en: "Culttz Kawasaki" }
+    formalName: { ja: "川崎市スポーツ・文化総合センター", en: "Kawasaki City Sports and Culture Center" }
+    address: { postalCode: "210-0011", region: { ja: "神奈川県", en: "Kanagawa" }, locality: { ja: "川崎市川崎区", en: "Kawasaki Ward, Kawasaki" }, street: { ja: "富士見1-1-4", en: "1-1-4 Fujimi" } }
+    capacity: { seated: 2013 }
+    officialUrl: "https://culttz.city.kawasaki.jp/"
+    sources:
+      - { label: "カルッツかわさき・ホール", url: "https://culttz.city.kawasaki.jp/info_hall/", covers: ["name", "capacity"] }
+      - { label: "カルッツかわさき・アクセス", url: "https://culttz.city.kawasaki.jp/access/", covers: ["address", "transport"] }
+
+  - id: "grand-cinema-sunshine"
+    name: { ja: "グランドシネマサンシャイン池袋", en: "Grand Cinema Sunshine Ikebukuro" }
+    address: { postalCode: "170-0013", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "豊島区", en: "Toshima City" }, street: { ja: "東池袋1-30-3 グランドスケープ池袋", en: "Grand Scape Ikebukuro, 1-30-3 Higashi-Ikebukuro" } }
+    officialUrl: "https://www.cinemasunshine.co.jp/theater/gdcs/"
+    sources:
+      - { label: "グランドシネマサンシャイン・劇場案内", url: "https://www.cinemasunshine.co.jp/theater/gdcs/", covers: ["name", "address", "transport"] }
+
+  - id: "theater-h"
+    name: { ja: "シアターH", en: "Theater H" }
+    address: { postalCode: "140-0012", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "品川区", en: "Shinagawa City" }, street: { ja: "勝島1-6-29", en: "1-6-29 Katsushima" } }
+    capacity: { seated: 747 }
+    officialUrl: "https://theater-h.jp/"
+    sources:
+      - { label: "シアターH・劇場概要", url: "https://theater-h.jp/overview/", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "umeda-theater-drama-city"
+    name: { ja: "梅田芸術劇場 シアター・ドラマシティ", en: "Umeda Arts Theater, Theater Drama City" }
+    address: { postalCode: "530-0013", region: { ja: "大阪府", en: "Osaka" }, locality: { ja: "大阪市北区", en: "Kita Ward, Osaka City" }, street: { ja: "茶屋町19-1", en: "19-1 Chayamachi" } }
+    capacity: { seated: 898 }
+    officialUrl: "https://www.umegei.com/"
+    sources:
+      - { label: "梅田芸術劇場・施設案内", url: "https://www.umegei.com/guide/theater.html", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "theatre-1010"
+    name: { ja: "シアター1010", en: "Theatre 1010" }
+    address: { postalCode: "120-0034", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "足立区", en: "Adachi City" }, street: { ja: "千住3-92 千住ミルディスI番館10F・11F", en: "Senju Mildix I 10F/11F, 3-92 Senju" } }
+    capacity: { seated: 701 }
+    officialUrl: "https://www.t1010.jp/"
+    sources:
+      - { label: "シアター1010 公式サイト", url: "https://www.t1010.jp/", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "theater-alpha-tokyo"
+    name: { ja: "シアター・アルファ東京", en: "Theater Alpha Tokyo" }
+    address: { postalCode: "150-0011", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "渋谷区", en: "Shibuya City" }, street: { ja: "東3-24-7 イーストギャラリーB1", en: "East Gallery B1, 3-24-7 Higashi" } }
+    capacity: { seated: 201 }
+    officialUrl: "https://www.alpha-tk.com/"
+    sources:
+      - { label: "シアター・アルファ東京・アクセス", url: "https://www.alpha-tk.com/アクセス", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "pacifico-yokohama"
+    name: { ja: "パシフィコ横浜", en: "Pacifico Yokohama" }
+    aliases: { ja: ["パシフィコ横浜 国立大ホール"], en: ["Pacifico Yokohama National Convention Hall"] }
+    address: { postalCode: "220-0012", region: { ja: "神奈川県", en: "Kanagawa" }, locality: { ja: "横浜市西区", en: "Nishi Ward, Yokohama" }, street: { ja: "みなとみらい1-1-1", en: "1-1-1 Minatomirai" } }
+    spaces:
+      - { name: { ja: "国立大ホール", en: "National Convention Hall" }, capacity: 5002 }
+    officialUrl: "https://www.pacifico.co.jp/"
+    sources:
+      - { label: "パシフィコ横浜 公式サイト", url: "https://www.pacifico.co.jp/", covers: ["name", "address", "spaces", "transport"] }
+
+  - id: "pasela-ginza-grace-bali-grande"
+    name: { ja: "パセラリゾーツ銀座店 グレースバリ～グランデ～", en: "Grace Bali Grande, Pasela Resorts Ginza" }
+    address: { postalCode: "104-0061", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "中央区", en: "Chuo City" }, street: { ja: "銀座6-13-16 銀座ウォールビルB3", en: "Ginza Wall Building B3, 6-13-16 Ginza" } }
+    officialUrl: "https://www.grace-bali.com/shop/ginza/"
+    sources:
+      - { label: "グレースバリ銀座店 公式サイト", url: "https://www.grace-bali.com/shop/ginza/", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "hulic-hall-tokyo"
+    name: { ja: "ヒューリックホール東京", en: "Hulic Hall Tokyo" }
+    address: { postalCode: "100-0006", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "千代田区", en: "Chiyoda City" }, street: { ja: "有楽町2-5-1 有楽町マリオン11F", en: "Yurakucho Marion 11F, 2-5-1 Yurakucho" } }
+    capacity: { seated: 886 }
+    officialUrl: "https://hulic-theater.com/"
+    sources:
+      - { label: "ヒューリックホール東京 公式サイト", url: "https://hulic-theater.com/", covers: ["name", "address", "capacity", "transport"] }
+
+  - id: "prism-stone-harajuku"
+    name: { ja: "プリズムストーン原宿店", en: "Prism Stone Harajuku" }
+    address: { postalCode: "150-0001", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "渋谷区", en: "Shibuya City" }, street: { ja: "神宮前1-13-21 シャンゼール原宿1号館2F", en: "Champs-Élysées Harajuku Building 1, 2F, 1-13-21 Jingumae" } }
+    officialUrl: "https://prismstone.jp/shop/harajuku/"
+    sources:
+      - { label: "プリズムストーン原宿店・店舗情報", url: "https://prismstone.jp/shop/harajuku/", covers: ["name", "address", "transport"] }
+
+  - id: "prism-stone-yokohama"
+    name: { ja: "プリズムストーン 横浜出張所", en: "Prism Stone Yokohama" }
+    address: { region: { ja: "神奈川県", en: "Kanagawa" }, locality: { ja: "横浜市", en: "Yokohama" }, note: { ja: "期間限定出張所。開催回ごとに施設・フロアを確認してください", en: "Temporary pop-up location; verify the facility and floor for each event" } }
+    officialUrl: "https://prismstone.jp/"
+    sources:
+      - { label: "プリズムストーン 公式サイト", url: "https://prismstone.jp/", covers: ["name", "officialUrl"] }
+
+  - id: "naka-ikebukuro-park"
+    name: { ja: "中池袋公園", en: "Naka-Ikebukuro Park" }
+    address: { postalCode: "170-0013", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "豊島区", en: "Toshima City" }, street: { ja: "東池袋1-16-1", en: "1-16-1 Higashi-Ikebukuro" } }
+    officialUrl: "https://www.city.toshima.lg.jp/340/shisetsu/koen/001.html"
+    sources:
+      - { label: "豊島区・中池袋公園", url: "https://www.city.toshima.lg.jp/340/shisetsu/koen/001.html", covers: ["name", "address"] }
+
+  - id: "nakano-sunplaza"
+    name: { ja: "中野サンプラザ", en: "Nakano Sunplaza" }
+    address: { postalCode: "164-8512", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "中野区", en: "Nakano City" }, street: { ja: "中野4-1-1", en: "4-1-1 Nakano" } }
+    status: "closed"
+    closedOn: "2023-07-02"
+    officialUrl: "https://www.sunplaza.jp/"
+    sources:
+      - { label: "中野サンプラザ 公式サイト", url: "https://www.sunplaza.jp/", covers: ["name", "address", "status"] }
+
+  - id: "kyoto-university-yoshida-campus"
+    name: { ja: "京都大学 吉田キャンパス", en: "Kyoto University Yoshida Campus" }
+    address: { postalCode: "606-8501", region: { ja: "京都府", en: "Kyoto" }, locality: { ja: "京都市左京区", en: "Sakyo Ward, Kyoto" }, street: { ja: "吉田本町", en: "Yoshida-honmachi" } }
+    officialUrl: "https://www.kyoto-u.ac.jp/ja/access/campus/yoshida"
+    sources:
+      - { label: "京都大学・吉田キャンパス交通アクセス", url: "https://www.kyoto-u.ac.jp/ja/access/campus/yoshida", covers: ["name", "address", "transport"] }
+
+  - id: "sendai-pit"
+    name: { ja: "仙台PIT", en: "Sendai PIT" }
+    address: { postalCode: "982-0007", region: { ja: "宮城県", en: "Miyagi" }, locality: { ja: "仙台市太白区", en: "Taihaku Ward, Sendai" }, street: { ja: "あすと長町2-2-50", en: "2-2-50 Asutonagamachi" } }
+    officialUrl: "https://sendai-pit.team-smile.org/"
+    sources: [{ label: "仙台PIT 公式サイト", url: "https://sendai-pit.team-smile.org/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "bigcat"
+    name: { ja: "BIGCAT", en: "BIGCAT" }
+    address: { postalCode: "542-0086", region: { ja: "大阪府", en: "Osaka" }, locality: { ja: "大阪市中央区", en: "Chuo Ward, Osaka City" }, street: { ja: "西心斎橋1-6-14 BIGSTEP 4F", en: "BIGSTEP 4F, 1-6-14 Nishishinsaibashi" } }
+    officialUrl: "https://bigcat-live.com/"
+    sources: [{ label: "BIGCAT・ACCESS", url: "https://bigcat-live.com/access", covers: ["name", "address", "transport"] }]
+
+  - id: "shinagawa-intercity-hall"
+    name: { ja: "品川インターシティホール", en: "Shinagawa Intercity Hall" }
+    address: { postalCode: "108-0075", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "港区", en: "Minato City" }, street: { ja: "港南2-15-4", en: "2-15-4 Konan" } }
+    officialUrl: "https://sic-hall.com/"
+    sources: [{ label: "品川インターシティホール 公式サイト", url: "https://sic-hall.com/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "yamano-hall"
+    name: { ja: "山野ホール", en: "Yamano Hall" }
+    address: { postalCode: "151-8539", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "渋谷区", en: "Shibuya City" }, street: { ja: "代々木1-53-1", en: "1-53-1 Yoyogi" } }
+    officialUrl: "https://www.yamanohall.com/"
+    sources: [{ label: "山野ホール 公式サイト", url: "https://www.yamanohall.com/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "rikkoukai-hall"
+    name: { ja: "六行会ホール", en: "Rikkoukai Hall" }
+    address: { postalCode: "140-0001", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "品川区", en: "Shinagawa City" }, street: { ja: "北品川2-32-3", en: "2-32-3 Kitashinagawa" } }
+    officialUrl: "https://www.rikkoukai.com/"
+    sources: [{ label: "六行会ホール 公式サイト", url: "https://www.rikkoukai.com/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "sangubashi-transmission"
+    name: { ja: "参宮橋トランスミッション", en: "Sangubashi Trance Mission" }
+    address: { postalCode: "151-0053", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "渋谷区", en: "Shibuya City" }, street: { ja: "代々木4-50-11", en: "4-50-11 Yoyogi" } }
+    officialUrl: "https://www.trance-mission.jp/"
+    sources: [{ label: "参宮橋トランスミッション 公式サイト", url: "https://www.trance-mission.jp/", covers: ["name", "address", "transport"] }]
+
+  - id: "ticc-room-101"
+    name: { ja: "台北國際會議中心 會議室101", en: "Taipei International Convention Center, Room 101" }
+    countryCode: "TW"
+    timeZone: "Asia/Taipei"
+    address: { postalCode: "110014", region: { ja: "臺北市", en: "Taipei City" }, locality: { ja: "信義區", en: "Xinyi District" }, street: { ja: "信義路五段1號", en: "No. 1, Sec. 5, Xinyi Road" } }
+    capacity: { seated: 744 }
+    officialUrl: "https://www.ticc.com.tw/"
+    sources: [{ label: "TICC・Room 101", url: "https://www.ticc.com.tw/wSite/sp?BaseDSD=7&CtUnit=99&ctNode=322&mp=2&roomId=101&xdUrl=%2FwSite%2Fap%2Fcp_VenueSearch.jsp", covers: ["name", "address", "capacity"] }]
+
+  - id: "dajia-riverside-park"
+    name: { ja: "台北・大佳河濱公園", en: "Dajia Riverside Park, Taipei" }
+    countryCode: "TW"
+    timeZone: "Asia/Taipei"
+    address: { region: { ja: "臺北市", en: "Taipei City" }, locality: { ja: "中山區", en: "Zhongshan District" }, street: { ja: "濱江街5號（水門周辺）", en: "Near Water Gate No. 5, Binjiang Street" } }
+    officialUrl: "https://heo.gov.taipei/"
+    sources: [{ label: "臺北市政府工務局水利工程處", url: "https://heo.gov.taipei/", covers: ["name", "address"] }]
+
+  - id: "shinagawa-grand-hall"
+    name: { ja: "品川 ザ・グランドホール", en: "Shinagawa The Grand Hall" }
+    address: { postalCode: "108-0075", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "港区", en: "Minato City" }, street: { ja: "港南2-16-4 品川グランドセントラルタワー3F", en: "Shinagawa Grand Central Tower 3F, 2-16-4 Konan" } }
+    officialUrl: "https://tg-hall.com/"
+    sources: [{ label: "THE GRAND HALL 公式サイト", url: "https://tg-hall.com/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "necc-shanghai-rainbow-hall"
+    name: { ja: "国家会展中心（上海）虹館EH", en: "National Exhibition and Convention Center Shanghai, Rainbow Hall EH" }
+    countryCode: "CN"
+    timeZone: "Asia/Shanghai"
+    address: { postalCode: "201702", region: { ja: "上海市", en: "Shanghai" }, locality: { ja: "青浦区", en: "Qingpu District" }, street: { ja: "崧沢大道333号 国家会展中心東庁", en: "NECC East Hall, 333 Songze Avenue" } }
+    capacity: { seated: 8000 }
+    officialUrl: "https://www.neccsh.com/"
+    sources:
+      - { label: "国家会展中心（上海）・連絡先", url: "https://www.neccsh.com/cecsh/connectus.jspx", covers: ["address", "officialUrl"] }
+      - { label: "上海虹橋・虹館紹介", url: "https://www.shhqcbd.gov.cn/yshj/ggfwpt/wh/724611746766917.html", covers: ["name", "capacity"] }
+
+  - id: "yume-messe-miyagi"
+    name: { ja: "夢メッセみやぎ", en: "Yume Messe Miyagi" }
+    address: { postalCode: "983-0001", region: { ja: "宮城県", en: "Miyagi" }, locality: { ja: "仙台市宮城野区", en: "Miyagino Ward, Sendai" }, street: { ja: "港3-1-7", en: "3-1-7 Minato" } }
+    officialUrl: "https://www.yumemesse.or.jp/"
+    sources: [{ label: "夢メッセみやぎ 公式サイト", url: "https://www.yumemesse.or.jp/", covers: ["name", "address", "transport"] }]
+
+  - id: "omiya-sonic-city-main-hall"
+    name: { ja: "大宮ソニックシティ 大ホール", en: "Omiya Sonic City Main Hall" }
+    address: { postalCode: "330-8669", region: { ja: "埼玉県", en: "Saitama" }, locality: { ja: "さいたま市大宮区", en: "Omiya Ward, Saitama City" }, street: { ja: "桜木町1-7-5", en: "1-7-5 Sakuragicho" } }
+    capacity: { seated: 2505 }
+    officialUrl: "https://www.sonic-city.or.jp/"
+    sources: [{ label: "ソニックシティ・大ホール", url: "https://www.sonic-city.or.jp/facility/hall.html", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "fujiq-conifer-forest"
+    name: { ja: "富士急ハイランド・コニファーフォレスト", en: "Fuji-Q Highland Conifer Forest" }
+    address: { postalCode: "403-0017", region: { ja: "山梨県", en: "Yamanashi" }, locality: { ja: "富士吉田市", en: "Fujiyoshida City" }, street: { ja: "新西原5-6-1", en: "5-6-1 Shinnishihara" } }
+    officialUrl: "https://www.fujiq.jp/"
+    sources: [{ label: "富士急ハイランド 公式サイト", url: "https://www.fujiq.jp/", covers: ["name", "address", "transport"] }]
+
+  - id: "makuhari-messe"
+    name: { ja: "幕張メッセ", en: "Makuhari Messe" }
+    aliases: { ja: ["幕張メッセ 国際展示場", "幕張メッセ 国際展示場ホール", "幕張メッセ イベントホール"], en: ["Makuhari Messe International Exhibition Hall", "Makuhari Messe Event Hall"] }
+    address: { postalCode: "261-8550", region: { ja: "千葉県", en: "Chiba" }, locality: { ja: "千葉市美浜区", en: "Mihama Ward, Chiba City" }, street: { ja: "中瀬2-1", en: "2-1 Nakase" } }
+    spaces: [{ name: { ja: "国際展示場1〜11ホール", en: "International Exhibition Halls 1–11" } }, { name: { ja: "幕張イベントホール", en: "Makuhari Event Hall" } }]
+    officialUrl: "https://www.m-messe.co.jp/"
+    sources: [{ label: "幕張メッセ・アクセス", url: "https://www.m-messe.co.jp/access/", covers: ["name", "address", "spaces", "transport"] }]
+
+  - id: "ebisu-echo-theater"
+    name: { ja: "恵比寿・エコー劇場", en: "Ebisu Echo Theater" }
+    address: { postalCode: "150-0011", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "渋谷区", en: "Shibuya City" }, street: { ja: "東3-18-3", en: "3-18-3 Higashi" } }
+    officialUrl: "https://www.t-echo.co.jp/echo-theater/"
+    sources: [{ label: "恵比寿・エコー劇場 公式案内", url: "https://www.t-echo.co.jp/echo-theater/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "bunkyodo-joy-matsumoto"
+    name: { ja: "文教堂JOY松本店", en: "Bunkyodo JOY Matsumoto" }
+    address: { region: { ja: "長野県", en: "Nagano" }, locality: { ja: "松本市", en: "Matsumoto City" }, note: { ja: "活動当時の店舗名。移転・閉店を含め主催者告知で確認してください", en: "Store name at the time of the event; confirm relocation or closure with the organizer notice" } }
+    status: "historical"
+    officialUrl: "https://www.bunkyodo.co.jp/"
+    sources: [{ label: "文教堂 公式サイト", url: "https://www.bunkyodo.co.jp/", covers: ["name", "officialUrl"] }]
+
+  - id: "bunkyo-civic-hall-main-hall"
+    name: { ja: "文京シビックホール 大ホール", en: "Bunkyo Civic Hall, Main Hall" }
+    address: { postalCode: "112-0003", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "文京区", en: "Bunkyo City" }, street: { ja: "春日1-16-21", en: "1-16-21 Kasuga" } }
+    capacity: { seated: 1802 }
+    officialUrl: "https://www.b-academy.jp/hall/"
+    sources: [{ label: "文京シビックホール・大ホール", url: "https://www.b-academy.jp/hall/guide_ichiran/hall_dai.html", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "joqr-media-plus-hall"
+    name: { ja: "文化放送メディアプラスホール", en: "Nippon Cultural Broadcasting Media Plus Hall" }
+    address: { postalCode: "105-8002", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "港区", en: "Minato City" }, street: { ja: "浜松町1-31 文化放送メディアプラス12F", en: "Nippon Cultural Broadcasting Media Plus 12F, 1-31 Hamamatsucho" } }
+    officialUrl: "https://www.joqr.co.jp/"
+    sources: [{ label: "文化放送 会社案内", url: "https://www.joqr.co.jp/qr/company/", covers: ["name", "address", "transport"] }]
+
+  - id: "shinjuku-theater-miracle"
+    name: { ja: "新宿シアター・ミラクル", en: "Shinjuku Theater Miracle" }
+    address: { postalCode: "160-0021", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "新宿区", en: "Shinjuku City" }, street: { ja: "歌舞伎町2-45-2 カイダ第3ジャストビル4F", en: "Kaida No. 3 Just Building 4F, 2-45-2 Kabukicho" } }
+    officialUrl: "https://shinjuku-miracle.com/"
+    sources: [{ label: "新宿シアター・ミラクル 公式サイト", url: "https://shinjuku-miracle.com/", covers: ["name", "address", "transport"] }]
+
+  - id: "shinjukumura-live"
+    name: { ja: "新宿村LIVE", en: "Shinjukumura LIVE" }
+    address: { postalCode: "169-0074", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "新宿区", en: "Shinjuku City" }, street: { ja: "北新宿2-1-2 新宿村CENTRAL B2", en: "Shinjukumura CENTRAL B2, 2-1-2 Kitashinjuku" } }
+    officialUrl: "https://www.shinjukumura-live.com/"
+    sources: [{ label: "新宿村LIVE 公式サイト", url: "https://www.shinjukumura-live.com/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "hino-nanao-public-hall"
+    name: { ja: "日野市七生公会堂", en: "Hino Nanao Public Hall" }
+    aliases: { en: ["Hino Nanakio Public Hall"] }
+    address: { postalCode: "191-0032", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "日野市", en: "Hino City" }, street: { ja: "三沢3-50-1", en: "3-50-1 Misawa" } }
+    officialUrl: "https://www.city.hino.lg.jp/shisetsu/bunka/bunka/1005951.html"
+    sources: [{ label: "日野市・七生公会堂", url: "https://www.city.hino.lg.jp/shisetsu/bunka/bunka/1005951.html", covers: ["name", "address", "transport"] }]
+
+  - id: "hibiya-open-air-concert-hall"
+    name: { ja: "日比谷公園大音楽堂", en: "Hibiya Open-Air Concert Hall" }
+    aliases: { ja: ["日比谷野外大音楽堂"], en: ["Hibiya Yaon"] }
+    address: { postalCode: "100-0012", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "千代田区", en: "Chiyoda City" }, street: { ja: "日比谷公園1-5", en: "1-5 Hibiya Park" } }
+    officialUrl: "https://hibiya-kokaido.com/"
+    sources: [{ label: "日比谷公会堂・大音楽堂 公式サイト", url: "https://hibiya-kokaido.com/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "nippon-budokan"
+    name: { ja: "日本武道館", en: "Nippon Budokan" }
+    address: { postalCode: "102-8321", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "千代田区", en: "Chiyoda City" }, street: { ja: "北の丸公園2-3", en: "2-3 Kitanomaru Park" } }
+    capacity: { maximum: 14471 }
+    officialUrl: "https://www.nipponbudokan.or.jp/"
+    sources: [{ label: "日本武道館 公式サイト", url: "https://www.nipponbudokan.or.jp/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "ariake-arena"
+    name: { ja: "有明アリーナ", en: "Ariake Arena" }
+    address: { postalCode: "135-0063", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "江東区", en: "Koto City" }, street: { ja: "有明1-11-1", en: "1-11-1 Ariake" } }
+    capacity: { seated: 15000 }
+    officialUrl: "https://ariake-arena.tokyo/"
+    sources:
+      - { label: "有明アリーナ・施設案内", url: "https://ariake-arena.tokyo/organizer/facilities/", covers: ["name", "address", "capacity"] }
+      - { label: "有明アリーナ・アクセス", url: "https://ariake-arena.tokyo/access/", covers: ["transport"] }
+
+  - id: "tokyo-culture-culture"
+    name: { ja: "東京カルチャーカルチャー", en: "Tokyo Culture Culture" }
+    address: { postalCode: "150-0002", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "渋谷区", en: "Shibuya City" }, street: { ja: "渋谷1-23-16 cocoti SHIBUYA 4F", en: "cocoti SHIBUYA 4F, 1-23-16 Shibuya" } }
+    officialUrl: "https://tokyocultureculture.com/"
+    sources: [{ label: "東京カルチャーカルチャー・アクセス", url: "https://tokyocultureculture.com/access", covers: ["name", "address", "transport"] }]
+
+  - id: "tokyo-garden-theater"
+    name: { ja: "東京ガーデンシアター", en: "Tokyo Garden Theater" }
+    address: { postalCode: "135-0063", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "江東区", en: "Koto City" }, street: { ja: "有明2-1-6", en: "2-1-6 Ariake" } }
+    capacity: { maximum: 8000 }
+    officialUrl: "https://www.shopping-sumitomo-rd.com/tokyo_garden_theater/"
+    sources: [{ label: "東京ガーデンシアター 公式サイト", url: "https://www.shopping-sumitomo-rd.com/tokyo_garden_theater/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "tokyo-dome"
+    name: { ja: "東京ドーム", en: "Tokyo Dome" }
+    address: { postalCode: "112-0004", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "文京区", en: "Bunkyo City" }, street: { ja: "後楽1-3-61", en: "1-3-61 Koraku" } }
+    capacity: { maximum: 55000 }
+    officialUrl: "https://www.tokyo-dome.co.jp/dome/"
+    sources: [{ label: "東京ドーム 公式サイト", url: "https://www.tokyo-dome.co.jp/dome/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "tokyo-big-sight"
+    name: { ja: "東京ビッグサイト", en: "Tokyo Big Sight" }
+    aliases: { ja: ["東京ビッグサイト GREEN STAGE", "東京ビッグサイト 日本テレビ×VAPブース"], en: ["Tokyo Big Sight, Green Stage", "Nippon TV × VAP Booth, Tokyo Big Sight"] }
+    address: { postalCode: "135-0063", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "江東区", en: "Koto City" }, street: { ja: "有明3-11-1", en: "3-11-1 Ariake" } }
+    officialUrl: "https://www.bigsight.jp/"
+    sources: [{ label: "東京ビッグサイト・交通アクセス", url: "https://www.bigsight.jp/visitor/access/", covers: ["name", "address", "transport"] }]
+
+  - id: "tokyo-trade-center-hamamatsucho"
+    name: { ja: "東京都立産業貿易センター浜松町館", en: "Tokyo Metropolitan Industrial Trade Center Hamamatsucho" }
+    address: { postalCode: "105-7501", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "港区", en: "Minato City" }, street: { ja: "海岸1-7-1 東京ポートシティ竹芝", en: "Tokyo Port City Takeshiba, 1-7-1 Kaigan" } }
+    officialUrl: "https://www.sanbo.metro.tokyo.lg.jp/hamamatsucho/"
+    sources: [{ label: "東京都立産業貿易センター浜松町館", url: "https://www.sanbo.metro.tokyo.lg.jp/hamamatsucho/", covers: ["name", "address", "transport"] }]
+
+  - id: "hmv-esola-ikebukuro"
+    name: { ja: "HMVエソラ池袋", en: "HMV Esora Ikebukuro" }
+    address: { postalCode: "171-0021", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "豊島区", en: "Toshima City" }, street: { ja: "西池袋1-12-1 Esola池袋3F", en: "Esola Ikebukuro 3F, 1-12-1 Nishi-Ikebukuro" } }
+    officialUrl: "https://www.hmv.co.jp/store/IKE/"
+    sources: [{ label: "HMVエソラ池袋・店舗情報", url: "https://www.hmv.co.jp/store/IKE/", covers: ["name", "address", "transport"] }]
+
+  - id: "theater-g-rosso"
+    name: { ja: "東京ドームシティ シアターGロッソ", en: "Tokyo Dome City Theater G-Rosso" }
+    address: { postalCode: "112-8575", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "文京区", en: "Bunkyo City" }, street: { ja: "後楽1-3-61", en: "1-3-61 Koraku" } }
+    capacity: { seated: 765 }
+    officialUrl: "https://www.tokyo-dome.co.jp/g-rosso/"
+    sources: [{ label: "シアターGロッソ 公式サイト", url: "https://www.tokyo-dome.co.jp/g-rosso/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "tokyo-solamachi-space-634"
+    name: { ja: "東京ソラマチ5F スペース634", en: "Tokyo Solamachi 5F Space 634" }
+    address: { postalCode: "131-0045", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "墨田区", en: "Sumida City" }, street: { ja: "押上1-1-2 東京ソラマチ5F", en: "Tokyo Solamachi 5F, 1-1-2 Oshiage" } }
+    officialUrl: "https://www.tokyo-solamachi.jp/service/eventspace/"
+    sources: [{ label: "東京ソラマチ・イベントスペース", url: "https://www.tokyo-solamachi.jp/service/eventspace/", covers: ["name", "address", "transport"] }]
+
+  - id: "mori-no-hall-21"
+    name: { ja: "森のホール21", en: "Mori no Hall 21" }
+    address: { postalCode: "270-2252", region: { ja: "千葉県", en: "Chiba" }, locality: { ja: "松戸市", en: "Matsudo City" }, street: { ja: "千駄堀646-4", en: "646-4 Sendabori" } }
+    officialUrl: "https://www.morinohall21.com/"
+    sources: [{ label: "森のホール21 公式サイト", url: "https://www.morinohall21.com/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "yokohama-arena"
+    name: { ja: "横浜アリーナ", en: "Yokohama Arena" }
+    address: { postalCode: "222-0033", region: { ja: "神奈川県", en: "Kanagawa" }, locality: { ja: "横浜市港北区", en: "Kohoku Ward, Yokohama" }, street: { ja: "新横浜3-10", en: "3-10 Shin-Yokohama" } }
+    capacity: { maximum: 17000 }
+    officialUrl: "https://www.yokohama-arena.co.jp/"
+    sources: [{ label: "横浜アリーナ 公式サイト", url: "https://www.yokohama-arena.co.jp/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "yokohama-landmark-hall"
+    name: { ja: "横浜ランドマークホール", en: "Yokohama Landmark Hall" }
+    address: { postalCode: "220-0012", region: { ja: "神奈川県", en: "Kanagawa" }, locality: { ja: "横浜市西区", en: "Nishi Ward, Yokohama" }, street: { ja: "みなとみらい2-2-1 ランドマークプラザ5F", en: "Landmark Plaza 5F, 2-2-1 Minatomirai" } }
+    officialUrl: "https://landmarkhall.jp/"
+    sources: [{ label: "横浜ランドマークホール 公式サイト", url: "https://landmarkhall.jp/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "yokohama-ytj-hall"
+    name: { ja: "横浜YTJホール", en: "Yokohama YTJ Hall" }
+    address: { postalCode: "224-0003", region: { ja: "神奈川県", en: "Kanagawa" }, locality: { ja: "横浜市都筑区", en: "Tsuzuki Ward, Yokohama" }, street: { ja: "中川中央1-30-1 プレミアヨコハマ7F", en: "PREMIERE YOKOHAMA 7F, 1-30-1 Nakagawachuo" } }
+    officialUrl: "https://ytj-hall.jp/"
+    sources: [{ label: "YTJホール 公式サイト", url: "https://ytj-hall.jp/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "musashino-performing-arts-small-theatre"
+    name: { ja: "武蔵野芸能劇場 小劇場", en: "Musashino Performing Arts Theatre, Small Hall" }
+    address: { postalCode: "180-0004", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "武蔵野市", en: "Musashino City" }, street: { ja: "中町1-15-10", en: "1-15-10 Nakamachi" } }
+    officialUrl: "https://www.musashino.or.jp/geinou/"
+    sources: [{ label: "武蔵野芸能劇場 公式案内", url: "https://www.musashino.or.jp/geinou/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "ikebukuro-humax-cinemas"
+    name: { ja: "池袋HUMAXシネマズ", en: "Ikebukuro HUMAX Cinemas" }
+    address: { postalCode: "170-0013", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "豊島区", en: "Toshima City" }, street: { ja: "東池袋1-22-10 ヒューマックスパビリオン池袋サンシャイン60通り", en: "HUMAX Pavilion Ikebukuro, 1-22-10 Higashi-Ikebukuro" } }
+    officialUrl: "https://www.humax-cinema.co.jp/ikebukuro/"
+    sources: [{ label: "池袋HUMAXシネマズ・アクセス", url: "https://www.humax-cinema.co.jp/ikebukuro/access/", covers: ["name", "address", "transport"] }]
+
+  - id: "senzoku-maeda-hall"
+    name: { ja: "洗足学園音楽大学 前田ホール", en: "Senzoku Gakuen College of Music Maeda Hall" }
+    address: { postalCode: "213-8580", region: { ja: "神奈川県", en: "Kanagawa" }, locality: { ja: "川崎市高津区", en: "Takatsu Ward, Kawasaki" }, street: { ja: "久本2-3-1", en: "2-3-1 Hisamoto" } }
+    officialUrl: "https://www.senzoku.ac.jp/music/about/facilities/maeda_hall"
+    sources: [{ label: "洗足学園音楽大学・前田ホール", url: "https://www.senzoku.ac.jp/music/about/facilities/maeda_hall", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "asakusa-hana-theater"
+    name: { ja: "浅草花劇場", en: "Asakusa Hana Theater" }
+    address: { postalCode: "111-0032", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "台東区", en: "Taito City" }, street: { ja: "浅草2-28-1 浅草花やしき内", en: "Asakusa Hanayashiki, 2-28-1 Asakusa" } }
+    officialUrl: "https://asakusa-kagekijo.com/"
+    sources: [{ label: "浅草花劇場 公式サイト", url: "https://asakusa-kagekijo.com/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "shibuya-stream-hall"
+    name: { ja: "渋谷ストリームホール", en: "Shibuya Stream Hall" }
+    address: { postalCode: "150-0002", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "渋谷区", en: "Shibuya City" }, street: { ja: "渋谷3-21-3", en: "3-21-3 Shibuya" } }
+    officialUrl: "https://stream-hall.jp/"
+    sources: [{ label: "渋谷ストリームホール 公式サイト", url: "https://stream-hall.jp/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "selene-b2"
+    name: { ja: "白金高輪SELENE b2", en: "Shirokane-Takanawa SELENE b2" }
+    address: { postalCode: "108-0073", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "港区", en: "Minato City" }, street: { ja: "三田5-2-30 SELENE STUDIO B2", en: "SELENE STUDIO B2, 5-2-30 Mita" } }
+    officialUrl: "https://www.selene.studio/hall/"
+    sources: [{ label: "SELENE b2 公式サイト", url: "https://www.selene.studio/hall/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "kanda-myojin"
+    name: { ja: "神田明神", en: "Kanda Myojin Shrine" }
+    address: { postalCode: "101-0021", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "千代田区", en: "Chiyoda City" }, street: { ja: "外神田2-16-2", en: "2-16-2 Sotokanda" } }
+    officialUrl: "https://www.kandamyoujin.or.jp/"
+    sources: [{ label: "神田明神 公式サイト", url: "https://www.kandamyoujin.or.jp/", covers: ["name", "address", "transport"] }]
+
+  - id: "kanda-myojin-hall"
+    name: { ja: "神田明神ホール", en: "Kanda Myojin Hall" }
+    address: { postalCode: "101-0021", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "千代田区", en: "Chiyoda City" }, street: { ja: "外神田2-16-2 神田明神文化交流館2F", en: "Kanda Myojin Cultural Exchange Center 2F, 2-16-2 Sotokanda" } }
+    officialUrl: "https://myoujin-hall.jp/"
+    sources: [{ label: "神田明神ホール 公式サイト", url: "https://myoujin-hall.jp/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "science-hall"
+    name: { ja: "科学技術館 サイエンスホール", en: "Science Museum, Science Hall" }
+    address: { postalCode: "102-0091", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "千代田区", en: "Chiyoda City" }, street: { ja: "北の丸公園2-1", en: "2-1 Kitanomaru Park" } }
+    capacity: { seated: 410 }
+    officialUrl: "https://event-jsf.jp/science-hall"
+    sources: [{ label: "科学技術館・サイエンスホール", url: "https://event-jsf.jp/science-hall", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "maihama-amphitheater"
+    name: { ja: "舞浜アンフィシアター", en: "Maihama Amphitheater" }
+    address: { postalCode: "279-8512", region: { ja: "千葉県", en: "Chiba" }, locality: { ja: "浦安市", en: "Urayasu City" }, street: { ja: "舞浜2-50", en: "2-50 Maihama" } }
+    capacity: { seated: 2170 }
+    officialUrl: "https://www.maihama-amphitheater.jp/"
+    sources: [{ label: "舞浜アンフィシアター 公式サイト", url: "https://www.maihama-amphitheater.jp/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "toyosu-civic-center-hall"
+    name: { ja: "豊洲シビックセンターホール", en: "Toyosu Civic Center Hall" }
+    address: { postalCode: "135-0061", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "江東区", en: "Koto City" }, street: { ja: "豊洲2-2-18 豊洲シビックセンター5F", en: "Toyosu Civic Center 5F, 2-2-18 Toyosu" } }
+    capacity: { seated: 300 }
+    officialUrl: "https://www.kcf.or.jp/toyosu/"
+    sources: [{ label: "豊洲文化センター・ホール", url: "https://www.kcf.or.jp/toyosu/shisetsu/hall/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "hakuhinkan-theater"
+    name: { ja: "銀座 博品館劇場", en: "Ginza Hakuhinkan Theater" }
+    address: { postalCode: "104-8132", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "中央区", en: "Chuo City" }, street: { ja: "銀座8-8-11 博品館8F", en: "Hakuhinkan 8F, 8-8-11 Ginza" } }
+    capacity: { seated: 381 }
+    officialUrl: "https://www.hakuhinkan.co.jp/theater/"
+    sources: [{ label: "博品館劇場 公式サイト", url: "https://www.hakuhinkan.co.jp/theater/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "tokiwa-hall"
+    name: { ja: "雷5656会館 ときわホール", en: "Kaminarimon 5656 Kaikan Tokiwa Hall" }
+    address: { postalCode: "111-0032", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "台東区", en: "Taito City" }, street: { ja: "浅草3-6-1 雷5656会館5F", en: "Kaminarimon 5656 Kaikan 5F, 3-6-1 Asakusa" } }
+    officialUrl: "https://tokiwado.tokyo/kaikan/"
+    sources: [{ label: "雷5656会館 公式案内", url: "https://tokiwado.tokyo/kaikan/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "hikosen-theater"
+    name: { ja: "飛行船シアター", en: "Hikosen Theater" }
+    address: { postalCode: "110-0015", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "台東区", en: "Taito City" }, street: { ja: "東上野4-24-11", en: "4-24-11 Higashi-Ueno" } }
+    officialUrl: "https://hikosen-theater.com/"
+    sources: [{ label: "飛行船シアター 公式サイト", url: "https://hikosen-theater.com/", covers: ["name", "address", "capacity", "transport"] }]
+
+  - id: "komaba-park-saku"
+    name: { ja: "駒場公園（長野県佐久市）", en: "Komaba Park, Saku, Nagano" }
+    address: { postalCode: "385-0011", region: { ja: "長野県", en: "Nagano" }, locality: { ja: "佐久市", en: "Saku City" }, street: { ja: "猿久保字丸山55", en: "55 Aza Maruyama, Sarukubo" } }
+    officialUrl: "https://www.city.saku.nagano.jp/shisetsu/koen/komabakoen.html"
+    sources: [{ label: "佐久市・駒場公園", url: "https://www.city.saku.nagano.jp/shisetsu/koen/komabakoen.html", covers: ["name", "address"] }]
+
+  - id: "komazawa-university-campus"
+    name: { ja: "駒澤大学 駒沢キャンパス", en: "Komazawa University Komazawa Campus" }
+    address: { postalCode: "154-8525", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "世田谷区", en: "Setagaya City" }, street: { ja: "駒沢1-23-1", en: "1-23-1 Komazawa" } }
+    officialUrl: "https://www.komazawa-u.ac.jp/facilities/campus/komazawa.html"
+    sources: [{ label: "駒澤大学・駒沢キャンパス", url: "https://www.komazawa-u.ac.jp/facilities/campus/komazawa.html", covers: ["name", "address", "transport"] }]
+
+  - id: "korea-university-hwajeong-gymnasium"
+    name: { ja: "高麗大学校 化汀体育館", en: "Korea University Hwajeong Gymnasium" }
+    aliases: { en: ["Korea University Hwa-jeong Tiger Dome"] }
+    countryCode: "KR"
+    timeZone: "Asia/Seoul"
+    address: { postalCode: "02841", region: { ja: "ソウル特別市", en: "Seoul" }, locality: { ja: "城北区", en: "Seongbuk-gu" }, street: { ja: "開運寺2ギル48", en: "48 Gaeunsa 2-gil" } }
+    officialUrl: "https://kuhj.korea.ac.kr/"
+    sources: [{ label: "高麗大学校・化汀体育館", url: "https://kuhj.korea.ac.kr/kuhj/about/intro.do", covers: ["name", "address", "officialUrl"] }]
+
+  - id: "mercedes-benz-arena-shanghai"
+    name: { ja: "メルセデス・ベンツアリーナ（上海）", en: "Mercedes-Benz Arena, Shanghai" }
+    countryCode: "CN"
+    timeZone: "Asia/Shanghai"
+    address: { postalCode: "200126", region: { ja: "上海市", en: "Shanghai" }, locality: { ja: "浦東新区", en: "Pudong New Area" }, street: { ja: "世博大道1200号", en: "1200 Shibo Avenue" } }
+    capacity: { maximum: 18000 }
+    officialUrl: "https://www.mercedes-benzarena.com/"
+    sources:
+      - { label: "Mercedes-Benz Arena・About", url: "https://www.mercedes-benzarena.com/en/AboutUs/", covers: ["name", "capacity"] }
+      - { label: "Mercedes-Benz Arena・Traffic Guide", url: "https://www.mercedes-benzarena.com/en/trafficguide.html", covers: ["address", "transport"] }
+
+  - id: "shinjuku-wald-9"
+    name: { ja: "新宿バルト9", en: "Shinjuku Wald 9" }
+    address: { postalCode: "160-0022", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "新宿区", en: "Shinjuku City" }, street: { ja: "新宿3-1-26 新宿三丁目イーストビル9F", en: "Shinjuku 3-chome East Building 9F, 3-1-26 Shinjuku" } }
+    officialUrl: "https://tjoy.jp/shinjuku_wald9"
+    sources:
+      - { label: "新宿バルト9・劇場案内", url: "https://tjoy.jp/shinjuku_wald9", covers: ["name", "address", "transport"] }
