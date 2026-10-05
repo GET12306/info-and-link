@@ -4,6 +4,7 @@ export type ActivityEditorScalarKey =
   | "id"
   | "category"
   | "scheduleLabel"
+  | "timeZone"
   | "link"
   | "startDate"
   | "endDate"
@@ -66,8 +67,13 @@ export const ACTIVITY_EDITOR_SECTIONS: readonly ActivityEditorSection[] = [
   {
     id: "schedule",
     title: "状态与连续日期",
-    description: "连续日期使用开始/结束日；非连续日期和精确时间请使用下方的场次编辑器。",
+    description: "所有机器可读时间按活动时区填写，默认 Asia/Tokyo（东九区）；访客页面会自动转换为其本地时间。连续日期使用开始/结束日；非连续日期和精确时间请使用下方的场次编辑器。",
     fields: [
+      {
+        key: "timeZone", label: "timeZone", input: "text",
+        placeholder: "Asia/Tokyo（留空即东九区）",
+        description: "仅当原始资料按其他时区发布时填写 IANA 时区，例如 Asia/Hong_Kong、Asia/Taipei。不要根据活动地点自动改写。",
+      },
       { key: "startDate", label: "startDate", input: "text", placeholder: "YYYY-MM-DD" },
       { key: "endDate", label: "endDate", input: "text", placeholder: "YYYY-MM-DD" },
       {
@@ -95,6 +101,7 @@ export const ACTIVITY_EDITOR_KNOWN_FIELDS = new Set([
   "id",
   "category",
   "scheduleLabel",
+  "timeZone",
   "startDate",
   "endDate",
   "recurrence",

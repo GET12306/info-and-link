@@ -1,12 +1,14 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { AlertCircle, ChevronDown, ChevronUp, Copy, FileCode2, Plus, RefreshCw, Save, Search, Trash2 } from "lucide-react"
 import { stringify } from "yaml"
 import {
   RESOURCE_EDITOR_DOCUMENTS,
+  RESOURCE_LINK_FIELDS,
   type EditorField,
   type ResourceDocumentKey,
 } from "./resourceEditorSchema"
 import { validateResourceDocument } from "./resourceValidation"
+import { useEditorAutoRefresh, useUnsavedChanges } from "./useEditorAutoRefresh"
 
 type RecordValue = Record<string, unknown>
 type ResourceResponse = {
@@ -15,8 +17,6 @@ type ResourceResponse = {
   activityIds?: string[]
   error?: string
 }
-
-const AUTO_REFRESH_INTERVAL_MS = 15_000
 
 function isRecord(value: unknown): value is RecordValue {
   return value !== null && typeof value === "object" && !Array.isArray(value)
@@ -108,9 +108,7 @@ function FieldEditor({ field, path, record, onChange, activityIds }: {
   if (field.kind === "array") {
     const items = Array.isArray(value) ? value : []
     return <div className="resource-complex-field">
-      <div className="resource-field-heading"><strong>{label}</strong>
-        <button type="button" className="quiet-button" onClick={() => change([...items, createFieldValue(field.item!)])}><Plus /> 添加</button>
-      </div>
+      <div className="resource-field-heading"><strong>{label}</strong></div>
       {items.length === 0 && <p className="empty-copy">尚无项目</p>}
       <div className="card-stack">{items.map((item, index) => <div className="item-card" key={index}>
         <div className="item-toolbar"><strong>{name}[{index}]</strong><span>
@@ -119,8 +117,17 @@ function FieldEditor({ field, path, record, onChange, activityIds }: {
           <button type="button" className="danger-icon" aria-label="删除" onClick={() => change(items.length === 1 && !field.required ? undefined : items.filter((_, itemIndex) => index !== itemIndex))}><Trash2 /></button>
         </span></div>
         {field.item?.kind === "resourceLink" ? <ResourceLinkEditor value={item} path={`${name}[${index}]`} onChange={nextValue => change(items.map((current, itemIndex) => itemIndex === index ? nextValue : current))} />
-          : field.item?.kind === "object" ? <div className="resource-fields">{field.item.fields?.map(child => <FieldEditor key={child.key} field={child} path={`${name}[${index}]`} record={isRecord(item) ? item : {}} onChange={nextValue => change(items.map((current, itemIndex) => itemIndex === index ? nextValue : current))} />)}</div> : null}
+          : field.item?.kind === "object" ? <div className="resource-fields">{field.item.fields?.map(child => <FieldEditor key={child.key} field={child} path={`${name}[${index}]`} record={isRecord(item) ? item : {}} onChange={nextValue => change(items.map((current, itemIndex) => itemIndex === index ? nextValue : current))} />)}</div>
+            : field.item ? <FieldEditor
+              field={{ ...field.item, key: "value" }}
+              path={`${name}[${index}]`}
+              record={{ value: item }}
+              onChange={nextValue => change(items.map((current, itemIndex) => itemIndex === index ? nextValue.value : current))}
+            /> : null}
       </div>)}</div>
+      <div className="list-append-action">
+        <button type="button" className="secondary-button" onClick={() => change([...items, createFieldValue(field.item!)])}><Plus /> 添加</button>
+      </div>
     </div>
   }
 
@@ -174,13 +181,7 @@ function ResourceLinkEditor({ value, path, onChange }: { value: unknown; path: s
       <button type="button" className={!objectMode ? "selected" : ""} onClick={() => onChange(String(details.url ?? ""))}>URL only</button>
       <button type="button" className={objectMode ? "selected" : ""} onClick={() => onChange(details)}>URL + details</button>
     </div>
-    {objectMode ? <div className="resource-fields">{[
-      { key: "url", kind: "url", required: true },
-      { key: "date", kind: "text", format: "date", placeholder: "YYYY-MM-DD" },
-      { key: "label", kind: "archiveText" },
-      { key: "platform", kind: "select", options: ["x", "instagram", "youtube", "web", "other"] },
-      { key: "status", kind: "select", options: ["available", "expired"] },
-    ].map(field => <FieldEditor key={field.key} field={field as EditorField} path={path} record={details} onChange={onChange} />)}</div>
+    {objectMode ? <div className="resource-fields">{RESOURCE_LINK_FIELDS.map(field => <FieldEditor key={field.key} field={field} path={path} record={details} onChange={onChange} />)}</div>
       : <label className="form-field"><span>{path} <em className="required">required</em></span><input type="url" value={typeof value === "string" ? value : ""} onChange={event => onChange(event.target.value)} /></label>}
   </div>
 }
@@ -202,6 +203,7 @@ export default function ResourceEditorApp({ documentKey, active }: { documentKey
   const [query, setQuery] = useState("")
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
+  const savingRef = useRef(false)
   const [message, setMessage] = useState("")
   const [showYaml, setShowYaml] = useState(false)
   const dirty = JSON.stringify(entries) !== JSON.stringify(savedEntries)
@@ -227,52 +229,23 @@ export default function ResourceEditorApp({ documentKey, active }: { documentKey
     return () => { cancelled = true }
   }, [documentKey])
 
-  useEffect(() => {
-    if (dirty || loading || saving || !revision) return
-    let cancelled = false
-    const refresh = async () => {
-      try {
-        const payload = await fetchEntries(documentKey)
-        if (!cancelled) setActivityIds(payload.activityIds ?? [])
-        if (cancelled || payload.revision === revision) return
-        setEntries(payload.entries)
-        setSavedEntries(structuredClone(payload.entries))
-        setRevision(payload.revision)
-        setActivityIds(payload.activityIds ?? [])
-        setSelectedIndex(index => Math.min(index, Math.max(0, payload.entries.length - 1)))
-        setMessage("磁盘内容已更新，自动载入最新版本。")
-      } catch { /* Manual reload and save surface errors. */ }
-    }
-    const onVisible = () => { if (document.visibilityState === "visible") void refresh() }
-    const interval = window.setInterval(() => void refresh(), AUTO_REFRESH_INTERVAL_MS)
-    window.addEventListener("focus", refresh)
-    document.addEventListener("visibilitychange", onVisible)
-    return () => { cancelled = true; window.clearInterval(interval); window.removeEventListener("focus", refresh); document.removeEventListener("visibilitychange", onVisible) }
-  }, [documentKey, dirty, loading, revision, saving])
-
-  useEffect(() => {
-    if (!active || loading || !revision) return
-    let cancelled = false
-    void fetchEntries(documentKey).then(payload => {
-      if (cancelled) return
+  useEditorAutoRefresh({
+    documentKey, active, dirty, loading, saving, revision,
+    fetchLatest: () => fetchEntries(documentKey),
+    onRefresh: (payload) => {
       setActivityIds(payload.activityIds ?? [])
-      if (dirty || payload.revision === revision) return
+      if (payload.revision === revision) return
       setEntries(payload.entries)
       setSavedEntries(structuredClone(payload.entries))
       setRevision(payload.revision)
       setSelectedIndex(index => Math.min(index, Math.max(0, payload.entries.length - 1)))
       setMessage("磁盘内容已更新，自动载入最新版本。")
-    }).catch(() => { /* Save or manual reload surfaces errors. */ })
-    return () => { cancelled = true }
-  }, [active, documentKey])
-
-  useEffect(() => {
-    const warn = (event: BeforeUnloadEvent) => { if (dirty) event.preventDefault() }
-    window.addEventListener("beforeunload", warn)
-    return () => window.removeEventListener("beforeunload", warn)
-  }, [dirty])
+    },
+  })
+  useUnsavedChanges(dirty)
 
   const load = async () => {
+    if (savingRef.current) return
     if (dirty && !window.confirm("放弃尚未保存的修改并载入磁盘版本吗？")) return
     setLoading(true)
     try {
@@ -288,7 +261,8 @@ export default function ResourceEditorApp({ documentKey, active }: { documentKey
   }
 
   const save = async () => {
-    if (issues.length) return
+    if (issues.length || loading || savingRef.current) return
+    savingRef.current = true
     setSaving(true)
     try {
       const latest = await fetchEntries(documentKey)
@@ -303,7 +277,7 @@ export default function ResourceEditorApp({ documentKey, active }: { documentKey
       setSavedEntries(structuredClone(entries))
       setMessage(`已安全写入 src/data/${schema.filename}`)
     } catch (error) { setMessage(error instanceof Error ? error.message : "保存失败") }
-    finally { setSaving(false) }
+    finally { savingRef.current = false; setSaving(false) }
   }
 
   const updateSelected = (next: RecordValue) => {
@@ -315,21 +289,21 @@ export default function ResourceEditorApp({ documentKey, active }: { documentKey
   const remove = () => {
     if (!selected || !window.confirm("删除当前条目吗？保存前可重新载入撤销。")) return
     setEntries(current => current.filter((_, index) => index !== selectedIndex))
-    setSelectedIndex(Math.min(selectedIndex, entries.length - 2))
+    setSelectedIndex(Math.max(0, Math.min(selectedIndex, entries.length - 2)))
     setMessage("")
   }
 
   return <div className="editor-shell">
     <header className="editor-header"><div><p>LOCAL CONTENT TOOL</p><h1>{schema.label} YAML 编辑器</h1><span>{schema.description}</span></div>
       <div className="header-actions">
-        <button type="button" className="reload-button" disabled={loading} onClick={() => void load()}><RefreshCw /> 载入磁盘最新版本</button>
-        <button type="button" className="primary-button" disabled={!dirty || saving || issues.length > 0} onClick={() => void save()}><Save /> {saving ? "保存中…" : "保存 YAML"}</button>
+        <button type="button" className="reload-button" disabled={loading || saving} onClick={() => void load()}><RefreshCw /> 载入磁盘最新版本</button>
+        <button type="button" className="primary-button" disabled={loading || !dirty || saving || issues.length > 0} onClick={() => void save()}><Save /> {saving ? "保存中…" : "保存 YAML"}</button>
       </div>
     </header>
     <div className="status-bar"><span className={dirty ? "dirty" : "saved"}>{dirty ? "有未保存修改" : "内容已同步"}</span><span className={issues.length ? "errors" : "valid"}>{issues.length ? `${issues.length} 个错误` : "校验通过"}</span><strong>src/data/{schema.filename}</strong></div>
     <main className="editor-layout"><aside className="activity-sidebar">
       <div className="sidebar-tools"><label className="search-field"><Search /><input value={query} placeholder="搜索标题、ID 或日期" onChange={event => setQuery(event.target.value)} /></label></div>
-      <div className="sidebar-title"><span>{visibleEntries.length} / {entries.length} 条记录</span><button type="button" disabled={loading} onClick={add}><Plus /> 新建</button></div>
+      <div className="sidebar-title"><span>{visibleEntries.length} / {entries.length} 条记录</span><button type="button" disabled={loading || saving} onClick={add}><Plus /> 新建</button></div>
       <nav className="activity-list" aria-label="记录列表">{visibleEntries.map(({ entry, index }) => <button type="button" key={index} className={index === selectedIndex ? "active" : ""} onClick={() => setSelectedIndex(index)}>
         <span><strong>{localizedLabel(entry.title) || "未命名记录"}</strong><small>{String(entry.activityId ?? entry.id ?? entry.date ?? entry.publicationDate ?? `#${index + 1}`)}</small></span>
         {issues.some(issue => issue.path.startsWith(`${documentKey}[${index}]`)) && <AlertCircle className="error-icon" />}

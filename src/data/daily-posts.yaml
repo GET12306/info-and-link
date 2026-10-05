@@ -11,6 +11,19 @@
 # - title: "日常の写真"
 #   url: "https://x.com/example/status/123456789"
 #
+# 同一主题下有原帖、转发或回复时，url 保存原帖，links 保存关联投稿：
+# - title: "ある日の投稿シリーズ"
+#   date: "2026-09-19"       # 系列共同日期；每条链接可单独覆盖
+#   platform: "x"           # 系列共同平台；每条链接可单独覆盖
+#   url: "https://x.com/example/status/original" # 必填：标题链接到这里
+#   links:
+#     - "https://x.com/example/status/1" # 可选：只有 URL 时可直接写字符串
+#     - url: "https://x.com/example/status/2"
+#       label: "返信"         # 可选：字符串或 { ja, en }
+#       date: "2026-09-20"   # 可选：覆盖系列日期
+#       platform: "x"        # 可选：覆盖系列平台
+#       status: "expired"    # 可选：覆盖系列链接状态
+#
 # 完整示例：
 # - id: "daily-2026-09-19"       # 可选，唯一标识
 #   date: "2026-09-19"          # 可选，发布日期（日本时间），YYYY-MM-DD
@@ -27,25 +40,25 @@
 - id: "daily-2026-09-19"
   date: "2026-09-19"
   title:
-    ja: "ディズニー 🎃 ハロウィン"
-    en: "Disney 🎃 Halloween"
+    ja: "ハロウィン ディズニー"
+    en: "Halloween Disney"
   url: https://x.com/yuuu_ka0316/status/2101274132956729694
   platform: "x"
-  description: |
-    ディズニー🎃ハロウィン꙳⋆ 
-    with ここてゃん❤
-  tags: ["森嶋優花", "ディズニー"]
+  tags: ["森嶋優花", "林鼓子", "ディズニー"]
+  links:
+    - url: https://x.com/cocohayashi515/status/2102032248279302496
+      label: "Repost"
+      date: "2026-09-21"   # 可选：覆盖系列日期
+    - url: https://x.com/yuuu_ka0316/status/2102040288693006742
+      label: "Repost"
+      date: "2026-09-21"
 
 
-- id: "daily-2026-09-21"
-  date: "2026-09-21"
+- id: "daily-2022-02-22"
+  date: "2022-02-22"
   title:
-    ja: "ディズニー 🎃 ハロウィン"
-    en: "Disney 🎃 Halloween"
-  url: https://x.com/cocohayashi515/status/2102032248279302496
-  # https://x.com/cocohayashi515/status/2102036299272388801
+    ja: "2022 猫の日"
+    en: "2022 Cat Day"
+  url: https://x.com/cocohayashi515/status/1496102290348036102
   platform: "x"
-  description: |
-    もっちーとDハロ行ってきた🎶🎃
-    明日空いてる？行こ！のテンションで集まれるってワケ。ネ申。
-  tags: ["林鼓子", "ディズニー"]
+  tags: ["林鼓子", "ねこ"]

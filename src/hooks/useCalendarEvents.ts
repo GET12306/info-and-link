@@ -1,14 +1,13 @@
 import { getDay } from "date-fns"
 import type { Activity, ActivityMilestone } from "../types"
 import { getActivityOccurrences } from "../utils/activitySchedule"
-import { getJapanTimeLabel } from "../utils/japanTime"
+import { dateTimeForViewer, instantFromSourceKey, viewerTimeZone } from "../utils/timeZone"
 
 export interface CalendarEvent {
   date: string
   activityId: string
   performanceIndex?: number
-  startAt?: string
-  endAt: string
+  endInstant: number
   startTime?: string
   milestones: ActivityMilestone[]
 }
@@ -24,27 +23,52 @@ export interface CalendarMonthData {
   weeks: CalendarDay[][]
 }
 
-export function buildCalendarData(activities: Activity[], includeDate?: string): CalendarMonthData[] {
-  const events = collectEvents(activities)
+export function buildCalendarData(activities: Activity[], includeDate?: string, timeZone = viewerTimeZone()): CalendarMonthData[] {
+  const events = collectEvents(activities, timeZone)
   return buildMonths(events, includeDate?.substring(0, 7))
 }
 
-function collectEvents(activities: Activity[]): CalendarEvent[] {
+function collectEvents(activities: Activity[], timeZone: string): CalendarEvent[] {
   const result: CalendarEvent[] = []
 
   for (const act of activities) {
     getActivityOccurrences(act).forEach((occurrence) => {
+      const startLocal = occurrence.allDay ? undefined : dateTimeForViewer(occurrence.startInstant, timeZone)
+      const date = startLocal?.substring(0, 10) ?? occurrence.date
+      const localMilestones = occurrence.milestones.map((milestone) => {
+        const start = instantFromSourceKey(`${occurrence.date}T${milestone.at}`, occurrence.timeZone)
+        const end = milestone.until
+          ? instantFromSourceKey(`${occurrence.date}T${milestone.until}`, occurrence.timeZone)
+          : null
+        return start === null ? null : {
+          date: dateTimeForViewer(start, timeZone).substring(0, 10),
+          start,
+          end: end ?? ((milestone.kind === "doors" || milestone.kind === "merch") &&
+            occurrence.startAt && occurrence.startInstant > start
+              ? occurrence.startInstant : start + 60 * 60_000),
+          milestone: {
+            ...milestone,
+            at: dateTimeForViewer(start, timeZone).substring(11),
+            until: end === null ? undefined : dateTimeForViewer(end, timeZone).substring(11),
+          },
+        }
+      }).filter((item): item is NonNullable<typeof item> => item !== null)
       result.push({
-        date: occurrence.date,
+        date,
         activityId: act.id,
         performanceIndex: occurrence.performanceIndex,
-        startAt: occurrence.startAt,
-        endAt: occurrence.endAt,
-        startTime: occurrence.startAt
-          ? getJapanTimeLabel(occurrence.startAt)
-          : undefined,
-        milestones: occurrence.milestones,
+        endInstant: occurrence.endInstant,
+        startTime: startLocal?.substring(11),
+        milestones: localMilestones.filter((item) => item.date === date).map((item) => item.milestone),
       })
+      for (const milestone of localMilestones.filter((item) => item.date !== date)) {
+        result.push({
+          date: milestone.date, activityId: act.id,
+          performanceIndex: occurrence.performanceIndex,
+          endInstant: milestone.end,
+          milestones: [milestone.milestone],
+        })
+      }
     })
   }
 

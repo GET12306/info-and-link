@@ -34,10 +34,6 @@
   @apply border-coco-ink/5;
 }
 
-.nav-link {
-  @apply text-xs uppercase tracking-[0.2em] font-medium opacity-40 hover:opacity-100 transition-opacity duration-300;
-}
-
 /* Shared fluid width keeps every home section aligned while resizing. */
 .home-container {
   width: 100%;

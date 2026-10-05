@@ -10,6 +10,9 @@ import type {
 } from "../types"
 import { getActivityVenueText } from "../data/venues"
 import { getActivityOccurrences } from "./activitySchedule"
+import { getActivityDisplaySchedule } from "./activityDisplaySchedule"
+import { dateTimeForViewer } from "./timeZone"
+import { dailyPostDate, dailyPostLinks, dailyPostPrimaryLink } from "./dailyPosts"
 import { localizedText } from "./localizedText"
 import { ACTIVITY_CATEGORY_META } from "../config/activityCategories"
 
@@ -149,8 +152,9 @@ export function buildMuseumSearchItems(sources: MuseumSearchSources, lang: Langu
       collection: "activities" as const,
       title: activity.title[lang],
       description: activity.description?.[lang] || getActivityVenueText(activity, lang),
-      dateLabel: activity.scheduleLabel,
-      dates: [...new Set(getActivityOccurrences(activity).map((occurrence) => occurrence.date))],
+      dateLabel: getActivityDisplaySchedule(activity) ?? activity.scheduleLabel,
+      dates: [...new Set(getActivityOccurrences(activity).map((occurrence) => occurrence.allDay
+        ? occurrence.date : dateTimeForViewer(occurrence.startInstant).substring(0, 10)))],
       href: activity.link,
       path: "/museum/activities",
       searchText: searchable([
@@ -224,17 +228,28 @@ export function buildMuseumSearchItems(sources: MuseumSearchSources, lang: Langu
       path: "/museum/media",
       searchText: searchable([note.title, note.category, note.description, "article interview 記事 インタビュー"]),
     })),
-    ...sources.dailyPosts.map((post, index) => ({
-      id: `daily-post-${post.id ?? index}`,
-      collection: "daily-posts" as const,
-      title: localizedText(post.title, lang),
-      description: localizedText(post.description, lang),
-      dateLabel: post.date,
-      dates: expandMuseumDate(post.date),
-      href: post.status === "expired" ? undefined : post.url,
-      path: "/museum/daily-posts",
-      searchText: searchable([post.title, post.description, ...(post.tags ?? []), post.platform, "daily everyday 日常 投稿"]),
-    })),
+    ...sources.dailyPosts.map((post, index) => {
+      const links = dailyPostLinks(post)
+      const primaryLink = dailyPostPrimaryLink(post)
+      const date = dailyPostDate(post)
+      return {
+        id: `daily-post-${post.id ?? index}`,
+        collection: "daily-posts" as const,
+        title: localizedText(post.title, lang),
+        description: localizedText(post.description, lang),
+        dateLabel: date,
+        dates: [...new Set([date, ...links.map((link) => link.date)].flatMap((value) => expandMuseumDate(value)))],
+        href: primaryLink.status !== "expired" ? primaryLink.url : undefined,
+        path: "/museum/daily-posts",
+        searchText: searchable([
+          post.title,
+          post.description,
+          ...(post.tags ?? []),
+          ...links.flatMap((link) => [link.label, link.platform]),
+          "daily everyday 日常 投稿 reply repost 返信 リポスト",
+        ]),
+      }
+    }),
   ]
 
   return items.sort((a, b) =>

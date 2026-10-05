@@ -49,6 +49,8 @@ export interface Activity {
   id: string;
   category: ActivityCategory;
   scheduleLabel: string;
+  /** IANA time zone of machine-readable schedule times; defaults to Asia/Tokyo. */
+  timeZone?: string;
   startDate?: string;
   endDate?: string;
   recurrence?: ActivityRecurrence;
@@ -134,7 +136,7 @@ export interface ManualActivityRecurrence {
 export interface WeeklyActivityRecurrenceOverride {
   /** The generated occurrence date being replaced or cancelled. */
   date: string;
-  /** A replacement same-day JST time. */
+  /** A replacement same-day time in the activity's timeZone. */
   startTime?: string;
   cancelled?: boolean;
 }
@@ -242,9 +244,11 @@ export interface TicketInfo {
 
 export interface TicketEntry {
   type: LocalizedText;
-  /** YYYY-MM-DD, or YYYY-MM-DDTHH:mm when an exact JST time is known. */
+  /** Optional override of the activity's timeZone. */
+  timeZone?: string;
+  /** YYYY-MM-DD, or YYYY-MM-DDTHH:mm in the entry/activity time zone. */
   startAt?: string;
-  /** YYYY-MM-DD, or YYYY-MM-DDTHH:mm when an exact JST time is known. */
+  /** YYYY-MM-DD, or YYYY-MM-DDTHH:mm in the entry/activity time zone. */
   endAt?: string;
   scheduleLabel: string;
   price?: LocalizedText;
@@ -319,14 +323,25 @@ export interface Magazine {
   relatedResources?: RelatedResource[];
 }
 
-/** Standalone everyday posts; no activity or program association required. */
+/** Standalone everyday post with optional reposts, replies, or follow-up links. */
 export interface DailyPost {
   title: ArchiveText;
+  /** Primary post opened from the card title. */
   url: string;
   id?: string;
   date?: string;
   platform?: ActivityResourcePlatform;
   description?: ArchiveText;
   tags?: ArchiveText[];
+  status?: "available" | "expired";
+  links?: (string | DailyPostLink)[];
+}
+
+/** Optional per-link overrides within one everyday-post series. */
+export interface DailyPostLink {
+  url: string;
+  label?: ArchiveText;
+  date?: string;
+  platform?: ActivityResourcePlatform;
   status?: "available" | "expired";
 }

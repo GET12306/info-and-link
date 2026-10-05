@@ -1,4 +1,4 @@
-export const RESOURCE_DOCUMENT_KEYS = ["activity-resources", "magazines", "notes", "programs"] as const
+export const RESOURCE_DOCUMENT_KEYS = ["activity-resources", "daily-posts", "magazines", "notes", "programs"] as const
 export type ResourceDocumentKey = typeof RESOURCE_DOCUMENT_KEYS[number]
 
 export interface EditorField {
@@ -16,6 +16,14 @@ export interface EditorField {
 const STATUS = ["available", "expired"] as const
 const KINDS = ["announcement", "merchandise", "post", "photo", "video", "report", "other"] as const
 const PLATFORMS = ["x", "instagram", "youtube", "web", "other"] as const
+
+export const RESOURCE_LINK_FIELDS: readonly EditorField[] = [
+  { key: "url", kind: "url", required: true },
+  { key: "date", kind: "text", format: "date", placeholder: "YYYY-MM-DD" },
+  { key: "label", kind: "archiveText" },
+  { key: "platform", kind: "select", options: PLATFORMS },
+  { key: "status", kind: "select", options: STATUS },
+]
 
 const resourceTarget: EditorField = { key: "target", kind: "resourceTarget", required: true }
 const relatedResourceFields: readonly EditorField[] = [
@@ -55,6 +63,23 @@ export const RESOURCE_EDITOR_DOCUMENTS: Record<ResourceDocumentKey, {
       resourceTarget,
     ],
     create: () => ({ activityId: "", date: "", kind: "post", platform: "x", title: { ja: "", en: "" }, url: "" }),
+  },
+  "daily-posts": {
+    label: "Everyday Posts",
+    filename: "daily-posts.yaml",
+    description: "不依附活动的日常投稿；同一主题可用 links 收纳原帖、转发和回复。",
+    fields: [
+      { key: "id", kind: "text" },
+      { key: "date", kind: "text", format: "date", placeholder: "YYYY-MM-DD" },
+      { key: "title", kind: "archiveText", required: true },
+      { key: "platform", kind: "select", options: PLATFORMS },
+      { key: "description", kind: "archiveText", multiline: true },
+      { key: "tags", kind: "array", item: { key: "tags[]", kind: "archiveText", required: true } },
+      { key: "status", kind: "select", options: STATUS },
+      { key: "url", kind: "url", required: true },
+      { key: "links", kind: "array", item: { key: "links[]", kind: "resourceLink", required: true } },
+    ],
+    create: () => ({ title: { ja: "", en: "" }, url: "" }),
   },
   magazines: {
     label: "Magazines",

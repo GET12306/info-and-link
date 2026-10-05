@@ -7,6 +7,7 @@ import type { Activity, Language } from "../types"
 import { TRANSLATIONS } from "../i18n"
 import { getActivityCategoryLabel } from "../utils/categoryLabels"
 import { formatActivityMilestone } from "../utils/activityMilestones"
+import { instantFromSourceKey, sourceTimeZone } from "../utils/timeZone"
 
 const DAY_LABELS_JA = ["日", "月", "火", "水", "木", "金", "土"]
 const DAY_LABELS_EN = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
@@ -39,7 +40,7 @@ function CalendarEventCard({
   actionLabel?: string
 }) {
   const t = TRANSLATIONS[lang]
-  const isPast = now ? now > event.endAt : false
+  const isPast = now ? (instantFromSourceKey(now, sourceTimeZone()) ?? 0) > event.endInstant : false
   const category = getActivityCategoryLabel(activity.category, t)
   const timeItems = [
     ...event.milestones.map((milestone) => ({
@@ -186,7 +187,6 @@ export default function CalendarMonth({
   className?: string
 }) {
   const labels = lang === "ja" ? DAY_LABELS_JA : DAY_LABELS_EN
-  const t = TRANSLATIONS[lang]
   const isToday = today ?? ""
   const activitiesById = new Map(
     activities.map((activity) => [activity.id, activity])
@@ -230,7 +230,6 @@ export default function CalendarMonth({
           <ChevronRight className="w-4 h-4" />
         </button>
       </div>
-
       <div className="border-t grid-line lg:hidden">
         <div className="grid grid-cols-7">
           {labels.map((label, i) => (

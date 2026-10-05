@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useActivityHighlight } from "../hooks/useActivityHighlight"
 import { useLocation } from "react-router-dom"
 import { TRANSLATIONS } from "../i18n"
 import ACTIVITIES from "../data/activities.yaml"
@@ -11,24 +11,11 @@ import useJapanNow from "../hooks/useJapanNow"
 export default function TicketInfo({ lang }: { lang: Language }) {
   const t = TRANSLATIONS[lang]
   const location = useLocation()
-  const [highlighted, setHighlighted] = useState<string | null>(null)
+  const highlighted = useActivityHighlight((location.state as { ticketActivityId?: string })?.ticketActivityId, "ticket-", location.state)
   const now = useJapanNow()
   const activities = ACTIVITIES as Activity[]
   const ticketGroups = getCurrentTicketGroups(activities, now)
 
-  useEffect(() => {
-    const activityId = (location.state as { ticketActivityId?: string })?.ticketActivityId
-    if (!activityId) return
-
-    requestAnimationFrame(() => {
-      const el = document.getElementById(`ticket-${activityId}`)
-      if (el) {
-        el.scrollIntoView({ behavior: "smooth", block: "center" })
-        setHighlighted(activityId)
-        setTimeout(() => setHighlighted(null), 2000)
-      }
-    })
-  }, [location.state])
 
   return (
     <PageLayout>
@@ -40,7 +27,6 @@ export default function TicketInfo({ lang }: { lang: Language }) {
             key={group.activity.id}
             group={group}
             lang={lang}
-            variant="current"
             highlighted={highlighted === group.activity.id}
           />
         ))}

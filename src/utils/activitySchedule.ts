@@ -1,3 +1,4 @@
+import { isCalendarDate, isCalendarDateTime, isClockTime } from "./contentValidation"
 import { eachDayOfInterval, format, getDay, parseISO } from "date-fns"
 import type {
   Activity,
@@ -9,15 +10,12 @@ import type {
 } from "../types"
 import { getValidActivityMilestones } from "./activityMilestones"
 import {
-  addMinutesToJapanDateTimeKey,
   normalizeJapanDateTimeKey,
 } from "./japanTime"
+import { dateTimeInZone, instantFromSourceKey, sourceTimeZone } from "./timeZone"
 
 export const DEFAULT_ACTIVITY_DURATION_MINUTES = 90
 
-const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/
-const DATE_TIME_PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/
-const TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/
 const WEEKDAY_INDEX: Record<ActivityWeekday, number> = {
   sunday: 0,
   monday: 1,
@@ -37,38 +35,27 @@ export interface ActivityOccurrence {
   label?: LocalizedText
   milestones: ActivityMilestone[]
   showEndAt: boolean
+  timeZone: string
+  startInstant: number
+  endInstant: number
 }
 
 function normalizeDate(value: unknown) {
   if (typeof value !== "string") return null
   const normalized = value.trim()
-  if (!DATE_PATTERN.test(normalized)) return null
-
-  const [year, month, day] = normalized.split("-").map(Number)
-  const parsed = new Date(Date.UTC(year, month - 1, day))
-  return parsed.getUTCFullYear() === year &&
-    parsed.getUTCMonth() === month - 1 &&
-    parsed.getUTCDate() === day
-    ? normalized
-    : null
+  return isCalendarDate(normalized) ? normalized : null
 }
 
 function normalizeDateTime(value: unknown, boundary: "start" | "end" = "start") {
   if (typeof value !== "string") return null
   const normalized = normalizeJapanDateTimeKey(value, boundary)
-  if (!DATE_TIME_PATTERN.test(normalized)) return null
-
-  const date = normalizeDate(normalized.substring(0, 10))
-  const hour = Number(normalized.substring(11, 13))
-  const minute = Number(normalized.substring(14, 16))
-  return date && hour >= 0 && hour <= 23 && minute >= 0 && minute <= 59
-    ? normalized
-    : null
+  return isCalendarDateTime(normalized) ? normalized : null
 }
 
 export function getPerformanceOccurrences(
   performances: ActivityPerformance[] | undefined,
-  durationMinutes?: number
+  durationMinutes?: number,
+  timeZone = sourceTimeZone()
 ) {
   const configuredDuration =
     typeof durationMinutes === "number" &&
@@ -86,6 +73,9 @@ export function getPerformanceOccurrences(
       if ("occursOn" in performance) {
         const date = normalizeDate(performance.occursOn)
         if (!date) return null
+        const startInstant = instantFromSourceKey(date, timeZone)
+        const endInstant = instantFromSourceKey(date, timeZone, "end")
+        if (startInstant === null || endInstant === null) return null
         return {
           date,
           endAt: normalizeJapanDateTimeKey(date, "end"),
@@ -94,34 +84,37 @@ export function getPerformanceOccurrences(
           label: performance.label,
           milestones: getValidActivityMilestones(performance.milestones),
           showEndAt: false,
+          timeZone, startInstant, endInstant,
         }
       }
 
       const startAt = normalizeDateTime(performance.startAt)
       if (!startAt) return null
+      const startInstant = instantFromSourceKey(startAt, timeZone)
+      if (startInstant === null) return null
       const explicitEndAt = normalizeDateTime(performance.endAt, "end")
+      const endInstant = explicitEndAt
+        ? instantFromSourceKey(explicitEndAt, timeZone)
+        : startInstant + safeDuration * 60_000
+      if (endInstant === null || endInstant <= startInstant) return null
 
       return {
         date: startAt.substring(0, 10),
         startAt,
-        endAt:
-          explicitEndAt ?? addMinutesToJapanDateTimeKey(startAt, safeDuration),
+        endAt: explicitEndAt ?? dateTimeInZone(endInstant, timeZone),
         allDay: false,
         performanceIndex,
         label: performance.label,
         milestones: getValidActivityMilestones(performance.milestones),
         showEndAt: Boolean(explicitEndAt || configuredDuration),
+        timeZone, startInstant, endInstant,
       }
     })
     .filter((occurrence): occurrence is ActivityOccurrence => Boolean(occurrence))
-    .sort((a, b) =>
-      (a.startAt ?? `${a.date}T00:00`).localeCompare(
-        b.startAt ?? `${b.date}T00:00`
-      )
-    )
+    .sort((a, b) => a.startInstant - b.startInstant)
 }
 
-function getDateRangeOccurrences(startDate?: string, endDate?: string) {
+function getDateRangeOccurrences(startDate?: string, endDate?: string, timeZone = sourceTimeZone()) {
   const start = normalizeDate(startDate)
   if (!start) return []
   const end = normalizeDate(endDate) ?? start
@@ -130,12 +123,15 @@ function getDateRangeOccurrences(startDate?: string, endDate?: string) {
   return eachDayOfInterval({ start: parseISO(start), end: parseISO(safeEnd) }).map(
     (day): ActivityOccurrence => {
       const date = format(day, "yyyy-MM-dd")
+      const startInstant = instantFromSourceKey(date, timeZone)!
+      const endInstant = instantFromSourceKey(date, timeZone, "end")!
       return {
         date,
         endAt: normalizeJapanDateTimeKey(date, "end"),
         allDay: true,
         milestones: [],
         showEndAt: false,
+        timeZone, startInstant, endInstant,
       }
     }
   )
@@ -143,13 +139,14 @@ function getDateRangeOccurrences(startDate?: string, endDate?: string) {
 
 function getWeeklyRecurrenceOccurrences(
   recurrence: WeeklyActivityRecurrence,
-  durationMinutes?: number
+  durationMinutes?: number,
+  timeZone = sourceTimeZone()
 ) {
   const start = normalizeDate(recurrence.startOn)
   const end = normalizeDate(recurrence.endOn)
   const weekday = WEEKDAY_INDEX[recurrence.weekday]
   if (!start || !end || end < start || weekday === undefined ||
-      !TIME_PATTERN.test(recurrence.startTime)) return []
+      !isClockTime(recurrence.startTime)) return []
 
   if (recurrence.overrides !== undefined && !Array.isArray(recurrence.overrides)) {
     return []
@@ -174,7 +171,7 @@ function getWeeklyRecurrenceOccurrences(
     (override.cancelled !== undefined && typeof override.cancelled !== "boolean") ||
     (override.cancelled && override.startTime !== undefined) ||
     (override.startTime !== undefined &&
-      (typeof override.startTime !== "string" || !TIME_PATTERN.test(override.startTime)))
+      (typeof override.startTime !== "string" || !isClockTime(override.startTime)))
   )) return []
 
   const generatedPerformances: ActivityPerformance[] = []
@@ -185,27 +182,31 @@ function getWeeklyRecurrenceOccurrences(
       startAt: `${date}T${override?.startTime ?? recurrence.startTime}`,
     })
   }
-  return getPerformanceOccurrences(generatedPerformances, durationMinutes)
+  const occurrences = getPerformanceOccurrences(generatedPerformances, durationMinutes, timeZone)
+  return occurrences.length === generatedPerformances.length ? occurrences : []
 }
 
 export function getActivityOccurrences(activity: Activity) {
   if (activity.recurrence?.type === "weekly") {
     return getWeeklyRecurrenceOccurrences(
       activity.recurrence,
-      activity.durationMinutes
+      activity.durationMinutes,
+      sourceTimeZone(activity.timeZone)
     )
   }
   const performanceOccurrences = getPerformanceOccurrences(
     activity.performances,
-    activity.durationMinutes
+    activity.durationMinutes,
+    sourceTimeZone(activity.timeZone)
   )
   return performanceOccurrences.length
     ? performanceOccurrences
-    : getDateRangeOccurrences(activity.startDate, activity.endDate)
+    : getDateRangeOccurrences(activity.startDate, activity.endDate, sourceTimeZone(activity.timeZone))
 }
 
 export function getNextActivityOccurrence(activity: Activity, now: string) {
-  const today = normalizeJapanDateTimeKey(now).substring(0, 10)
+  const nowInstant = instantFromSourceKey(now, sourceTimeZone()) ?? Date.now()
+  const today = dateTimeInZone(nowInstant, sourceTimeZone(activity.timeZone)).substring(0, 10)
   return getActivityOccurrences(activity).find(
     (occurrence) => occurrence.date >= today
   ) ?? null

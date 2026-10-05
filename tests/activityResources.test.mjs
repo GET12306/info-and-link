@@ -50,13 +50,18 @@ test("published resource YAML has valid activity references and display fields",
   }
 })
 test("activity resources render inline in a collapsed disclosure", async () => {
-  const { MemoryRouter } = await server.ssrLoadModule("react-router-dom")
-  const { default: Disclosure } = await server.ssrLoadModule("/src/components/ActivityResourcesDisclosure.tsx")
-  const html = renderToStaticMarkup(createElement(MemoryRouter, null, createElement(Disclosure, { activityId: "2026-piano-bar-claps", lang: "en" })))
-  assert.match(html, /Related resources \(12\)/)
-  assert.match(html, /View links \(9\)/)
+  const { default: Disclosure } = await server.ssrLoadModule("/src/components/RelatedResourcesDisclosure.tsx")
+  const resources = [
+    { date: "2026-09-03", kind: "video", platform: "x", title: { ja: "動画", en: "Sample video" }, url: "https://example.com/video" },
+    { date: "2026-09-02", kind: "photo", platform: "x", title: { ja: "写真", en: "Sample photos" }, links: [
+      "https://x.com/artistslinks/status/1", "https://example.com/photo",
+    ] },
+  ]
+  const html = renderToStaticMarkup(createElement(Disclosure, { resources, lang: "en" }))
+  assert.match(html, /Related resources \(3\)/)
+  assert.match(html, /View links \(2\)/)
   assert.match(html, /@artistslinks/)
   assert.match(html, /<details class="catalog-disclosure">/)
   assert.doesNotMatch(html, /<details[^>]*\bopen/)
-  assert.ok(html.includes("“Thank You!” Dance"))
+  assert.ok(html.includes("Sample video"))
 })

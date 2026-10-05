@@ -1,24 +1,15 @@
 import type { Activity, Language } from "../types"
-import { getActivityOccurrences, getPerformanceOccurrences, type ActivityOccurrence } from "./activitySchedule"
+import { isCalendarDate as validDate, isCalendarDateTime as validDateTime } from "./contentValidation"
+import { getActivityOccurrences, type ActivityOccurrence } from "./activitySchedule"
 import {
   getActivityMilestoneLabel,
   isValidActivityMilestone,
 } from "./activityMilestones"
-import { addMinutesToJapanDateTimeKey } from "./japanTime"
 import { getActivityCalendarLocation } from "../data/venues"
+import { instantFromSourceKey, isValidTimeZone, sourceTimeZone } from "./timeZone"
 
 // Export is stricter than the display calendar: never silently repair bad dates
 // or export only the valid subset of an activity's schedule.
-function validDate(value: string | undefined) {
-  return typeof value === "string" && /^\d{4}-\d{2}-\d{2}$/.test(value) &&
-    getPerformanceOccurrences([{ occursOn: value }]).length === 1
-}
-
-function validDateTime(value: string) {
-  return /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/.test(value) &&
-    getPerformanceOccurrences([{ startAt: value }]).length === 1
-}
-
 export function getCalendarOccurrences(activity: Activity, now?: string): ActivityOccurrence[] {
   const mode = activity.calendarExport ?? "auto"
   if (!["auto", "enabled"].includes(mode)) return []
@@ -29,6 +20,7 @@ export function getCalendarOccurrences(activity: Activity, now?: string): Activi
 
   if (activity.durationMinutes !== undefined &&
       (!Number.isInteger(activity.durationMinutes) || activity.durationMinutes <= 0)) return []
+  if (activity.timeZone !== undefined && !isValidTimeZone(activity.timeZone)) return []
 
   if (activity.recurrence?.type === "weekly") {
     if (activity.performances?.length || activity.startDate || activity.endDate) return []
@@ -41,6 +33,13 @@ export function getCalendarOccurrences(activity: Activity, now?: string): Activi
         (!Array.isArray(performance.milestones) ||
           !performance.milestones.every(isValidActivityMilestone))
       ) return []
+      const milestoneDate = "occursOn" in performance
+        ? performance.occursOn : performance.startAt?.substring(0, 10)
+      if (milestoneDate && performance.milestones?.some((milestone) =>
+        instantFromSourceKey(`${milestoneDate}T${milestone.at}`, sourceTimeZone(activity.timeZone)) === null ||
+        (milestone.until !== undefined &&
+          instantFromSourceKey(`${milestoneDate}T${milestone.until}`, sourceTimeZone(activity.timeZone)) === null)
+      )) return []
       if ("occursOn" in performance) {
         if (!validDate(performance.occursOn) || performance.startAt || performance.endAt) return []
       } else {
@@ -56,10 +55,12 @@ export function getCalendarOccurrences(activity: Activity, now?: string): Activi
   }
 
   const occurrences = getActivityOccurrences(activity)
+  if (activity.performances?.length && occurrences.length !== activity.performances.length) return []
   const keys = occurrences.map((occurrence) => occurrence.startAt ?? occurrence.date)
   if (new Set(keys).size !== keys.length) return []
   if (mode === "auto" && occurrences.some((occurrence) => occurrence.allDay)) return []
-  return occurrences.filter((occurrence) => !now || occurrence.endAt >= now)
+  const nowInstant = now ? instantFromSourceKey(now, sourceTimeZone()) : null
+  return occurrences.filter((occurrence) => nowInstant === null || occurrence.endInstant >= nowInstant)
 }
 
 function escapeText(value: string) {
@@ -101,17 +102,25 @@ function getTimeZone(value?: string) {
   }
 }
 
+const timeZoneFormatters = new Map<string, Intl.DateTimeFormat>()
+
 function getTimeZoneParts(date: Date, timeZone: string) {
-  const parts = new Intl.DateTimeFormat("en-CA", {
-    timeZone,
-    year: "numeric",
-    month: "2-digit",
-    day: "2-digit",
-    hour: "2-digit",
-    minute: "2-digit",
-    second: "2-digit",
-    hourCycle: "h23",
-  }).formatToParts(date)
+  let formatter = timeZoneFormatters.get(timeZone)
+  if (!formatter) {
+    formatter = new Intl.DateTimeFormat("en-CA", {
+      timeZone,
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hourCycle: "h23",
+    })
+    if (timeZoneFormatters.size >= 32) timeZoneFormatters.clear()
+    timeZoneFormatters.set(timeZone, formatter)
+  }
+  const parts = formatter.formatToParts(date)
   const get = (type: Intl.DateTimeFormatPartTypes) =>
     parts.find((part) => part.type === type)?.value ?? ""
   return {
@@ -149,10 +158,15 @@ function findTransition(left: Date, right: Date, offset: number, timeZone: strin
   return new Date(high * 60_000)
 }
 
+const timeZoneDefinitions = new Map<string, string[]>()
+
 function buildTimeZone(timeZone: string, dates: Date[]) {
   const years = dates.map((date) => Number(getTimeZoneParts(date, timeZone).year))
   const start = new Date(Date.UTC(Math.min(...years) - 1, 0, 1))
   const end = new Date(Date.UTC(Math.max(...years) + 2, 0, 1))
+  const cacheKey = `${timeZone}:${start.getUTCFullYear()}:${end.getUTCFullYear()}`
+  const cached = timeZoneDefinitions.get(cacheKey)
+  if (cached) return cached
   const initialOffset = getOffsetMinutes(start, timeZone)
   const lines = [
     "BEGIN:VTIMEZONE", `TZID:${timeZone}`, "BEGIN:STANDARD",
@@ -182,6 +196,8 @@ function buildTimeZone(timeZone: string, dates: Date[]) {
     previousDate = date
   }
   lines.push("END:VTIMEZONE")
+  if (timeZoneDefinitions.size >= 32) timeZoneDefinitions.clear()
+  timeZoneDefinitions.set(cacheKey, lines)
   return lines
 }
 
@@ -248,23 +264,10 @@ async function calendarEventUid(identity: readonly unknown[]) {
 interface CalendarExportEvent {
   identity: readonly unknown[]
   title: string
-  startAt?: string
   endAt: string
   allDay: boolean
-}
-
-function getMilestoneEndAt(
-  occurrence: ActivityOccurrence,
-  milestone: ActivityOccurrence["milestones"][number]
-) {
-  const startAt = `${occurrence.date}T${milestone.at}`
-  if (milestone.until) return `${occurrence.date}T${milestone.until}`
-  if (
-    (milestone.kind === "doors" || milestone.kind === "merch") &&
-    occurrence.startAt &&
-    occurrence.startAt > startAt
-  ) return occurrence.startAt
-  return addMinutesToJapanDateTimeKey(startAt, 60)
+  startInstant?: number
+  endInstant?: number
 }
 
 export async function buildActivityCalendar(
@@ -293,15 +296,24 @@ export async function buildActivityCalendar(
       events.push({
         identity: [activity.id, occurrenceKey],
         title: titleParts.join(" — "),
-        startAt: occurrence.startAt,
         endAt: occurrence.endAt,
         allDay: occurrence.allDay,
+        startInstant: occurrence.startAt ? occurrence.startInstant : undefined,
+        endInstant: occurrence.endInstant,
       })
     }
     for (const milestone of occurrence.milestones) {
       const kind = getMilestoneCalendarKind(milestone)
       if (!eventKinds.has(kind)) continue
       const milestoneLabel = getActivityMilestoneLabel(milestone, lang)
+      const milestoneStart = instantFromSourceKey(`${occurrence.date}T${milestone.at}`, occurrence.timeZone)
+      const milestoneEnd = milestone.until
+        ? instantFromSourceKey(`${occurrence.date}T${milestone.until}`, occurrence.timeZone)
+        : milestone.kind === "doors" || milestone.kind === "merch"
+          ? occurrence.startAt && occurrence.startInstant > (milestoneStart ?? Infinity)
+            ? occurrence.startInstant : (milestoneStart ?? 0) + 60 * 60_000
+          : (milestoneStart ?? 0) + 60 * 60_000
+      if (milestoneStart === null || milestoneEnd === null || milestoneEnd <= milestoneStart) continue
       events.push({
         identity: [
           activity.id,
@@ -313,9 +325,10 @@ export async function buildActivityCalendar(
           milestone.label?.en ?? "",
         ],
         title: [...titleParts, milestoneLabel].join(" — "),
-        startAt: `${occurrence.date}T${milestone.at}`,
-        endAt: getMilestoneEndAt(occurrence, milestone),
+        endAt: occurrence.endAt,
         allDay: false,
+        startInstant: milestoneStart,
+        endInstant: milestoneEnd,
       })
     }
   }
@@ -323,8 +336,8 @@ export async function buildActivityCalendar(
 
   const stamp = utcStamp(options.generatedAt ?? new Date())
   const timeZone = getTimeZone(options.timeZone)
-  const timedDates = events.flatMap((event) => event.startAt
-    ? [new Date(`${event.startAt}:00+09:00`), new Date(`${event.endAt}:00+09:00`)]
+  const timedDates = events.flatMap((event) => event.startInstant !== undefined && event.endInstant !== undefined
+    ? [new Date(event.startInstant), new Date(event.endInstant)]
     : [])
   const lines = [
     "BEGIN:VCALENDAR", "VERSION:2.0",
@@ -346,8 +359,8 @@ export async function buildActivityCalendar(
         `DTEND;VALUE=DATE:${nextDay.toISOString().substring(0, 10).replace(/-/g, "")}`)
     } else {
       lines.push(
-        `DTSTART;TZID=${timeZone}:${zonedStamp(new Date(`${event.startAt}:00+09:00`), timeZone)}`,
-        `DTEND;TZID=${timeZone}:${zonedStamp(new Date(`${event.endAt}:00+09:00`), timeZone)}`
+        `DTSTART;TZID=${timeZone}:${zonedStamp(new Date(event.startInstant!), timeZone)}`,
+        `DTEND;TZID=${timeZone}:${zonedStamp(new Date(event.endInstant!), timeZone)}`
       )
     }
     lines.push("END:VEVENT")

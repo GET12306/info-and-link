@@ -11,28 +11,19 @@ import VenueLabel from "./VenueLabel"
 export default function TicketGroup({
   group,
   lang,
-  variant,
   highlighted = false,
 }: {
   group: TicketActivityGroup
   lang: Language
-  variant: "current" | "past"
   highlighted?: boolean
 }) {
   const { activity, entries } = group
-  const isCurrent = variant === "current"
 
   return (
     <section
-      id={isCurrent ? `ticket-${activity.id}` : undefined}
-      className={`space-y-4 ${
-        isCurrent
-          ? `scroll-mt-28 -mx-4 rounded-lg border-l-2 px-4 py-4 transition-all duration-500 ${
-              highlighted
-                ? "border-l-coco-accent/70 bg-coco-accent/5 dark:bg-coco-accent/10"
-                : "border-l-transparent"
-            }`
-          : ""
+      id={`ticket-${activity.id}`}
+      className={`space-y-4 scroll-mt-28 -mx-4 rounded-lg border-l-2 px-4 py-4 transition-all duration-500 ${
+        highlighted ? "border-l-coco-accent/70 bg-coco-accent/5 dark:bg-coco-accent/10" : "border-l-transparent"
       }`}
     >
       <div className="grid grid-cols-1 text-coco-accent sm:grid-cols-[1rem_minmax(0,1fr)] sm:gap-3">
@@ -52,24 +43,15 @@ export default function TicketGroup({
           const href = getTicketEntryLink(activity, entry)
           const price = getTicketEntryPrice(activity, entry)
 
-          return isCurrent ? (
+          return (
             <TicketEntryRow
               key={entryIndex}
               entry={entry}
               lang={lang}
               href={href}
               price={price}
-              variant="current"
               status={status}
-            />
-          ) : (
-            <TicketEntryRow
-              key={entryIndex}
-              entry={entry}
-              lang={lang}
-              href={href}
-              price={price}
-              variant="past"
+              activityTimeZone={activity.timeZone}
             />
           )
         })}

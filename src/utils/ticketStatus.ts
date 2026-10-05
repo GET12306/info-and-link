@@ -1,6 +1,7 @@
 import type { Activity, TicketEntry } from "../types"
 import { getCurrentActivities } from "./activityStatus"
 import { getJapanDateTimeKey, normalizeJapanDateTimeKey } from "./japanTime"
+import { dateTimeForViewer, instantFromSourceKey, sourceTimeZone, viewerTimeZone } from "./timeZone"
 
 export type TicketStatus = "upcoming" | "open" | "past" | "tba"
 
@@ -24,21 +25,36 @@ export function getTicketEntryPrice(activity: Activity, entry: TicketEntry) {
   return entry.price ?? activity.ticketInfo?.price
 }
 
+export function getTicketDisplaySchedule(entry: TicketEntry, activityTimeZone?: string) {
+  const timeZone = sourceTimeZone(entry.timeZone ?? activityTimeZone)
+  const format = (value: string, boundary: "start" | "end") => {
+    if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return value
+    const instant = instantFromSourceKey(value, timeZone, boundary)
+    return instant === null ? value : dateTimeForViewer(instant, viewerTimeZone()).replace("T", " ")
+  }
+  const start = entry.startAt ? format(entry.startAt, "start") : null
+  const end = entry.endAt ? format(entry.endAt, "end") : null
+  return start && end ? `${start} – ${end}` : start ?? end
+}
+
 export function getTicketStatus(
   entry: TicketEntry,
-  nowKey = getJapanDateTimeKey()
+  nowKey = getJapanDateTimeKey(),
+  activityTimeZone?: string
 ): TicketStatus {
   const normalizedNow = normalizeJapanDateTimeKey(nowKey)
+  const now = instantFromSourceKey(normalizedNow, sourceTimeZone()) ?? Date.now()
+  const timeZone = sourceTimeZone(entry.timeZone ?? activityTimeZone)
   const endKey = entry.endAt
-    ? normalizeJapanDateTimeKey(entry.endAt, "end")
+    ? instantFromSourceKey(entry.endAt, timeZone, "end")
     : null
   const startKey = entry.startAt
-    ? normalizeJapanDateTimeKey(entry.startAt)
+    ? instantFromSourceKey(entry.startAt, timeZone)
     : null
 
-  if (endKey && normalizedNow > endKey) return "past"
-  if (startKey && normalizedNow < startKey) return "upcoming"
-  if (startKey || endKey) return "open"
+  if (endKey !== null && now > endKey) return "past"
+  if (startKey !== null && now < startKey) return "upcoming"
+  if (startKey !== null || endKey !== null) return "open"
   return "tba"
 }
 
@@ -51,7 +67,7 @@ function getTicketEntries(
       activity,
       entry,
       entryIndex,
-      status: getTicketStatus(entry, nowKey),
+      status: getTicketStatus(entry, nowKey, activity.timeZone),
     }))
   )
 }
@@ -88,6 +104,6 @@ export function hasCurrentTicketInfo(
   nowKey = getJapanDateTimeKey()
 ) {
   return (activity.ticketInfo?.entries ?? []).some(
-    (entry) => getTicketStatus(entry, nowKey) !== "past"
+    (entry) => getTicketStatus(entry, nowKey, activity.timeZone) !== "past"
   )
 }

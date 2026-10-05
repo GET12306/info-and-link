@@ -5,8 +5,10 @@ export type Theme = "light" | "dark" | "system"
 export function useTheme(): [Theme, (t: Theme) => void, boolean] {
   const [theme, setThemeState] = useState<Theme>(() => {
     if (typeof window === "undefined") return "system"
-    const saved = localStorage.getItem("theme")
-    if (saved === "light" || saved === "dark" || saved === "system") return saved
+    try {
+      const saved = window.localStorage.getItem("theme")
+      if (saved === "light" || saved === "dark" || saved === "system") return saved
+    } catch { /* Storage may be unavailable; keep the in-memory preference. */ }
     return "system"
   })
 
@@ -18,6 +20,7 @@ export function useTheme(): [Theme, (t: Theme) => void, boolean] {
   useEffect(() => {
     if (theme !== "system") return
     const mq = window.matchMedia("(prefers-color-scheme: dark)")
+    setSystemDark(mq.matches)
     const handler = (e: MediaQueryListEvent) => setSystemDark(e.matches)
     mq.addEventListener("change", handler)
     return () => mq.removeEventListener("change", handler)
@@ -31,7 +34,7 @@ export function useTheme(): [Theme, (t: Theme) => void, boolean] {
 
   const setTheme = (t: Theme) => {
     setThemeState(t)
-    localStorage.setItem("theme", t)
+    try { window.localStorage.setItem("theme", t) } catch { /* Theme still applies in memory. */ }
   }
 
   return [theme, setTheme, isDark]

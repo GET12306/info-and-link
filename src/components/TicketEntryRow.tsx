@@ -2,6 +2,7 @@ import { TRANSLATIONS } from "../i18n"
 import type { Language, LocalizedText, TicketEntry } from "../types"
 import type { TicketStatus } from "../utils/ticketStatus"
 import ExternalAnchor from "./ExternalAnchor"
+import { getTicketDisplaySchedule } from "../utils/ticketStatus"
 
 const statusClassNames: Record<TicketStatus, string> = {
   upcoming: "bg-coco-accent/10 text-coco-accent",
@@ -15,31 +16,25 @@ type TicketEntryRowProps = {
   lang: Language
   href: string
   price?: LocalizedText
-} & (
-  | { variant: "current"; status: TicketStatus }
-  | { variant: "past"; status?: never }
-)
+  status: TicketStatus
+  activityTimeZone?: string
+}
 
 export default function TicketEntryRow(props: TicketEntryRowProps) {
-  const { entry, lang, href, price, variant } = props
+  const { entry, lang, href, price } = props
   const t = TRANSLATIONS[lang]
+  const displaySchedule = getTicketDisplaySchedule(entry, props.activityTimeZone)
 
   return (
     <div className="flex flex-col gap-4 py-5 md:flex-row md:items-start">
       <div className="md:w-32">
-        {variant === "current" ? (
-          <span
-            className={`inline-flex rounded px-2 py-1 text-[10px] font-bold uppercase tracking-widest ${
-              statusClassNames[props.status]
-            }`}
-          >
-            {t[`ticket_status_${props.status}`]}
-          </span>
-        ) : (
-          <span className="text-sm text-coco-ink/40">
-            {entry.endAt?.replace("T", " ") ?? entry.scheduleLabel}
-          </span>
-        )}
+        <span
+          className={`inline-flex rounded px-2 py-1 text-[10px] font-bold uppercase tracking-widest ${
+            statusClassNames[props.status]
+          }`}
+        >
+          {t[`ticket_status_${props.status}`]}
+        </span>
       </div>
 
       <div className="flex-1 space-y-3">
@@ -54,7 +49,7 @@ export default function TicketEntryRow(props: TicketEntryRowProps) {
             <div className="mb-1 text-[10px] uppercase tracking-widest text-coco-ink/40">
               {t.ticket_schedule}
             </div>
-            <div className="text-coco-ink/70">{entry.scheduleLabel}</div>
+            <div className="text-coco-ink/70">{displaySchedule ?? entry.scheduleLabel}</div>
           </div>
           <div>
             <div className="mb-1 text-[10px] uppercase tracking-widest text-coco-ink/40">

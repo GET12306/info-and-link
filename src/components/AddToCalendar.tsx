@@ -11,7 +11,6 @@ import {
 } from "../utils/activityCalendar"
 import {
   getActivityOccurrences,
-  getNextActivityOccurrence,
 } from "../utils/activitySchedule"
 import useCalendarDownload from "../hooks/useCalendarDownload"
 import ActivityPerformanceDetails from "./ActivityPerformanceDetails"
@@ -28,13 +27,7 @@ export default function AddToCalendar({ activity, lang, now }: {
   const t = TRANSLATIONS[lang]
   const occurrences = getCalendarOccurrences(activity, now)
   const availableEventKinds = getAvailableCalendarEventKinds(occurrences)
-  const recurring = Boolean(activity.recurrence)
-  const nextOccurrence = recurring
-    ? getNextActivityOccurrence(activity, now)
-    : null
-  const displayOccurrences = recurring
-    ? nextOccurrence ? [nextOccurrence] : []
-    : getActivityOccurrences(activity)
+  const displayOccurrences = getActivityOccurrences(activity)
   const availableKeys = new Set(occurrences.map(getCalendarOccurrenceKey))
   const buttonClass = "inline-flex min-h-9 shrink-0 items-center justify-center gap-1.5 rounded-full border grid-line px-3 py-1.5 text-[10px] font-bold uppercase tracking-wide text-coco-accent transition-colors hover:bg-coco-accent/5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coco-accent disabled:opacity-50"
   const eventKindLabels: Record<CalendarEventKind, string> = {
@@ -57,8 +50,6 @@ export default function AddToCalendar({ activity, lang, now }: {
       occurrences={displayOccurrences}
       lang={lang}
       startLabel={activity.category === "Program" ? t.milestone_update : undefined}
-      inlineLabel={recurring ? t.next_update : undefined}
-      emptyLabel={recurring ? t.next_update_tba : undefined}
       actions={occurrences.length > 0 && <>
         <button type="button" disabled={busy} className={buttonClass}
           aria-label={t.calendar_add_all}

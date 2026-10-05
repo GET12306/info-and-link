@@ -1,3 +1,4 @@
+import { isClockTime, isNonempty } from "./contentValidation"
 import { TRANSLATIONS } from "../i18n"
 import type {
   ActivityMilestone,
@@ -5,7 +6,6 @@ import type {
   Language,
 } from "../types"
 
-const TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/
 const MILESTONE_KINDS = new Set<ActivityMilestoneKind>([
   "update",
   "merch",
@@ -14,7 +14,7 @@ const MILESTONE_KINDS = new Set<ActivityMilestoneKind>([
 ])
 
 function hasLocalizedLabel(milestone: ActivityMilestone) {
-  return Boolean(milestone.label?.ja?.trim() && milestone.label?.en?.trim())
+  return isNonempty(milestone.label?.ja) && isNonempty(milestone.label?.en)
 }
 
 export function isValidActivityMilestone(
@@ -23,13 +23,13 @@ export function isValidActivityMilestone(
   if (!value || typeof value !== "object") return false
   const milestone = value as ActivityMilestone
   if (!MILESTONE_KINDS.has(milestone.kind)) return false
-  if (typeof milestone.at !== "string" || !TIME_PATTERN.test(milestone.at)) {
+  if (typeof milestone.at !== "string" || !isClockTime(milestone.at)) {
     return false
   }
   if (
     milestone.until !== undefined &&
     (typeof milestone.until !== "string" ||
-      !TIME_PATTERN.test(milestone.until) ||
+      !isClockTime(milestone.until) ||
       milestone.until <= milestone.at)
   ) {
     return false

@@ -1,4 +1,6 @@
 import { ACTIVITY_CATEGORY_ORDER } from "../config/activityCategories"
+import { isRecord, isCalendarDate as isRealDate, isCalendarDateTime as isRealDateTime, isClockTime as isRealTime, isHttpUrl } from "../utils/contentValidation"
+import { instantFromSourceKey, isValidTimeZone, sourceTimeZone } from "../utils/timeZone"
 
 export interface ActivityValidationIssue {
   path: string
@@ -8,8 +10,6 @@ export interface ActivityValidationIssue {
 
 const ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/
 const DATE_PATTERN = /^\d{4}-\d{2}-\d{2}$/
-const DATE_TIME_PATTERN = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/
-const TIME_PATTERN = /^\d{2}:\d{2}$/
 const CATEGORIES = new Set<string>(ACTIVITY_CATEGORY_ORDER)
 const MILESTONE_KINDS = new Set(["update", "merch", "doors", "other"])
 const WEEKDAYS = new Set([
@@ -19,26 +19,6 @@ const WEEKDAY_INDEX = [
   "sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday",
 ]
 
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return Boolean(value) && typeof value === "object" && !Array.isArray(value)
-}
-
-function isRealDate(value: unknown) {
-  if (typeof value !== "string" || !DATE_PATTERN.test(value)) return false
-  const [year, month, day] = value.split("-").map(Number)
-  const parsed = new Date(Date.UTC(year, month - 1, day))
-  return parsed.getUTCFullYear() === year &&
-    parsed.getUTCMonth() === month - 1 &&
-    parsed.getUTCDate() === day
-}
-
-function isRealDateTime(value: unknown) {
-  if (typeof value !== "string" || !DATE_TIME_PATTERN.test(value)) return false
-  return isRealDate(value.substring(0, 10)) &&
-    Number(value.substring(11, 13)) < 24 &&
-    Number(value.substring(14, 16)) < 60
-}
-
 function isRealDateOrDateTime(value: unknown) {
   return isRealDate(value) || isRealDateTime(value)
 }
@@ -47,21 +27,6 @@ function normalizeBoundary(value: string, boundary: "start" | "end") {
   return DATE_PATTERN.test(value)
     ? `${value}T${boundary === "start" ? "00:00" : "23:59"}`
     : value
-}
-
-function isRealTime(value: unknown) {
-  return typeof value === "string" && TIME_PATTERN.test(value) &&
-    Number(value.substring(0, 2)) < 24 && Number(value.substring(3, 5)) < 60
-}
-
-function isHttpUrl(value: unknown) {
-  if (typeof value !== "string" || !value.trim()) return false
-  try {
-    const url = new URL(value)
-    return url.protocol === "http:" || url.protocol === "https:"
-  } catch {
-    return false
-  }
 }
 
 function validateLocalized(
@@ -137,7 +102,8 @@ function validateMilestones(
 function validatePerformances(
   value: unknown,
   path: string,
-  issues: ActivityValidationIssue[]
+  issues: ActivityValidationIssue[],
+  timeZone: string
 ) {
   if (value === undefined) return
   if (!Array.isArray(value)) {
@@ -162,12 +128,40 @@ function validatePerformances(
     if (hasTime && !isRealDateTime(performance.startAt)) {
       issues.push({ path: `${itemPath}.startAt`, message: "开演时间必须是有效的 YYYY-MM-DDTHH:mm", severity: "error" })
     }
+    if (typeof performance.startAt === "string" && isRealDateTime(performance.startAt) &&
+        instantFromSourceKey(performance.startAt, timeZone) === null) {
+      issues.push({ path: `${itemPath}.startAt`, message: "这个时间在指定时区不存在（夏令时跳变）", severity: "error" })
+    }
+    if (hasDate && performance.endAt !== undefined) {
+      issues.push({ path: `${itemPath}.endAt`, message: "仅日期场次不能填写 endAt", severity: "error" })
+    }
     validateOptionalDateTime(performance.endAt, `${itemPath}.endAt`, issues)
+    if (typeof performance.endAt === "string" && isRealDateTime(performance.endAt) &&
+        instantFromSourceKey(performance.endAt, timeZone) === null) {
+      issues.push({ path: `${itemPath}.endAt`, message: "这个时间在指定时区不存在（夏令时跳变）", severity: "error" })
+    }
     if (typeof performance.startAt === "string" && typeof performance.endAt === "string" && performance.endAt <= performance.startAt) {
       issues.push({ path: `${itemPath}.endAt`, message: "结束时间必须晚于开演时间", severity: "error" })
     }
     validateLocalized(performance.label, `${itemPath}.label`, issues, false)
     validateMilestones(performance.milestones, `${itemPath}.milestones`, issues)
+    const performanceDate = typeof performance.startAt === "string" && isRealDateTime(performance.startAt)
+      ? performance.startAt.substring(0, 10)
+      : typeof performance.occursOn === "string" && isRealDate(performance.occursOn)
+        ? performance.occursOn : null
+    if (performanceDate && Array.isArray(performance.milestones)) {
+      performance.milestones.forEach((milestone, milestoneIndex) => {
+        if (!isRecord(milestone)) return
+        for (const key of ["at", "until"] as const) {
+          const clock = milestone[key]
+          if (typeof clock === "string" && isRealTime(clock) &&
+              instantFromSourceKey(`${performanceDate}T${clock}`, timeZone) === null) {
+            issues.push({ path: `${itemPath}.milestones[${milestoneIndex}].${key}`,
+              message: "这个时间在指定时区不存在（夏令时跳变）", severity: "error" })
+          }
+        }
+      })
+    }
     const identity = typeof performance.startAt === "string"
       ? performance.startAt
       : typeof performance.occursOn === "string"
@@ -288,7 +282,8 @@ function validateRecurrence(
 function validateTicketInfo(
   value: unknown,
   path: string,
-  issues: ActivityValidationIssue[]
+  issues: ActivityValidationIssue[],
+  activityTimeZone: string
 ) {
   if (value === undefined) return
   if (!isRecord(value)) {
@@ -313,6 +308,10 @@ function validateTicketInfo(
     if (typeof entry.scheduleLabel !== "string" || !entry.scheduleLabel.trim()) {
       issues.push({ path: `${itemPath}.scheduleLabel`, message: "显示日程不能为空", severity: "error" })
     }
+    if (entry.timeZone !== undefined && !isValidTimeZone(entry.timeZone)) {
+      issues.push({ path: `${itemPath}.timeZone`, message: "请输入有效的 IANA 时区", severity: "error" })
+    }
+    const entryTimeZone = sourceTimeZone(typeof entry.timeZone === "string" ? entry.timeZone : activityTimeZone)
     if ("startDate" in entry || "endDate" in entry) {
       issues.push({
         path: itemPath,
@@ -325,6 +324,13 @@ function validateTicketInfo(
     }
     if (entry.endAt !== undefined && !isRealDateOrDateTime(entry.endAt)) {
       issues.push({ path: `${itemPath}.endAt`, message: "截止时间必须是 YYYY-MM-DD 或 YYYY-MM-DDTHH:mm", severity: "error" })
+    }
+    for (const key of ["startAt", "endAt"] as const) {
+      const boundary = entry[key]
+      if (typeof boundary === "string" && isRealDateOrDateTime(boundary) &&
+          instantFromSourceKey(boundary, entryTimeZone, key === "endAt" ? "end" : "start") === null) {
+        issues.push({ path: `${itemPath}.${key}`, message: "这个时间在指定时区不存在（夏令时跳变）", severity: "error" })
+      }
     }
     if (
       typeof entry.startAt === "string" && isRealDateOrDateTime(entry.startAt) &&
@@ -341,7 +347,37 @@ function validateTicketInfo(
   })
 }
 
-export function validateActivities(value: unknown): ActivityValidationIssue[] {
+function validateWeeklyTimeZone(
+  recurrence: unknown,
+  timeZone: string,
+  path: string,
+  issues: ActivityValidationIssue[]
+) {
+  if (!isRecord(recurrence) || recurrence.type !== "weekly" ||
+      !isRealDate(recurrence.startOn) || !isRealDate(recurrence.endOn) ||
+      typeof recurrence.weekday !== "string" || !WEEKDAYS.has(recurrence.weekday) ||
+      !isRealTime(recurrence.startTime)) return
+  const overrides = Array.isArray(recurrence.overrides) ? recurrence.overrides : []
+  const start = Date.parse(`${recurrence.startOn}T00:00:00Z`)
+  const end = Date.parse(`${recurrence.endOn}T00:00:00Z`)
+  for (let day = start; day <= end; day += 86_400_000) {
+    if (WEEKDAY_INDEX[new Date(day).getUTCDay()] !== recurrence.weekday) continue
+    const date = new Date(day).toISOString().substring(0, 10)
+    const overrideIndex = overrides.findIndex((item) => isRecord(item) && item.date === date)
+    const override = overrides[overrideIndex]
+    if (isRecord(override) && override.cancelled === true) continue
+    const clock = isRecord(override) && typeof override.startTime === "string"
+      ? override.startTime : recurrence.startTime
+    if (isRealTime(clock) && instantFromSourceKey(`${date}T${clock}`, timeZone) === null) {
+      const field = isRecord(override) && typeof override.startTime === "string"
+        ? `overrides[${overrideIndex}].startTime` : "startTime"
+      issues.push({ path: `${path}.${field}`,
+        message: `${date} 的时间在指定时区不存在（夏令时跳变）`, severity: "error" })
+    }
+  }
+}
+
+export function validateActivities(value: unknown, venueIds?: ReadonlySet<string>): ActivityValidationIssue[] {
   const issues: ActivityValidationIssue[] = []
   if (!Array.isArray(value)) {
     return [{ path: "activities", message: "YAML 根节点必须是活动数组", severity: "error" }]
@@ -366,6 +402,10 @@ export function validateActivities(value: unknown): ActivityValidationIssue[] {
     if (typeof activity.scheduleLabel !== "string" || !activity.scheduleLabel.trim()) {
       issues.push({ path: `${path}.scheduleLabel`, message: "显示日程不能为空", severity: "error" })
     }
+    if (activity.timeZone !== undefined && !isValidTimeZone(activity.timeZone)) {
+      issues.push({ path: `${path}.timeZone`, message: "请输入有效的 IANA 时区", severity: "error" })
+    }
+    const activityTimeZone = sourceTimeZone(typeof activity.timeZone === "string" ? activity.timeZone : undefined)
     validateLocalized(activity.title, `${path}.title`, issues, true)
     if (activity.venueIds !== undefined) {
       if (!Array.isArray(activity.venueIds) || activity.venueIds.length === 0) {
@@ -378,6 +418,8 @@ export function validateActivities(value: unknown): ActivityValidationIssue[] {
             issues.push({ path: venuePath, message: `场馆 ID 格式无效：${String(venueId)}`, severity: "error" })
           } else if (seenVenueIds.has(venueId)) {
             issues.push({ path: venuePath, message: "同一活动不能重复引用场馆", severity: "error" })
+          } else if (venueIds && !venueIds.has(venueId)) {
+            issues.push({ path: venuePath, message: "venues.yaml 中尚未收录这个 id；活动仍可保存", severity: "warning" })
           }
           seenVenueIds.add(String(venueId))
         })
@@ -394,15 +436,20 @@ export function validateActivities(value: unknown): ActivityValidationIssue[] {
       issues.push({ path: `${path}.endDate`, message: "结束日期不能早于开始日期", severity: "error" })
     }
     if (activity.durationMinutes !== undefined &&
-      (typeof activity.durationMinutes !== "number" || !Number.isFinite(activity.durationMinutes) || activity.durationMinutes <= 0)) {
-      issues.push({ path: `${path}.durationMinutes`, message: "统一时长必须是正数", severity: "error" })
+      (typeof activity.durationMinutes !== "number" || !Number.isInteger(activity.durationMinutes) || activity.durationMinutes <= 0)) {
+      issues.push({ path: `${path}.durationMinutes`, message: "统一时长必须是正整数", severity: "error" })
     }
     if (activity.calendarExport !== undefined && !["auto", "enabled", "disabled"].includes(String(activity.calendarExport))) {
       issues.push({ path: `${path}.calendarExport`, message: "日历导出值无效", severity: "error" })
     }
-    validatePerformances(activity.performances, `${path}.performances`, issues)
+    if (Array.isArray(activity.performances) && activity.performances.length > 0 &&
+        (activity.startDate !== undefined || activity.endDate !== undefined)) {
+      issues.push({ path: `${path}.performances`, message: "独立场次不能同时使用连续日期 startDate/endDate", severity: "error" })
+    }
+    validatePerformances(activity.performances, `${path}.performances`, issues, activityTimeZone)
     validateRecurrence(activity.recurrence, activity, path, issues)
-    validateTicketInfo(activity.ticketInfo, `${path}.ticketInfo`, issues)
+    validateWeeklyTimeZone(activity.recurrence, activityTimeZone, `${path}.recurrence`, issues)
+    validateTicketInfo(activity.ticketInfo, `${path}.ticketInfo`, issues, activityTimeZone)
     if (activity.recurrence === undefined && activity.startDate === undefined && !Array.isArray(activity.performances)) {
       issues.push({ path, message: "没有机器可读日期，活动不会进入状态和日历计算", severity: "warning" })
     }

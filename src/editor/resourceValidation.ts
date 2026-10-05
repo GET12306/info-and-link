@@ -1,29 +1,9 @@
-import { RESOURCE_EDITOR_DOCUMENTS, type EditorField, type ResourceDocumentKey } from "./resourceEditorSchema"
+import { isRecord, isNonempty, isHttpUrl, isCalendarDate } from "../utils/contentValidation"
+import { RESOURCE_EDITOR_DOCUMENTS, RESOURCE_LINK_FIELDS, type EditorField, type ResourceDocumentKey } from "./resourceEditorSchema"
 
 export interface ResourceValidationIssue {
   path: string
   message: string
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return value !== null && typeof value === "object" && !Array.isArray(value)
-}
-
-function isNonempty(value: unknown): value is string {
-  return typeof value === "string" && value.trim().length > 0
-}
-
-function isHttpUrl(value: string) {
-  try {
-    const url = new URL(value)
-    return url.protocol === "https:" || url.protocol === "http:"
-  } catch { return false }
-}
-
-function isCalendarDate(value: string) {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(value)) return false
-  const date = new Date(`${value}T00:00:00Z`)
-  return !Number.isNaN(date.getTime()) && date.toISOString().slice(0, 10) === value
 }
 
 function validateField(value: unknown, field: EditorField, path: string, issues: ResourceValidationIssue[]) {
@@ -51,11 +31,9 @@ function validateField(value: unknown, field: EditorField, path: string, issues:
     if (typeof value === "string") {
       if (!isHttpUrl(value)) issues.push({ path, message: "链接必须是完整的 http(s) URL" })
     } else if (isRecord(value)) {
-      validateField(value.url, { key: "url", kind: "url", required: true }, `${path}.url`, issues)
-      if (value.date !== undefined) validateField(value.date, { key: "date", kind: "text", format: "date" }, `${path}.date`, issues)
-      if (value.label !== undefined) validateField(value.label, { key: "label", kind: "archiveText" }, `${path}.label`, issues)
-      if (value.platform !== undefined) validateField(value.platform, { key: "platform", kind: "select", options: ["x", "instagram", "youtube", "web", "other"] }, `${path}.platform`, issues)
-      if (value.status !== undefined) validateField(value.status, { key: "status", kind: "select", options: ["available", "expired"] }, `${path}.status`, issues)
+      for (const child of RESOURCE_LINK_FIELDS) {
+        validateField(value[child.key], child, `${path}.${child.key}`, issues)
+      }
     } else issues.push({ path, message: "链接必须是 URL 字符串或对象" })
     return
   }
@@ -63,7 +41,15 @@ function validateField(value: unknown, field: EditorField, path: string, issues:
   if (field.kind === "array") {
     if (!Array.isArray(value)) { issues.push({ path, message: "必须是列表" }); return }
     if (field.required && value.length === 0) issues.push({ path, message: "至少需要一项" })
+    const urls = new Set<string>()
     value.forEach((item, index) => {
+      if (field.item?.kind === "resourceLink") {
+        const url = typeof item === "string" ? item : isRecord(item) ? item.url : undefined
+        if (isNonempty(url)) {
+          if (urls.has(url)) issues.push({ path: `${path}[${index}]`, message: "同一组中的链接不能重复" })
+          urls.add(url)
+        }
+      }
       if (field.item) validateField(item, field.item, `${path}[${index}]`, issues)
     })
     return
@@ -85,8 +71,15 @@ function validateField(value: unknown, field: EditorField, path: string, issues:
       for (const lang of ["ja", "en"]) {
         if (!isNonempty(value[lang])) issues.push({ path: `${path}.${lang}`, message: "需要填写文本" })
       }
-    } else if (!isNonempty(value.ja) && !isNonempty(value.en)) {
-      issues.push({ path, message: "ja 和 en 至少填写一种" })
+    } else {
+      for (const lang of ["ja", "en"]) {
+        if (value[lang] !== undefined && typeof value[lang] !== "string") {
+          issues.push({ path: `${path}.${lang}`, message: "翻译必须是文本" })
+        }
+      }
+      if (!isNonempty(value.ja) && !isNonempty(value.en)) {
+        issues.push({ path, message: "ja 和 en 至少填写一种" })
+      }
     }
     return
   }
@@ -115,7 +108,7 @@ export function validateResourceDocument(
   const issues: ResourceValidationIssue[] = []
   if (!Array.isArray(value)) return [{ path: key, message: "顶层必须是列表" }]
   const schema = RESOURCE_EDITOR_DOCUMENTS[key]
-  const magazineIds = new Set<string>()
+  const uniqueIds = new Set<string>()
 
   value.forEach((entry, index) => {
     const path = `${key}[${index}]`
@@ -127,9 +120,9 @@ export function validateResourceDocument(
     if (key === "activity-resources" && activityIds && isNonempty(entry.activityId) && !activityIds.has(entry.activityId)) {
       issues.push({ path: `${path}.activityId`, message: "activities.yaml 中找不到这个 id" })
     }
-    if (key === "magazines" && isNonempty(entry.id)) {
-      if (magazineIds.has(entry.id)) issues.push({ path: `${path}.id`, message: "id 不能重复" })
-      magazineIds.add(entry.id)
+    if ((key === "magazines" || key === "daily-posts") && isNonempty(entry.id)) {
+      if (uniqueIds.has(entry.id)) issues.push({ path: `${path}.id`, message: "id 不能重复" })
+      uniqueIds.add(entry.id)
     }
   })
   return issues

@@ -38,28 +38,3 @@ export function normalizeJapanDateTimeKey(
   }
   return normalized.substring(0, 16)
 }
-
-export function getJapanTimeLabel(value: string) {
-  const normalized = normalizeJapanDateTimeKey(value)
-  return normalized.includes("T") ? normalized.substring(11, 16) : ""
-}
-
-export function addMinutesToJapanDateTimeKey(value: string, minutes: number) {
-  const normalized = normalizeJapanDateTimeKey(value)
-  const match = normalized.match(
-    /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})$/
-  )
-  if (!match) return normalized
-
-  const [, year, month, day, hour, minute] = match
-  const shifted = new Date(
-    Date.UTC(
-      Number(year),
-      Number(month) - 1,
-      Number(day),
-      Number(hour),
-      Number(minute) + minutes
-    )
-  )
-  return shifted.toISOString().substring(0, 16)
-}

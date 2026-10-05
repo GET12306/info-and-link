@@ -225,10 +225,23 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .localized-inputs { display: grid; grid-template-columns: minmax(0, 1fr); gap: 12px; }
 .localized-field label { min-width: 0; }
 .localized-field label > span { display: block; margin-bottom: 6px; color: #716862; font-size: 11px; font-weight: 600; letter-spacing: .08em; }
-.localized-field select[multiple] { min-height: 180px; }
 .localized-field > small { display: block; margin-top: 7px; color: #8b827c; font-size: 11px; line-height: 1.5; }
 
+.venue-yaml-section { padding-bottom: 18px; }
+.venue-yaml-input {
+  min-height: 560px !important;
+  padding: 16px !important;
+  resize: vertical;
+  color: #efeae6 !important;
+  border-color: #25211f !important;
+  background: #25211f !important;
+  font: 12px/1.65 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace !important;
+  tab-size: 2;
+}
+.inline-error { margin: 10px 0 0; display: flex; align-items: flex-start; gap: 7px; color: var(--danger); font-size: 11px; line-height: 1.5; }
+
 .card-stack { display: grid; gap: 12px; }
+.list-append-action { margin-top: 12px; display: flex; justify-content: flex-start; }
 .item-card { padding: 16px; border: 1px solid #ded7d1; border-radius: 12px; background: #faf8f6; }
 .item-toolbar { min-height: 28px; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between; }
 .item-toolbar strong { font-size: 12px; }

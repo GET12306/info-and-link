@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { ExternalLink as ExternalLinkIcon, ArrowRight, Star, House, Hotel } from "lucide-react"
 import { SiX, SiInstagram } from "react-icons/si"
@@ -13,6 +13,7 @@ import useJapanNow from "../hooks/useJapanNow"
 import CalendarMonth from "../components/CalendarMonth"
 import ExternalAnchor from "../components/ExternalAnchor"
 import { localizedText } from "../utils/localizedText"
+import { dateTimeForViewer, instantFromSourceKey, sourceTimeZone } from "../utils/timeZone"
 
 const LINK_ICONS = { SiX, SiInstagram, House, Star, Hotel, ExternalLink: ExternalLinkIcon }
 
@@ -24,15 +25,11 @@ export default function Home({ lang }: { lang: Language }) {
   const links = LINKS as LinkItem[]
   const profile = COCO_PROFILE as Profile
   const now = useJapanNow()
-  const today = now.substring(0, 10)
-  const calendarActivities = getCalendarActivities(allActivities, now)
-  const months = buildCalendarData(calendarActivities, today)
-
-  const [monthIndex, setMonthIndex] = useState(() => {
-    const todayKey = today.substring(0, 7)
-    const idx = months.findIndex(m => m.key === todayKey)
-    return idx >= 0 ? idx : months.findIndex(m => m.key >= todayKey) >= 0 ? months.findIndex(m => m.key >= todayKey) : 0
-  })
+  const today = dateTimeForViewer(instantFromSourceKey(now, sourceTimeZone()) ?? Date.now()).substring(0, 10)
+  const calendarActivities = useMemo(() => getCalendarActivities(allActivities, now), [allActivities, now])
+  const months = useMemo(() => buildCalendarData(calendarActivities, today), [calendarActivities, today])
+  const [monthKey, setMonthKey] = useState(() => today.substring(0, 7))
+  const monthIndex = Math.max(0, months.findIndex(month => month.key === monthKey))
 
   const scrollToEvent = (activityId: string) => {
     navigate("/activities", { state: { activityId } })
@@ -80,15 +77,10 @@ export default function Home({ lang }: { lang: Language }) {
               className="w-full"
               hasPrev={monthIndex > 0}
               hasNext={monthIndex < months.length - 1}
-              onPrev={() => setMonthIndex((i) => i - 1)}
-              onNext={() => setMonthIndex((i) => i + 1)}
+              onPrev={() => setMonthKey(months[monthIndex - 1].key)}
+              onNext={() => setMonthKey(months[monthIndex + 1].key)}
               monthKeys={months.map((month) => month.key)}
-              onSelectMonth={(monthKey) => {
-                const selectedIndex = months.findIndex(
-                  (month) => month.key === monthKey
-                )
-                if (selectedIndex >= 0) setMonthIndex(selectedIndex)
-              }}
+              onSelectMonth={setMonthKey}
             />
           )}
         </section>

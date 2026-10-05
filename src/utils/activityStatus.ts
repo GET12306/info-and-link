@@ -7,20 +7,20 @@ import {
   getActivityOccurrences,
   type ActivityOccurrence,
 } from "./activitySchedule"
+import { dateTimeInZone, instantFromSourceKey, sourceTimeZone, viewerTimeZone } from "./timeZone"
 
 export type ActivityStatus = "upcoming" | "ongoing" | "past"
 
 function getOccurrenceBounds(occurrences: ActivityOccurrence[]) {
-  let startAt: string | null = null
-  let endAt: string | null = null
+  let start: ActivityOccurrence | null = null
+  let end: ActivityOccurrence | null = null
 
   for (const occurrence of occurrences) {
-    const occurrenceStartAt = occurrence.startAt ?? `${occurrence.date}T00:00`
-    if (!startAt || occurrenceStartAt < startAt) startAt = occurrenceStartAt
-    if (!endAt || occurrence.endAt > endAt) endAt = occurrence.endAt
+    if (!start || occurrence.startInstant < start.startInstant) start = occurrence
+    if (!end || occurrence.endInstant > end.endInstant) end = occurrence
   }
 
-  return { startAt, endAt }
+  return { start, end }
 }
 
 function getActivityStatusFromOccurrences(
@@ -30,27 +30,25 @@ function getActivityStatusFromOccurrences(
 ): ActivityStatus {
   if (activity.recurrence) return "ongoing"
 
-  const { startAt, endAt } = getOccurrenceBounds(occurrences)
-  if (endAt && nowKey > endAt) return "past"
-  if (startAt && nowKey >= startAt) return "ongoing"
+  const { start, end } = getOccurrenceBounds(occurrences)
+  const now = instantFromSourceKey(nowKey, sourceTimeZone()) ?? Date.now()
+  if (end && now > end.endInstant) return "past"
+  if (start && now >= start.startInstant) return "ongoing"
   return "upcoming"
 }
 
 export function getActivityEndDate(activity: Activity): string | null {
-  return (
-    getOccurrenceBounds(getActivityOccurrences(activity)).endAt?.substring(
-      0,
-      10
-    ) ?? null
-  )
+  const end = getOccurrenceBounds(getActivityOccurrences(activity)).end
+  return end ? end.allDay ? end.date : dateTimeInZone(end.endInstant, viewerTimeZone()).substring(0, 10) : null
 }
 
 function getActivityStartAt(activity: Activity) {
-  return getOccurrenceBounds(getActivityOccurrences(activity)).startAt
+  return getOccurrenceBounds(getActivityOccurrences(activity)).start
 }
 
 export function getActivityStartDate(activity: Activity): string | null {
-  return getActivityStartAt(activity)?.substring(0, 10) ?? null
+  const start = getActivityStartAt(activity)
+  return start ? start.allDay ? start.date : dateTimeInZone(start.startInstant, viewerTimeZone()).substring(0, 10) : null
 }
 
 export function compareActivitiesByStart(a: Activity, b: Activity) {
@@ -60,8 +58,7 @@ export function compareActivitiesByStart(a: Activity, b: Activity) {
   const bGroup = b.recurrence ? 1 : bStart ? 0 : 2
   if (aGroup !== bGroup) return aGroup - bGroup
   if (aGroup !== 0) return 0
-  if (aStart === bStart) return 0
-  return aStart.localeCompare(bStart)
+  return (aStart?.startInstant ?? 0) - (bStart?.startInstant ?? 0)
 }
 
 export function getActivityStatus(
@@ -76,29 +73,20 @@ export function getActivityStatus(
   )
 }
 
-function activityOccursInMonth(
-  occurrences: ActivityOccurrence[],
-  monthKey: string
-) {
-  return occurrences.some((occurrence) =>
-    occurrence.date.startsWith(`${monthKey}-`)
-  )
-}
-
 export function getCalendarActivities(
   activities: Activity[],
   nowKey = getJapanDateTimeKey()
 ) {
   const normalizedNow = normalizeJapanDateTimeKey(nowKey)
-  const currentMonthKey = normalizedNow.substring(0, 7)
+  const nowInstant = instantFromSourceKey(normalizedNow, sourceTimeZone()) ?? Date.now()
+  const currentMonthKey = dateTimeInZone(nowInstant, viewerTimeZone()).substring(0, 7)
 
   return activities.filter((activity) => {
     const occurrences = getActivityOccurrences(activity)
     if (occurrences.length === 0) return false
-    return (
-      getActivityStatusFromOccurrences(activity, occurrences, normalizedNow) !==
-        "past" || activityOccursInMonth(occurrences, currentMonthKey)
-    )
+    return getActivityStatusFromOccurrences(activity, occurrences, normalizedNow) !== "past" ||
+      occurrences.some((occurrence) => (occurrence.allDay ? occurrence.date :
+        dateTimeInZone(occurrence.startInstant, viewerTimeZone()).substring(0, 10)).startsWith(`${currentMonthKey}-`))
   })
 }
 
@@ -115,7 +103,17 @@ export function getPastActivities(
   activities: Activity[],
   nowKey = getJapanDateTimeKey()
 ) {
+  const normalizedNow = normalizeJapanDateTimeKey(nowKey)
   return activities
-    .filter((activity) => getActivityStatus(activity, nowKey) === "past")
-    .sort((a, b) => (getActivityEndDate(b) ?? "").localeCompare(getActivityEndDate(a) ?? ""))
+    .map(activity => {
+      const occurrences = getActivityOccurrences(activity)
+      return {
+        activity,
+        status: getActivityStatusFromOccurrences(activity, occurrences, normalizedNow),
+        endDate: getOccurrenceBounds(occurrences).end?.endInstant ?? 0,
+      }
+    })
+    .filter(item => item.status === "past")
+    .sort((a, b) => b.endDate - a.endDate)
+    .map(item => item.activity)
 }

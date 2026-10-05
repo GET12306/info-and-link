@@ -12,8 +12,8 @@ export default function Credits({ lang }: { lang: Language }) {
   const [filter, setFilter] = useState<CreditFilter>("all")
   const credits = [...(CREDITS as Credit[])].sort((a, b) => b.year.localeCompare(a.year))
   const visible = filter === "all" ? credits : credits.filter(credit => credit.medium === filter)
-  const filters: { value: CreditFilter; label: string }[] = ["all", "anime", "game", "film", "television", "audio", "other"]
-    .map(value => ({ value: value as CreditFilter, label: t[`credits_filter_${value}`] }))
+  const filters: { value: CreditFilter; label: string }[] = (["all", "anime", "game", "film", "television", "audio", "other"] as const)
+    .map(value => ({ value, label: t[`credits_filter_${value}`] }))
 
   return <ArchiveCatalog title={t.credits} backLabel={t.back_to_museum}>
     <CatalogFilterBar<CreditFilter> label={t.credits_filter_label} options={filters} value={filter} onChange={setFilter} />

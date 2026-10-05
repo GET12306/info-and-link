@@ -7,14 +7,13 @@ import type {
   Language,
 } from "../types"
 import { getPerformanceOccurrences, type ActivityOccurrence } from "../utils/activitySchedule"
-import { getJapanTimeLabel } from "../utils/japanTime"
+import { dateTimeForViewer, instantFromSourceKey, sourceTimeZone, viewerTimeZone } from "../utils/timeZone"
 import {
   getActivityMilestoneLabel,
   getActivityMilestoneTime,
 } from "../utils/activityMilestones"
 import { CatalogDisclosure } from "./ArchiveCatalog"
 
-const JAPAN_TIME_ZONE = "Asia/Tokyo"
 interface DisplayPerformance {
   occurrence: ActivityOccurrence
   date: string
@@ -24,23 +23,31 @@ interface DisplayPerformance {
   milestones: ActivityMilestone[]
 }
 
-function getDisplayPerformances(occurrences: ActivityOccurrence[], lang: Language) {
+function getDisplayPerformances(occurrences: ActivityOccurrence[], lang: Language, timeZone: string) {
   return occurrences.map((occurrence): DisplayPerformance => ({
     occurrence,
-    date: occurrence.date,
-    startAt: occurrence.startAt,
-    endAt: occurrence.showEndAt ? occurrence.endAt : undefined,
+    date: occurrence.allDay ? occurrence.date : dateTimeForViewer(occurrence.startInstant, timeZone).substring(0, 10),
+    startAt: occurrence.startAt ? dateTimeForViewer(occurrence.startInstant, timeZone) : undefined,
+    endAt: occurrence.showEndAt ? dateTimeForViewer(occurrence.endInstant, timeZone) : undefined,
     label: occurrence.label?.[lang],
-    milestones: occurrence.milestones,
-  }))
+    milestones: occurrence.milestones.map((milestone) => {
+      const start = instantFromSourceKey(`${occurrence.date}T${milestone.at}`, occurrence.timeZone)
+      const end = milestone.until ? instantFromSourceKey(`${occurrence.date}T${milestone.until}`, occurrence.timeZone) : null
+      return start === null ? milestone : {
+        ...milestone,
+        at: dateTimeForViewer(start, timeZone).substring(11),
+        until: end === null ? undefined : dateTimeForViewer(end, timeZone).substring(11),
+      }
+    }),
+  })).sort((a, b) => a.occurrence.startInstant - b.occurrence.startInstant)
 }
 
 function formatDate(date: string, lang: Language) {
-  const value = new Date(`${date}T12:00:00+09:00`)
+  const value = new Date(`${date}T12:00:00Z`)
   if (Number.isNaN(value.getTime())) return date
 
   return new Intl.DateTimeFormat(lang === "ja" ? "ja-JP" : "en-US", {
-    timeZone: JAPAN_TIME_ZONE,
+    timeZone: "UTC",
     year: "numeric",
     month: lang === "ja" ? "numeric" : "short",
     day: "numeric",
@@ -55,11 +62,11 @@ function formatTimeRange(
   if (!performance.startAt) {
     return lang === "ja" ? "時間未定" : "Time TBA"
   }
-  const startTime = getJapanTimeLabel(performance.startAt)
+  const startTime = performance.startAt.substring(11)
   if (!performance.endAt) return startTime
 
   const endDate = performance.endAt.substring(0, 10)
-  const endTime = getJapanTimeLabel(performance.endAt)
+  const endTime = performance.endAt.substring(11)
   if (endDate === performance.date) return `${startTime}–${endTime}`
 
   return `${startTime} - ${formatDate(endDate, lang)} ${endTime}`
@@ -72,16 +79,25 @@ function getTimeItems(
 ) {
   const t = TRANSLATIONS[lang]
   return [
-    ...performance.milestones.map((milestone) => ({
-      at: milestone.at,
-      dateTime: `${performance.date}T${milestone.at}`,
-      time: getActivityMilestoneTime(milestone),
-      label: getActivityMilestoneLabel(milestone, lang),
-    })),
+    ...performance.milestones.map((milestone, index) => {
+      const instant = instantFromSourceKey(
+        `${performance.occurrence.date}T${performance.occurrence.milestones[index].at}`,
+        performance.occurrence.timeZone
+      ) ?? performance.occurrence.startInstant
+      const dateTime = dateTimeForViewer(instant)
+      const datePrefix = dateTime.substring(0, 10) === performance.date
+        ? "" : `${formatDate(dateTime.substring(0, 10), lang)} `
+      return {
+        at: dateTime,
+        dateTime,
+        time: `${datePrefix}${getActivityMilestoneTime(milestone)}`,
+        label: getActivityMilestoneLabel(milestone, lang),
+      }
+    }),
     ...(performance.startAt
       ? [
           {
-            at: getJapanTimeLabel(performance.startAt),
+            at: performance.startAt,
             dateTime: performance.startAt,
             time: formatTimeRange(performance, lang),
             label: startLabel ?? t.milestone_start,
@@ -101,9 +117,8 @@ export default function ActivityPerformanceDetails({
   footer,
   occurrences,
   startLabel,
-  inlineLabel,
-  emptyLabel,
   compact = false,
+  sourceZone,
 }: {
   performances?: ActivityPerformance[]
   durationMinutes?: number
@@ -114,66 +129,17 @@ export default function ActivityPerformanceDetails({
   footer?: ReactNode
   occurrences?: ActivityOccurrence[]
   startLabel?: string
-  inlineLabel?: string
-  emptyLabel?: string
   compact?: boolean
+  sourceZone?: string
 }) {
   const [open, setOpen] = useState(false)
   const panelId = useId()
   const t = TRANSLATIONS[lang]
+  const localZone = viewerTimeZone()
   const displayPerformances = getDisplayPerformances(
-    occurrences ?? getPerformanceOccurrences(performances, durationMinutes),
-    lang
+    occurrences ?? getPerformanceOccurrences(performances, durationMinutes, sourceTimeZone(sourceZone)),
+    lang, localZone
   )
-
-  if (inlineLabel) {
-    const performance = displayPerformances[0]
-    if (!performance) {
-      return <>
-        {emptyLabel && (
-          <div className="mt-4 text-sm leading-6 text-coco-ink/50">
-            {emptyLabel}
-          </div>
-        )}
-        {footer}
-      </>
-    }
-
-    const updateMilestone = performance.milestones.find(
-      (milestone) => milestone.kind === "update"
-    )
-    const updateTime = updateMilestone
-      ? {
-          dateTime: `${performance.date}T${updateMilestone.at}`,
-          label: getActivityMilestoneTime(updateMilestone),
-        }
-      : performance.startAt
-        ? {
-            dateTime: performance.startAt,
-            label: getJapanTimeLabel(performance.startAt),
-          }
-        : null
-
-    return (
-      <div className="mt-4">
-        <div className="flex flex-wrap items-center gap-x-2 gap-y-1 text-sm leading-6 text-coco-ink/50">
-          <span>{inlineLabel}{lang === "ja" ? "：" : ":"}</span>
-          <time dateTime={performance.date} className="text-coco-ink/65">
-            {formatDate(performance.date, lang)}
-          </time>
-          {updateTime && (
-            <time dateTime={updateTime.dateTime} className="text-coco-ink/65">
-              {updateTime.label}
-            </time>
-          )}
-          {actions}
-          {renderPerformanceAction?.(performance.occurrence)}
-        </div>
-        {toolbarPanel}
-        {footer}
-      </div>
-    )
-  }
 
   if (displayPerformances.length === 0) {
     return <>{footer}</>

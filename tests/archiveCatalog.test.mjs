@@ -24,8 +24,15 @@ test("activities without ticket entries do not show an empty disclosure",()=>{
 test("archived performance schedules use the same compact disclosure as other records",()=>{
   const html=render({...base,performances:[{startAt:"2025-01-01T18:00"}]})
   assert.match(html,/<details class="catalog-disclosure">\s*<summary[^>]*>Performance Schedule \(1\)<\/summary>/)
+  assert.match(html,/>2025-01-01<\/span>/)
+  assert.doesNotMatch(html,/Asia\/|Local time|Times shown in/)
   assert.doesNotMatch(html,/aria-label="Performance Schedule"/)
   assert.doesNotMatch(html,/rounded-full[^>]*>[^<]*<svg[^>]*lucide-calendar-clock/)
+})
+test("recurring activities show only their authored schedule label",()=>{
+  const html=render({...base,scheduleLabel:"Weekly",recurrence:{type:"manual"},performances:[{startAt:"2025-01-01T18:00"}]})
+  assert.match(html,/>Weekly<\/span>/)
+  assert.doesNotMatch(html,/2025-01-01|18:00|Performance Schedule/)
 })
 test("all remaining archive pages render the shared compact layout", async()=>{
   for(const page of ["PastActivities","Programs","Credits","Media"]){

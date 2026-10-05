@@ -11,7 +11,7 @@ This project is unofficial and is not affiliated with or endorsed by LIBERTE or 
 - **Bilingual UI**: Uses Japanese only when the browser's primary language is Japanese; otherwise defaults to English. A manual language choice is persisted and kept in sync with the document `lang` attribute.
 - **Responsive layout**: desktop navigation plus a narrow-screen menu for mobile and compact browser widths.
 - **Dark mode**: system, light, and dark theme options.
-- **Home calendar**: shows dated activities directly in each day, supports JST performance times and multiple performances per day, and uses a compact responsive layout on narrow screens.
+- **Home calendar**: shows timed activities on the visitor's local calendar day and in their local time zone; date-only events keep their authored calendar date.
 - **Activities page**: groups current activities by category and moves finished activities to an archive page automatically.
 - **Add to calendar**: downloads one performance or all remaining known performances as an ICS file, with automatic readiness checks and a manual content switch.
 - **Ticket Info page**: shows current ticket lotteries, presales, and sales. Finished activities retain their ticket records in an inline disclosure on the past-activities page.
@@ -77,7 +77,9 @@ Useful scripts:
 
 ```bash
 npm run editor    # Open the local YAML content editor on 127.0.0.1:7231
-npm run lint      # Type-check with TypeScript
+npm run lint      # Strict TypeScript and unused-code checks
+npm test          # All regression tests and published-content validation
+npm run check     # Type-check, run all tests, and build
 npm run test:calendar # Calendar export and readiness regression tests
 npm run test:editor   # Activity schema, ID, and YAML round-trip tests
 npm run test:resources-editor # Resource editor validation and YAML round-trip tests
@@ -99,7 +101,7 @@ npm run editor
 ```
 
 Then open `http://127.0.0.1:7231/editor.html`. Use the top tabs to switch between
-`activities.yaml`, `activity-resources.yaml`, `magazines.yaml`, `notes.yaml`, and
+`activities.yaml`, `activity-resources.yaml`, `daily-posts.yaml`, `magazines.yaml`, `notes.yaml`, and
 `programs.yaml`. The editor can search, create,
 duplicate, and delete activities; edit and reorder performances, milestones, and
 ticket entries; preview the selected YAML; and validate the entire file before saving.
@@ -107,7 +109,10 @@ It writes directly to the selected file under `src/data/`, so review the Git dif
 
 The editor server binds only to the loopback interface, rejects non-local API calls,
 checks that the YAML has not changed since it was loaded, validates again on save,
-and replaces the file atomically. `editor.html` is explicitly excluded from the
+and replaces the file atomically. Saves to the same file are serialized within the
+editor server, with a unique temporary file for each write. Input entered while
+a save is pending remains an unsaved draft. Inactive tabs retain their drafts and
+pause automatic polling. `editor.html` is explicitly excluded from the
 production build and has no deployed write API.
 
 Simple top-level fields are described in `src/editor/activityEditorSchema.ts`, so a
@@ -154,9 +159,7 @@ Activities live in `src/data/activities.yaml`. Each item should follow this shap
   title:
     ja: "LIBERTE LIVE 2026 ～ First Act ～"
     en: "LIBERTE LIVE 2026 ~ First Act ~"
-  venue:
-    ja: "KIWA TENNOZ"
-    en: "KIWA TENNOZ"
+  venueIds: ["kiwa-tennoz"]
   description:
     ja: "ゲスト出演"
     en: "Guest appearance"
@@ -168,6 +171,7 @@ Required fields:
 - `id`: permanent, unique lowercase slug used by navigation, UI identity, and calendar UIDs. Once published, do not rename it when a title or URL changes.
 - `category`: one of `Stage`, `Musical`, `Program`, `Event`, `Live`, `Reading`, or `Other`. Use `Program` for streamed/broadcast programs and `Event` for in-person events.
 - `scheduleLabel`: human-readable schedule text used only for display. This can be a single date, date range, `Weekly`, `Monthly`, or any concise label.
+- `timeZone`: optional IANA time zone for all machine-readable activity and recurrence times. Omit it to author in `Asia/Tokyo` (UTC+9), even when an event takes place in Hong Kong or Taiwan. Set `Asia/Hong_Kong` or `Asia/Taipei` only when the source schedule is actually published in that local time.
 - `title.ja` and `title.en`: bilingual title.
 - `link`: source or official activity information URL.
 
@@ -175,20 +179,20 @@ Recommended fields:
 
 - `startDate`: machine-readable first date in `YYYY-MM-DD` for a continuous date range.
 - `endDate`: machine-readable last date in `YYYY-MM-DD`; omit it for a single-day activity.
-- `performances`: exact non-consecutive dates or timed performances. A performance uses either `occursOn: YYYY-MM-DD` or `startAt: YYYY-MM-DDTHH:mm` JST, and can have a bilingual `label`.
-- `milestones`: optional supplementary times within a performance, such as an update, merchandise sales, or doors opening. They can be selected for calendar export, but never change whether the parent performance is all-day, its end time, or activity status. `at` and `until` use same-day `HH:mm` JST values, not full date-times.
-- `durationMinutes`: shared duration for timed performances. An individual performance's `endAt` overrides it.
+- `performances`: exact non-consecutive dates or timed performances. A performance uses either `occursOn: YYYY-MM-DD` or `startAt: YYYY-MM-DDTHH:mm` in the activity's `timeZone`, and can have a bilingual `label`.
+- `milestones`: optional supplementary times within a performance, such as an update, merchandise sales, or doors opening. They can be selected for calendar export, but never change whether the parent performance is all-day, its end time, or activity status. `at` and `until` use same-day `HH:mm` values in the activity's `timeZone`, not full date-times.
+- `durationMinutes`: positive integer duration shared by timed performances. An individual performance's `endAt` overrides it.
 - `recurrence`: marks an ongoing program and describes how its known occurrences are supplied. Use `type: manual` for monthly/irregular programs, or the bounded `type: weekly` rule described below.
-- `venue.ja` and `venue.en`: the activity venue shared by activity, ticket, and future calendar displays.
-- `description.ja` and `description.en`: role, appearance note, or other short context. Venue text belongs in `venue`.
+- `venueIds`: stable IDs from `src/data/venues.yaml`, shared by activity, ticket, and calendar displays. Use `venueNote.ja` / `venueNote.en` for an area or an unannounced venue; the legacy `venue` field is no longer displayed.
+- `description.ja` and `description.en`: role, appearance note, or other short context. Use `venueIds` / `venueNote` for venue information.
 
 Date behavior:
 
 - Use either `performances` or the continuous `startDate`/`endDate` range for one activity, not both.
 - Each normalized occurrence becomes a separate calendar item. An activity becomes past after its final occurrence ends.
 - A timed performance ends at its own `endAt`, otherwise after the activity's `durationMinutes`, otherwise after the system default of 90 minutes. Durations may cross midnight.
-- A date-only `occursOn` performance is treated as an all-day occurrence and remains current through `23:59` JST.
-- A milestone uses `kind: update`, `merch`, `doors`, or `other` with an `at: HH:mm` JST time. `update` is an information/content publication time, `merch` is merchandise sales, `doors` is when the venue opens for entry (not the performance start), and `other` is any separately labelled supplementary time. Add `until: HH:mm` for a same-day interval. `other` requires a bilingual `label`; a label on a standard kind overrides its default name.
+- A date-only `occursOn` performance is treated as an all-day occurrence and remains current through `23:59` in its source time zone. Its displayed calendar date does not shift for visitors elsewhere.
+- A milestone uses `kind: update`, `merch`, `doors`, or `other` with an `at: HH:mm` time in the activity's source zone. `update` is an information/content publication time, `merch` is merchandise sales, `doors` is when the venue opens for entry (not the performance start), and `other` is any separately labelled supplementary time. Add `until: HH:mm` for a same-day interval. `other` requires a bilingual `label`; a label on a standard kind overrides its default name.
 - `endAt` belongs to the same performance item as `startAt`: align the two fields and do not add another list marker (`-`) before `endAt`.
 - A `recurrence` block keeps a program in the current-activities list independently of its latest known occurrence. Manual recurrence never invents dates; weekly recurrence generates only inside its explicit `startOn`–`endOn` range.
 - The calendar only uses machine-readable schedule fields. `scheduleLabel` is display-only and never affects status or sorting.
@@ -247,7 +251,7 @@ recurrence:
 ```
 
 - `startOn` and `endOn` are inclusive boundaries of the currently confirmed range; extending the schedule requires changing `endOn` explicitly.
-- `weekday` is one of `sunday` through `saturday`, and `startTime` is `HH:mm` JST.
+- `weekday` is one of `sunday` through `saturday`, and `startTime` is `HH:mm` in the activity's source zone.
 - `overrides` may change one generated date's time or cancel it. Its `date` must be a date that the base rule would generate.
 - Weekly rules and `performances` are mutually exclusive. Manual recurrence requires at least one performance.
 - Generated Program times are labelled as updates rather than stage-performance starts in the site UI.
@@ -332,14 +336,14 @@ calendarExport: "auto"     # Default when omitted: all performances need exact s
 export instead of silently downloading a partial schedule. The existing site calendar
 and automatic archive rules are unchanged.
 
-- Only occurrences that have not ended (using the site's JST status rules) are offered.
+- Only occurrences that have not ended in absolute time are offered.
 - **Performance Schedule**, bulk calendar export, and calendar settings share one toolbar.
   Calendar settings select performance starts, doors, merchandise sales, and other
   supplementary times for both bulk and individual-performance downloads. At least one
   type always remains selected.
 - Date-only entries and continuous ranges require `enabled`; each date is an all-day
   placeholder. Only use ranges when every day is intended.
-- Exact times are converted from JST to the visitor's browser timezone. The ICS contains
+- Exact times are converted from the activity's source zone to the visitor's browser timezone. The ICS contains
   a `VTIMEZONE` definition and uses that timezone on `DTSTART` and `DTEND`, including
   daylight-saving transitions where applicable.
 - Explicit `endAt` overrides `durationMinutes`. When neither is provided, the generated
@@ -384,9 +388,7 @@ Only activities with ticket information need a `ticketInfo` block. Ticket entrie
   title:
     ja: "LIBERTE LIVE 2026 ～ First Act ～"
     en: "LIBERTE LIVE 2026 ~ First Act ~"
-  venue:
-    ja: "KIWA TENNOZ"
-    en: "KIWA TENNOZ"
+  venueIds: ["kiwa-tennoz"]
   link: "https://example.com/event"
   ticketInfo:
     link: "https://example.com/tickets"
@@ -408,12 +410,13 @@ Only activities with ticket information need a `ticketInfo` block. Ticket entrie
 
 Ticket field notes:
 
-- The activity-level `venue` is displayed on both activity and ticket pages; do not duplicate it inside `ticketInfo`.
+- The activity-level `venueIds` / `venueNote` are displayed on both activity and ticket pages; do not duplicate them inside `ticketInfo`.
 - `ticketInfo.link`: optional ticket overview URL and the middle link fallback level.
 - `ticketInfo.price`: optional price shared by every ticket entry for the activity.
 - `entries`: list of ticket lotteries, presales, general sales, or TBA entries.
 - `entry.type.ja` and `entry.type.en`: visible ticket entry name. This text is clickable in the UI.
-- `entry.startAt`: optional start boundary. Use either `YYYY-MM-DD` or minute-precise `YYYY-MM-DDTHH:mm` JST. A date-only value starts at `00:00`.
+- `entry.timeZone`: optional IANA zone override for a ticket stage; otherwise it inherits the activity's `timeZone` (default `Asia/Tokyo`).
+- `entry.startAt`: optional start boundary. Use either `YYYY-MM-DD` or minute-precise `YYYY-MM-DDTHH:mm` in the entry's source zone. A date-only value starts at `00:00`.
 - `entry.endAt`: optional closing boundary in the same two formats. A date-only value remains open through `23:59`; if the official cutoff is unknown, the parent activity `endDate` may be used.
 - `entry.scheduleLabel`: language-independent, human-readable sale/application period used only for display.
 - `entry.price`: optional price override for an exceptional ticket stage. The UI falls back to `ticketInfo.price` when omitted.
@@ -422,12 +425,12 @@ Ticket field notes:
 
 Ticket status behavior:
 
-- `upcoming`: the current JST date/time is before the entry start.
-- `open`: the current JST date/time is on or after the entry start, and not after the entry end.
-- `past`: the current JST date/time is after the entry end.
+- `upcoming`: the current instant is before the entry start.
+- `open`: the current instant is on or after the entry start, and not after the entry end.
+- `past`: the current instant is after the entry end.
 - `tba`: no machine-readable ticket dates are provided.
 
-All machine-readable times are interpreted as Japan Standard Time (`Asia/Tokyo`), regardless of the visitor's device time zone. Date-only starts mean `00:00` JST, and date-only ends remain active through `23:59` JST.
+Unqualified machine-readable times default to Japan Standard Time (`Asia/Tokyo`), regardless of venue. An explicit activity or ticket entry `timeZone` changes how those strings are interpreted. Timed schedules, ticket windows, and calendar downloads are displayed in the visitor's browser time zone; date-only labels remain calendar dates in their source zone. Date-only starts mean `00:00` and date-only ends remain active through `23:59` in the source zone. Times that do not exist because of a daylight-saving transition are rejected by the editor; repeated times use the first occurrence.
 
 For sales without a published cutoff, copy the parent activity `endDate` into the ticket entry's `endAt` instead of using an empty string so the entry can move to the archive.
 
@@ -437,12 +440,12 @@ When adding or editing content:
 
 - Give every activity a permanent unique `id`; do not derive UI identity from its list position.
 - Keep Japanese and English fields in sync.
-- Use `YYYY-MM-DD` for machine-readable dates and `YYYY-MM-DDTHH:mm` for precise JST times. Ticket `startAt`/`endAt` accept either format and supply boundary defaults for date-only values.
+- Use `YYYY-MM-DD` for machine-readable dates and `YYYY-MM-DDTHH:mm` for precise times in the declared source zone (default `Asia/Tokyo`). Ticket `startAt`/`endAt` accept either format and supply boundary defaults for date-only values.
 - Both activities and ticket entries use `scheduleLabel` for display-only schedule text; never use it for sorting or status logic.
 - Keep venue information only at the activity level unless a future performance explicitly needs a different venue.
 - Prefer exact source links from official sites or reliable announcements.
 - For monthly or irregular programs, use `recurrence.type: manual` and add only confirmed dates to `performances`. For fixed weekly programs, update the bounded `recurrence.endOn`; never create an unbounded rule.
-- Run `npm run lint` and `npm run build` before opening a PR.
+- Run `npm run check` before opening a PR.
 
 ## Deployment
 
@@ -465,12 +468,13 @@ This is an unofficial fan project. It is not affiliated with or endorsed by LIBE
 
 ## Museum collections
 
-Museum has four direct child routes and no per-record detail routes:
+Museum has five direct child routes and no per-record detail routes:
 
 - `/museum/credits`: anime, game, screen, and audio credits from `credits.yaml`.
 - `/museum/activities`: finished scheduled activities from `activities.yaml`.
 - `/museum/programs`: show and project archives from `programs.yaml`.
 - `/museum/media`: one filterable view over `photobooks.yaml`, `magazines.yaml`, and `notes.yaml`.
+- `/museum/daily-posts`: standalone daily-life posts from `daily-posts.yaml`.
 
 Card titles and descriptions are localized in `src/i18n.ts`; card order, icons,
 and routes are defined by `src/pages/Museum.tsx`. Catalogue details use inline
@@ -501,9 +505,9 @@ named continuations such as later parts of the same interview. YAML templates in
 all four data files include a `relatedResources` example.
 
 Deferred editor follow-up (after the grouped-resource presentation is approved):
-add a multiline “one URL per line” input that removes duplicates, detects the
-platform, and emits the compact `links` YAML form. This is intentionally not part
-of the current activity editor yet.
+add a multiline “one URL per line” input that detects the
+platform, and emits the compact `links` YAML form. This is not part of the current editor yet; existing grouped-link fields reject
+duplicate URLs within the same group.
 
 ## Dense archive catalogues
 
@@ -541,11 +545,16 @@ keeps its existing filtering behavior. Verify with
 
 `/museum/daily-posts` collects standalone daily-life posts in
 `src/data/daily-posts.yaml`, without activity or program IDs. Only `title` and
-`url` are required. Optional fields are `id`, `date` (YYYY-MM-DD), `platform`,
+`url` are required. The card title always opens this primary post. Add optional
+`links` for related reposts, replies, or follow-ups so the page keeps the whole
+topic in one card. A related link may be a plain URL string or an object with
+`url` plus optional `label`, `date`, `platform`, and `status` overrides. Series
+level values are inherited by its links. Optional fields are `id`, `date` (YYYY-MM-DD), `platform`,
 `description`, `tags`, and link `status`. Text accepts a string or a partially
 translated ja/en object. The YAML contains commented examples; replace `[]`
-with actual records. X, Instagram, and YouTube are detected from the URL unless
-`platform` is specified. The page shows a simple list without search or filter controls. Dated entries sort newest first,
+with actual records. X, Instagram, and YouTube are detected from each URL unless
+`platform` is specified. The page shows one catalogue entry per topic and lists
+every link in a series inside it, without local search or filter controls. Dated entries sort newest first,
 followed by undated entries. The page reuses the shared archive catalogue,
 entry title, grid, and expired-link badge components. Run
 `node --test tests/dailyPosts.test.mjs` for focused checks.

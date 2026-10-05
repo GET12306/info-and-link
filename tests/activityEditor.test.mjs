@@ -25,7 +25,7 @@ const venueIds = new Set(parse(fs.readFileSync("src/data/venues.yaml", "utf8")).
 test("the current activity file has stable unique IDs and passes editor validation", () => {
   assert.ok(activities.length > 0)
   assert.equal(new Set(activities.map((activity) => activity.id)).size, activities.length)
-  assert.deepEqual(validateActivities(activities), [])
+  assert.deepEqual(validateActivities(activities, venueIds), [])
   assert.deepEqual(
     [...new Set(activities.flatMap((activity) => activity.venueIds ?? []))]
       .filter((venueId) => !venueIds.has(venueId)),
@@ -131,4 +131,41 @@ test("stale editor drafts report same-field conflicts without dropping local inp
   const merged = mergeActivityDraft(base, local, latest)
   assert.deepEqual(merged.conflicts, ["event.title.en"])
   assert.equal(merged.activities[0].title.en, "Local draft")
+})
+
+
+test("schedule validation rejects inputs that export cannot represent", () => {
+  const base = { id: "event", category: "Live", scheduleLabel: "2026.10.10", title: { ja: "例", en: "Example" }, link: "https://example.com", performances: [{ startAt: "2026-10-10T18:00" }] }
+  for (const change of [
+    { startDate: "2026-10-10" },
+    { endDate: "2026-10-11" },
+    { durationMinutes: 90.5 },
+    { performances: [{ occursOn: "2026-10-10", endAt: "2026-10-10T20:00" }] },
+  ]) {
+    assert.ok(validateActivities([{ ...base, ...change }], venueIds).some(issue => issue.severity === "error"), JSON.stringify(change))
+  }
+  assert.deepEqual(validateActivities([base], venueIds), [])
+  assert.deepEqual(validateActivities([{ ...base, venueIds: [[...venueIds][0]] }], venueIds), [])
+  assert.deepEqual(validateActivities([{ ...base, venueIds: ["missing-venue"] }], venueIds), [{
+    path: "activities[0].venueIds[0]",
+    message: "venues.yaml 中尚未收录这个 id；活动仍可保存",
+    severity: "warning",
+  }])
+})
+
+test("save completion rebases newer input without marking it as saved", () => {
+  const submitted = [{ id: "event", title: { ja: "元", en: "Submitted" }, link: "https://example.com" }]
+  const saved = structuredClone(submitted)
+  saved[0].link = "https://example.com/disk-change"
+  const current = structuredClone(submitted)
+  current[0].title.en = "Typed while saving"
+  current.push({ id: "new", title: { ja: "新", en: "New draft" } })
+  const next = mergeActivityDraft(submitted, current, saved)
+  assert.deepEqual(next.conflicts, [])
+  assert.equal(next.activities[0].title.en, "Typed while saving")
+  assert.equal(next.activities[0].link, saved[0].link)
+  assert.equal(next.activities[1].id, "new")
+  assert.notDeepEqual(next.activities, saved)
+  assert.equal(saved[0].title.en, "Submitted")
+  assert.deepEqual(mergeActivityDraft(submitted, [], saved).activities, [])
 })

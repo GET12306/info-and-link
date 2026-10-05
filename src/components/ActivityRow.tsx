@@ -7,6 +7,7 @@ import ActivityPerformanceDetails from "./ActivityPerformanceDetails"
 import ExternalAnchor from "./ExternalAnchor"
 import VenueLabel from "./VenueLabel"
 import ActivityResourcesDisclosure from "./ActivityResourcesDisclosure"
+import { getActivityDisplaySchedule } from "../utils/activityDisplaySchedule"
 
 export default function ActivityRow({
   activity,
@@ -29,6 +30,7 @@ export default function ActivityRow({
 }) {
   const supportsHighlight = highlighted !== undefined
   const t = TRANSLATIONS[lang]
+  const localSchedule = getActivityDisplaySchedule(activity)
   return (
     <article
       id={supportsHighlight ? `event-${activity.id}` : undefined}
@@ -43,7 +45,7 @@ export default function ActivityRow({
       }`}
     >
       <div className="text-sm text-coco-ink/40 md:w-32">
-        {activity.scheduleLabel}
+        {localSchedule ?? activity.scheduleLabel}
       </div>
       <div className="flex flex-1 flex-col justify-between gap-4 sm:flex-row sm:items-start">
         <div className="min-w-0 flex-1">
@@ -73,12 +75,13 @@ export default function ActivityRow({
               </div>
             )}
           </div>
-          {scheduleContent ?? <ActivityPerformanceDetails
-            performances={activity.performances}
-            durationMinutes={activity.durationMinutes}
-            lang={lang}
-            startLabel={activity.category === "Program" ? t.milestone_update : undefined}
-          />}
+          {!activity.recurrence && (scheduleContent ?? <ActivityPerformanceDetails
+              performances={activity.performances}
+              durationMinutes={activity.durationMinutes}
+              sourceZone={activity.timeZone}
+              lang={lang}
+              startLabel={activity.category === "Program" ? t.milestone_update : undefined}
+            />)}
           <ActivityResourcesDisclosure activityId={activity.id} lang={lang} />
         </div>
 

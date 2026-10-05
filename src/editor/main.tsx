@@ -2,6 +2,7 @@ import { StrictMode, useState } from "react"
 import { createRoot } from "react-dom/client"
 import ActivityEditorApp from "./ActivityEditorApp"
 import ResourceEditorApp from "./ResourceEditorApp"
+import VenueEditorApp from "./VenueEditorApp"
 import { RESOURCE_DOCUMENT_KEYS, RESOURCE_EDITOR_DOCUMENTS } from "./resourceEditorSchema"
 import "./editor.css"
 
@@ -9,6 +10,7 @@ function EditorWorkspace() {
   const [active, setActive] = useState<string>("activities")
   const tabs = [
     { key: "activities", label: "Activities" },
+    { key: "venues", label: "Venues" },
     ...RESOURCE_DOCUMENT_KEYS.map(key => ({ key, label: RESOURCE_EDITOR_DOCUMENTS[key].label })),
   ]
 
@@ -17,7 +19,8 @@ function EditorWorkspace() {
       {tabs.map(tab => <button type="button" key={tab.key} className={tab.key === active ? "active" : ""}
         aria-current={tab.key === active ? "page" : undefined} onClick={() => setActive(tab.key)}>{tab.label}</button>)}
     </nav>
-    <div hidden={active !== "activities"}><ActivityEditorApp /></div>
+    <div hidden={active !== "activities"}><ActivityEditorApp active={active === "activities"} /></div>
+    <div hidden={active !== "venues"}><VenueEditorApp active={active === "venues"} /></div>
     {RESOURCE_DOCUMENT_KEYS.map(key => <div key={key} hidden={active !== key}><ResourceEditorApp documentKey={key} active={active === key} /></div>)}
   </>
 }

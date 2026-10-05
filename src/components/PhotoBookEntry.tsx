@@ -51,6 +51,7 @@ export default function PhotoBookEntry({
               alt={book.cover.alt[lang]}
               className="h-full w-full object-contain"
               decoding="async"
+              loading="lazy"
             />
           ) : (
             <div className="flex h-full flex-col items-center justify-center gap-2 text-coco-ink/25">
