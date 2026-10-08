@@ -9,6 +9,16 @@ export function relatedResourceLinkCount(resource: RelatedResource) {
   return isRelatedResourceCollection(resource) ? resource.links.length : 1
 }
 
+export function latestRelatedResourceDate(resource: RelatedResource) {
+  const dates = [
+    resource.date,
+    ...(isRelatedResourceCollection(resource)
+      ? resource.links.map(link => resourceLinkDetails(link).date)
+      : []),
+  ].filter((date): date is string => Boolean(date))
+  return dates.sort((a, b) => b.localeCompare(a))[0] ?? ""
+}
+
 export function resourceLinkDetails(link: string | RelatedResourceLink): RelatedResourceLink {
   return typeof link === "string" ? { url: link } : link
 }

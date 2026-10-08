@@ -45,3 +45,28 @@ test("concurrent saves serialize revision checks and acknowledge the actual disk
   assert.equal(parse(await readFile(file, "utf8"))[0].title.en, "Next")
   assert.deepEqual((await readdir(directory)).filter(name => name.endsWith(".tmp")), [])
 })
+
+test("activity resource reads include activity titles for editor lookup", async (t) => {
+  const root = await mkdtemp(path.join(tmpdir(), "content-editor-references-test-"))
+  t.after(() => rm(root, { recursive: true, force: true }))
+  const directory = path.join(root, "src/data")
+  await mkdir(directory, { recursive: true })
+  await writeFile(path.join(directory, "activities.yaml"), JSON.stringify([base]))
+  await writeFile(path.join(directory, "activity-resources.yaml"), JSON.stringify([{
+    activityId: base.id,
+    kind: "photo",
+    platform: "x",
+    title: { ja: "写真", en: "Photos" },
+    links: [{ url: "https://example.com/photo", date: "2026-10-10" }],
+  }]))
+  let handler
+  activityEditorPlugin(true).configureServer({ config: { root }, middlewares: { use(fn) { handler = fn } } })
+  const result = await new Promise((resolve, reject) => {
+    const request = Readable.from([])
+    Object.assign(request, { url: "/__activity-editor/data/activity-resources", method: "GET", socket: { remoteAddress: "127.0.0.1" } })
+    const response = { statusCode: 200, setHeader() {}, end(body) { resolve({ status: response.statusCode, body: JSON.parse(body) }) } }
+    Promise.resolve(handler(request, response, () => reject(new Error("API not handled")))).catch(reject)
+  })
+  assert.equal(result.status, 200)
+  assert.deepEqual(result.body.activityReferences, [{ id: base.id, title: base.title }])
+})

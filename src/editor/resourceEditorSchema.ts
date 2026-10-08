@@ -1,6 +1,11 @@
 export const RESOURCE_DOCUMENT_KEYS = ["activity-resources", "daily-posts", "magazines", "notes", "programs"] as const
 export type ResourceDocumentKey = typeof RESOURCE_DOCUMENT_KEYS[number]
 
+export interface ActivityReference {
+  id: string
+  title?: string | { ja?: string; en?: string }
+}
+
 export interface EditorField {
   key: string
   kind: "text" | "url" | "select" | "localized" | "archiveText" | "object" | "array" | "resourceTarget" | "resourceLink"
@@ -20,6 +25,14 @@ const PLATFORMS = ["x", "instagram", "youtube", "web", "other"] as const
 export const RESOURCE_LINK_FIELDS: readonly EditorField[] = [
   { key: "url", kind: "url", required: true },
   { key: "date", kind: "text", format: "date", placeholder: "YYYY-MM-DD" },
+  { key: "label", kind: "archiveText" },
+  { key: "platform", kind: "select", options: PLATFORMS },
+  { key: "status", kind: "select", options: STATUS },
+]
+
+export const ACTIVITY_RESOURCE_LINK_FIELDS: readonly EditorField[] = [
+  { key: "url", kind: "url", required: true },
+  { key: "date", kind: "text", required: true, format: "date", placeholder: "YYYY-MM-DD" },
   { key: "label", kind: "archiveText" },
   { key: "platform", kind: "select", options: PLATFORMS },
   { key: "status", kind: "select", options: STATUS },
@@ -54,15 +67,14 @@ export const RESOURCE_EDITOR_DOCUMENTS: Record<ResourceDocumentKey, {
     description: "与活动 ID 关联的官方告知、返图、视频和其他链接。",
     fields: [
       { key: "activityId", kind: "text", required: true, placeholder: "activities.yaml 中的 id" },
-      { key: "date", kind: "text", required: true, format: "date", placeholder: "YYYY-MM-DD" },
       { key: "kind", kind: "select", required: true, options: KINDS },
       { key: "platform", kind: "select", required: true, options: PLATFORMS },
       { key: "title", kind: "localized", required: true },
       { key: "description", kind: "localized", multiline: true },
       { key: "status", kind: "select", options: STATUS },
-      resourceTarget,
+      { key: "links", kind: "array", required: true, item: { key: "links[]", kind: "object", fields: ACTIVITY_RESOURCE_LINK_FIELDS } },
     ],
-    create: () => ({ activityId: "", date: "", kind: "post", platform: "x", title: { ja: "", en: "" }, url: "" }),
+    create: () => ({ activityId: "", kind: "post", platform: "x", title: { ja: "", en: "" }, links: [{ url: "", date: "" }] }),
   },
   "daily-posts": {
     label: "Everyday Posts",

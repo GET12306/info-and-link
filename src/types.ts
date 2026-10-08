@@ -287,12 +287,20 @@ export interface RelatedResourceCollection extends RelatedResourceBase {
 }
 
 export type RelatedResource = RelatedResourceSingle | RelatedResourceCollection;
-export type ActivityResource = RelatedResource & {
-  activityId: string;
+
+export interface ActivityResourceLink extends RelatedResourceLink {
   date: string;
+}
+
+export interface ActivityResource {
+  activityId: string;
+  kind: ActivityResourceKind;
+  platform: ActivityResourcePlatform;
   title: LocalizedText;
   description?: LocalizedText;
-};
+  status?: "available" | "expired";
+  links: ActivityResourceLink[];
+}
 
 /** Archive copy may be a single string or a partially translated value. */
 export type ArchiveText = string | Partial<LocalizedText>;

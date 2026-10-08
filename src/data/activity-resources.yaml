@@ -1,31 +1,29 @@
 # 活动相关信息与资源
 #
-# 本文件顶层为资源列表。每条记录可以代表一个独立链接，或一组同类链接。
-# 页面先按 activityId 聚类，再在每个活动内按 date 从新到旧排序。
+# 本文件顶层为资源组列表。每条记录描述同一活动下的一类资源；实际链接与发布日期全部写入 links。
+# 页面先按 activityId 聚类，再按各资源组中最新的 links[].date 从新到旧排序。
 # activityId 必须与 activities.yaml 中某项的 id 完全一致；同一活动可关联任意数量的资源。
 # 票务信息仍保存在 activities.yaml 的 ticketInfo 中，不放在本文件。
 #
 # 数据结构参考：
 # - activityId: "2026-example-event" # [必填] 对应 activities.yaml 中的活动 id
-#   date: "2026-08-30"               # [必填] 此链接内容的公开日期，YYYY-MM-DD（日本时间）
 #   kind: "post"                     # [必填] announcement | merchandise | post | photo | video | report | other
-#   platform: "x"                    # [必填] x | instagram | youtube | web | other
-#   title:                            # [必填] 此链接内容的标题；页面以标题作为链接
-#     ja: "出演後コメント"
-#     en: "Post-performance Comment"
-#   description:                      # [可选] 此链接专用的补充说明
-#     ja: "イベント出演後に公開されたコメントです。"
-#     en: "A comment published after the event."
-#   url: "https://x.com/example/status/123456789" # [单条资源必填] 资源地址
-#   links:                           # [资源组必填] 与 url 二选一；字符串适合快速批量粘贴
-#     - "https://x.com/example/status/123456789"
-#     - url: "https://x.com/example/status/987654321" # 需要时可单独覆盖字段
-#       date: "2026-08-31"
+#   platform: "x"                    # [必填] 资源组的默认平台：x | instagram | youtube | web | other
+#   title:                            # [必填] 资源组标题；单链接时也是页面上的链接标题
+#     ja: "出演関連投稿"
+#     en: "Performance-related Posts"
+#   description:                      # [可选] 整组资源共用的补充说明
+#     ja: "公演に関連して公開された投稿です。"
+#     en: "Posts published in connection with the performance."
+#   links:                            # [必填] 一个或多个链接；单链接也必须使用此结构
+#     - url: "https://x.com/example/status/123456789" # [必填] 资源地址
+#       date: "2026-08-30"            # [必填] 此 URL 的公开日期，YYYY-MM-DD（日本时间）
 #       label:
 #         ja: "出演者による投稿"
 #         en: "Post from a cast member"
-#       status: "expired"
-#   status: "expired"                # [可选] expired=显示失效标记；available 或省略时不显示
+#       platform: "instagram"         # [可选] 仅当此 URL 与顶层默认平台不同时覆盖
+#       status: "expired"             # [可选] 仅标记这个 URL 已失效
+#   status: "expired"                # [可选] 整组链接的默认状态；可被 links[].status 覆盖
 #
 # kind 表示“资源是什么”，platform 表示“链接在哪里”，两者不要混用。
 # - announcement: 官方通知、出演决定、时间变更等
@@ -36,14 +34,13 @@
 # - report: 新闻报道、活动报告、采访
 # - other: 无法归入以上类别的内容
 #
-# 大量返图使用 links 资源组。字符串链接会根据 URL 自动显示 X 账号名或网站域名；
-# 只有需要独立标题、日期或状态的链接才写成对象。页面计数按实际链接数计算。
+# links[].label 可省略；页面会根据 URL 自动显示 X 账号名或网站域名。
+# 每个 URL 都拥有自己的 date，顶层不再使用 date 或 url。页面计数按实际链接数计算。
 #
 # -----------------------------------------------------------------------------
-# 填写示例 1：活动结束后的 X 投稿
+# 填写示例 1：活动结束后的单条 X 投稿
 #
 # - activityId: "2026-skip-and-loafer-musical"
-#   date: "2026-03-22"
 #   kind: "post"
 #   platform: "x"
 #   title:
@@ -52,128 +49,171 @@
 #   description:
 #     ja: "千秋楽の終演後に公開された投稿。"
 #     en: "A post published after the closing performance."
-#   url: "https://x.com/example/status/123456789"
+#   links:
+#     - url: "https://x.com/example/status/123456789"
+#       date: "2026-03-22"
 #
 # -----------------------------------------------------------------------------
-# 填写示例 2：同一活动的 Instagram 场贩信息作为另一条独立资源
+# 填写示例 2：同一活动、同一类别下的多条投稿归入一个资源组
 #
 # - activityId: "2026-skip-and-loafer-musical"
-#   date: "2026-03-01"
-#   kind: "merchandise"
+#   kind: "photo"
 #   platform: "instagram"
 #   title:
-#     ja: "劇場販売グッズ情報"
-#     en: "Theater Merchandise Information"
-#   description:
-#     ja: "公演会場で販売される商品の一覧と案内。"
-#     en: "Details and a list of merchandise sold at the venue."
-#   url: "https://www.instagram.com/p/EXAMPLE/"
-#   status: "expired"
+#     ja: "出演者・関係者による公演写真"
+#     en: "Performance Photos from Cast and Staff"
+#   links:
+#     - url: "https://www.instagram.com/p/EXAMPLE1/"
+#       date: "2026-03-21"
+#       label:
+#         ja: "出演者による投稿"
+#         en: "Post from a cast member"
+#     - url: "https://www.instagram.com/p/EXAMPLE2/"
+#       date: "2026-03-22"
+#       label:
+#         ja: "千秋楽の写真"
+#         en: "Closing-day Photos"
 #
 
 - activityId: "2026-liberte-first-act"
-  date: "2026-09-13"
   kind: "photo"
   platform: "x"
   title:
     ja: "公演の写真"
     en: "Photos from the Performance"
-  url: https://x.com/cocohayashi515/status/2099000953504686197
+  links:
+    - url: "https://x.com/cocohayashi515/status/2099000953504686197"
+      date: "2026-09-13"
 
 - activityId: "2026-piano-bar-claps"
-  date: "2026-08-30"
   kind: "video"
   platform: "x"
   title:
     ja: "ありがとうございました！の舞🫶"
     en: "“Thank You!” Dance 🫶"
-  url: https://x.com/FC_coco2025/status/2094022292338888925
+  links:
+    - url: "https://x.com/FC_coco2025/status/2094022292338888925"
+      date: "2026-08-30"
 
 - activityId: "2026-piano-bar-claps"
-  date: "2026-08-27"
   kind: "photo"
   platform: "x"
   title:
     ja: "「Piano Bar C*LAPS」リハ終りに、林さん&矢島さんの仲良し2ショット!"
     en: "“Piano Bar C*LAPS” After rehearsal, a cute photo of Ms. Hayashi and Ms. Yajima!"
-  url: https://x.com/artistslinks/status/2092938452065038506
+  links:
+    - url: "https://x.com/artistslinks/status/2092938452065038506"
+      date: "2026-08-27"
 
 - activityId: "2026-piano-bar-claps"
-  date: "2026-08-30"
   kind: "photo"
   platform: "x"
   title:
     ja: "出演者・関係者による公演写真"
     en: "Performance Photos from Cast and Staff"
   links:
-    - https://x.com/artistslinks/status/2091139898103533926
-    - https://x.com/artistslinks/status/2093353786958041211
-    - https://x.com/artistslinks/status/2093668952664932734
-    - https://x.com/artistslinks/status/2094070097535189470
-    - https://x.com/LIBERTE__2024/status/2094052788045271458
-    - https://x.com/Y_Minon2001/status/2093495613749088524
-    - https://x.com/Y_Minon2001/status/2094059992181866710
-    - https://x.com/Y_Minon2001/status/2093865116018303044
-    - https://x.com/yuki_wr1/status/2094053298688970752
+    - url: "https://x.com/artistslinks/status/2091139898103533926"
+      date: "2026-08-30"
+    - url: "https://x.com/artistslinks/status/2093353786958041211"
+      date: "2026-08-30"
+    - url: "https://x.com/artistslinks/status/2093668952664932734"
+      date: "2026-08-30"
+    - url: "https://x.com/artistslinks/status/2094070097535189470"
+      date: "2026-08-30"
+    - url: "https://x.com/LIBERTE__2024/status/2094052788045271458"
+      date: "2026-08-30"
+    - url: "https://x.com/Y_Minon2001/status/2093495613749088524"
+      date: "2026-08-30"
+    - url: "https://x.com/Y_Minon2001/status/2094059992181866710"
+      date: "2026-08-30"
+    - url: "https://x.com/Y_Minon2001/status/2093865116018303044"
+      date: "2026-08-30"
+    - url: "https://x.com/yuki_wr1/status/2094053298688970752"
+      date: "2026-08-30"
 
 - activityId: "2026-piano-bar-claps"
-  date: "2026-08-23"
   kind: "video"
   platform: "x"
   title:
     ja: "「Piano Bar C*LAPS」林鼓子さんのコメント動画"
     en: "“Piano Bar C*LAPS” Comments Video by Coco Hayashi"
-  url: https://x.com/artistslinks/status/2091492744002998517
+  links:
+    - url: "https://x.com/artistslinks/status/2091492744002998517"
+      date: "2026-08-23"
 
 - activityId: "2026-0803-okada-mei-channel"
-  date: "2026-08-21"
   kind: "video"
   platform: "youtube"
   title:
     ja: "夢以と鼓子の浴衣紹介𓈒"
     en: "Introducing Mei and Coco's Yukatas"
-  url: https://www.youtube.com/shorts/Bj-Y0kprdBM
+  links:
+    - url: "https://www.youtube.com/shorts/Bj-Y0kprdBM"
+      date: "2026-08-21"
 
-- date: "2026-08-21"
-  activityId: "2026-taipei-fan-meeting"
-  kind: "video"
+- activityId: "2026-taipei-fan-meeting"
+  kind: "post"
   platform: "x"
   title:
-    ja: "台北ファンミーティングのご挨拶動画"
-    en: "Greeting Video for the Taipei Fan Meeting"
-  url: https://x.com/bridgebond_llc/status/2090740746290880950
+    ja: "主催者の投稿"
+    en: "Post by the Organizer"
+  links:
+    - url: "https://x.com/bridgebond_llc/status/2078329086263656795"
+      date: "2026-07-18"
+      label:
+        ja: "開催決定"
+        en: "Event Confirmed"
+    - url: "https://x.com/bridgebond_llc/status/2084856321388462489"
+      date: "2026-08-05"
+      label:
+        ja: "公演とチケット情報"
+        en: "Performance and Ticket Information"
+    - url: "https://x.com/bridgebond_llc/status/2084942498548560363"
+      date: "2026-07-18"
+    - url: "https://x.com/bridgebond_llc/status/2090740746290880950"
+      date: "2026-08-21"
+      label:
+        ja: "台北ファンミーティングのご挨拶動画"
+        en: "Greeting Video for the Taipei Fan Meeting"
+    - url: "https://x.com/bridgebond_llc/status/2098350846136217763"
+      date: "2026-09-11"
+      label:
+        ja: "グッズ情報"
+        en: "Merchandise Information"
 
-- date: "2026-08-21"
-  activityId: "2026-hong-kong-fan-meeting"
+- activityId: "2026-hong-kong-fan-meeting"
   kind: "video"
   platform: "x"
   title:
     ja: "香港ファンミーティングのご挨拶動画"
     en: "Greeting Video for the Hong Kong Fan Meeting"
-  url: https://x.com/flashinglightCM/status/2090740707803709933
+  links:
+    - url: "https://x.com/flashinglightCM/status/2090740707803709933"
+      date: "2026-08-21"
 
-- date: "2026-08-09"
-  activityId: "2026-luckyfes"
+- activityId: "2026-luckyfes"
   kind: "video"
   platform: "x"
   title:
     ja: "ライブ前のココちゃん🎥𓈒"
     en: "Coco before the live🎥𓈒"
-  url: https://x.com/FC_coco2025/status/2086394327551676560
   status: "available"
+  links:
+    - url: "https://x.com/FC_coco2025/status/2086394327551676560"
+      date: "2026-08-09"
 
-- date: "2026-08-09"
-  activityId: "2026-luckyfes"
+- activityId: "2026-luckyfes"
   kind: "video"
   platform: "x"
   title:
     ja: "LuckyFes 出演後コメント"
     en: "Post-Performance Comments from LuckyFes"
-  url: "https://x.com/luckyfm_fes/status/2086340095314108526"
   status: "available"
+  links:
+    - url: "https://x.com/luckyfm_fes/status/2086340095314108526"
+      date: "2026-08-09"
 
-- date: "2026-09-18"
-  activityId: "2026-koto-aru-ravel"
+- activityId: "2026-koto-aru-ravel"
   kind: "photo"
   platform: "x"
   title:
@@ -181,10 +221,11 @@
     en: "Advertisement Post"
   status: "available"
   links:
-    - "https://x.com/cocohayashi515/status/2100891994285576406"
-    - "https://x.com/cocohayashi515/status/2102030572264755436"
+    - url: "https://x.com/cocohayashi515/status/2100891994285576406"
+      date: "2026-09-18"
+    - url: "https://x.com/cocohayashi515/status/2102030572264755436"
+      date: "2026-09-18"
 - activityId: "2026-skip-and-loafer-musical"
-  date: "2026-09-18"
   kind: "post"
   platform: "x"
   title:
@@ -196,7 +237,6 @@
     - url: "https://x.com/cocohayashi515/status/2100889616085856346"
       date: "2026-09-18"
 - activityId: "maison-de-coco"
-  date: "2026-09-18"
   kind: "post"
   platform: "x"
   title:
@@ -216,23 +256,24 @@
     - url: "https://x.com/cocohayashi515/status/2105996567312482622"
       date: "2026-10-02"
 - activityId: "2026-hong-kong-fan-meeting"
-  date: "2026-09-11"
   kind: "photo"
   platform: "x"
   title:
     ja: "香港・台北ファンミーティング  グッズラインナップ発表"
     en: "Hong Kong and Taipei Fan Meetings: Merchandise Lineup Announced"
-  url: "https://x.com/cocohayashi515/status/2098425570917073326"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2098425570917073326"
+      date: "2026-09-11"
 - activityId: "2026-liberte-first-act"
-  date: "2026-09-10"
   kind: "photo"
   platform: "x"
   title:
     ja: "リハの写真"
     en: "Photos from rehearsal"
-  url: "https://x.com/cocohayashi515/status/2097980472429322313"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2097980472429322313"
+      date: "2026-09-10"
 - activityId: "2026-piano-bar-claps"
-  date: "2026-08-30"
   kind: "photo"
   platform: "x"
   title:
@@ -248,90 +289,172 @@
     - url: "https://x.com/cocohayashi515/status/2092949847108399607"
       date: "2026-08-27"
 - activityId: "2026-hong-kong-fan-meeting"
-  date: "2026-09-26"
   kind: "post"
   platform: "x"
   title:
     ja: "事務所ポスト"
     en: "Posts from agency"
   links:
-    - "https://x.com/LIBERTE__2024/status/2103777148645597587"
-    - "https://x.com/LIBERTE__2024/status/2103848260788220056"
+    - url: "https://x.com/LIBERTE__2024/status/2103777148645597587"
+      date: "2026-09-26"
+    - url: "https://x.com/LIBERTE__2024/status/2103848260788220056"
+      date: "2026-09-26"
 - activityId: "2026-taipei-fan-meeting"
-  date: "2026-09-27"
   kind: "post"
   platform: "x"
   title:
-    ja: "事務所ポスト"
-    en: "Posts from agency"
-  url: "https://x.com/LIBERTE__2024/status/2104203938480451930"
-- activityId: "2026-taipei-fan-meeting"
-  date: "2026-09-27"
+    ja: "スタッフポスト"
+    en: "Posts from Staff"
+  links:
+    - url: "https://x.com/LIBERTE__2024/status/2104203938480451930"
+      date: "2026-09-27"
+      label:
+        ja: "事務所ポスト"
+        en: "Posts from agency"
+    - url: "https://x.com/FC_coco2025/status/2104204727097700857"
+      date: "2026-09-27"
+      label:
+        ja: "2部スタート前のココちゃん"
+        en: "Coco before the start of Part 2"
+- activityId: "2026-hong-kong-fan-meeting"
   kind: "post"
   platform: "x"
   title:
     ja: "2部スタート前のココちゃん"
     en: "Coco before the start of Part 2"
-  url: "https://x.com/FC_coco2025/status/2104204727097700857"
+  links:
+    - url: "https://x.com/FC_coco2025/status/2104216976315089259"
+      date: "2026-09-27"
 - activityId: "2026-hong-kong-fan-meeting"
-  date: "2026-09-27"
-  kind: "post"
-  platform: "x"
-  title:
-    ja: "2部スタート前のココちゃん"
-    en: "Coco before the start of Part 2"
-  url: "https://x.com/FC_coco2025/status/2104216976315089259"
-- activityId: "2026-hong-kong-fan-meeting"
-  date: "2026-09-26"
   kind: "post"
   platform: "x"
   title:
     ja: "ココポスト"
     en: "Posts from Coco"
-  url: "https://x.com/cocohayashi515/status/2103841725378859443"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2103841725378859443"
+      date: "2026-09-26"
 - activityId: "2026-hong-kong-fan-meeting"
-  date: "2026-10-02"
   kind: "post"
   platform: "x"
   title:
     ja: "フラスタ"
     en: "Flower Stand"
-  url: "https://x.com/cocohayashi515/status/2105995773301412260"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2105995773301412260"
+      date: "2026-10-02"
 - activityId: "2026-hong-kong-fan-meeting"
-  date: "2026-10-02"
   kind: "post"
   platform: "x"
   title:
     ja: "記念写真"
     en: "Commemorative Photo"
   links:
-    - "https://x.com/flashinglightCM/status/2105960997874004050"
-    - "https://x.com/flashinglightCM/status/2105961151213224342"
-- activityId: "2026-taipei-fan-meeting"
-  date: "2026-10-02"
-  kind: "post"
-  platform: "x"
-  title:
-    ja: "フラスタと広告"
-    en: "Flower Stand and Advertising"
-  links:
-    - "https://x.com/cocohayashi515/status/2105995443826303004"
-    - "https://x.com/cocohayashi515/status/2105996016038346774"
+    - url: "https://x.com/flashinglightCM/status/2105960997874004050"
+      date: "2026-10-02"
+    - url: "https://x.com/flashinglightCM/status/2105961151213224342"
+      date: "2026-10-02"
 - activityId: "bang-dream-tv-live-2026"
-  date: "2026-09-24"
   kind: "post"
   platform: "x"
   title:
     ja: "#333関連ポスト"
     en: "#333 Related Posts"
   links:
-    - "https://x.com/cocohayashi515/status/2103072268490592512"
-    - "https://x.com/cocohayashi515/status/2103146960182288582"
+    - url: "https://x.com/cocohayashi515/status/2103072268490592512"
+      date: "2026-09-24"
+    - url: "https://x.com/cocohayashi515/status/2103146960182288582"
+      date: "2026-09-24"
 - activityId: "2026-taipei-fan-meeting"
-  date: "2026-09-27"
-  kind: "post"
+  kind: "photo"
   platform: "x"
   title:
     ja: "ココポスト"
     en: "Posts from Coco"
-  url: "https://x.com/cocohayashi515/status/2104197717031596310"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2104197717031596310"
+      date: "2026-09-27"
+      label:
+        ja: "感謝ポスト"
+        en: "Thank You Post"
+    - url: "https://x.com/cocohayashi515/status/2105996016038346774"
+      date: "2026-10-02"
+      label:
+        ja: "フラスタ"
+        en: "Flower Stand"
+    - url: "https://x.com/cocohayashi515/status/2105995443826303004"
+      date: "2026-10-02"
+      label:
+        ja: "広告"
+        en: "Advertisement"
+- activityId: "2026-slime-300-stage"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "公式投稿"
+    en: "Official Post"
+  links:
+    - url: "https://x.com/neo_slime300/status/2079144292652863573"
+      date: "2026-07-20"
+      label:
+        ja: "アズサ役 林鼓子さんコメント動画"
+        en: "Video of Comments by Coco Hayashi, who plays Azusa"
+    - url: "https://x.com/neo_slime300/status/2107054173154083025"
+      date: "2026-10-05"
+      label:
+        ja: "稽古写真①"
+        en: "Rehearsal Photos①"
+    - url: "https://x.com/neo_slime300/status/2107801236372095487"
+      date: "2026-10-07"
+      label:
+        ja: "稽古写真②"
+        en: "Rehearsal Photos②"
+- activityId: "2026-taipei-fan-meeting"
+  kind: "post"
+  platform: "other"
+  title:
+    ja: "主催者の投稿（FaceBook）"
+    en: "Post by the Organizer(FaceBook)"
+  links:
+    - url: "https://www.facebook.com/photo.php?fbid=1666397552152784&set=a.470042665121618&type=3"
+      date: "2026-07-18"
+      label:
+        ja: "開催決定"
+        en: "Event Confirmed"
+    - url: "https://www.facebook.com/photo.php?fbid=1683001773825695&set=a.470042665121618&type=3"
+      date: "2026-08-05"
+      label:
+        ja: "公演とチケット情報"
+        en: "Performance and Ticket Information"
+    - url: "https://www.facebook.com/photo.php?fbid=1683223023803570&set=a.470042665121618&type=3"
+      date: "2026-07-18"
+    - url: "https://www.facebook.com/photo.php?fbid=1695500739242465&set=a.470042665121618&type=3"
+      date: "2026-08-18"
+      label:
+        ja: "問題募集"
+        en: "Call for Letters"
+    - url: "https://www.facebook.com/plugins/video.php?height=314&href=https%3A%2F%2Fwww.facebook.com%2Freel%2F1378191244444116%2F&show_text=false&width=560&t=0"
+      date: "2026-08-21"
+      label:
+        ja: "台北ファンミーティングのご挨拶動画"
+        en: "Greeting Video for the Taipei Fan Meeting"
+    - url: "https://www.facebook.com/myyoho/posts/1708435621282310"
+      date: "2026-08-31"
+      label:
+        ja: "注意事項"
+        en: "Important Notes"
+    - url: "https://www.facebook.com/photo.php?fbid=1719388670187005&set=a.470042665121618&type=3"
+      date: "2026-09-11"
+      label:
+        ja: "グッズ情報"
+        en: "Merchandise Information"
+    - url: "https://www.facebook.com/photo.php?fbid=1730132332445972&set=a.470042665121618&type=3"
+      date: "2026-09-22"
+      label:
+        ja: "注意事項"
+        en: "Important Notes"
+    - url: "https://www.facebook.com/myyoho/posts/1738865621572643"
+      date: "2026-09-30"
+      label:
+        ja: "記念写真"
+        en: "Commemorative Photo"

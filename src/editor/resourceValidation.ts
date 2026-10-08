@@ -120,6 +120,12 @@ export function validateResourceDocument(
     if (key === "activity-resources" && activityIds && isNonempty(entry.activityId) && !activityIds.has(entry.activityId)) {
       issues.push({ path: `${path}.activityId`, message: "activities.yaml 中找不到这个 id" })
     }
+    if (key === "activity-resources" && entry.date !== undefined) {
+      issues.push({ path: `${path}.date`, message: "日期应填写在对应的 links[].date 中" })
+    }
+    if (key === "activity-resources" && entry.url !== undefined) {
+      issues.push({ path: `${path}.url`, message: "链接应作为带 date 的对象填写在 links[] 中" })
+    }
     if ((key === "magazines" || key === "daily-posts") && isNonempty(entry.id)) {
       if (uniqueIds.has(entry.id)) issues.push({ path: `${path}.id`, message: "id 不能重复" })
       uniqueIds.add(entry.id)

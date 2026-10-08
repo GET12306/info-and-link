@@ -41,15 +41,21 @@ test("untouched records and YAML reference comments survive edits and additions"
 
 test("nested resource link alternatives and required fields are validated", () => {
   const entry = {
-    activityId: [...activityIds][0], date: "2026-09-18", kind: "photo", platform: "x",
+    activityId: [...activityIds][0], kind: "photo", platform: "x",
     title: { ja: "写真", en: "Photos" },
-    links: ["https://x.com/example/status/1", { url: "https://x.com/example/status/2", date: "2026-09-19" }],
+    links: [
+      { url: "https://x.com/example/status/1", date: "2026-09-18" },
+      { url: "https://x.com/example/status/2", date: "2026-09-19" },
+    ],
   }
   assert.deepEqual(validateResourceDocument("activity-resources", [entry], activityIds), [])
-  const invalid = { ...entry, url: "https://example.com", date: "2026-02-30" }
+  const invalid = { ...entry, date: "2026-02-30", url: "https://example.com" }
   const issues = validateResourceDocument("activity-resources", [invalid], activityIds)
-  assert.ok(issues.some(issue => issue.message.includes("url 与 links")))
-  assert.ok(issues.some(issue => issue.path.endsWith(".date")))
+  assert.ok(issues.some(issue => issue.path.endsWith(".url") && issue.message.includes("links")))
+  assert.ok(issues.some(issue => issue.path.endsWith(".date") && issue.message.includes("links[].date")))
+  const missingLinkDate = { ...entry, links: [{ url: "https://x.com/example/status/3" }] }
+  assert.ok(validateResourceDocument("activity-resources", [missingLinkDate], activityIds)
+    .some(issue => issue.path.endsWith("links[0].date") && issue.message.includes("必填")))
 })
 
 test("everyday posts require a primary URL and accept optional related links", () => {

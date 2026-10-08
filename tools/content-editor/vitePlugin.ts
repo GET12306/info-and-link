@@ -5,7 +5,7 @@ import type { IncomingMessage, ServerResponse } from "node:http"
 import type { Plugin } from "vite"
 import { isMap, isSeq, parseDocument, Scalar, visit, type Document, type YAMLSeq } from "yaml"
 import { validateActivities } from "../../src/editor/activityValidation"
-import { RESOURCE_DOCUMENT_KEYS, type ResourceDocumentKey } from "../../src/editor/resourceEditorSchema"
+import { RESOURCE_DOCUMENT_KEYS, type ActivityReference, type ResourceDocumentKey } from "../../src/editor/resourceEditorSchema"
 import { validateResourceDocument } from "../../src/editor/resourceValidation"
 import { validateVenues } from "../../src/editor/venueValidation"
 
@@ -157,6 +157,16 @@ export function updateVenueDocument(source: string, nextVenues: unknown[]) {
 export const parseActivityDocument = parseListDocument
 export const updateActivityDocument = updateListDocument
 
+function activityReferencesFrom(entries: unknown[]): ActivityReference[] {
+  return entries.flatMap((entry) => {
+    if (!entry || typeof entry !== "object" || !("id" in entry) || typeof entry.id !== "string") return []
+    const title = "title" in entry && (typeof entry.title === "string" || (
+      entry.title !== null && typeof entry.title === "object" && !Array.isArray(entry.title)
+    )) ? entry.title as ActivityReference["title"] : undefined
+    return [{ id: entry.id, ...(title ? { title } : {}) }]
+  })
+}
+
 export function activityEditorPlugin(enabled: boolean): Plugin {
   return {
     name: "local-activity-editor",
@@ -208,7 +218,7 @@ export function activityEditorPlugin(enabled: boolean): Plugin {
               modifiedAt: fileStat.mtime.toISOString(),
               path: `src/data/${filename}`,
               ...(!isActivity && documentKey === "activity-resources" ? {
-                activityIds: (parseListDocument(await readFile(dataPath, "utf8")).activities as Array<{ id: string }>).map(item => item.id),
+                activityReferences: activityReferencesFrom(parseListDocument(await readFile(dataPath, "utf8")).activities),
               } : {}),
             })
           }
