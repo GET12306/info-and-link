@@ -182,14 +182,47 @@
         en: "Merchandise Information"
 
 - activityId: "2026-hong-kong-fan-meeting"
-  kind: "video"
+  kind: "post"
   platform: "x"
   title:
-    ja: "香港ファンミーティングのご挨拶動画"
-    en: "Greeting Video for the Hong Kong Fan Meeting"
+    ja: " 主催者の投稿"
+    en: " Post by the Organizer"
   links:
+    - url: "https://x.com/flashinglightCM/status/2078328909951836472"
+      date: "2026-07-18"
+      label:
+        ja: "開催決定"
+        en: "Event Confirmed"
+    - url: "https://x.com/flashinglightCM/status/2089192996843532660"
+      date: "2026-08-17"
+      label:
+        ja: "会場変更のお知らせ"
+        en: "Notice of Venue Change"
+    - url: "https://x.com/flashinglightCM/status/2089200550961148103"
+      date: "2026-08-17"
+      label:
+        ja: "詳細情報"
+        en: "Detailed Information"
     - url: "https://x.com/flashinglightCM/status/2090740707803709933"
       date: "2026-08-21"
+      label:
+        ja: "香港ファンミーティングのご挨拶動画"
+        en: "Greeting Video for the Hong Kong Fan Meeting"
+    - url: "https://x.com/flashinglightCM/status/2098350843162489166"
+      date: "2026-09-11"
+      label:
+        ja: "グッズラインナップ発表"
+        en: "Merchandise Lineup"
+    - url: "https://x.com/flashinglightCM/status/2105960997874004050"
+      date: "2026-10-02"
+      label:
+        ja: "記念写真"
+        en: "Commemorative Photo"
+    - url: "https://x.com/flashinglightCM/status/2105961151213224342"
+      date: "2026-10-02"
+      label:
+        ja: "公演写真"
+        en: "Performance Photos"
 
 - activityId: "2026-luckyfes"
   kind: "video"
@@ -255,15 +288,6 @@
       date: "2026-09-25"
     - url: "https://x.com/cocohayashi515/status/2105996567312482622"
       date: "2026-10-02"
-- activityId: "2026-hong-kong-fan-meeting"
-  kind: "photo"
-  platform: "x"
-  title:
-    ja: "香港・台北ファンミーティング  グッズラインナップ発表"
-    en: "Hong Kong and Taipei Fan Meetings: Merchandise Lineup Announced"
-  links:
-    - url: "https://x.com/cocohayashi515/status/2098425570917073326"
-      date: "2026-09-11"
 - activityId: "2026-liberte-first-act"
   kind: "photo"
   platform: "x"
@@ -292,13 +316,24 @@
   kind: "post"
   platform: "x"
   title:
-    ja: "事務所ポスト"
-    en: "Posts from agency"
+    ja: " スタッフポスト"
+    en: "Posts from staff"
   links:
     - url: "https://x.com/LIBERTE__2024/status/2103777148645597587"
       date: "2026-09-26"
+      label:
+        ja: "事務所ポスト①"
+        en: "Posts from agency①"
     - url: "https://x.com/LIBERTE__2024/status/2103848260788220056"
       date: "2026-09-26"
+      label:
+        ja: "事務所ポスト②"
+        en: "Posts from agency②"
+    - url: "https://x.com/FC_coco2025/status/2104216976315089259"
+      date: "2026-09-27"
+      label:
+        ja: "2部スタート前のココちゃん"
+        en: "Coco before the start of Part 2"
 - activityId: "2026-taipei-fan-meeting"
   kind: "post"
   platform: "x"
@@ -320,40 +355,19 @@
   kind: "post"
   platform: "x"
   title:
-    ja: "2部スタート前のココちゃん"
-    en: "Coco before the start of Part 2"
-  links:
-    - url: "https://x.com/FC_coco2025/status/2104216976315089259"
-      date: "2026-09-27"
-- activityId: "2026-hong-kong-fan-meeting"
-  kind: "post"
-  platform: "x"
-  title:
     ja: "ココポスト"
     en: "Posts from Coco"
   links:
     - url: "https://x.com/cocohayashi515/status/2103841725378859443"
       date: "2026-09-26"
-- activityId: "2026-hong-kong-fan-meeting"
-  kind: "post"
-  platform: "x"
-  title:
-    ja: "フラスタ"
-    en: "Flower Stand"
-  links:
+      label:
+        ja: "感謝ポスト"
+        en: "Thank You Post"
     - url: "https://x.com/cocohayashi515/status/2105995773301412260"
       date: "2026-10-02"
-- activityId: "2026-hong-kong-fan-meeting"
-  kind: "post"
-  platform: "x"
-  title:
-    ja: "記念写真"
-    en: "Commemorative Photo"
-  links:
-    - url: "https://x.com/flashinglightCM/status/2105960997874004050"
-      date: "2026-10-02"
-    - url: "https://x.com/flashinglightCM/status/2105961151213224342"
-      date: "2026-10-02"
+      label:
+        ja: "フラスタ"
+        en: "Flower Stand"
 - activityId: "bang-dream-tv-live-2026"
   kind: "post"
   platform: "x"
@@ -409,6 +423,16 @@
       label:
         ja: "稽古写真②"
         en: "Rehearsal Photos②"
+    - url: "https://x.com/neo_slime300/status/2107772928104542310"
+      date: "2026-10-07"
+      label:
+        ja: "指定席引換券とお見送り会"
+        en: "Reserved Seat Exchange Tickets and the Farewell Event"
+    - url: "https://x.com/neo_slime300/status/2108121657709863180"
+      date: "2026-10-08"
+      label:
+        ja: "補充説明"
+        en: "Additional Explanation"
 - activityId: "2026-taipei-fan-meeting"
   kind: "post"
   platform: "other"

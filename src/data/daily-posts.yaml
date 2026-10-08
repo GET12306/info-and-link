@@ -44,15 +44,14 @@
     en: "Halloween Disney"
   url: https://x.com/yuuu_ka0316/status/2101274132956729694
   platform: "x"
-  tags: ["森嶋優花", "林鼓子", "ディズニー"]
+  tags: [ "森嶋優花", "林鼓子", "ディズニー" ]
   links:
     - url: https://x.com/cocohayashi515/status/2102032248279302496
       label: "Repost"
-      date: "2026-09-21"   # 可选：覆盖系列日期
+      date: "2026-09-21" # 可选：覆盖系列日期
     - url: https://x.com/yuuu_ka0316/status/2102040288693006742
       label: "Repost"
       date: "2026-09-21"
-
 
 - id: "daily-2022-02-22"
   date: "2022-02-22"
@@ -61,4 +60,10 @@
     en: "2022 Cat Day"
   url: https://x.com/cocohayashi515/status/1496102290348036102
   platform: "x"
-  tags: ["林鼓子", "ねこ"]
+  tags: [ "林鼓子", "ねこ" ]
+- title:
+    ja: "FC「BLOG」更新"
+    en: "FC「BLOG」 Update"
+  url: "https://x.com/cocohayashi515/status/2107734990918488419"
+  platform: "x"
+  date: "2026-10-07"
