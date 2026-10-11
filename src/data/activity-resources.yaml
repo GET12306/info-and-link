@@ -250,14 +250,20 @@
   kind: "photo"
   platform: "x"
   title:
-    ja: "宣伝ポスト"
-    en: "Advertisement Post"
+    ja: "ココポスト"
+    en: "Posts from Coco"
   status: "available"
   links:
     - url: "https://x.com/cocohayashi515/status/2100891994285576406"
       date: "2026-09-18"
+      label:
+        ja: "FC先行がスタート"
+        en: "FC Pre-sale Begins"
     - url: "https://x.com/cocohayashi515/status/2102030572264755436"
-      date: "2026-09-18"
+      date: "2026-09-21"
+      label:
+        ja: "FC先行リマインド"
+        en: "FC Pre-sale Reminder"
 - activityId: "2026-skip-and-loafer-musical"
   kind: "post"
   platform: "x"
@@ -530,3 +536,20 @@
       label:
         ja: "久保田未夢"
         en: "Photos from Miyu Kubota"
+- activityId: "2026-koto-aru-ravel"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "公式ポスト"
+    en: "Official Post"
+  links:
+    - url: "https://x.com/kotoravel2026/status/2109116788923334899"
+      date: "2026-10-11"
+      label:
+        ja: "コメント動画"
+        en: "Comment Video"
+    - url: "https://x.com/kotoravel2026/status/2108807800696783180"
+      date: "2026-10-10"
+      label:
+        ja: "キービジュアル解禁"
+        en: "Key Visual Revealed"
