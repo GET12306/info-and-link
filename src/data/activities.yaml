@@ -685,12 +685,16 @@
       milestones:
         - kind: "update"
           at: "12:00"
+    - milestones:
+        - kind: "update"
+          at: "12:00"
+      occursOn: "2027-01-07"
   title:
     ja: "ラブライブ！虹ヶ咲学園 ～ディスカバー放送室～"
     en: "Love Live! Nijigasaki High School ~Discover Broadcast Room~"
   description:
-    ja: "優木せつ菜役 毎月第一木曜日配信 次: 10月1日"
-    en: "Streaming on the first Thursday of every month as Setsuna Yuki. Next update: October 1"
+    ja: "優木せつ菜役 毎月第一木曜日配信 次: 11月5日"
+    en: "Streaming on the first Thursday of every month as Setsuna Yuki. Next update: November 5"
   link: "https://hibiki-radio.jp/description/lldiscover/detail"
 
 - id: "maison-de-coco"

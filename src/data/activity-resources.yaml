@@ -288,6 +288,8 @@
       date: "2026-09-25"
     - url: "https://x.com/cocohayashi515/status/2105996567312482622"
       date: "2026-10-02"
+    - url: "https://x.com/cocohayashi515/status/2108533517810581620"
+      date: "2026-10-09"
 - activityId: "2026-liberte-first-act"
   kind: "photo"
   platform: "x"
@@ -482,3 +484,49 @@
       label:
         ja: "記念写真"
         en: "Commemorative Photo"
+- activityId: "2026-lovelive-15th-festival-eve"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "ココポスト"
+    en: "Posts from Coco"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2108565330423673125"
+      date: "2026-10-09"
+      label:
+        ja: "明日出演"
+        en: "Appearing Tomorrow"
+    - url: "https://x.com/cocohayashi515/status/2108892238030016599"
+      date: "2026-10-10"
+      label:
+        ja: "ココ写真"
+        en: "Photos from Coco"
+- activityId: "2026-lovelive-15th-festival-eve"
+  kind: "photo"
+  platform: "x"
+  title:
+    ja: "公式写真"
+    en: "Official Photos"
+  links:
+    - url: "https://x.com/LoveLive_staff/status/2108886419775402034"
+      date: "2026-10-10"
+      label:
+        ja: "LoveLive公式"
+        en: "Photos from LoveLive staff"
+    - url: "https://x.com/LIBERTE__2024/status/2108895665854296572"
+      date: "2026-10-10"
+      label:
+        ja: "事務所写真"
+        en: "Photos from Agency"
+- activityId: "2026-lovelive-15th-festival-eve"
+  kind: "photo"
+  platform: "x"
+  title:
+    ja: "他の声優さん"
+    en: "Photos from other voice actors"
+  links:
+    - url: "https://x.com/iRis_k_miyu/status/2108893441950461997"
+      date: "2026-10-10"
+      label:
+        ja: "久保田未夢"
+        en: "Photos from Miyu Kubota"
