@@ -264,6 +264,11 @@
       label:
         ja: "FC先行リマインド"
         en: "FC Pre-sale Reminder"
+    - url: "https://x.com/cocohayashi515/status/2109632108369203402"
+      date: "2026-10-12"
+      label:
+        ja: "コメント動画"
+        en: "Comment Video"
 - activityId: "2026-skip-and-loafer-musical"
   kind: "post"
   platform: "x"
@@ -553,3 +558,49 @@
       label:
         ja: "キービジュアル解禁"
         en: "Key Visual Revealed"
+- activityId: "2024-coco-ichiban-photobook-release-events-2"
+  kind: "photo"
+  platform: "x"
+  title:
+    ja: "写真"
+    en: "Photos"
+  links:
+    - url: "https://x.com/hayashicoco1/status/1839906109231861927"
+      date: "2024-09-28"
+      label:
+        ja: "公式ポスト"
+        en: "Official Post"
+    - url: "https://x.com/cocohayashi515/status/1839987024914456817"
+      date: "2024-09-28"
+      label:
+        ja: "ココポスト"
+        en: "Post from Coco"
+- activityId: "2026-slime-300-stage"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "ココポスト"
+    en: "Posts from Coco"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2109629229570936864"
+      date: "2026-10-12"
+      label:
+        ja: "大滝紗緒里との写真"
+        en: "Photo with Saori Otaki"
+    - url: "https://x.com/cocohayashi515/status/2109629719968927919"
+      date: "2026-10-12"
+      label:
+        ja: "出演者へのコメント"
+        en: "Comments for the Cast"
+- activityId: "2026-assault-lily-reading-vol-2"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "ココポスト"
+    en: "Posts from Coco"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2110737622838710471"
+      date: "2026-10-15"
+      label:
+        ja: "お稽古始まっていますっ！"
+        en: "Rehearsal has started!"

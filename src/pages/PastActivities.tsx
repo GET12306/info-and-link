@@ -1,23 +1,24 @@
-import { useEffect, useState } from "react"
+import { lazy, Suspense, useEffect, useMemo, useState } from "react"
 import { TRANSLATIONS } from "../i18n"
 import ACTIVITIES from "../data/activities.yaml"
 import type { Activity, Language } from "../types"
 import { getPastActivities } from "../utils/activityStatus"
 import { ArchiveCatalog, CatalogDisclosure, CatalogFilterBar, CatalogGrid } from "../components/ArchiveCatalog"
 import ArchivedActivityEntry from "../components/ArchivedActivityEntry"
-import HistoricalActivityCalendar from "../components/HistoricalActivityCalendar"
+import Loading from "../components/Loading"
 import useJapanNow from "../hooks/useJapanNow"
 import { ACTIVITY_CATEGORY_ORDER, type ActivityCategory } from "../config/activityCategories"
 import { getActivityCategoryLabel } from "../utils/categoryLabels"
 
 type ActivityFilter = "all" | ActivityCategory
+const HistoricalActivityCalendar = lazy(() => import("../components/HistoricalActivityCalendar"))
 
 export default function PastActivities({ lang }: { lang: Language }) {
   const t = TRANSLATIONS[lang]
   const now = useJapanNow()
   const [filter, setFilter] = useState<ActivityFilter>("all")
   const [focusedActivityId, setFocusedActivityId] = useState<string | null>(null)
-  const activities = getPastActivities(ACTIVITIES as Activity[], now)
+  const activities = useMemo(() => getPastActivities(ACTIVITIES as Activity[], now), [now])
   const visible = filter === "all" ? activities : activities.filter(activity => activity.category === filter)
   const filters: { value: ActivityFilter; label: string }[] = [
     { value: "all", label: t.past_activities_filter_all },
@@ -42,9 +43,11 @@ export default function PastActivities({ lang }: { lang: Language }) {
   return <ArchiveCatalog title={t.past_activities} backLabel={t.back_to_museum}>
     {activities.length ? <>
       <CatalogFilterBar<ActivityFilter> label={t.past_activities_filter_label} options={filters} value={filter} onChange={setFilter} />
-      <CatalogDisclosure label={t.past_activities_calendar}>
+      <CatalogDisclosure deferMount label={t.past_activities_calendar}>
         <p className="mb-3 text-xs leading-6 text-coco-ink/50">{t.past_activities_calendar_description}</p>
-        <HistoricalActivityCalendar activities={activities} lang={lang} onSelectActivity={selectFromCalendar} />
+        <Suspense fallback={<Loading />}>
+          <HistoricalActivityCalendar activities={activities} lang={lang} onSelectActivity={selectFromCalendar} />
+        </Suspense>
       </CatalogDisclosure>
       <p role="status" className="text-xs text-coco-ink/50">{t.past_activities_count.replace("{count}", String(visible.length))}</p>
       {visible.length

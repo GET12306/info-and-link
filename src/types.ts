@@ -353,3 +353,14 @@ export interface DailyPostLink {
   platform?: ActivityResourcePlatform;
   status?: "available" | "expired";
 }
+
+/** Former accounts kept for browsing their past posts. YAML order is display order. */
+export interface ArchivedAccount {
+  title: ArchiveText;
+  url: string;
+  id?: string;
+  period?: string;
+  description?: ArchiveText;
+  /** Inactivity alone does not make a link expired. */
+  status?: "available" | "expired";
+}

@@ -25,8 +25,8 @@ export default function ArchivedActivityEntry({ activity, lang }: { activity: Ac
     {activity.description && <p className="mt-2 text-sm leading-6 text-coco-ink/60">{activity.description[lang]}</p>}
     {!activity.recurrence && <ActivityPerformanceDetails compact performances={activity.performances} durationMinutes={activity.durationMinutes} sourceZone={activity.timeZone} lang={lang} startLabel={activity.category === "Program" ? t.milestone_update : undefined} />}
     <ActivityResourcesDisclosure activityId={activity.id} lang={lang} />
-    {tickets.length > 0 && <CatalogDisclosure label={t.archived_ticket_records.replace("{count}", String(tickets.length))}>
-      <div className="divide-y divide-coco-ink/10">
+    {tickets.length > 0 && <CatalogDisclosure deferMount label={t.archived_ticket_records.replace("{count}", String(tickets.length))}>
+      {() => <div className="divide-y divide-coco-ink/10">
         {tickets.map((entry, index) => <section key={index} className="space-y-2 py-3 first:pt-0">
           <CatalogItemTitle href={getTicketEntryLink(activity, entry)}>{entry.type[lang]}</CatalogItemTitle>
           <dl className="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-1 text-xs leading-6">
@@ -35,7 +35,7 @@ export default function ArchivedActivityEntry({ activity, lang }: { activity: Ac
           </dl>
           {entry.description && <p className="text-xs leading-6 text-coco-ink/60">{entry.description[lang]}</p>}
         </section>)}
-      </div>
+      </div>}
     </CatalogDisclosure>}
   </CatalogEntry>
 }

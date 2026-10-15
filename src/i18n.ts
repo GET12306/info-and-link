@@ -1,5 +1,9 @@
 export const TRANSLATIONS = {
   ja: {
+    archived_accounts: "過去のアカウント",
+    museum_accounts_description: "以前使われていたアカウント",
+    archived_accounts_count: "{count}件のアカウント",
+    archived_accounts_empty: "過去のアカウントはまだ登録されていません",
     daily_posts: "日常の投稿",
     museum_daily_posts_description: "日々の写真や近況、何気ない投稿のリンク集。",
     daily_posts_count: "{count}件の投稿",
@@ -46,6 +50,7 @@ export const TRANSLATIONS = {
     museum_search_clear: "条件をクリア",
     museum_search_count: "{count}件の資料",
     museum_search_no_results: "条件に一致する資料はありません",
+    museum_search_loading: "アーカイブ検索を読み込み中…",
     back_to_museum: "博物館へ戻る",
     credits: "出演作品",
     museum_credits_description: "アニメ・ゲーム・映像・音声作品の出演履歴。",
@@ -130,6 +135,10 @@ export const TRANSLATIONS = {
     theme_dark: "ダーク",
   },
   en: {
+    archived_accounts: "Past Accounts",
+    museum_accounts_description: "Former accounts",
+    archived_accounts_count: "{count} accounts",
+    archived_accounts_empty: "No past accounts added yet",
     daily_posts: "Everyday Posts",
     museum_daily_posts_description: "Everyday photos, personal updates, and moments from daily life.",
     daily_posts_count: "{count} posts",
@@ -176,6 +185,7 @@ export const TRANSLATIONS = {
     museum_search_clear: "Clear filters",
     museum_search_count: "{count} items",
     museum_search_no_results: "No items match these filters",
+    museum_search_loading: "Loading archive search…",
     back_to_museum: "Back to the Museum",
     credits: "Performance Credits",
     museum_credits_description: "Anime, game, screen, and audio performance credits.",

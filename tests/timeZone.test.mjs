@@ -102,3 +102,30 @@ test("DST gaps are rejected and repeated wall times resolve deterministically", 
   assert.ok(validateActivities([invalidMilestone]).some((issue) => issue.path.endsWith("milestones[0].at")))
   assert.deepEqual(getCalendarOccurrences(invalidMilestone), [])
 })
+
+test("repeated conversions reuse validation and immutable instants without mixing time zones", () => {
+  const Native = Intl.DateTimeFormat
+  let constructors = 0
+  let conversions = 0
+  Intl.DateTimeFormat = function (...args) { constructors++; return new Native(...args) }
+  Intl.DateTimeFormat.prototype = Native.prototype
+  const original = Native.prototype.formatToParts
+  Native.prototype.formatToParts = function (...args) { conversions++; return original.apply(this, args) }
+  try {
+    const value = "2031-08-09T12:34"
+    const first = zone.instantFromSourceKey(value, "Pacific/Chatham")
+    assert.ok(Number.isFinite(first))
+    const firstConstructors = constructors
+    const firstConversions = conversions
+    for (let index = 0; index < 20; index++) assert.equal(zone.instantFromSourceKey(value, "Pacific/Chatham"), first)
+    assert.equal(constructors, firstConstructors)
+    assert.equal(conversions, firstConversions)
+    assert.notEqual(zone.instantFromSourceKey(value, "Asia/Tokyo"), first)
+    assert.notEqual(zone.instantFromSourceKey("2031-08-09T12:35", "Pacific/Chatham"), first)
+    assert.equal(zone.isValidTimeZone("Mars/Olympus"), false)
+    assert.equal(zone.isValidTimeZone(""), false)
+  } finally {
+    Intl.DateTimeFormat = Native
+    Native.prototype.formatToParts = original
+  }
+})

@@ -1,5 +1,6 @@
 import type {
   Activity,
+  ArchivedAccount,
   Credit,
   DailyPost,
   Language,
@@ -11,24 +12,15 @@ import type {
 import { getActivityVenueText } from "../data/venues"
 import { getActivityOccurrences } from "./activitySchedule"
 import { getActivityDisplaySchedule } from "./activityDisplaySchedule"
-import { dateTimeForViewer } from "./timeZone"
+import { dateTimeForViewer, viewerTimeZone } from "./timeZone"
 import { dailyPostDate, dailyPostLinks, dailyPostPrimaryLink } from "./dailyPosts"
 import { localizedText } from "./localizedText"
+import { resourceLinkLabel } from "./relatedResources"
 import { ACTIVITY_CATEGORY_META } from "../config/activityCategories"
 
-export type MuseumCollection = "credits" | "activities" | "programs" | "media" | "daily-posts"
-
-export interface MuseumSearchItem {
-  id: string
-  collection: MuseumCollection
-  title: string
-  description?: string
-  dateLabel?: string
-  dates: string[]
-  href?: string
-  path: string
-  searchText: string
-}
+import { expandMuseumDate, type MuseumSearchItem } from "./museumSearchFilters"
+export { expandMuseumDate, filterMuseumItems, normalizeMuseumDateQuery } from "./museumSearchFilters"
+export type { MuseumCollection, MuseumSearchItem } from "./museumSearchFilters"
 
 export interface MuseumSearchSources {
   credits: Credit[]
@@ -38,6 +30,7 @@ export interface MuseumSearchSources {
   magazines: Magazine[]
   notes: Note[]
   dailyPosts: DailyPost[]
+  accounts: ArchivedAccount[]
 }
 
 const CREDIT_MEDIUM_SEARCH_TERMS: Record<Credit["medium"], string> = {
@@ -60,81 +53,15 @@ function searchable(values: unknown[]) {
   }).join(" ").normalize("NFKC").toLocaleLowerCase()
 }
 
-function normalizeExplicitDate(value: string) {
-  return value.trim().replace(/[./]/g, "-")
-}
-
-/** Turn the partial and range dates used by archive YAML into searchable date keys. */
-export function expandMuseumDate(value?: string): string[] {
-  if (!value) return []
-  const compactMonthRange = value.trim().match(/^(\d{4})[./](\d{2})-(\d{2})$/)
-  if (compactMonthRange) {
-    const start = Number(compactMonthRange[2])
-    const end = Number(compactMonthRange[3])
-    if (start >= 1 && end <= 12 && end >= start) {
-      return Array.from(
-        { length: end - start + 1 },
-        (_, index) => `${compactMonthRange[1]}-${String(start + index).padStart(2, "0")}`
-      )
-    }
-  }
-  const normalized = normalizeExplicitDate(value)
-  if (/^\d{4}(-\d{2}){0,2}$/.test(normalized)) return [normalized]
-
-  const yearRange = normalized.match(/^(\d{4})-(\d{4})$/)
-  if (yearRange) {
-    const start = Number(yearRange[1])
-    const end = Number(yearRange[2])
-    if (end >= start && end - start <= 100) {
-      return Array.from({ length: end - start + 1 }, (_, index) => String(start + index))
-    }
-  }
-
-  return []
-}
-
-export function normalizeMuseumDateQuery(value: string): string | null {
-  const normalized = normalizeExplicitDate(value)
-  if (!normalized) return ""
-  const match = normalized.match(/^(\d{4})(?:-(\d{2}))?(?:-(\d{2}))?$/)
-  if (!match) return null
-  const month = match[2] ? Number(match[2]) : null
-  const day = match[3] ? Number(match[3]) : null
-  if (month !== null && (month < 1 || month > 12)) return null
-  if (day !== null) {
-    const date = new Date(Date.UTC(Number(match[1]), month! - 1, day))
-    if (
-      date.getUTCFullYear() !== Number(match[1]) ||
-      date.getUTCMonth() !== month! - 1 ||
-      date.getUTCDate() !== day
-    ) return null
-  }
-  return normalized
-}
-
-function dateMatches(dates: string[], query: string) {
-  return dates.some((date) => date === query || date.startsWith(`${query}-`))
-}
-
-export function filterMuseumItems(
-  items: MuseumSearchItem[],
-  query: string,
-  collection: "all" | MuseumCollection,
-  dateQuery: string
-) {
-  const needle = query.trim().normalize("NFKC").toLocaleLowerCase()
-  return items.filter((item) =>
-    (collection === "all" || item.collection === collection) &&
-    (!needle || item.searchText.includes(needle)) &&
-    (!dateQuery || dateMatches(item.dates, dateQuery))
-  )
-}
-
-function itemSortDate(item: MuseumSearchItem) {
-  return [...item.dates].sort().at(-1) ?? ""
+/** Calculate each latest date once, rather than allocating/sorting dates in every comparison. */
+export function sortMuseumSearchItems(items: MuseumSearchItem[], lang: Language): MuseumSearchItem[] {
+  return items.map(item => ({ item, date: item.dates.reduce((latest, date) => date > latest ? date : latest, "") }))
+    .sort((a, b) => b.date.localeCompare(a.date) || a.item.title.localeCompare(b.item.title, lang))
+    .map(({ item }) => item)
 }
 
 export function buildMuseumSearchItems(sources: MuseumSearchSources, lang: Language): MuseumSearchItem[] {
+  const timeZone = viewerTimeZone()
   const items: MuseumSearchItem[] = [
     ...sources.credits.map((credit) => ({
       id: `credit-${credit.id}`,
@@ -152,9 +79,9 @@ export function buildMuseumSearchItems(sources: MuseumSearchSources, lang: Langu
       collection: "activities" as const,
       title: activity.title[lang],
       description: activity.description?.[lang] || getActivityVenueText(activity, lang),
-      dateLabel: getActivityDisplaySchedule(activity) ?? activity.scheduleLabel,
+      dateLabel: getActivityDisplaySchedule(activity, timeZone) ?? activity.scheduleLabel,
       dates: [...new Set(getActivityOccurrences(activity).map((occurrence) => occurrence.allDay
-        ? occurrence.date : dateTimeForViewer(occurrence.startInstant).substring(0, 10)))],
+        ? occurrence.date : dateTimeForViewer(occurrence.startInstant, timeZone).substring(0, 10)))],
       href: activity.link,
       path: "/museum/activities",
       searchText: searchable([
@@ -228,6 +155,17 @@ export function buildMuseumSearchItems(sources: MuseumSearchSources, lang: Langu
       path: "/museum/media",
       searchText: searchable([note.title, note.category, note.description, "article interview 記事 インタビュー"]),
     })),
+    ...sources.accounts.map((account, index) => ({
+      id: `account-${account.id ?? index}`,
+      collection: "accounts" as const,
+      title: localizedText(account.title, lang),
+      description: localizedText(account.description, lang),
+      dateLabel: account.period,
+      dates: expandMuseumDate(account.period),
+      href: account.status === "expired" ? undefined : account.url,
+      path: "/museum/accounts",
+      searchText: searchable([account.title, account.description, account.period, account.url, resourceLinkLabel(account.url, lang), "account twitter x 過去 アカウント"]),
+    })),
     ...sources.dailyPosts.map((post, index) => {
       const links = dailyPostLinks(post)
       const primaryLink = dailyPostPrimaryLink(post)
@@ -252,7 +190,5 @@ export function buildMuseumSearchItems(sources: MuseumSearchSources, lang: Langu
     }),
   ]
 
-  return items.sort((a, b) =>
-    itemSortDate(b).localeCompare(itemSortDate(a)) || a.title.localeCompare(b.title, lang)
-  )
+  return sortMuseumSearchItems(items, lang)
 }

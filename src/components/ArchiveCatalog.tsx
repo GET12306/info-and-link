@@ -1,4 +1,4 @@
-import type { ReactNode } from "react"
+import { useState, type ReactNode } from "react"
 import { ArrowLeft } from "lucide-react"
 import { Link } from "react-router-dom"
 import ExternalAnchor from "./ExternalAnchor"
@@ -81,9 +81,17 @@ export function CatalogTextLink({ children, href, suffix }: {
 }
 
 /** Native disclosure keeps archive details inline and keyboard accessible. */
-export function CatalogDisclosure({ label, children, nested = false }: { label: string; children: ReactNode; nested?: boolean }) {
-  return <details className="catalog-disclosure">
+export function CatalogDisclosure({ label, children, nested = false, deferMount = false }: {
+  label: string
+  children: ReactNode | (() => ReactNode)
+  nested?: boolean
+  deferMount?: boolean
+}) {
+  const [activated, setActivated] = useState(false)
+  return <details className="catalog-disclosure" onToggle={(event) => {
+    if (deferMount && event.currentTarget.open) setActivated(true)
+  }}>
     <summary className={`cursor-pointer py-2 text-xs font-medium transition-colors hover:text-coco-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coco-accent ${nested ? "text-coco-ink/55" : "text-coco-ink/65"}`}>{label}</summary>
-    <div className="pb-2 pt-1">{children}</div>
+    <div className="pb-2 pt-1">{(!deferMount || activated) && (typeof children === "function" ? children() : children)}</div>
   </details>
 }

@@ -1,0 +1,36 @@
+# 历史账号：保存以前使用、现已停用或停止更新的相关账号链接。
+# 只有 title、url 必填；列表顺序就是页面显示顺序。
+# title / description 可写字符串或 { ja: "日文", en: "英文" }，也可只填一种语言。
+# id：可选，唯一标识。
+# period：可选，使用时期；YYYY、YYYY-MM、YYYY-MM-DD、YYYY-YYYY 可用于馆内日期搜索。
+#         也可填写自由文字，自由文字仅参与关键词搜索。
+# description：可选，账号所属人物、节目、企划或停止更新情况的简短说明。
+# status：可选，available | expired；停止更新但仍可访问时省略，仅链接失效时填 expired。
+# 账号名（如 @handle）会从 X / Twitter URL 自动显示，不需要额外填写。
+#
+# 最简示例（用实际记录替换下方 []）：
+# - title: "以前の番組アカウント"
+#   url: "https://x.com/example"
+#
+# 可选字段示例：
+# - id: "former-program-account"
+#   title:
+#     ja: "以前の番組アカウント"
+#     en: "Former program account"
+#   url: "https://twitter.com/example"
+#   period: "2018-2023"
+#   description: "番組放送当時の告知や写真を保存しているアカウント。"
+#   status: "expired"
+- id: "coco-ichiban-program-account"
+  title:
+    ja: "林鼓子のココいちばん！の番組アカウント"
+    en: "The official account for Coco Ichiban!"
+  url: https://x.com/hayashicoco1
+  period: "2023-2025"
+
+- id: "rgr-official-youtube-account"
+  title:
+    ja: "Run Girls, Run! 公式チャンネル"
+    en: "“Run Girls, Run!” Official Channel"
+  url: https://www.youtube.com/channel/UCIqyFzDuFim0B_UaKROeGqw
+  # period: "2023-2025"

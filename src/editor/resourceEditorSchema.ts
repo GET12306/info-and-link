@@ -1,4 +1,4 @@
-export const RESOURCE_DOCUMENT_KEYS = ["activity-resources", "daily-posts", "magazines", "notes", "programs"] as const
+export const RESOURCE_DOCUMENT_KEYS = ["activity-resources", "daily-posts", "archived-accounts", "magazines", "notes", "programs"] as const
 export type ResourceDocumentKey = typeof RESOURCE_DOCUMENT_KEYS[number]
 
 export interface ActivityReference {
@@ -92,6 +92,20 @@ export const RESOURCE_EDITOR_DOCUMENTS: Record<ResourceDocumentKey, {
       { key: "links", kind: "array", item: { key: "links[]", kind: "resourceLink", required: true } },
     ],
     create: () => ({ title: { ja: "", en: "" }, url: "" }),
+  },
+  "archived-accounts": {
+    label: "Past Accounts",
+    filename: "archived-accounts.yaml",
+    description: "以前使用过的相关账号；停止更新但仍可访问时无需标记 expired。",
+    fields: [
+      { key: "title", kind: "archiveText", required: true },
+      { key: "url", kind: "url", required: true },
+      { key: "id", kind: "text" },
+      { key: "period", kind: "text", placeholder: "2018-2023 或自由文字" },
+      { key: "description", kind: "archiveText", multiline: true },
+      { key: "status", kind: "select", options: STATUS },
+    ],
+    create: () => ({ title: "", url: "" }),
   },
   magazines: {
     label: "Magazines",

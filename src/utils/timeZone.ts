@@ -5,15 +5,24 @@ import { normalizeJapanDateTimeKey } from "./japanTime"
 export const DEFAULT_SOURCE_TIME_ZONE = "Asia/Tokyo"
 
 const formatters = new Map<string, Intl.DateTimeFormat>()
+const validTimeZones = new Map<string, boolean>()
+// Cache immutable wall-clock conversions, including DST gaps. Bound editor sessions too.
+const instants = new Map<string, number | null>()
 
 export function isValidTimeZone(value: unknown): value is string {
   if (typeof value !== "string" || !value.trim()) return false
+  const cached = validTimeZones.get(value)
+  if (cached !== undefined) return cached
+  let valid = false
   try {
-    new Intl.DateTimeFormat("en-US", { timeZone: value }).format()
-    return true
+    new Intl.DateTimeFormat("en-US", { timeZone: value })
+    valid = true
   } catch {
-    return false
+    valid = false
   }
+  if (validTimeZones.size >= 64) validTimeZones.clear()
+  validTimeZones.set(value, valid)
+  return valid
 }
 
 export function sourceTimeZone(value?: string) {
@@ -44,6 +53,9 @@ export function dateTimeInZone(date: Date | number, timeZone: string) {
 /** Resolve a wall clock value to an instant. Reject nonexistent DST times; choose the first repeated time. */
 export function instantFromZonedDateTime(value: string, timeZone: string): number | null {
   if (!isCalendarDateTime(value) || !isValidTimeZone(timeZone)) return null
+  const key = `${timeZone}|${value}`
+  const cached = instants.get(key)
+  if (cached !== undefined) return cached
   const [year, month, day, hour, minute] = value.match(/\d+/g)!.map(Number)
   const wall = Date.UTC(year, month - 1, day, hour, minute)
   const offsets = new Set<number>()
@@ -54,7 +66,10 @@ export function instantFromZonedDateTime(value: string, timeZone: string): numbe
   }
   const matches = [...offsets].map((offset) => wall - offset)
     .filter((instant) => dateTimeInZone(instant, timeZone) === value)
-  return matches.length ? Math.min(...matches) : null
+  const instant = matches.length ? Math.min(...matches) : null
+  if (instants.size >= 4096) instants.delete(instants.keys().next().value!)
+  instants.set(key, instant)
+  return instant
 }
 
 export function instantFromSourceKey(

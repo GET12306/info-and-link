@@ -558,3 +558,16 @@ every link in a series inside it, without local search or filter controls. Dated
 followed by undated entries. The page reuses the shared archive catalogue,
 entry title, grid, and expired-link badge components. Run
 `node --test tests/dailyPosts.test.mjs` for focused checks.
+
+### Past accounts
+
+`/museum/accounts` keeps former account links in `src/data/archived-accounts.yaml`.
+Only `title` and `url` are required; `id`, `period`, `description`, and `status`
+are optional. Text accepts a string or a partial ja/en translation. Records use
+the shared archive catalogue components and retain YAML order. Titles link to
+the account; X / Twitter handles are derived from the URL. Use `expired` only
+for a broken link, rather than an account that has stopped posting. Museum
+search includes titles, handles, URLs, descriptions, and usage periods. Periods
+such as `2018-2023` support year searches; free-form periods support keywords.
+The local content editor includes a Past Accounts tab. The YAML starts empty
+and includes commented examples for adding actual accounts.

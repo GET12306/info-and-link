@@ -10,12 +10,12 @@ const { MemoryRouter } = await server.ssrLoadModule("react-router-dom")
 const { default: Entry } = await server.ssrLoadModule("/src/components/ArchivedActivityEntry.tsx")
 const base = { id: "test", title: {ja:"公演",en:"Show"}, category:"Live",scheduleLabel:"2025.01.01",link:"https://example.com/show" }
 const render = activity => renderToStaticMarkup(createElement(MemoryRouter,null,createElement(Entry,{activity,lang:"en"})))
-test("ticket records are inline, initially collapsed, and preserve all entries including undated ones",()=>{
+test("ticket records keep their total including undated entries and defer details until opened",()=>{
   const html=render({...base,ticketInfo:{link:"https://example.com/tickets",price:{ja:"共通料金",en:"Shared price"},entries:[{type:{ja:"抽選",en:"Lottery"},scheduleLabel:"2024.12",description:{ja:"記録",en:"Archived note"}},{type:{ja:"一般",en:"General"},scheduleLabel:"2024.12.20",price:{ja:"個別料金",en:"Specific price"},link:"https://example.com/general"}]}})
   assert.match(html,/Ticket records \(2\)/)
   assert.match(html,/<details class="catalog-disclosure">/)
   assert.doesNotMatch(html,/<details[^>]*\bopen/)
-  for(const text of ["Lottery","General","Shared price","Specific price","Archived note","https://example.com/tickets","https://example.com/general"]) assert.ok(html.includes(text))
+  for(const text of ["Lottery","General","Shared price","Specific price","Archived note","https://example.com/tickets","https://example.com/general"]) assert.ok(!html.includes(text))
 })
 test("activities without ticket entries do not show an empty disclosure",()=>{
   assert.ok(!render(base).includes("Ticket records"))
@@ -25,9 +25,22 @@ test("archived performance schedules use the same compact disclosure as other re
   const html=render({...base,performances:[{startAt:"2025-01-01T18:00"}]})
   assert.match(html,/<details class="catalog-disclosure">\s*<summary[^>]*>Performance Schedule \(1\)<\/summary>/)
   assert.match(html,/>2025-01-01<\/span>/)
+  assert.doesNotMatch(html, /<time|18:00/)
   assert.doesNotMatch(html,/Asia\/|Local time|Times shown in/)
   assert.doesNotMatch(html,/aria-label="Performance Schedule"/)
   assert.doesNotMatch(html,/rounded-full[^>]*>[^<]*<svg[^>]*lucide-calendar-clock/)
+})
+
+test("deferred disclosures do not mount children or run detail calculations initially", async()=>{
+  const { CatalogDisclosure } = await server.ssrLoadModule("/src/components/ArchiveCatalog.tsx")
+  let calculations = 0
+  const children = () => { calculations++; return createElement("p", null, "Expensive details") }
+  const deferred = renderToStaticMarkup(createElement(CatalogDisclosure, {label:"Records", deferMount:true}, children))
+  assert.equal(calculations, 0)
+  assert.doesNotMatch(deferred, /Expensive details/)
+  const eager = renderToStaticMarkup(createElement(CatalogDisclosure, {label:"Records"}, children))
+  assert.equal(calculations, 1)
+  assert.match(eager, /Expensive details/)
 })
 test("recurring activities show only their authored schedule label",()=>{
   const html=render({...base,scheduleLabel:"Weekly",recurrence:{type:"manual"},performances:[{startAt:"2025-01-01T18:00"}]})

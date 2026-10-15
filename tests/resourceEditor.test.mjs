@@ -14,7 +14,7 @@ const server = await createServer({
 })
 after(() => server.close())
 
-const { RESOURCE_DOCUMENT_KEYS } = await server.ssrLoadModule("/src/editor/resourceEditorSchema.ts")
+const { RESOURCE_DOCUMENT_KEYS, RESOURCE_EDITOR_DOCUMENTS } = await server.ssrLoadModule("/src/editor/resourceEditorSchema.ts")
 const { validateResourceDocument } = await server.ssrLoadModule("/src/editor/resourceValidation.ts")
 const { updateListDocument } = await server.ssrLoadModule("/tools/content-editor/vitePlugin.ts")
 const activityIds = new Set(parse(fs.readFileSync("src/data/activities.yaml", "utf8")).map(item => item.id))
@@ -32,10 +32,11 @@ test("untouched records and YAML reference comments survive edits and additions"
     const source = fs.readFileSync(`src/data/${key}.yaml`, "utf8")
     const original = parse(source)
     const next = structuredClone(original)
-    next.push(structuredClone(original[0]))
+    next.push(structuredClone(original[0] ?? RESOURCE_EDITOR_DOCUMENTS[key].create()))
     const output = updateListDocument(source, next)
     assert.deepEqual(parse(output), next, key)
-    assert.equal(output.slice(0, source.indexOf("\n- ")), source.slice(0, source.indexOf("\n- ")), key)
+    const headerEnd = source.indexOf(original.length ? "\n- " : "\n[]")
+    assert.equal(output.slice(0, headerEnd), source.slice(0, headerEnd), key)
   }
 })
 

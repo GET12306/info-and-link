@@ -126,7 +126,7 @@ export function validateResourceDocument(
     if (key === "activity-resources" && entry.url !== undefined) {
       issues.push({ path: `${path}.url`, message: "链接应作为带 date 的对象填写在 links[] 中" })
     }
-    if ((key === "magazines" || key === "daily-posts") && isNonempty(entry.id)) {
+    if ((key === "magazines" || key === "daily-posts" || key === "archived-accounts") && isNonempty(entry.id)) {
       if (uniqueIds.has(entry.id)) issues.push({ path: `${path}.id`, message: "id 不能重复" })
       uniqueIds.add(entry.id)
     }

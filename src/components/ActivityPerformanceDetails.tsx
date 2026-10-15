@@ -107,44 +107,12 @@ function getTimeItems(
   ].sort((a, b) => a.at.localeCompare(b.at))
 }
 
-export default function ActivityPerformanceDetails({
-  performances,
-  durationMinutes,
-  lang,
-  actions,
-  toolbarPanel,
-  renderPerformanceAction,
-  footer,
-  occurrences,
-  startLabel,
-  compact = false,
-  sourceZone,
-}: {
-  performances?: ActivityPerformance[]
-  durationMinutes?: number
+function PerformanceSchedulePanel({ displayPerformances, lang, startLabel, renderPerformanceAction }: {
+  displayPerformances: DisplayPerformance[]
   lang: Language
-  actions?: ReactNode
-  toolbarPanel?: ReactNode
-  renderPerformanceAction?: (occurrence: ActivityOccurrence) => ReactNode
-  footer?: ReactNode
-  occurrences?: ActivityOccurrence[]
   startLabel?: string
-  compact?: boolean
-  sourceZone?: string
+  renderPerformanceAction?: (occurrence: ActivityOccurrence) => ReactNode
 }) {
-  const [open, setOpen] = useState(false)
-  const panelId = useId()
-  const t = TRANSLATIONS[lang]
-  const localZone = viewerTimeZone()
-  const displayPerformances = getDisplayPerformances(
-    occurrences ?? getPerformanceOccurrences(performances, durationMinutes, sourceTimeZone(sourceZone)),
-    lang, localZone
-  )
-
-  if (displayPerformances.length === 0) {
-    return <>{footer}</>
-  }
-
   const performancesByDate = displayPerformances.reduce<
     Array<[string, DisplayPerformance[]]>
   >((groups, performance) => {
@@ -157,7 +125,7 @@ export default function ActivityPerformanceDetails({
     return groups
   }, [])
 
-  const schedulePanel = <div className="overflow-hidden rounded border grid-line bg-coco-ink/2.5 dark:bg-white/2.5">
+  return <div className="overflow-hidden rounded border grid-line bg-coco-ink/2.5 dark:bg-white/2.5">
     {performancesByDate.map(([date, datePerformances]) => (
       <div
         key={date}
@@ -215,11 +183,52 @@ export default function ActivityPerformanceDetails({
       </div>
     ))}
   </div>
+}
+
+export default function ActivityPerformanceDetails({
+  performances,
+  durationMinutes,
+  lang,
+  actions,
+  toolbarPanel,
+  renderPerformanceAction,
+  footer,
+  occurrences,
+  startLabel,
+  compact = false,
+  sourceZone,
+}: {
+  performances?: ActivityPerformance[]
+  durationMinutes?: number
+  lang: Language
+  actions?: ReactNode
+  toolbarPanel?: ReactNode
+  renderPerformanceAction?: (occurrence: ActivityOccurrence) => ReactNode
+  footer?: ReactNode
+  occurrences?: ActivityOccurrence[]
+  startLabel?: string
+  compact?: boolean
+  sourceZone?: string
+}) {
+  const [open, setOpen] = useState(false)
+  const panelId = useId()
+  const t = TRANSLATIONS[lang]
+  const performanceOccurrences = occurrences ?? getPerformanceOccurrences(
+    performances, durationMinutes, sourceTimeZone(sourceZone)
+  )
+  if (performanceOccurrences.length === 0) return <>{footer}</>
+
+  const renderSchedulePanel = () => <PerformanceSchedulePanel
+    displayPerformances={getDisplayPerformances(performanceOccurrences, lang, viewerTimeZone())}
+    lang={lang}
+    startLabel={startLabel}
+    renderPerformanceAction={renderPerformanceAction}
+  />
 
   if (compact) {
     return <>
-      <CatalogDisclosure label={`${t.performance_schedule} (${displayPerformances.length})`}>
-        {schedulePanel}
+      <CatalogDisclosure deferMount label={`${t.performance_schedule} (${performanceOccurrences.length})`}>
+        {renderSchedulePanel}
       </CatalogDisclosure>
       {footer}
     </>
@@ -233,7 +242,7 @@ export default function ActivityPerformanceDetails({
           <span className="sm:hidden">{t.performance_schedule_short}</span>
           <span className="hidden sm:inline">{t.performance_schedule}</span>
           <span className="rounded-full bg-coco-ink/5 px-1.5 py-0.5 text-[9px] leading-none">
-            {displayPerformances.length}
+            {performanceOccurrences.length}
           </span>
           <ChevronDown
             className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`}
@@ -244,7 +253,7 @@ export default function ActivityPerformanceDetails({
       </div>
       {toolbarPanel}
 
-      <div id={panelId} hidden={!open} className="mt-3">{schedulePanel}</div>
+      <div id={panelId} hidden={!open} className="mt-3">{renderSchedulePanel()}</div>
       {footer}
     </div>
   )

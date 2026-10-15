@@ -1,4 +1,4 @@
-import { lazy, Suspense } from "react"
+import { lazy, Suspense, useEffect } from "react"
 import { HashRouter, Routes, Route, useLocation, Link } from "react-router-dom"
 import { motion, AnimatePresence } from "motion/react"
 import { Globe } from "lucide-react"
@@ -7,23 +7,29 @@ import type { Language } from "./types"
 import Loading from "./components/Loading"
 import NavBar from "./components/NavBar"
 import { useLanguage } from "./hooks/useLanguage"
+import { pageLoaders, preloadPage } from "./utils/pageLoaders"
 
-const DailyPosts = lazy(() => import("./pages/DailyPosts"))
-const Museum = lazy(() => import("./pages/Museum"))
-const Credits = lazy(() => import("./pages/Credits"))
-const Programs = lazy(() => import("./pages/Programs"))
-const Media = lazy(() => import("./pages/Media"))
-const Home = lazy(() => import("./pages/Home"))
-const Activities = lazy(() => import("./pages/Activities"))
-const PastActivities = lazy(() => import("./pages/PastActivities"))
-const TicketInfo = lazy(() => import("./pages/TicketInfo"))
-const About = lazy(() => import("./pages/About"))
-const VenueDetails = lazy(() => import("./pages/VenueDetails"))
+const DailyPosts = lazy(pageLoaders.dailyPosts)
+const ArchivedAccounts = lazy(pageLoaders.archivedAccounts)
+const Museum = lazy(pageLoaders.museum)
+const Credits = lazy(pageLoaders.credits)
+const Programs = lazy(pageLoaders.programs)
+const Media = lazy(pageLoaders.media)
+const Home = lazy(pageLoaders.home)
+const Activities = lazy(pageLoaders.activities)
+const PastActivities = lazy(pageLoaders.pastActivities)
+const TicketInfo = lazy(pageLoaders.tickets)
+const About = lazy(pageLoaders.about)
+const VenueDetails = lazy(pageLoaders.venueDetails)
 
 function AnimatedRoutes({ lang }: { lang: Language }) {
   const location = useLocation()
   const isHome = location.pathname === "/"
   const isCatalog = location.pathname.startsWith("/museum/")
+  useEffect(() => {
+    // AnimatePresence keeps the old page mounted for its 0.4s exit; load the target in parallel.
+    void preloadPage(location.pathname)
+  }, [location.pathname])
   return (
     <main className="relative w-full py-32">
       <Suspense fallback={<Loading />}>
@@ -49,6 +55,7 @@ function AnimatedRoutes({ lang }: { lang: Language }) {
                 <Route path="/museum/credits" element={<Credits lang={lang} />} />
                 <Route path="/museum/programs" element={<Programs lang={lang} />} />
                 <Route path="/museum/daily-posts" element={<DailyPosts lang={lang} />} />
+                <Route path="/museum/accounts" element={<ArchivedAccounts lang={lang} />} />
                 <Route path="/museum/media" element={<Media lang={lang} />} />
                 <Route path="/about" element={<About lang={lang} />} />
               </Routes>
