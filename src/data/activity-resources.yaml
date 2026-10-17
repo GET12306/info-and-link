@@ -301,6 +301,8 @@
       date: "2026-10-02"
     - url: "https://x.com/cocohayashi515/status/2108533517810581620"
       date: "2026-10-09"
+    - url: "https://x.com/cocohayashi515/status/2111070327413645805"
+      date: "2026-10-16"
 - activityId: "2026-liberte-first-act"
   kind: "photo"
   platform: "x"
@@ -446,6 +448,11 @@
       label:
         ja: "補充説明"
         en: "Additional Explanation"
+    - url: "https://x.com/neo_slime300/status/2111370112272117846"
+      date: "2026-10-17"
+      label:
+        ja: "2公演目集合写真"
+        en: "Group Photo from the Second Performance"
 - activityId: "2026-taipei-fan-meeting"
   kind: "post"
   platform: "other"
@@ -592,6 +599,45 @@
       label:
         ja: "出演者へのコメント"
         en: "Comments for the Cast"
+    - url: "https://x.com/cocohayashi515/status/2111286489518887019"
+      date: "2026-10-17"
+      label:
+        ja: "出演ポスト"
+        en: "Casting Postings"
+    - url: "https://x.com/cocohayashi515/status/2111377588304433617"
+      date: "2026-10-17"
+      label:
+        ja: "初日"
+        en: "Day One"
+- activityId: "2026-slime-300-stage"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "事務所ポスト"
+    en: "Posts from Agency"
+  links:
+    - url: "https://x.com/LIBERTE__2024/status/2111363102331818313"
+      date: "2026-10-17"
+      label:
+        ja: "初日"
+        en: "Day One"
+- activityId: "2026-slime-300-stage"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "キャストポスト"
+    en: "Posts from other casts"
+  links:
+    - url: "https://x.com/tanda_hazuki/status/2111381821158306279"
+      date: "2026-10-17"
+      label:
+        ja: "反田葉月"
+        en: "Hatsuki Tanda"
+    - url: "https://x.com/mahirodayo_/status/2111445111016227192"
+      date: "2026-10-17"
+      label:
+        ja: "林田真尋"
+        en: "Mahiro Hayashida"
 - activityId: "2026-assault-lily-reading-vol-2"
   kind: "post"
   platform: "x"
@@ -604,3 +650,15 @@
       label:
         ja: "お稽古始まっていますっ！"
         en: "Rehearsal has started!"
+- activityId: "2026-wonderlivet"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "公式宣伝ポスト"
+    en: "Official Promotional Post"
+  links:
+    - url: "https://x.com/WONDERLIVET/status/2111049929963761854"
+      date: "2026-10-16"
+      label:
+        ja: "宣伝ビデオ"
+        en: "Promotional Video"

@@ -982,7 +982,8 @@
   title:
     ja: "MyGO!!!!! 9th LIVE「つなぎ目の向こうに」 - 神戸再景編 -"
     en: "MyGO!!!!! 9th LIVE 「Beyond the Seam」 - Kobe Revival Edition -"
-  venueIds: [ "world-memorial-hall" ]
+  venueIds:
+    - "world-memorial-hall"
   description:
     ja: "椎名立希役"
     en: "As Setsuna Yuki"
@@ -1011,6 +1012,14 @@
           en: "S Seats (with special merchandise) are available only for tickets that were canceled after payment during the fastest-access advance lottery."
         startAt: "2026-09-13T12:00"
         endAt: "2026-10-04"
+      - type:
+          ja: "一般発売"
+          en: "General Sale"
+        scheduleLabel: "2026-10-17 12:00"
+        description:
+          ja: "S席(特製グッズ付き)は先行受付分にて上限数に達したため受付はございません。"
+          en: "Since the S seats (which come with special merchandise) have reached their maximum capacity during the advance registration period, we are no longer accepting applications."
+        startAt: "2026-10-17T12:00"
 
 - id: "2026-wonderlivet"
   category: "Live"
