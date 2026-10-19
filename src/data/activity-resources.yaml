@@ -453,6 +453,11 @@
       label:
         ja: "2公演目集合写真"
         en: "Group Photo from the Second Performance"
+    - url: "https://x.com/neo_slime300/status/2111789954493710696"
+      date: "2026-10-18"
+      label:
+        ja: "5公演目集合写真"
+        en: "Group Photo from the Fifth Performance"
 - activityId: "2026-taipei-fan-meeting"
   kind: "post"
   platform: "other"
@@ -609,6 +614,16 @@
       label:
         ja: "初日"
         en: "Day One"
+    - url: "https://x.com/cocohayashi515/status/2111793674892067235"
+      date: "2026-10-18"
+      label:
+        ja: "2回目"
+        en: "The Second Performance"
+    - url: "https://x.com/cocohayashi515/status/2111806677037244585"
+      date: "2026-10-18"
+      label:
+        ja: "メガネ写真"
+        en: "Photos of Wearing Glasses"
 - activityId: "2026-slime-300-stage"
   kind: "post"
   platform: "x"
@@ -638,6 +653,11 @@
       label:
         ja: "林田真尋"
         en: "Mahiro Hayashida"
+    - url: "https://x.com/tanda_hazuki/status/2111741585746743650"
+      date: "2026-10-18"
+      label:
+        ja: "反田葉月側のご飯写真"
+        en: "Photos of meals from Hazuki Sorita's side"
 - activityId: "2026-assault-lily-reading-vol-2"
   kind: "post"
   platform: "x"
