@@ -1,7 +1,7 @@
 import { useActivityHighlight } from "../hooks/useActivityHighlight"
 import { useLocation } from "react-router-dom"
 import { TRANSLATIONS } from "../i18n"
-import ACTIVITIES from "../data/activities.yaml"
+import ACTIVITIES from "../data/activities"
 import type { Activity, Language } from "../types"
 import {
   compareActivitiesByStart,

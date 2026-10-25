@@ -18,6 +18,7 @@ export const pageLoaders = {
   credits: createPageLoader(() => import("../pages/Credits")),
   pastActivities: createPageLoader(() => import("../pages/PastActivities")),
   programs: createPageLoader(() => import("../pages/Programs")),
+  programDetails: createPageLoader(() => import("../pages/ProgramDetails")),
   media: createPageLoader(() => import("../pages/Media")),
   dailyPosts: createPageLoader(() => import("../pages/DailyPosts")),
   archivedAccounts: createPageLoader(() => import("../pages/ArchivedAccounts")),
@@ -40,7 +41,8 @@ const routes: Record<string, () => Promise<unknown>> = {
 }
 
 export function preloadPage(pathname: string) {
-  const load = pathname.startsWith("/venues/") ? pageLoaders.venueDetails : routes[pathname]
+  const load = pathname.startsWith("/venues/") ? pageLoaders.venueDetails
+    : pathname.startsWith("/museum/programs/") ? pageLoaders.programDetails : routes[pathname]
   // Speculative loading must not interrupt the outgoing page or produce unhandled rejections.
   return load?.().catch(() => undefined)
 }

@@ -303,6 +303,8 @@
       date: "2026-10-09"
     - url: "https://x.com/cocohayashi515/status/2111070327413645805"
       date: "2026-10-16"
+    - url: "https://x.com/cocohayashi515/status/2113617006415212822"
+      date: "2026-10-23"
 - activityId: "2026-liberte-first-act"
   kind: "photo"
   platform: "x"
@@ -458,6 +460,21 @@
       label:
         ja: "5公演目集合写真"
         en: "Group Photo from the Fifth Performance"
+    - url: "https://x.com/neo_slime300/status/2112884301520056409"
+      date: "2026-10-21"
+      label:
+        ja: "8公演目集合写真"
+        en: "Group Photo from the Eighth Performance"
+    - url: "https://x.com/neo_slime300/status/2113453814930149701"
+      date: "2026-10-23"
+      label:
+        ja: "9公演目集合写真"
+        en: "Group Photo from the Ninth Performance"
+    - url: "https://x.com/neo_slime300/status/2114303455519236190"
+      date: "2026-10-25"
+      label:
+        ja: "集合写真"
+        en: "Group Photos"
 - activityId: "2026-taipei-fan-meeting"
   kind: "post"
   platform: "other"
@@ -612,8 +629,8 @@
     - url: "https://x.com/cocohayashi515/status/2111377588304433617"
       date: "2026-10-17"
       label:
-        ja: "初日"
-        en: "Day One"
+        ja: "初日（1回目）"
+        en: "The First Performance"
     - url: "https://x.com/cocohayashi515/status/2111793674892067235"
       date: "2026-10-18"
       label:
@@ -624,6 +641,26 @@
       label:
         ja: "メガネ写真"
         en: "Photos of Wearing Glasses"
+    - url: "https://x.com/cocohayashi515/status/2112883501108469768"
+      date: "2026-10-21"
+      label:
+        ja: "3回目の動画"
+        en: "The Third Performance(Video)"
+    - url: "https://x.com/cocohayashi515/status/2113452524980277664"
+      date: "2026-10-23"
+      label:
+        ja: "4回目"
+        en: "The Fourth Performance"
+    - url: "https://x.com/cocohayashi515/status/2114244533932503384"
+      date: "2026-10-25"
+      label:
+        ja: "千秋楽"
+        en: "Final Performance"
+    - url: "https://x.com/cocohayashi515/status/2114245006768959978"
+      date: "2026-10-25"
+      label:
+        ja: "可愛いやりとり"
+        en: "A Cute Exchange"
 - activityId: "2026-slime-300-stage"
   kind: "post"
   platform: "x"
@@ -636,6 +673,11 @@
       label:
         ja: "初日"
         en: "Day One"
+    - url: "https://x.com/LIBERTE__2024/status/2114251437261856978"
+      date: "2026-10-25"
+      label:
+        ja: "千穐楽"
+        en: "Final Performance"
 - activityId: "2026-slime-300-stage"
   kind: "post"
   platform: "x"
@@ -658,6 +700,31 @@
       label:
         ja: "反田葉月側のご飯写真"
         en: "Photos of meals from Hazuki Sorita's side"
+    - url: "https://x.com/hinagaurara/status/2112901817302683662"
+      date: "2026-10-21"
+      label:
+        ja: "日永麗"
+        en: "Urara Hinaga"
+    - url: "https://x.com/ishii_haruna/status/2113243528021352554"
+      date: "2026-10-22"
+      label:
+        ja: "石井陽菜"
+        en: "Hina Ishii"
+    - url: "https://x.com/aguri_onishi/status/2113972734191702058"
+      date: "2026-10-24"
+      label:
+        ja: "大西亜玖璃"
+        en: "Aguri Onishi"
+    - url: "https://x.com/Moeno_Shiraki/status/2114155349217546511"
+      date: "2026-10-25"
+      label:
+        ja: "白城もえの"
+        en: "Moeno Shiraki"
+    - url: "https://x.com/Lets_chikochiko/status/2114238485997752529"
+      date: "2026-10-25"
+      label:
+        ja: "工藤理子"
+        en: "Riko Kudo"
 - activityId: "2026-assault-lily-reading-vol-2"
   kind: "post"
   platform: "x"
@@ -682,3 +749,32 @@
       label:
         ja: "宣伝ビデオ"
         en: "Promotional Video"
+- activityId: "tricolor"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "音泉ポスト"
+    en: "Posts from Onsen"
+  links:
+    - url: "https://x.com/onsenradio/status/2113119171332677985"
+      date: "2026-10-22"
+      label:
+        ja: "第41回配信開始🇫🇷"
+        en: "Episode 41 Is Now Available 🇫🇷"
+- activityId: "2026-assault-lily-reading-vol-2"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "公式ポスト"
+    en: "Official Posts"
+  links:
+    - url: "https://x.com/assaultlily_st/status/2110641828672503936"
+      date: "2026-10-15"
+      label:
+        ja: "林鼓子さんからのコメント"
+        en: "A Comment from Coco Hayashi"
+    - url: "https://x.com/assaultlily_st/status/2113907893796000031"
+      date: "2026-10-24"
+      label:
+        ja: "ビジュアル撮影時の様子"
+        en: "Behind the Scenes of the Photo Shoot"

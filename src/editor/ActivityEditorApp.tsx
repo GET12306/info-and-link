@@ -172,8 +172,8 @@ export default function ActivityEditorApp({ active = true }: { active?: boolean 
       setActivities(current => mergeActivityDraft(activities, current, merged.activities).activities)
       setSavedActivities(structuredClone(merged.activities))
       setMessage(sourceChanged
-        ? "已合并磁盘最新内容并安全写入 src/data/activities.yaml"
-        : "已安全写入 src/data/activities.yaml")
+        ? "已合并磁盘最新内容并安全保存活动 YAML（含独立日程文件）"
+        : "已安全保存活动 YAML（含独立日程文件）")
     } catch (error) {
       setMessage(error instanceof Error ? error.message : "保存失败")
     } finally {
@@ -199,6 +199,8 @@ export default function ActivityEditorApp({ active = true }: { active?: boolean 
     if (!selectedActivity) return
     const id = nextUniqueId(selectedActivity.id, activities)
     const duplicate = structuredClone({ ...selectedActivity, id })
+    // A duplicate owns its copied schedule instead of overwriting the source file.
+    delete duplicate.performancesFile
     setActivities((current) => {
       const next = [...current]
       next.splice(selectedIndex + 1, 0, duplicate)
@@ -217,6 +219,8 @@ export default function ActivityEditorApp({ active = true }: { active?: boolean 
   const unknownFields = selectedActivity
     ? Object.keys(selectedActivity).filter((key) => !ACTIVITY_EDITOR_KNOWN_FIELDS.has(key))
     : []
+  const sourceActivity = selectedActivity && Object.fromEntries(Object.entries(selectedActivity)
+    .filter(([key]) => key !== "performances" || !selectedActivity.performancesFile))
 
   return (
     <div className="editor-shell">
@@ -307,6 +311,16 @@ export default function ActivityEditorApp({ active = true }: { active?: boolean 
                 </section>
               ))}
 
+              {selectedActivity.category === "Program" && <section className="editor-section">
+                <div className="section-heading"><div>
+                  <h2>节目出演回数</h2>
+                  <p>仍使用下方通用场次编辑器填写实际更新时间、回数和链接；只记录已经确认的出演。一般更新时间和确认方式写在 description 中。</p>
+                </div></div>
+                <label className="checkbox-field">
+                  <input type="checkbox" checked={selectedActivity.program?.display === "episodes"} onChange={event => updateSelected(setOptional(selectedActivity, "program", event.target.checked ? { display: "episodes" } : undefined) as EditorActivity)} />
+                  <span>使用回数列表展示（每页 5 回）</span>
+                </label>
+              </section>}
               <RecurrenceEditor
                 recurrence={selectedActivity.recurrence}
                 onChange={(recurrence) => {
@@ -320,8 +334,11 @@ export default function ActivityEditorApp({ active = true }: { active?: boolean 
                 }}
               />
               <PerformanceEditor
+                key={selectedActivity.id}
                 performances={selectedActivity.performances}
                 recurrenceType={selectedActivity.recurrence?.type}
+                episodeMode={selectedActivity.program?.display === "episodes"}
+                sourceFile={selectedActivity.performancesFile}
                 onChange={(performances) => updateSelected(setOptional(selectedActivity, "performances", performances) as EditorActivity)}
               />
               <TicketEditor activity={selectedActivity} onChange={updateSelected} />
@@ -337,7 +354,14 @@ export default function ActivityEditorApp({ active = true }: { active?: boolean 
                 <button type="button" className="yaml-toggle" onClick={() => setShowYaml((value) => !value)}>
                   <FileCode2 /> YAML 预览 {showYaml ? <ChevronUp /> : <ChevronDown />}
                 </button>
-                {showYaml && <pre>{stringify(selectedActivity, { lineWidth: 0, defaultStringType: "QUOTE_DOUBLE" })}</pre>}
+                {showYaml && <>
+                  <p>src/data/activities.yaml（选中活动）</p>
+                  <pre>{stringify(sourceActivity, { lineWidth: 0, defaultStringType: "QUOTE_DOUBLE" })}</pre>
+                  {selectedActivity.performancesFile && <>
+                    <p>src/data/{selectedActivity.performancesFile}</p>
+                    <pre>{stringify({ performances: selectedActivity.performances ?? [] }, { lineWidth: 0, defaultStringType: "QUOTE_DOUBLE" })}</pre>
+                  </>}
+                </>}
               </section>
             </>
           )}

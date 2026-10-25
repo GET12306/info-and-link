@@ -52,6 +52,7 @@ src/
 Important content files:
 
 - `src/data/activities.yaml`: activities and optional ticket information.
+- `src/data/activity-schedules/*.yaml`: optional child schedules using the same `performances` structure as inline activity schedules; Maigo Center uses `maigo-center.yaml`.
 - `src/data/profile.yaml`: localized profile name and an ordered, extensible `items` list. Add,
   remove, or reorder items there; the home page automatically chooses a dense responsive
   column count instead of assuming two items per row.
@@ -220,6 +221,73 @@ Example with non-consecutive date-only performances:
 
 ### Recurring Programs
 
+All activities, including recurring programs, use `performances`. A long schedule
+may be moved to a clearly named child YAML, without changing its field structure:
+
+```yaml
+# activities.yaml (inside the program's existing activity)
+recurrence:
+  type: "manual"
+program:
+  display: "episodes"
+performancesFile: "activity-schedules/maigo-center.yaml"
+description:
+  ja: "毎週水曜 19:00。出演者は配信後に確認しています。"
+  en: "Wednesdays at 19:00. Appearances are confirmed after publication."
+calendarExport: "disabled"
+```
+
+The child file `src/data/activity-schedules/maigo-center.yaml` contains:
+
+```yaml
+performances:
+  - startAt: "2026-10-07T19:00"
+    episode: "123"
+    link: "https://example.com/episode-123"
+```
+
+Use either inline `performances` or `performancesFile`, never both in the source YAML.
+Child names must match `activity-schedules/<lowercase-hyphenated-name>.yaml`, and
+each child belongs to only one activity. The website joins the YAML files at its
+data boundary; it never reads audit JSON for displayed content.
+
+Only add confirmed appearances. Use `startAt: YYYY-MM-DDTHH:mm` for the actual
+publication time in the activity's `timeZone` (JST by default), or `occursOn:
+YYYY-MM-DD` when only the date is known. Omit `episode` or `link` until known;
+episode numbers are strings and may contain special labels such
+as `SP`. Optional bilingual `description` provides per-episode context. Add
+`status: expired` if a listening link stops working, retaining the appearance record.
+
+The usual update schedule and explanatory notes belong in `description`; they do
+not generate future appearances. `program.display: episodes` is a presentation
+option only: schedule calculations still use the common `performances` logic.
+
+The Maigo Center archive was checked against the official playlist on 2026-10-21:
+all 200 public numbered episodes (#1–#200) were checked, and 86 explicitly name Coco
+Hayashi or Taki Shiina in that episode's personality field. Their episode numbers,
+direct links, and actual publication times are now recorded. Seven additional private
+playlist items could not be identified and are not counted. The four original dates
+are preserved. See [the audit](docs/data-audits/maigo-center.md) for coverage and evidence.
+
+The activity card initially shows only its description and a disclosure button matching
+other activity schedules. Opening it shows five records per page, with listening
+links on the episode titles, and a link to the full archive. The archive at
+`/museum/programs/:activityId` also uses five records per page. Records are included
+in Museum search and the home calendar; a past publication remains clickable and
+opens its archive record. Exact times follow the visitor's time zone, while date-only
+records retain their authored calendar date. A record count means collected
+appearances, not all appearances in the program's history.
+
+In the Activities editor, select Maigo Center, then use the standard performance
+editor to add/edit/delete episode numbers, dates, links, link status, and bilingual
+notes. It shows five records per editor page. The ordinary Save YAML button writes
+the main activity and its child schedule to their correct files, preserves YAML
+comments on untouched records, and checks revisions across both files. Copies of
+an activity own an inline schedule rather than sharing the original child's file.
+The audit JSON retains excluded/unavailable records as evidence only; its
+`included` flags are not runtime filters or an editing requirement.
+Other recurring programs continue to use the following schedule rules.
+
 Monthly programs whose dates are irregular or only gradually announced use manual
 recurrence. Add only confirmed dates to `performances`:
 
@@ -253,7 +321,7 @@ recurrence:
 - `startOn` and `endOn` are inclusive boundaries of the currently confirmed range; extending the schedule requires changing `endOn` explicitly.
 - `weekday` is one of `sunday` through `saturday`, and `startTime` is `HH:mm` in the activity's source zone.
 - `overrides` may change one generated date's time or cancel it. Its `date` must be a date that the base rule would generate.
-- Weekly rules and `performances` are mutually exclusive. Manual recurrence requires at least one performance.
+- Weekly rules and `performances` are mutually exclusive. Manual recurrence requires at least one performance, unless the program uses the episode archive above.
 - Generated Program times are labelled as updates rather than stage-performance starts in the site UI.
 
 Example with two performances on the same day:

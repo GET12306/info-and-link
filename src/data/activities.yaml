@@ -12,6 +12,11 @@
 #   endDate: "2026-08-12"             # [可选] 连续活动末日；省略时视为单日活动
 #   recurrence:                        # [可选] 经常性节目；存在时不会因已知场次过期而进入历史
 #     type: "manual"                   # manual：月更/不定期；在 performances 中逐项添加已确认日期
+#   program:                           # [可选/仅 Program] 按已确认出演回数展示的节目
+#     display: "episodes"              # 仅优化展示：展开后每页 5 回；底层仍使用通用 performances
+#   performancesFile: "activity-schedules/maigo-center.yaml" # [可选] 将长日程拆到子 YAML，与内联 performances 二选一
+#                                      # 子文件根节点为 performances:，字段与下方场次一致；编辑器自动读写
+#                                      # 通常更新时间、出演确认方式等说明统一写在 description 中
 #   calendarExport: "auto"             # [可选] 默认 auto：所有场次有准确开始时间才开放 ICS 下载
 #                                      # enabled：手动开放，允许仅日期的全天占位；仍必须有有效日期、标题和链接
 #                                      # disabled：手动隐藏下载；导入后不会自动更新，修改本站数据不会改变已导入的日程
@@ -26,6 +31,10 @@
 #           at: "12:00"                # [必填] HH:mm，日本时间；会显示在首页日历和活动日程中
 #     - startAt: "2026-08-11T14:30"    # [二选一] 日本时间的场次开始时刻
 #       endAt: "2026-08-11T16:30"      # [可选] 此场次的特殊结束时刻；优先于 durationMinutes
+#       episode: "123"                # [可选] 节目回数，字符串；也支持 SP。使用通用场次编辑器维护
+#       link: "https://example.com/123" # [可选] 此场次/回数的独立链接
+#       status: "expired"             # [可选] 此链接失效时添加，不删除场次记录
+#       description: { ja: "ゲスト出演", en: "Guest appearance" } # [可选] 场次专属说明
 #       label:                         # [可选] 昼公演、夜公演等场次名称
 #         ja: "昼公演"
 #         en: "Matinee"
@@ -713,7 +722,7 @@
     en: "Maison De Coco"
   description:
     ja: "毎週金曜22時"
-    en: "Every Friday at 10 p.m. (JST)"
+    en: "Every Friday at 10 p.m."
   link: "https://audee-membership.jp/coco-hayashi"
 
 - id: "tricolor"
@@ -724,6 +733,8 @@
   performances:
     - occursOn: "2026-08-27"
     - occursOn: "2026-09-10"
+    - occursOn: "2026-10-22"
+    - occursOn: "2026-11-19"
   title:
     ja: "礒部花凜・土屋李央・林鼓子 トリコロールカラー"
     en: "Karin Isobe, Rio Tsuchiya, Coco Hayashi Tricolor"
@@ -1060,16 +1071,14 @@
     en: "Maigo Center"
   link: "https://www.youtube.com/playlist?list=PLUFFl4hYd1R0SQPSCAqPVuT5F2By4pqO7"
   description:
-    ja: "MyGO!!!!!メンバーがランダムでパーソナリティを務めるYouTubeラジオ番組です。"
-    en: "This is a YouTube radio where MyGO!!!!! members randomly take turns as hosts."
+    ja: "MyGO!!!!!メンバーがランダムでパーソナリティを務めるYouTubeラジオ番組です。 毎週水曜19:00更新"
+    en: "This is a YouTube radio where MyGO!!!!! members randomly take turns as hosts. Updated every Wednesday at 7:00 p.m."
   recurrence:
     type: "manual"
+  performancesFile: "activity-schedules/maigo-center.yaml"
   calendarExport: "disabled"
-  performances:
-    - startAt: "2026-07-29T19:00"
-    - startAt: "2026-07-22T19:00"
-    - startAt: "2026-09-30T19:00"
-    - startAt: "2026-10-07T19:00"
+  program:
+    display: "episodes"
 - id: "coco-fc2025-event2027-01"
   category: "Event"
   scheduleLabel: "2027.01.30"
@@ -3840,3 +3849,37 @@
   title: { ja: "ワンダーフェスティバル2017[夏]『Wake Up, Girls！新章』新キャスト＆新キャラクター発表会", en: "Wonder Festival 2017 Summer: Wake Up, Girls! New Chapter Cast and Character Announcement" }
   venueIds: [ "makuhari-messe" ]
   link: "https://www.eventernote.com/events/120687"
+- id: "2027-mygo-9th-live-hong-kong"
+  category: "Live"
+  scheduleLabel: "2027.01.03"
+  title:
+    ja: "MyGO!!!!! 9th LIVE「つなぎ目の向こうに」 - 香港還想編 -"
+    en: "MyGO!!!!! 9th LIVE “Beyond the Seam” - in Hong Kong -"
+  link: "https://x.com/bang_dream_mygo/status/2113223844055925103"
+  performances:
+    - startAt: "2027-01-03T19:00"
+  timeZone: "Asia/Hong_Kong"
+  venueNote:
+    ja: "亞洲國際博覽館5號展館"
+    en: "Hall 5, AsiaWorld-Expo, Hong Kong"
+  ticketInfo:
+    entries:
+      - type:
+          ja: "抽選"
+          en: "Lottery"
+        scheduleLabel: "2026.11.04 12:00 - 11.08"
+        startAt: "2026-11-04T12:00"
+        endAt: "2026-11-08T23:59"
+    link: "https://www.bilibili.com/opus/1261983370803412999"
+  description:
+    ja: "椎名立希役 https://x.com/EUPD_official/status/2113223842852454606"
+    en: "As Taki Shiina"
+- id: "bang-dream-our-notes-daran-tv-1"
+  category: "Program"
+  scheduleLabel: "2026.10.26 20:00"
+  title:
+    ja: "~BanG Dream! Our Notes~ だんらんTV！"
+    en: "~BanG Dream! Our Notes~ Danran TV!"
+  link: "https://www.youtube.com/watch?v=y2jXT9dAvCo"
+  performances:
+    - startAt: "2026-10-26T20:00"

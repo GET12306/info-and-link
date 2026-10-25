@@ -1,0 +1,1645 @@
+{
+  "checkedOn": "2026-10-21",
+  "playlistUrl": "https://www.youtube.com/playlist?list=PLUFFl4hYd1R0SQPSCAqPVuT5F2By4pqO7",
+  "programUrl": "https://bang-dream.com/media/mygocenter_radio/",
+  "channelId": "UC80p_16pSSHA8YmtCVdX51w",
+  "numberedRange": {
+    "first": 1,
+    "last": 200
+  },
+  "confirmedAppearances": 86,
+  "selectionRule": "Include only when the official per-episode personality field names 林鼓子 or 立希. Other text, keywords, promotions and thumbnails do not determine inclusion.",
+  "timeRule": "Use the video page playerMicroformatRenderer.publishDate, convert the offset-bearing timestamp to Asia/Tokyo, and truncate seconds. Do not assume the usual Wednesday 19:00 schedule.",
+  "episodes": [
+    {
+      "episode": "200",
+      "url": "https://www.youtube.com/watch?v=-4T1qVLyo_4",
+      "sourcePublishedAt": "2026-10-14T03:00:39-07:00",
+      "publishedAt": "2026-10-14T19:00",
+      "personalities": "青木陽菜（要楽奈 役）、小日向美香（長崎そよ 役）、林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "199",
+      "url": "https://www.youtube.com/watch?v=IUSc_QLINWs",
+      "sourcePublishedAt": "2026-10-07T03:00:01-07:00",
+      "publishedAt": "2026-10-07T19:00",
+      "personalities": "燈、楽奈、立希",
+      "included": true
+    },
+    {
+      "episode": "198",
+      "url": "https://www.youtube.com/watch?v=iwz1ZPMG-Vs",
+      "sourcePublishedAt": "2026-09-30T03:00:14-07:00",
+      "publishedAt": "2026-09-30T19:00",
+      "personalities": "羊宮妃那（高松燈 役）、青木陽菜（要楽奈 役）、林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "197",
+      "url": "https://www.youtube.com/watch?v=cEEUIg9aztc",
+      "sourcePublishedAt": "2026-09-23T03:00:40-07:00",
+      "publishedAt": "2026-09-23T19:00",
+      "personalities": "愛音・楽奈",
+      "included": false
+    },
+    {
+      "episode": "196",
+      "url": "https://www.youtube.com/watch?v=OiTHnRHJf4Q",
+      "sourcePublishedAt": "2026-09-16T03:00:16-07:00",
+      "publishedAt": "2026-09-16T19:00",
+      "personalities": "立石凛(千早愛音役)・青木陽菜(要楽奈役)",
+      "included": false
+    },
+    {
+      "episode": "195",
+      "url": "https://www.youtube.com/watch?v=2ve-EGdRREo",
+      "sourcePublishedAt": "2026-09-09T03:00:36-07:00",
+      "publishedAt": "2026-09-09T19:00",
+      "personalities": "楽奈、そよ",
+      "included": false
+    },
+    {
+      "episode": "194",
+      "url": "https://www.youtube.com/watch?v=--FR-KUgRU0",
+      "sourcePublishedAt": "2026-09-02T03:00:25-07:00",
+      "publishedAt": "2026-09-02T19:00",
+      "personalities": "青木陽菜（要楽奈 役）、小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "193",
+      "url": "https://www.youtube.com/watch?v=_ieWv7KuGR4",
+      "sourcePublishedAt": "2026-08-26T03:00:04-07:00",
+      "publishedAt": "2026-08-26T19:00",
+      "personalities": "燈、愛音、楽奈、そよ、立希",
+      "included": true
+    },
+    {
+      "episode": "192",
+      "url": "https://www.youtube.com/watch?v=eTwGGg6TvYw",
+      "sourcePublishedAt": "2026-08-19T03:00:26-07:00",
+      "publishedAt": "2026-08-19T19:00",
+      "personalities": "羊宮妃那（高松燈役）・立石凛(千早愛音役)・青木陽菜(要楽奈役)・小日向美香(長崎そよ役)・林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "191",
+      "url": "https://www.youtube.com/watch?v=gZ5MekSi6vQ",
+      "sourcePublishedAt": "2026-08-12T03:00:09-07:00",
+      "publishedAt": "2026-08-12T19:00",
+      "personalities": "燈、そよ",
+      "included": false
+    },
+    {
+      "episode": "190",
+      "url": "https://www.youtube.com/watch?v=45_gwMffuIA",
+      "sourcePublishedAt": "2026-08-05T03:00:14-07:00",
+      "publishedAt": "2026-08-05T19:00",
+      "personalities": "羊宮妃那（高松燈 役）、小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "189",
+      "url": "https://www.youtube.com/watch?v=m_RqpEHb_nI",
+      "sourcePublishedAt": "2026-07-29T03:00:24-07:00",
+      "publishedAt": "2026-07-29T19:00",
+      "personalities": "愛音、そよ、立希",
+      "included": true
+    },
+    {
+      "episode": "188",
+      "url": "https://www.youtube.com/watch?v=s4DwVMX003Q",
+      "sourcePublishedAt": "2026-07-22T03:00:28-07:00",
+      "publishedAt": "2026-07-22T19:00",
+      "personalities": "立石凛（千早愛音 役）、小日向美香（長崎そよ 役）、林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "187",
+      "url": "https://www.youtube.com/watch?v=1cy_DowAzqs",
+      "sourcePublishedAt": "2026-07-15T03:00:21-07:00",
+      "publishedAt": "2026-07-15T19:00",
+      "personalities": "燈、愛音",
+      "included": false
+    },
+    {
+      "episode": "186",
+      "url": "https://www.youtube.com/watch?v=bBaVXi0iDI8",
+      "sourcePublishedAt": "2026-07-08T03:00:14-07:00",
+      "publishedAt": "2026-07-08T19:00",
+      "personalities": "羊宮妃那（高松燈役）、立石凛（千早愛音役）",
+      "included": false
+    },
+    {
+      "episode": "185",
+      "url": "https://www.youtube.com/watch?v=1hVRHzHBbU4",
+      "sourcePublishedAt": "2026-07-01T03:00:14-07:00",
+      "publishedAt": "2026-07-01T19:00",
+      "personalities": "楽奈 、立希",
+      "included": true
+    },
+    {
+      "episode": "184",
+      "url": "https://www.youtube.com/watch?v=jZdDoMpzbzM",
+      "sourcePublishedAt": "2026-06-24T03:00:38-07:00",
+      "publishedAt": "2026-06-24T19:00",
+      "personalities": "青木陽菜（要楽奈 役）、林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "183",
+      "url": "https://www.youtube.com/watch?v=HUfrtM6M89s",
+      "sourcePublishedAt": "2026-06-17T03:00:19-07:00",
+      "publishedAt": "2026-06-17T19:00",
+      "personalities": "愛音、立希",
+      "included": true
+    },
+    {
+      "episode": "182",
+      "url": "https://www.youtube.com/watch?v=T2Mrw7S7jpc",
+      "sourcePublishedAt": "2026-06-10T03:00:39-07:00",
+      "publishedAt": "2026-06-10T19:00",
+      "personalities": "立石凛（千早愛音 役）、林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "181",
+      "url": "https://www.youtube.com/watch?v=vjYjFxxfb78",
+      "sourcePublishedAt": "2026-06-03T03:00:09-07:00",
+      "publishedAt": "2026-06-03T19:00",
+      "personalities": "愛音・楽奈・そよ",
+      "included": false
+    },
+    {
+      "episode": "180",
+      "url": "https://www.youtube.com/watch?v=2qcChmZBpXg",
+      "sourcePublishedAt": "2026-05-27T03:00:18-07:00",
+      "publishedAt": "2026-05-27T19:00",
+      "personalities": "立石凛（千早愛音 役）・青木陽菜（要楽奈 役）・小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "179",
+      "url": "https://www.youtube.com/watch?v=uRJiH128rLE",
+      "sourcePublishedAt": "2026-05-20T03:00:26-07:00",
+      "publishedAt": "2026-05-20T19:00",
+      "personalities": "燈・愛音・楽奈・そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "178",
+      "url": "https://www.youtube.com/watch?v=jwJPEvjYUYY",
+      "sourcePublishedAt": "2026-05-13T03:00:29-07:00",
+      "publishedAt": "2026-05-13T19:00",
+      "personalities": "羊宮妃那（高松燈役）・立石凛(千早愛音役)・青木陽菜(要楽奈役)・小日向美香(長崎そよ役)・林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "177",
+      "url": "https://www.youtube.com/watch?v=wCDhprLKq_k",
+      "sourcePublishedAt": "2026-05-06T03:00:00-07:00",
+      "publishedAt": "2026-05-06T19:00",
+      "personalities": "羊宮妃那（高松燈役）、立石凛（千早愛音役）",
+      "included": false
+    },
+    {
+      "episode": "176",
+      "url": "https://www.youtube.com/watch?v=NGATdtw9WfE",
+      "sourcePublishedAt": "2026-04-29T03:00:00-07:00",
+      "publishedAt": "2026-04-29T19:00",
+      "personalities": "愛音・そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "175",
+      "url": "https://www.youtube.com/watch?v=TdIquw5UROI",
+      "sourcePublishedAt": "2026-04-22T03:00:00-07:00",
+      "publishedAt": "2026-04-22T19:00",
+      "personalities": "立石凛（千早愛音 役）・小日向美香（長崎そよ 役）・林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "174",
+      "url": "https://www.youtube.com/watch?v=K3jDLcfc0qc",
+      "sourcePublishedAt": "2026-04-15T03:00:00-07:00",
+      "publishedAt": "2026-04-15T19:00",
+      "personalities": "燈、そよ",
+      "included": false
+    },
+    {
+      "episode": "173",
+      "url": "https://www.youtube.com/watch?v=SQBkyfhihGg",
+      "sourcePublishedAt": "2026-04-08T03:00:00-07:00",
+      "publishedAt": "2026-04-08T19:00",
+      "personalities": "羊宮妃那（高松燈 役）、小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "172",
+      "url": "https://www.youtube.com/watch?v=OrNuBTm0bUI",
+      "sourcePublishedAt": "2026-04-01T03:00:00-07:00",
+      "publishedAt": "2026-04-01T19:00",
+      "personalities": "愛音、立希",
+      "included": true
+    },
+    {
+      "episode": "171",
+      "url": "https://www.youtube.com/watch?v=PArePE37wow",
+      "sourcePublishedAt": "2026-03-25T03:00:00-07:00",
+      "publishedAt": "2026-03-25T19:00",
+      "personalities": "立石凛（千早愛音 役）、林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "170",
+      "url": "https://www.youtube.com/watch?v=DUQ8TEHOZmU",
+      "sourcePublishedAt": "2026-03-18T03:00:00-07:00",
+      "publishedAt": "2026-03-18T19:00",
+      "personalities": "愛音、楽奈、そよ",
+      "included": false
+    },
+    {
+      "episode": "169",
+      "url": "https://www.youtube.com/watch?v=9MGlBhvSjNA",
+      "sourcePublishedAt": "2026-03-11T03:00:00-07:00",
+      "publishedAt": "2026-03-11T19:00",
+      "personalities": "立石凛（千早愛音 役）、青木陽菜（要楽奈 役）、小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "168",
+      "url": "https://www.youtube.com/watch?v=LsubinmNujc",
+      "sourcePublishedAt": "2026-03-04T02:00:00-08:00",
+      "publishedAt": "2026-03-04T19:00",
+      "personalities": "愛音、そよ",
+      "included": false
+    },
+    {
+      "episode": "167",
+      "url": "https://www.youtube.com/watch?v=4SMz5wNMqHw",
+      "sourcePublishedAt": "2026-02-25T02:00:00-08:00",
+      "publishedAt": "2026-02-25T19:00",
+      "personalities": "立石凛（千早愛音 役）、小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "166",
+      "url": "https://www.youtube.com/watch?v=Fyt93Sx2qAg",
+      "sourcePublishedAt": "2026-02-18T02:00:00-08:00",
+      "publishedAt": "2026-02-18T19:00",
+      "personalities": "燈、そよ",
+      "included": false
+    },
+    {
+      "episode": "165",
+      "url": "https://www.youtube.com/watch?v=3_oV-yx9HRk",
+      "sourcePublishedAt": "2026-02-11T02:00:00-08:00",
+      "publishedAt": "2026-02-11T19:00",
+      "personalities": "羊宮妃那（高松燈 役）、小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "164",
+      "url": "https://www.youtube.com/watch?v=iWTXnvjZLB8",
+      "sourcePublishedAt": "2026-02-04T02:00:00-08:00",
+      "publishedAt": "2026-02-04T19:00",
+      "personalities": "楽奈、そよ",
+      "included": false
+    },
+    {
+      "episode": "163",
+      "url": "https://www.youtube.com/watch?v=abdZidflZOY",
+      "sourcePublishedAt": "2026-01-28T02:00:00-08:00",
+      "publishedAt": "2026-01-28T19:00",
+      "personalities": "青木陽菜（要楽奈 役）、小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "162",
+      "url": "https://www.youtube.com/watch?v=fDa6KfX22Rk",
+      "sourcePublishedAt": "2026-01-21T02:00:00-08:00",
+      "publishedAt": "2026-01-21T19:00",
+      "personalities": "燈、愛音、楽奈",
+      "included": false
+    },
+    {
+      "episode": "161",
+      "url": "https://www.youtube.com/watch?v=95F6QVnB5nQ",
+      "sourcePublishedAt": "2026-01-14T02:00:11-08:00",
+      "publishedAt": "2026-01-14T19:00",
+      "personalities": "羊宮妃那（高松燈 役）、立石凛（千早愛音 役）、青木陽菜（要楽奈 役）",
+      "included": false
+    },
+    {
+      "episode": "160",
+      "url": "https://www.youtube.com/watch?v=_t8GOrRhT4Y",
+      "sourcePublishedAt": "2026-01-07T02:00:58-08:00",
+      "publishedAt": "2026-01-07T19:00",
+      "personalities": "楽奈、そよ、立希",
+      "included": true
+    },
+    {
+      "episode": "159",
+      "url": "https://www.youtube.com/watch?v=4gba0Rhg6wI",
+      "sourcePublishedAt": "2025-12-31T02:00:17-08:00",
+      "publishedAt": "2025-12-31T19:00",
+      "personalities": "青木陽菜（要楽奈 役）、小日向美香（長崎そよ 役）、林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "158",
+      "url": "https://www.youtube.com/watch?v=CLKcBpRwysU",
+      "sourcePublishedAt": "2025-12-24T02:00:20-08:00",
+      "publishedAt": "2025-12-24T19:00",
+      "personalities": "愛音・そよ",
+      "included": false
+    },
+    {
+      "episode": "157",
+      "url": "https://www.youtube.com/watch?v=r-fkF2LOabc",
+      "sourcePublishedAt": "2025-12-17T02:00:00-08:00",
+      "publishedAt": "2025-12-17T19:00",
+      "personalities": "立石凛（千早愛音 役）・小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "156",
+      "url": "https://www.youtube.com/watch?v=JqVBG6PQoMM",
+      "sourcePublishedAt": "2025-12-10T02:00:37-08:00",
+      "publishedAt": "2025-12-10T19:00",
+      "personalities": "燈・愛音・立希",
+      "included": true
+    },
+    {
+      "episode": "155",
+      "url": "https://www.youtube.com/watch?v=6q-ikWmMnoE",
+      "sourcePublishedAt": "2025-12-03T02:00:22-08:00",
+      "publishedAt": "2025-12-03T19:00",
+      "personalities": "羊宮妃那（高松燈 役）・立石凛（千早愛音 役）・林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "154",
+      "url": "https://www.youtube.com/watch?v=DhbRzcaHPzk",
+      "sourcePublishedAt": "2025-11-26T02:00:22-08:00",
+      "publishedAt": "2025-11-26T19:00",
+      "personalities": "楽奈・そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "153",
+      "url": "https://www.youtube.com/watch?v=zEACdvPYUdQ",
+      "sourcePublishedAt": "2025-11-19T02:01:40-08:00",
+      "publishedAt": "2025-11-19T19:01",
+      "personalities": "青木陽菜（要楽奈 役）・小日向美香（長崎そよ 役）・林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "152",
+      "url": "https://www.youtube.com/watch?v=SY_Qk-1Cv5Q",
+      "sourcePublishedAt": "2025-11-12T02:00:45-08:00",
+      "publishedAt": "2025-11-12T19:00",
+      "personalities": "愛音・楽奈 ・そよ",
+      "included": false
+    },
+    {
+      "episode": "151",
+      "url": "https://www.youtube.com/watch?v=kIIfhykcgWU",
+      "sourcePublishedAt": "2025-11-05T02:01:16-08:00",
+      "publishedAt": "2025-11-05T19:01",
+      "personalities": "立石凛（千早愛音 役）・青木陽菜（要楽奈 役）・小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "150",
+      "url": "https://www.youtube.com/watch?v=t6cC5i4L4U4",
+      "sourcePublishedAt": "2025-10-29T03:01:44-07:00",
+      "publishedAt": "2025-10-29T19:01",
+      "personalities": "燈・愛音・そよ",
+      "included": false
+    },
+    {
+      "episode": "149",
+      "url": "https://www.youtube.com/watch?v=15yysYWqyQs",
+      "sourcePublishedAt": "2025-10-22T03:00:02-07:00",
+      "publishedAt": "2025-10-22T19:00",
+      "personalities": "羊宮妃那（高松燈 役）・立石凛（千早愛音 役）・小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "148",
+      "url": "https://www.youtube.com/watch?v=04Q0lafsXT8",
+      "sourcePublishedAt": "2025-10-15T03:00:01-07:00",
+      "publishedAt": "2025-10-15T19:00",
+      "personalities": "愛音・楽奈",
+      "included": false
+    },
+    {
+      "episode": "147",
+      "url": "https://www.youtube.com/watch?v=h3uPLIraU3k",
+      "sourcePublishedAt": "2025-10-08T03:01:15-07:00",
+      "publishedAt": "2025-10-08T19:01",
+      "personalities": "立石凛（千早愛音 役）・青木陽菜（要楽奈 役）",
+      "included": false
+    },
+    {
+      "episode": "146",
+      "url": "https://www.youtube.com/watch?v=f6YMxmzEYXc",
+      "sourcePublishedAt": "2025-10-01T03:01:11-07:00",
+      "publishedAt": "2025-10-01T19:01",
+      "personalities": "燈・愛音",
+      "included": false
+    },
+    {
+      "episode": "145",
+      "url": "https://www.youtube.com/watch?v=OlR4DpWBxuI",
+      "sourcePublishedAt": "2025-09-24T03:00:48-07:00",
+      "publishedAt": "2025-09-24T19:00",
+      "personalities": "羊宮妃那（高松燈 役）・立石凛（千早愛音 役）",
+      "included": false
+    },
+    {
+      "episode": "144",
+      "url": "https://www.youtube.com/watch?v=cahOFO6d7O4",
+      "sourcePublishedAt": "2025-09-17T03:01:07-07:00",
+      "publishedAt": "2025-09-17T19:01",
+      "personalities": "愛音・立希",
+      "included": true
+    },
+    {
+      "episode": "143",
+      "url": "https://www.youtube.com/watch?v=cT1Cty3tDTs",
+      "sourcePublishedAt": "2025-09-10T03:01:06-07:00",
+      "publishedAt": "2025-09-10T19:01",
+      "personalities": "立石凛（千早愛音 役）・椎名立希（林鼓子 役）",
+      "included": true
+    },
+    {
+      "episode": "142",
+      "url": "https://www.youtube.com/watch?v=S3NwlHsG3xw",
+      "sourcePublishedAt": "2025-09-03T03:00:46-07:00",
+      "publishedAt": "2025-09-03T19:00",
+      "personalities": "燈・愛音・楽奈・そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "141",
+      "url": "https://www.youtube.com/watch?v=j2Vv7ylWn5k",
+      "sourcePublishedAt": "2025-08-27T03:01:15-07:00",
+      "publishedAt": "2025-08-27T19:01",
+      "personalities": "羊宮妃那（高松燈 役）・立石凛（千早愛音 役）・青木陽菜（要楽奈 役）・小日向美香（長崎そよ 役）・林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "140",
+      "url": "https://www.youtube.com/watch?v=E-pTYtEeBUc",
+      "sourcePublishedAt": "2025-08-20T03:00:22-07:00",
+      "publishedAt": "2025-08-20T19:00",
+      "personalities": "そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "139",
+      "url": "https://www.youtube.com/watch?v=qSXaUFtVJ-g",
+      "sourcePublishedAt": "2025-08-13T03:01:19-07:00",
+      "publishedAt": "2025-08-13T19:01",
+      "personalities": "小日向美香（長崎そよ 役）・林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "138",
+      "url": "https://www.youtube.com/watch?v=VCKZu_X82do",
+      "sourcePublishedAt": "2025-08-06T03:00:52-07:00",
+      "publishedAt": "2025-08-06T19:00",
+      "personalities": "愛音・楽奈",
+      "included": false
+    },
+    {
+      "episode": "137",
+      "url": "https://www.youtube.com/watch?v=54UCMorItqg",
+      "sourcePublishedAt": "2025-07-30T05:00:08-07:00",
+      "publishedAt": "2025-07-30T21:00",
+      "personalities": "立石凛（千早愛音 役）・青木陽菜（要楽奈 役）",
+      "included": false
+    },
+    {
+      "episode": "136",
+      "url": "https://www.youtube.com/watch?v=HmJRS7uoCtg",
+      "sourcePublishedAt": "2025-07-23T03:00:35-07:00",
+      "publishedAt": "2025-07-23T19:00",
+      "personalities": "愛音・そよ",
+      "included": false
+    },
+    {
+      "episode": "135",
+      "url": "https://www.youtube.com/watch?v=Tr-knm8Ou_U",
+      "sourcePublishedAt": "2025-07-16T03:00:50-07:00",
+      "publishedAt": "2025-07-16T19:00",
+      "personalities": "立石凛（千早愛音 役）・小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "134",
+      "url": "https://www.youtube.com/watch?v=k2YjPTBAj-8",
+      "sourcePublishedAt": "2025-07-09T03:01:25-07:00",
+      "publishedAt": "2025-07-09T19:01",
+      "personalities": "燈・愛音・楽奈",
+      "included": false
+    },
+    {
+      "episode": "133",
+      "url": "https://www.youtube.com/watch?v=3SOpLcEYQNY",
+      "sourcePublishedAt": "2025-07-02T03:00:06-07:00",
+      "publishedAt": "2025-07-02T19:00",
+      "personalities": "羊宮妃那（高松燈 役）、立石凛（千早愛音 役）・青木陽菜（要楽奈 役）",
+      "included": false
+    },
+    {
+      "episode": "132",
+      "url": "https://www.youtube.com/watch?v=RYX7Golf01k",
+      "sourcePublishedAt": "2025-06-25T03:00:52-07:00",
+      "publishedAt": "2025-06-25T19:00",
+      "personalities": "愛音・そよ",
+      "included": false
+    },
+    {
+      "episode": "131",
+      "url": "https://www.youtube.com/watch?v=oozeTN5LNio",
+      "sourcePublishedAt": "2025-06-18T03:01:27-07:00",
+      "publishedAt": "2025-06-18T19:01",
+      "personalities": "立石凛（千早愛音 役）・小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "130",
+      "url": "https://www.youtube.com/watch?v=f8HGY__j9Y8",
+      "sourcePublishedAt": "2025-06-11T03:01:07-07:00",
+      "publishedAt": "2025-06-11T19:01",
+      "personalities": "燈・そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "129",
+      "url": "https://www.youtube.com/watch?v=B9mMwl8e-Jw",
+      "sourcePublishedAt": "2025-06-04T03:00:13-07:00",
+      "publishedAt": "2025-06-04T19:00",
+      "personalities": "羊宮妃那（高松燈 役）・小日向美香（長崎そよ 役）・林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "128",
+      "url": "https://www.youtube.com/watch?v=3ltXNK7517o",
+      "sourcePublishedAt": "2025-05-28T03:00:07-07:00",
+      "publishedAt": "2025-05-28T19:00",
+      "personalities": "小日向美香（長崎そよ 役）・林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "127",
+      "url": "https://www.youtube.com/watch?v=9Skg_ymKRJg",
+      "sourcePublishedAt": "2025-05-21T03:00:30-07:00",
+      "publishedAt": "2025-05-21T19:00",
+      "personalities": "小日向美香（長崎そよ 役）・林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "126",
+      "url": "https://www.youtube.com/watch?v=nWT1Mt_sb3k",
+      "sourcePublishedAt": "2025-05-14T03:01:19-07:00",
+      "publishedAt": "2025-05-14T19:01",
+      "personalities": "愛音・楽奈",
+      "included": false
+    },
+    {
+      "episode": "125",
+      "url": "https://www.youtube.com/watch?v=ileVcBZNAi0",
+      "sourcePublishedAt": "2025-05-07T03:01:12-07:00",
+      "publishedAt": "2025-05-07T19:01",
+      "personalities": "立石凛（千早愛音 役）・青木陽菜（要楽奈 役）",
+      "included": false
+    },
+    {
+      "episode": "124",
+      "url": "https://www.youtube.com/watch?v=GBVAtOrett8",
+      "sourcePublishedAt": "2025-04-30T03:00:24-07:00",
+      "publishedAt": "2025-04-30T19:00",
+      "personalities": "愛音・楽奈・そよ",
+      "included": false
+    },
+    {
+      "episode": "123",
+      "url": "https://www.youtube.com/watch?v=ITf_GA06LiU",
+      "sourcePublishedAt": "2025-04-23T03:00:26-07:00",
+      "publishedAt": "2025-04-23T19:00",
+      "personalities": "立石凛（千早愛音 役）・青木陽菜（要楽奈 役）・小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "122",
+      "url": "https://www.youtube.com/watch?v=SMvwBE6LGsI",
+      "sourcePublishedAt": "2025-04-16T03:00:46-07:00",
+      "publishedAt": "2025-04-16T19:00",
+      "personalities": "愛音・そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "121",
+      "url": "https://www.youtube.com/watch?v=9HRoydAW59o",
+      "sourcePublishedAt": "2025-04-09T03:00:11-07:00",
+      "publishedAt": "2025-04-09T19:00",
+      "personalities": "立石凛（千早愛音 役）・小日向美香（長崎そよ 役）・林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "120",
+      "url": "https://www.youtube.com/watch?v=qbBZ4TkVZDI",
+      "sourcePublishedAt": "2025-04-02T03:01:08-07:00",
+      "publishedAt": "2025-04-02T19:01",
+      "personalities": "青木陽菜（要楽奈 役）・小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "119",
+      "url": "https://www.youtube.com/watch?v=n9_kPT-j1oA",
+      "sourcePublishedAt": "2025-03-26T03:01:04-07:00",
+      "publishedAt": "2025-03-26T19:01",
+      "personalities": "青木陽菜（要楽奈 役）・小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "118",
+      "url": "https://www.youtube.com/watch?v=L1qbh_92yew",
+      "sourcePublishedAt": "2025-03-19T03:00:32-07:00",
+      "publishedAt": "2025-03-19T19:00",
+      "personalities": "立石凛（千早愛音 役）・青木陽菜（要楽奈 役）・林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "117",
+      "url": "https://www.youtube.com/watch?v=XRTy5wI17oQ",
+      "sourcePublishedAt": "2025-03-12T03:00:42-07:00",
+      "publishedAt": "2025-03-12T19:00",
+      "personalities": "立石凛（千早愛音 役）・青木陽菜（要楽奈 役）・林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "116",
+      "url": "https://www.youtube.com/watch?v=cZVkjp1MN8g",
+      "sourcePublishedAt": "2025-03-05T02:00:46-08:00",
+      "publishedAt": "2025-03-05T19:00",
+      "personalities": "立石凛（千早愛音 役）・小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "115",
+      "url": "https://www.youtube.com/watch?v=HUDtM2NYL9c",
+      "sourcePublishedAt": "2025-02-26T02:00:17-08:00",
+      "publishedAt": "2025-02-26T19:00",
+      "personalities": "立石凛（千早愛音 役）・小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "114",
+      "url": "https://www.youtube.com/watch?v=N36t0ITTQTw",
+      "sourcePublishedAt": "2025-02-19T02:00:24-08:00",
+      "publishedAt": "2025-02-19T19:00",
+      "personalities": "羊宮妃那（高松燈 役）・青木陽菜（要楽奈 役）",
+      "included": false
+    },
+    {
+      "episode": "113",
+      "url": "https://www.youtube.com/watch?v=RMYflhcTRLE",
+      "sourcePublishedAt": "2025-02-12T02:00:35-08:00",
+      "publishedAt": "2025-02-12T19:00",
+      "personalities": "羊宮妃那（高松燈 役）・青木陽菜（要楽奈 役）",
+      "included": false
+    },
+    {
+      "episode": "112",
+      "url": "https://www.youtube.com/watch?v=qKhyyA8-Id4",
+      "sourcePublishedAt": "2025-02-05T02:00:51-08:00",
+      "publishedAt": "2025-02-05T19:00",
+      "personalities": "立石凛（千早愛音 役）・青木陽菜（要楽奈 役）・小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "111",
+      "url": "https://www.youtube.com/watch?v=jNTrb7J6chI",
+      "sourcePublishedAt": "2025-01-29T02:00:50-08:00",
+      "publishedAt": "2025-01-29T19:00",
+      "personalities": "立石凛（千早愛音 役）・青木陽菜（要楽奈 役）・小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "110",
+      "url": "https://www.youtube.com/watch?v=PPeAwBJ5ygQ",
+      "sourcePublishedAt": "2025-01-22T02:00:20-08:00",
+      "publishedAt": "2025-01-22T19:00",
+      "personalities": "立石凛（千早愛音 役）・青木陽菜（要楽奈 役）",
+      "included": false
+    },
+    {
+      "episode": "109",
+      "url": "https://www.youtube.com/watch?v=r0nQ7htFENA",
+      "sourcePublishedAt": "2025-01-15T02:01:03-08:00",
+      "publishedAt": "2025-01-15T19:01",
+      "personalities": "立石凛（千早愛音 役）・青木陽菜（要楽奈 役）",
+      "included": false
+    },
+    {
+      "episode": "108",
+      "url": "https://www.youtube.com/watch?v=sxDgm-p8bRU",
+      "sourcePublishedAt": "2025-01-08T02:01:01-08:00",
+      "publishedAt": "2025-01-08T19:01",
+      "personalities": "羊宮妃那（高松燈 役）・青木陽菜（要楽奈 役）・小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "107",
+      "url": "https://www.youtube.com/watch?v=WgJmIzhPpP8",
+      "sourcePublishedAt": "2025-01-01T02:00:21-08:00",
+      "publishedAt": "2025-01-01T19:00",
+      "personalities": "羊宮妃那（高松燈 役）・青木陽菜（要楽奈 役）・小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "106",
+      "url": "https://www.youtube.com/watch?v=UQNc0Qwi4x0",
+      "sourcePublishedAt": "2024-12-25T02:00:29-08:00",
+      "publishedAt": "2024-12-25T19:00",
+      "personalities": "燈・愛音",
+      "included": false
+    },
+    {
+      "episode": "105",
+      "url": "https://www.youtube.com/watch?v=dh1wpHMC9jw",
+      "sourcePublishedAt": "2024-12-18T02:00:54-08:00",
+      "publishedAt": "2024-12-18T19:00",
+      "personalities": "羊宮妃那（高松燈 役）・立石凛（千早愛音 役）",
+      "included": false
+    },
+    {
+      "episode": "104",
+      "url": "https://www.youtube.com/watch?v=rNwgrZ0IMVY",
+      "sourcePublishedAt": "2024-12-11T02:01:00-08:00",
+      "publishedAt": "2024-12-11T19:01",
+      "personalities": "燈・そよ",
+      "included": false
+    },
+    {
+      "episode": "103",
+      "url": "https://www.youtube.com/watch?v=haCrRGaDR0U",
+      "sourcePublishedAt": "2024-12-04T02:00:43-08:00",
+      "publishedAt": "2024-12-04T19:00",
+      "personalities": "羊宮妃那（高松燈 役）・小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "102",
+      "url": "https://www.youtube.com/watch?v=psd4rdgigpI",
+      "sourcePublishedAt": "2024-11-27T02:00:49-08:00",
+      "publishedAt": "2024-11-27T19:00",
+      "personalities": "そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "101",
+      "url": "https://www.youtube.com/watch?v=muAyb-f8g4U",
+      "sourcePublishedAt": "2024-11-20T02:00:43-08:00",
+      "publishedAt": "2024-11-20T19:00",
+      "personalities": "小日向美香（長崎そよ 役）・林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "100",
+      "url": "https://www.youtube.com/watch?v=vGQOjuneH1w",
+      "sourcePublishedAt": "2024-11-13T02:01:01-08:00",
+      "publishedAt": "2024-11-13T19:01",
+      "personalities": "愛音・そよ",
+      "included": false
+    },
+    {
+      "episode": "99",
+      "url": "https://www.youtube.com/watch?v=hOLBtm5m5E0",
+      "sourcePublishedAt": "2024-11-06T02:00:45-08:00",
+      "publishedAt": "2024-11-06T19:00",
+      "personalities": "立石凛（千早愛音 役）・青木陽菜（要楽奈 役）・小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "98",
+      "url": "https://www.youtube.com/watch?v=-ySCO6-zZZw",
+      "sourcePublishedAt": "2024-10-30T03:00:00-07:00",
+      "publishedAt": "2024-10-30T19:00",
+      "personalities": "愛音・そよ",
+      "included": false
+    },
+    {
+      "episode": "97",
+      "url": "https://www.youtube.com/watch?v=iqPXlx-uz3w",
+      "sourcePublishedAt": "2024-10-23T03:00:51-07:00",
+      "publishedAt": "2024-10-23T19:00",
+      "personalities": "立石凛（千早愛音 役）・小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "96",
+      "url": "https://www.youtube.com/watch?v=sau7h0DJorg",
+      "sourcePublishedAt": "2024-10-16T03:00:59-07:00",
+      "publishedAt": "2024-10-16T19:00",
+      "personalities": "燈・楽奈・立希",
+      "included": true
+    },
+    {
+      "episode": "95",
+      "url": "https://www.youtube.com/watch?v=3sCWbTQsSe8",
+      "sourcePublishedAt": "2024-10-09T03:00:05-07:00",
+      "publishedAt": "2024-10-09T19:00",
+      "personalities": "羊宮妃那（高松燈 役）・青木陽菜（要楽奈 役）・林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "94",
+      "url": "https://www.youtube.com/watch?v=jXJ044MA9p8",
+      "sourcePublishedAt": "2024-10-02T03:00:58-07:00",
+      "publishedAt": "2024-10-02T19:00",
+      "personalities": "燈・愛音",
+      "included": false
+    },
+    {
+      "episode": "93",
+      "url": "https://www.youtube.com/watch?v=jtK3X56tePc",
+      "sourcePublishedAt": "2024-09-25T03:00:48-07:00",
+      "publishedAt": "2024-09-25T19:00",
+      "personalities": "羊宮妃那（高松燈 役）・立石凛（千早愛音 役）",
+      "included": false
+    },
+    {
+      "episode": "92",
+      "url": "https://www.youtube.com/watch?v=JL4TMqIpGqQ",
+      "sourcePublishedAt": "2024-09-18T03:00:26-07:00",
+      "publishedAt": "2024-09-18T19:00",
+      "personalities": "燈・そよ",
+      "included": false
+    },
+    {
+      "episode": "91",
+      "url": "https://www.youtube.com/watch?v=B2f_5A1wfWM",
+      "sourcePublishedAt": "2024-09-11T03:00:10-07:00",
+      "publishedAt": "2024-09-11T19:00",
+      "personalities": "羊宮妃那（高松燈 役）・小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "90",
+      "url": "https://www.youtube.com/watch?v=hUzFnkeD50Q",
+      "sourcePublishedAt": "2024-09-04T03:00:41-07:00",
+      "publishedAt": "2024-09-04T19:00",
+      "personalities": "愛音・楽奈",
+      "included": false
+    },
+    {
+      "episode": "89",
+      "url": "https://www.youtube.com/watch?v=5qlc6smKYDo",
+      "sourcePublishedAt": "2024-08-28T03:00:06-07:00",
+      "publishedAt": "2024-08-28T19:00",
+      "personalities": "立石凛（千早愛音 役）・青木陽菜（要楽奈 役）",
+      "included": false
+    },
+    {
+      "episode": "88",
+      "url": "https://www.youtube.com/watch?v=czV0wNfxjZk",
+      "sourcePublishedAt": "2024-08-21T03:00:39-07:00",
+      "publishedAt": "2024-08-21T19:00",
+      "personalities": "そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "87",
+      "url": "https://www.youtube.com/watch?v=zQjcISOX-cE",
+      "sourcePublishedAt": "2024-08-14T03:01:04-07:00",
+      "publishedAt": "2024-08-14T19:01",
+      "personalities": "小日向美香（長崎そよ 役）・林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "86",
+      "url": "https://www.youtube.com/watch?v=L90UWsTSMFM",
+      "sourcePublishedAt": "2024-08-07T03:00:19-07:00",
+      "publishedAt": "2024-08-07T19:00",
+      "personalities": "愛音・楽奈・そよ",
+      "included": false
+    },
+    {
+      "episode": "85",
+      "url": "https://www.youtube.com/watch?v=QX35iv31NkA",
+      "sourcePublishedAt": "2024-07-31T03:00:33-07:00",
+      "publishedAt": "2024-07-31T19:00",
+      "personalities": "立石凛(千早愛音 役)・青木陽菜(要楽奈 役)・小日向美香(長崎そよ 役)",
+      "included": false
+    },
+    {
+      "episode": "84",
+      "url": "https://www.youtube.com/watch?v=ReANTJVNFtM",
+      "sourcePublishedAt": "2024-07-24T03:00:32-07:00",
+      "publishedAt": "2024-07-24T19:00",
+      "personalities": "愛音・そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "83",
+      "url": "https://www.youtube.com/watch?v=O9TVjyhsFuE",
+      "sourcePublishedAt": "2024-07-17T03:00:24-07:00",
+      "publishedAt": "2024-07-17T19:00",
+      "personalities": "立石凛(千早愛音 役)・小日向美香(長崎そよ 役)・林鼓子(椎名立希 役)",
+      "included": true
+    },
+    {
+      "episode": "82",
+      "url": "https://www.youtube.com/watch?v=vc5sR3x3tOo",
+      "sourcePublishedAt": "2024-07-10T03:00:55-07:00",
+      "publishedAt": "2024-07-10T19:00",
+      "personalities": "燈・愛音・楽奈・そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "81",
+      "url": "https://www.youtube.com/watch?v=JXFOQPtqf7I",
+      "sourcePublishedAt": "2024-07-03T03:00:26-07:00",
+      "publishedAt": "2024-07-03T19:00",
+      "personalities": "羊宮妃那(高松燈 役)・立石凛(千早愛音 役)・青木陽菜(要楽奈 役)・小日向美香(長崎そよ 役)・林鼓子(椎名立希 役)",
+      "included": true
+    },
+    {
+      "episode": "80",
+      "url": "https://www.youtube.com/watch?v=1natFdKTP-8",
+      "sourcePublishedAt": "2024-06-26T03:00:02-07:00",
+      "publishedAt": "2024-06-26T19:00",
+      "personalities": "燈・愛音・立希",
+      "included": true
+    },
+    {
+      "episode": "79",
+      "url": "https://www.youtube.com/watch?v=2i9oP5WJ03c",
+      "sourcePublishedAt": "2024-06-19T03:00:02-07:00",
+      "publishedAt": "2024-06-19T19:00",
+      "personalities": "羊宮妃那(高松燈 役)・立石凛(千早愛音 役)・林鼓子(椎名立希 役)",
+      "included": true
+    },
+    {
+      "episode": "78",
+      "url": "https://www.youtube.com/watch?v=S9Ck7TDza-E",
+      "sourcePublishedAt": "2024-06-12T03:00:34-07:00",
+      "publishedAt": "2024-06-12T19:00",
+      "personalities": "燈・そよ",
+      "included": false
+    },
+    {
+      "episode": "77",
+      "url": "https://www.youtube.com/watch?v=jbCR241vMTg",
+      "sourcePublishedAt": "2024-06-05T03:00:40-07:00",
+      "publishedAt": "2024-06-05T19:00",
+      "personalities": "羊宮妃那(高松燈 役)・小日向美香(長崎そよ 役)",
+      "included": false
+    },
+    {
+      "episode": "76",
+      "url": "https://www.youtube.com/watch?v=mDHzU1MxDSU",
+      "sourcePublishedAt": "2024-05-29T03:00:43-07:00",
+      "publishedAt": "2024-05-29T19:00",
+      "personalities": "愛音・楽奈・そよ",
+      "included": false
+    },
+    {
+      "episode": "75",
+      "url": "https://www.youtube.com/watch?v=LfbXFGKpYvA",
+      "sourcePublishedAt": "2024-05-22T03:00:17-07:00",
+      "publishedAt": "2024-05-22T19:00",
+      "personalities": "立石凛(千早愛音 役)・青木陽菜(要楽奈 役)・小日向美香(長崎そよ 役)",
+      "included": false
+    },
+    {
+      "episode": "74",
+      "url": "https://www.youtube.com/watch?v=rV9L1iulS6k",
+      "sourcePublishedAt": "2024-05-15T03:00:54-07:00",
+      "publishedAt": "2024-05-15T19:00",
+      "personalities": "燈・立希",
+      "included": true
+    },
+    {
+      "episode": "73",
+      "url": "https://www.youtube.com/watch?v=fD39oFxyI0U",
+      "sourcePublishedAt": "2024-05-08T03:00:35-07:00",
+      "publishedAt": "2024-05-08T19:00",
+      "personalities": "羊宮妃那(高松燈 役)・林鼓子（椎名立希 役）",
+      "included": true
+    },
+    {
+      "episode": "72",
+      "url": "https://www.youtube.com/watch?v=Cn4wxYPQ5SI",
+      "sourcePublishedAt": "2024-05-01T03:00:10-07:00",
+      "publishedAt": "2024-05-01T19:00",
+      "personalities": "燈・愛音",
+      "included": false
+    },
+    {
+      "episode": "71",
+      "url": "https://www.youtube.com/watch?v=V_iHDru_DFw",
+      "sourcePublishedAt": "2024-04-24T03:00:33-07:00",
+      "publishedAt": "2024-04-24T19:00",
+      "personalities": "羊宮妃那(高松燈 役)・立石凛(千早愛音 役)・小日向美香（長崎そよ 役）",
+      "included": false
+    },
+    {
+      "episode": "70",
+      "url": "https://www.youtube.com/watch?v=xDHdOgmgIgM",
+      "sourcePublishedAt": "2024-04-17T03:00:49-07:00",
+      "publishedAt": "2024-04-17T19:00",
+      "personalities": "燈・愛音",
+      "included": false
+    },
+    {
+      "episode": "69",
+      "url": "https://www.youtube.com/watch?v=ezOqxDvX1gs",
+      "sourcePublishedAt": "2024-04-10T03:00:45-07:00",
+      "publishedAt": "2024-04-10T19:00",
+      "personalities": "羊宮妃那(高松燈役)・立石凛(千早愛音役)",
+      "included": false
+    },
+    {
+      "episode": "68",
+      "url": "https://www.youtube.com/watch?v=avwg4lCXOjE",
+      "sourcePublishedAt": "2024-04-03T03:00:02-07:00",
+      "publishedAt": "2024-04-03T19:00",
+      "personalities": "楽奈・そよ",
+      "included": false
+    },
+    {
+      "episode": "67",
+      "url": "https://www.youtube.com/watch?v=AtqeK7-MosQ",
+      "sourcePublishedAt": "2024-03-27T03:00:12-07:00",
+      "publishedAt": "2024-03-27T19:00",
+      "personalities": "青木陽菜(要楽奈役)・小日向美香(長崎そよ役)",
+      "included": false
+    },
+    {
+      "episode": "66",
+      "url": "https://www.youtube.com/watch?v=yYXquwjPyjs",
+      "sourcePublishedAt": "2024-03-20T03:00:49-07:00",
+      "publishedAt": "2024-03-20T19:00",
+      "personalities": "楽奈・そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "65",
+      "url": "https://www.youtube.com/watch?v=x9kmmUYxYis",
+      "sourcePublishedAt": "2024-03-13T03:00:52-07:00",
+      "publishedAt": "2024-03-13T19:00",
+      "personalities": "青木陽菜(要楽奈役)・小日向美香(長崎そよ役)・林鼓子(椎名立希役)",
+      "included": true
+    },
+    {
+      "episode": "64",
+      "url": "https://www.youtube.com/watch?v=Ytcjxemf5TA",
+      "sourcePublishedAt": "2024-03-06T02:00:23-08:00",
+      "publishedAt": "2024-03-06T19:00",
+      "personalities": "愛音・そよ",
+      "included": false
+    },
+    {
+      "episode": "63",
+      "url": "https://www.youtube.com/watch?v=QnocQi0595s",
+      "sourcePublishedAt": "2024-02-28T02:00:30-08:00",
+      "publishedAt": "2024-02-28T19:00",
+      "personalities": "立石凛(千早愛音役)・小日向美香(長崎そよ役)",
+      "included": false
+    },
+    {
+      "episode": "62",
+      "url": "https://www.youtube.com/watch?v=XAwymaBWKVY",
+      "sourcePublishedAt": "2024-02-21T02:00:18-08:00",
+      "publishedAt": "2024-02-21T19:00",
+      "personalities": "燈・愛音・立希",
+      "included": true
+    },
+    {
+      "episode": "61",
+      "url": "https://www.youtube.com/watch?v=pdZKP36bHfk",
+      "sourcePublishedAt": "2024-02-14T02:00:38-08:00",
+      "publishedAt": "2024-02-14T19:00",
+      "personalities": "羊宮妃那(高松燈役)・立石凛(千早愛音役)・林鼓子(椎名立希役)",
+      "included": true
+    },
+    {
+      "episode": "60",
+      "url": "https://www.youtube.com/watch?v=COQqK2bd_PM",
+      "sourcePublishedAt": "2024-02-07T02:51:31-08:00",
+      "publishedAt": "2024-02-07T19:51",
+      "personalities": "燈・愛音",
+      "included": false
+    },
+    {
+      "episode": "59",
+      "url": "https://www.youtube.com/watch?v=tvGoy2lutQE",
+      "sourcePublishedAt": "2024-01-31T02:00:41-08:00",
+      "publishedAt": "2024-01-31T19:00",
+      "personalities": "羊宮妃那(高松燈役)・立石凛(千早愛音役）",
+      "included": false
+    },
+    {
+      "episode": "58",
+      "url": "https://www.youtube.com/watch?v=BSXnEyUo78Y",
+      "sourcePublishedAt": "2024-01-24T02:00:05-08:00",
+      "publishedAt": "2024-01-24T19:00",
+      "personalities": "愛音・そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "57",
+      "url": "https://www.youtube.com/watch?v=dvKzDtYs8GA",
+      "sourcePublishedAt": "2024-01-17T02:00:24-08:00",
+      "publishedAt": "2024-01-17T19:00",
+      "personalities": "立石凛(千早愛音役）・小日向美香(長崎そよ役)・林鼓子(椎名立希役）",
+      "included": true
+    },
+    {
+      "episode": "56",
+      "url": "https://www.youtube.com/watch?v=BMuY6UVFRjs",
+      "sourcePublishedAt": "2024-01-10T02:10:47-08:00",
+      "publishedAt": "2024-01-10T19:10",
+      "personalities": "楽奈・そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "55",
+      "url": "https://www.youtube.com/watch?v=U3ysozBXeiE",
+      "sourcePublishedAt": "2024-01-03T02:00:24-08:00",
+      "publishedAt": "2024-01-03T19:00",
+      "personalities": "青木陽菜(要 楽奈役)・小日向美香(長崎そよ役)・林鼓子(椎名立希役)",
+      "included": true
+    },
+    {
+      "episode": "54",
+      "url": "https://www.youtube.com/watch?v=Rsw3IFaPibQ",
+      "sourcePublishedAt": "2023-12-27T02:00:40-08:00",
+      "publishedAt": "2023-12-27T19:00",
+      "personalities": "燈・楽奈・そよ",
+      "included": false
+    },
+    {
+      "episode": "53",
+      "url": "https://www.youtube.com/watch?v=c39hGb_x0Z4",
+      "sourcePublishedAt": "2023-12-20T02:00:32-08:00",
+      "publishedAt": "2023-12-20T19:00",
+      "personalities": "羊宮妃那・青木陽菜・小日向美香",
+      "included": false
+    },
+    {
+      "episode": "52",
+      "url": "https://www.youtube.com/watch?v=7MwkL8kCCx4",
+      "sourcePublishedAt": "2023-12-13T02:00:04-08:00",
+      "publishedAt": "2023-12-13T19:00",
+      "personalities": "燈・そよ",
+      "included": false
+    },
+    {
+      "episode": "51",
+      "url": "https://www.youtube.com/watch?v=vkTLLEp9wPg",
+      "sourcePublishedAt": "2023-12-06T02:00:49-08:00",
+      "publishedAt": "2023-12-06T19:00",
+      "personalities": "羊宮 妃那(高松燈役)・小日向美香(長崎そよ役)",
+      "included": false
+    },
+    {
+      "episode": "50",
+      "url": "https://www.youtube.com/watch?v=GUeoEYTLxNI",
+      "sourcePublishedAt": "2023-11-29T02:00:12-08:00",
+      "publishedAt": "2023-11-29T19:00",
+      "personalities": "愛音・楽奈・立希",
+      "included": true
+    },
+    {
+      "episode": "49",
+      "url": "https://www.youtube.com/watch?v=3-NfKQNJk8c",
+      "sourcePublishedAt": "2023-11-22T02:00:02-08:00",
+      "publishedAt": "2023-11-22T19:00",
+      "personalities": "立石凛(千早愛音役)・青木陽菜(要楽奈役)・林鼓子(椎名立希役)",
+      "included": true
+    },
+    {
+      "episode": "48",
+      "url": "https://www.youtube.com/watch?v=h9TZuBmUplM",
+      "sourcePublishedAt": "2023-11-15T02:00:28-08:00",
+      "publishedAt": "2023-11-15T19:00",
+      "personalities": "羊宮妃那(高松燈役)・小日向美香(長崎そよ役)",
+      "included": false
+    },
+    {
+      "episode": "47",
+      "url": "https://www.youtube.com/watch?v=Dk2A14Bq47A",
+      "sourcePublishedAt": "2023-11-08T02:00:09-08:00",
+      "publishedAt": "2023-11-08T19:00",
+      "personalities": "羊宮妃那(高松燈役)・小日向美香(長崎そよ役)",
+      "included": false
+    },
+    {
+      "episode": "46",
+      "url": "https://www.youtube.com/watch?v=qKCb6siKs_c",
+      "sourcePublishedAt": "2023-11-01T03:00:46-07:00",
+      "publishedAt": "2023-11-01T19:00",
+      "personalities": "立石凛(千早愛音役)・小日向美香(長崎そよ役)",
+      "included": false
+    },
+    {
+      "episode": "45",
+      "url": "https://www.youtube.com/watch?v=EMXG4mEgRMQ",
+      "sourcePublishedAt": "2023-10-25T03:00:15-07:00",
+      "publishedAt": "2023-10-25T19:00",
+      "personalities": "立石凛(千早愛音役)・小日向美香(長崎そよ役)",
+      "included": false
+    },
+    {
+      "episode": "44",
+      "url": "https://www.youtube.com/watch?v=cQ_dR-NIkG4",
+      "sourcePublishedAt": "2023-10-18T03:00:33-07:00",
+      "publishedAt": "2023-10-18T19:00",
+      "personalities": "立石凛(千早愛音役)・青木陽菜(要楽奈役)・小日向美香(長崎そよ役)",
+      "included": false
+    },
+    {
+      "episode": "43",
+      "url": "https://www.youtube.com/watch?v=fMmHtAw_qLs",
+      "sourcePublishedAt": "2023-10-11T03:00:26-07:00",
+      "publishedAt": "2023-10-11T19:00",
+      "personalities": "立石凛(千早愛音役)・青木陽菜(要楽奈役)・小日向美香(長崎そよ役)",
+      "included": false
+    },
+    {
+      "episode": "42",
+      "url": "https://www.youtube.com/watch?v=M7Hi6M1TjDE",
+      "sourcePublishedAt": "2023-10-04T03:00:27-07:00",
+      "publishedAt": "2023-10-04T19:00",
+      "personalities": "立石凛(千早愛音役)・小日向美香(長崎そよ役)・林鼓子(椎名立希役)",
+      "included": true
+    },
+    {
+      "episode": "41",
+      "url": "https://www.youtube.com/watch?v=RYQKjpy3rB0",
+      "sourcePublishedAt": "2023-09-27T03:00:31-07:00",
+      "publishedAt": "2023-09-27T19:00",
+      "personalities": "立石凛(千早愛音役)・小日向美香(長崎そよ役)・林鼓子(椎名立希役)",
+      "included": true
+    },
+    {
+      "episode": "40",
+      "url": "https://www.youtube.com/watch?v=OMciIsrQMhM",
+      "sourcePublishedAt": "2023-09-20T03:00:30-07:00",
+      "publishedAt": "2023-09-20T19:00",
+      "personalities": "立石凛(千早愛音役)・林鼓子(椎名立希役)",
+      "included": true
+    },
+    {
+      "episode": "39",
+      "url": "https://www.youtube.com/watch?v=LH9r5gOrHnY",
+      "sourcePublishedAt": "2023-09-13T03:00:21-07:00",
+      "publishedAt": "2023-09-13T19:00",
+      "personalities": "立石凛(千早愛音役)・林鼓子(椎名立希役)",
+      "included": true
+    },
+    {
+      "episode": "38",
+      "url": "https://www.youtube.com/watch?v=7U17HnCYBzk",
+      "sourcePublishedAt": "2023-09-06T03:00:05-07:00",
+      "publishedAt": "2023-09-06T19:00",
+      "personalities": "立石凛(千早愛音役)・小日向美香(長崎そよ役)",
+      "included": false
+    },
+    {
+      "episode": "37",
+      "url": "https://www.youtube.com/watch?v=3LwU3XhlUb4",
+      "sourcePublishedAt": "2023-08-30T03:00:05-07:00",
+      "publishedAt": "2023-08-30T19:00",
+      "personalities": "羊宮妃那(高松燈役)・小日向美香(長崎そよ役)",
+      "included": false
+    },
+    {
+      "episode": "36",
+      "url": "https://www.youtube.com/watch?v=-zVCpyBPP7I",
+      "sourcePublishedAt": "2023-08-23T03:00:00-07:00",
+      "publishedAt": "2023-08-23T19:00",
+      "personalities": "立石凛(千早愛音役)・小日向美香(長崎そよ役)・林鼓子(椎名立希役)",
+      "included": true
+    },
+    {
+      "episode": "35",
+      "url": "https://www.youtube.com/watch?v=uBih7_Sm050",
+      "sourcePublishedAt": "2023-08-16T03:00:51-07:00",
+      "publishedAt": "2023-08-16T19:00",
+      "personalities": "立石凛(千早愛音役)・小日向美香(長崎そよ役)",
+      "included": false
+    },
+    {
+      "episode": "34",
+      "url": "https://www.youtube.com/watch?v=B30DrZ5-Rg0",
+      "sourcePublishedAt": "2023-08-09T03:00:15-07:00",
+      "publishedAt": "2023-08-09T19:00",
+      "personalities": "立石凛(千早愛音役)・青木陽菜(要楽奈役)・林鼓子(椎名立希役)",
+      "included": true
+    },
+    {
+      "episode": "33",
+      "url": "https://www.youtube.com/watch?v=aQ5dPY3oC50",
+      "sourcePublishedAt": "2023-08-02T03:00:01-07:00",
+      "publishedAt": "2023-08-02T19:00",
+      "personalities": "青木陽菜(要楽奈役)・林鼓子(椎名立希役)",
+      "included": true
+    },
+    {
+      "episode": "32",
+      "url": "https://www.youtube.com/watch?v=7PEr_0b8seI",
+      "sourcePublishedAt": "2023-07-26T03:00:05-07:00",
+      "publishedAt": "2023-07-26T19:00",
+      "personalities": "立石凛(千早愛音役)・青木陽菜(要楽奈役)・小日向美香(長崎そよ役)",
+      "included": false
+    },
+    {
+      "episode": "31",
+      "url": "https://www.youtube.com/watch?v=xjVebBvHtAs",
+      "sourcePublishedAt": "2023-07-19T03:00:44-07:00",
+      "publishedAt": "2023-07-19T19:00",
+      "personalities": "立石凛(千早愛音役)・青木陽菜(要楽奈役)・小日向美香(長崎そよ役)",
+      "included": false
+    },
+    {
+      "episode": "30",
+      "url": "https://www.youtube.com/watch?v=ADK9-poPNgc",
+      "sourcePublishedAt": "2023-07-12T03:00:06-07:00",
+      "publishedAt": "2023-07-12T19:00",
+      "personalities": "羊宮妃那(高松燈役)・青木陽菜(要楽奈役)・林鼓子(椎名立希役)",
+      "included": true
+    },
+    {
+      "episode": "29",
+      "url": "https://www.youtube.com/watch?v=98ZfrojY_nI",
+      "sourcePublishedAt": "2023-07-05T03:00:06-07:00",
+      "publishedAt": "2023-07-05T19:00",
+      "personalities": "羊宮妃那(高松燈役)・青木陽菜(要楽奈役)・林鼓子(椎名立希役)",
+      "included": true
+    },
+    {
+      "episode": "28",
+      "url": "https://www.youtube.com/watch?v=9ntyIWEx-oc",
+      "sourcePublishedAt": "2023-06-28T03:00:05-07:00",
+      "publishedAt": "2023-06-28T19:00",
+      "personalities": "羊宮妃那(高松燈役)・立石凛(千早愛音役)・小日向美香(長崎そよ役)",
+      "included": false
+    },
+    {
+      "episode": "27",
+      "url": "https://www.youtube.com/watch?v=kiWGR15ShN4",
+      "sourcePublishedAt": "2023-06-21T03:00:37-07:00",
+      "publishedAt": "2023-06-21T19:00",
+      "personalities": "燈・愛音・そよ",
+      "included": false
+    },
+    {
+      "episode": "26",
+      "url": "https://www.youtube.com/watch?v=VB7A560KafU",
+      "sourcePublishedAt": "2023-06-14T03:00:31-07:00",
+      "publishedAt": "2023-06-14T19:00",
+      "personalities": "青木陽菜(要楽奈役)、小日向美香(長崎そよ役、)林鼓子（椎名立希役）",
+      "included": true
+    },
+    {
+      "episode": "25",
+      "url": "https://www.youtube.com/watch?v=2FL26gIWhfM",
+      "sourcePublishedAt": "2023-06-07T03:00:03-07:00",
+      "publishedAt": "2023-06-07T19:00",
+      "personalities": "楽奈・そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "24",
+      "url": "https://www.youtube.com/watch?v=X0yC_oYalKE",
+      "sourcePublishedAt": "2023-05-31T03:00:32-07:00",
+      "publishedAt": "2023-05-31T19:00",
+      "personalities": "羊宮妃那（高松燈役）、立石凛（千早愛音役）、林鼓子（椎名立希役）",
+      "included": true
+    },
+    {
+      "episode": "23",
+      "url": "https://www.youtube.com/watch?v=BqMNGfHdPeo",
+      "sourcePublishedAt": "2023-05-24T02:00:06-07:00",
+      "publishedAt": "2023-05-24T18:00",
+      "personalities": "燈・愛音・立希",
+      "included": true
+    },
+    {
+      "episode": "22",
+      "url": "https://www.youtube.com/watch?v=wwZ3OaHQdTQ",
+      "sourcePublishedAt": "2023-05-17T03:00:46-07:00",
+      "publishedAt": "2023-05-17T19:00",
+      "personalities": "羊宮妃那（高松燈役）、立石凛（千早愛音役）、青木陽菜（要楽奈役）",
+      "included": false
+    },
+    {
+      "episode": "21",
+      "url": "https://www.youtube.com/watch?v=gvzwupGJfqI",
+      "sourcePublishedAt": "2023-05-10T03:00:23-07:00",
+      "publishedAt": "2023-05-10T19:00",
+      "personalities": "燈・愛音・楽奈",
+      "included": false
+    },
+    {
+      "episode": "20",
+      "url": "https://www.youtube.com/watch?v=8RwZnqhnZyQ",
+      "sourcePublishedAt": "2023-05-03T03:00:06-07:00",
+      "publishedAt": "2023-05-03T19:00",
+      "personalities": "立石凛（千早愛音役）・小日向美香（長崎そよ役）・林鼓子（椎名立希役）",
+      "included": true
+    },
+    {
+      "episode": "19",
+      "url": "https://www.youtube.com/watch?v=lD98VaCokic",
+      "sourcePublishedAt": "2023-04-26T03:00:36-07:00",
+      "publishedAt": "2023-04-26T19:00",
+      "personalities": "愛音・そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "18",
+      "url": "https://www.youtube.com/watch?v=wzqa9xNZw4U",
+      "sourcePublishedAt": "2023-04-19T03:00:52-07:00",
+      "publishedAt": "2023-04-19T19:00",
+      "personalities": "羊宮妃那（高松燈役）・林鼓子（椎名立希役）",
+      "included": true
+    },
+    {
+      "episode": "17",
+      "url": "https://www.youtube.com/watch?v=ADNlGHKg6zE",
+      "sourcePublishedAt": "2023-04-12T03:00:14-07:00",
+      "publishedAt": "2023-04-12T19:00",
+      "personalities": "燈・立希",
+      "included": true
+    },
+    {
+      "episode": "16",
+      "url": "https://www.youtube.com/watch?v=4tQSziF99m8",
+      "sourcePublishedAt": "2023-04-05T03:00:04-07:00",
+      "publishedAt": "2023-04-05T19:00",
+      "personalities": "愛音・楽奈・そよ",
+      "included": false
+    },
+    {
+      "episode": "15",
+      "url": "https://www.youtube.com/watch?v=SdPnhcgXoQ4",
+      "sourcePublishedAt": "2023-03-29T03:00:30-07:00",
+      "publishedAt": "2023-03-29T19:00",
+      "personalities": "愛音・楽奈・そよ",
+      "included": false
+    },
+    {
+      "episode": "14",
+      "url": "https://www.youtube.com/watch?v=GZFxw2SqFww",
+      "sourcePublishedAt": "2023-03-22T03:00:10-07:00",
+      "publishedAt": "2023-03-22T19:00",
+      "personalities": "燈・そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "13",
+      "url": "https://www.youtube.com/watch?v=RHv_FDMZ94c",
+      "sourcePublishedAt": "2023-03-15T03:00:26-07:00",
+      "publishedAt": "2023-03-15T19:00",
+      "personalities": "燈・立希",
+      "included": true
+    },
+    {
+      "episode": "12",
+      "url": "https://www.youtube.com/watch?v=FCAxRmLC0Xc",
+      "sourcePublishedAt": "2023-03-08T02:00:08-08:00",
+      "publishedAt": "2023-03-08T19:00",
+      "personalities": "燈・愛音・そよ",
+      "included": false
+    },
+    {
+      "episode": "11",
+      "url": "https://www.youtube.com/watch?v=CV7oohKqePk",
+      "sourcePublishedAt": "2023-03-01T02:00:13-08:00",
+      "publishedAt": "2023-03-01T19:00",
+      "personalities": "燈・愛音・そよ",
+      "included": false
+    },
+    {
+      "episode": "10",
+      "url": "https://www.youtube.com/watch?v=qvgySPgBSE0",
+      "sourcePublishedAt": "2023-02-22T02:00:34-08:00",
+      "publishedAt": "2023-02-22T19:00",
+      "personalities": "楽奈・そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "9",
+      "url": "https://www.youtube.com/watch?v=7CpektdA9c8",
+      "sourcePublishedAt": "2023-02-15T02:00:04-08:00",
+      "publishedAt": "2023-02-15T19:00",
+      "personalities": "楽奈・そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "8",
+      "url": "https://www.youtube.com/watch?v=GOEtYMkx4mc",
+      "sourcePublishedAt": "2023-02-08T02:00:12-08:00",
+      "publishedAt": "2023-02-08T19:00",
+      "personalities": "燈・愛音・そよ",
+      "included": false
+    },
+    {
+      "episode": "7",
+      "url": "https://www.youtube.com/watch?v=eo6gbM9xfig",
+      "sourcePublishedAt": "2023-02-01T02:00:22-08:00",
+      "publishedAt": "2023-02-01T19:00",
+      "personalities": "燈・愛音・そよ",
+      "included": false
+    },
+    {
+      "episode": "6",
+      "url": "https://www.youtube.com/watch?v=L0xOwnXynDk",
+      "sourcePublishedAt": "2023-01-25T02:00:18-08:00",
+      "publishedAt": "2023-01-25T19:00",
+      "personalities": "愛音・そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "5",
+      "url": "https://www.youtube.com/watch?v=wPTvCh1hHW0",
+      "sourcePublishedAt": "2023-01-18T02:00:29-08:00",
+      "publishedAt": "2023-01-18T19:00",
+      "personalities": "愛音・そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "4",
+      "url": "https://www.youtube.com/watch?v=pDpPoyoIrUY",
+      "sourcePublishedAt": "2023-01-11T02:00:24-08:00",
+      "publishedAt": "2023-01-11T19:00",
+      "personalities": "燈・愛音・楽奈",
+      "included": false
+    },
+    {
+      "episode": "3",
+      "url": "https://www.youtube.com/watch?v=FLvy9e1XI0c",
+      "sourcePublishedAt": "2023-01-04T02:00:13-08:00",
+      "publishedAt": "2023-01-04T19:00",
+      "personalities": "燈・愛音・楽奈",
+      "included": false
+    },
+    {
+      "episode": "2",
+      "url": "https://www.youtube.com/watch?v=_Hyri6C9AOI",
+      "sourcePublishedAt": "2022-12-28T02:00:14-08:00",
+      "publishedAt": "2022-12-28T19:00",
+      "personalities": "そよ・立希",
+      "included": true
+    },
+    {
+      "episode": "1",
+      "url": "https://www.youtube.com/watch?v=zloDD0UC4XE",
+      "sourcePublishedAt": "2022-12-21T02:00:41-08:00",
+      "publishedAt": "2022-12-21T19:00",
+      "personalities": "そよ・立希",
+      "included": true
+    }
+  ],
+  "unavailableVideos": [
+    {
+      "url": "https://www.youtube.com/watch?v=u8A0iMuk39Q",
+      "reason": "非公開動画"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=P7Xedj8mzks",
+      "reason": "非公開動画"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=LLOD1ZGkPkE",
+      "reason": "非公開動画"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=s4Oss4cMacA",
+      "reason": "非公開動画"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=0HklC3CSufw",
+      "reason": "非公開動画"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=VM2fwBCQfjI",
+      "reason": "非公開動画"
+    },
+    {
+      "url": "https://www.youtube.com/watch?v=Tbu9x6gHEvI",
+      "reason": "非公開動画"
+    }
+  ]
+}

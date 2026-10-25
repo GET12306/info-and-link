@@ -3,7 +3,7 @@ import { ExternalLink } from "lucide-react"
 import { Link } from "react-router-dom"
 import { CatalogEntry, CatalogGrid } from "./ArchiveCatalog"
 import ExternalAnchor from "./ExternalAnchor"
-import ACTIVITIES from "../data/activities.yaml"
+import ACTIVITIES from "../data/activities"
 import ARCHIVED_ACCOUNTS from "../data/archived-accounts.yaml"
 import CREDITS from "../data/credits.yaml"
 import DAILY_POSTS from "../data/daily-posts.yaml"
@@ -23,6 +23,7 @@ const emptySources: MuseumSearchSources = {
 }
 const staticSources: MuseumSearchSources = {
   credits: CREDITS as Credit[], activities: [], programs: PROGRAMS as ProgramArchiveEntry[],
+  episodePrograms: ACTIVITIES,
   photobooks: PHOTOBOOKS as PhotoBook[], magazines: MAGAZINES as Magazine[], notes: NOTES as Note[],
   dailyPosts: DAILY_POSTS as DailyPost[], accounts: ARCHIVED_ACCOUNTS as ArchivedAccount[],
 }

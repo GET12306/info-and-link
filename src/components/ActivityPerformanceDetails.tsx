@@ -1,4 +1,4 @@
-import { CalendarClock, ChevronDown } from "lucide-react"
+import { CalendarClock } from "lucide-react"
 import { useId, useState, type ReactNode } from "react"
 import { TRANSLATIONS } from "../i18n"
 import type {
@@ -13,6 +13,10 @@ import {
   getActivityMilestoneTime,
 } from "../utils/activityMilestones"
 import { CatalogDisclosure } from "./ArchiveCatalog"
+import ActivityDisclosureButton from "./ActivityDisclosureButton"
+import ExternalAnchor from "./ExternalAnchor"
+import ExpiredLinkBadge from "./ExpiredLinkBadge"
+import { isHttpUrl } from "../utils/contentValidation"
 
 interface DisplayPerformance {
   occurrence: ActivityOccurrence
@@ -29,7 +33,7 @@ function getDisplayPerformances(occurrences: ActivityOccurrence[], lang: Languag
     date: occurrence.allDay ? occurrence.date : dateTimeForViewer(occurrence.startInstant, timeZone).substring(0, 10),
     startAt: occurrence.startAt ? dateTimeForViewer(occurrence.startInstant, timeZone) : undefined,
     endAt: occurrence.showEndAt ? dateTimeForViewer(occurrence.endInstant, timeZone) : undefined,
-    label: occurrence.label?.[lang],
+    label: occurrence.label?.[lang] ?? (occurrence.episode ? TRANSLATIONS[lang].program_episode_number.replace("{episode}", occurrence.episode) : undefined),
     milestones: occurrence.milestones.map((milestone) => {
       const start = instantFromSourceKey(`${occurrence.date}T${milestone.at}`, occurrence.timeZone)
       const end = milestone.until ? instantFromSourceKey(`${occurrence.date}T${milestone.until}`, occurrence.timeZone) : null
@@ -140,13 +144,18 @@ function PerformanceSchedulePanel({ displayPerformances, lang, startLabel, rende
         <ul className="space-y-1.5">
           {datePerformances.map((performance) => {
             const timeItems = getTimeItems(performance, lang, startLabel)
+            const { link, status, description } = performance.occurrence
             return (
               <li
                 key={`${performance.startAt ?? performance.date}-${performance.label ?? ""}`}
                 className="flex flex-wrap items-start justify-between gap-2 border-b grid-line py-2 first:pt-0 last:border-b-0 last:pb-0"
               >
                 <div className="min-w-0 flex-1 space-y-1">
-                  {performance.label && (
+                  {link && status !== "expired" && isHttpUrl(link) ? (
+                    <ExternalAnchor href={link} className="block text-xs font-medium text-coco-ink/65 transition-colors hover:text-coco-accent">
+                      {performance.label ?? TRANSLATIONS[lang].performance_schedule}
+                    </ExternalAnchor>
+                  ) : performance.label && (
                     <span className="block text-xs font-medium text-coco-ink/65">
                       {performance.label}
                     </span>
@@ -174,6 +183,8 @@ function PerformanceSchedulePanel({ displayPerformances, lang, startLabel, rende
                       </span>
                     )}
                   </div>
+                  {description && <p className="break-words text-sm leading-6 text-coco-ink/60">{description[lang]}</p>}
+                  {status === "expired" && <ExpiredLinkBadge lang={lang} />}
                 </div>
                 {renderPerformanceAction?.(performance.occurrence)}
               </li>
@@ -237,18 +248,15 @@ export default function ActivityPerformanceDetails({
   return (
     <div className="mt-4">
       <div className="flex flex-wrap items-center gap-2">
-        <button type="button" aria-expanded={open} aria-controls={panelId} aria-label={t.performance_schedule} onClick={() => setOpen(!open)} className="inline-flex min-h-9 shrink-0 cursor-pointer items-center gap-2 rounded-full border grid-line px-3 py-1.5 text-[10px] font-bold uppercase tracking-widest text-coco-ink/50 transition-colors hover:border-coco-accent hover:text-coco-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coco-accent">
-          <CalendarClock className="h-3.5 w-3.5" aria-hidden="true" />
-          <span className="sm:hidden">{t.performance_schedule_short}</span>
-          <span className="hidden sm:inline">{t.performance_schedule}</span>
-          <span className="rounded-full bg-coco-ink/5 px-1.5 py-0.5 text-[9px] leading-none">
-            {performanceOccurrences.length}
-          </span>
-          <ChevronDown
-            className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`}
-            aria-hidden="true"
-          />
-        </button>
+        <ActivityDisclosureButton
+          label={t.performance_schedule}
+          shortLabel={t.performance_schedule_short}
+          icon={<CalendarClock className="h-3.5 w-3.5" aria-hidden="true" />}
+          count={performanceOccurrences.length}
+          open={open}
+          panelId={panelId}
+          onClick={() => setOpen(!open)}
+        />
         {actions}
       </div>
       {toolbarPanel}

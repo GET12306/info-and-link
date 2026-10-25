@@ -36,11 +36,24 @@ function CalendarEventCard({
   lang: Language
   now?: string
   layout: "mobile" | "desktop"
-  onSelect: (activityId: string) => void
+  onSelect: (activityId: string, archivePath?: string) => void
   actionLabel?: string
 }) {
   const t = TRANSLATIONS[lang]
+  const isArchiveRecord = Boolean(event.archivePath)
   const isPast = now ? (instantFromSourceKey(now, sourceTimeZone()) ?? 0) > event.endInstant : false
+  // An appearance archive is an already-published record, not an upcoming performance.
+  // Its neutral tone must be independent of whether the record can still be opened.
+  const isMuted = isArchiveRecord || isPast
+  const isDisabled = isPast && !isArchiveRecord
+  const cardTone = isMuted
+    ? `border-coco-ink/20 bg-coco-ink/[0.025] ${isDisabled
+      ? "cursor-default"
+      : "hover:bg-coco-ink/5 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-coco-ink/50"}`
+    : "border-coco-accent bg-coco-accent/5 hover:bg-coco-accent/10 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-coco-accent"
+  const title = event.episode
+    ? `${activity.title[lang]} ${t.program_episode_number.replace("{episode}", event.episode)}`
+    : activity.title[lang]
   const category = getActivityCategoryLabel(activity.category, t)
   const timeItems = [
     ...event.milestones.map((milestone) => ({
@@ -55,7 +68,7 @@ function CalendarEventCard({
       : []),
   ].sort((a, b) => a.at.localeCompare(b.at))
   const timeSummary = timeItems.map((item) => item.text).join(" · ")
-  const accessibleLabel = [timeSummary, activity.title[lang]]
+  const accessibleLabel = [timeSummary, title]
     .filter(Boolean)
     .join(" ")
 
@@ -63,25 +76,21 @@ function CalendarEventCard({
     return (
       <button
         type="button"
-        disabled={isPast}
-        onClick={() => onSelect(activity.id)}
-        className={`block w-full min-w-0 border-l-[3px] px-3 py-2.5 text-left transition-colors ${
-          isPast
-            ? "cursor-default border-coco-ink/20 bg-coco-ink/[0.025]"
-            : "border-coco-accent bg-coco-accent/5 hover:bg-coco-accent/10 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-coco-accent"
-        }`}
+        disabled={isDisabled}
+        onClick={() => onSelect(activity.id, event.archivePath)}
+        className={`block w-full min-w-0 border-l-[3px] px-3 py-2.5 text-left transition-colors ${cardTone}`}
         aria-label={
-          isPast
+          isDisabled
             ? accessibleLabel
             : `${accessibleLabel} — ${
-            actionLabel ?? (lang === "ja" ? "活動ページへ" : "View event details")
+            event.archivePath ? t.program_episode_view : actionLabel ?? (lang === "ja" ? "活動ページへ" : "View event details")
               }`
         }
       >
         <span className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5">
           <span
             className={`min-w-0 truncate text-[10px] font-bold uppercase tracking-wide ${
-              isPast ? "text-coco-ink/40" : "text-coco-accent/75"
+              isMuted ? "text-coco-ink/40" : "text-coco-accent/75"
             }`}
           >
             {category}
@@ -90,7 +99,7 @@ function CalendarEventCard({
             <span
               key={`${item.at}-${item.text}`}
               className={`shrink-0 text-[11px] font-medium ${
-                isPast ? "text-coco-ink/40" : "text-coco-accent"
+                isMuted ? "text-coco-ink/40" : "text-coco-accent"
               }`}
             >
               {item.text}
@@ -99,10 +108,10 @@ function CalendarEventCard({
         </span>
         <span
           className={`mt-1 line-clamp-2 text-sm font-medium leading-5 ${
-            isPast ? "text-coco-ink/55" : "text-coco-ink/85"
+            isMuted ? "text-coco-ink/55" : "text-coco-ink/85"
           }`}
         >
-          {activity.title[lang]}
+          {title}
         </span>
       </button>
     )
@@ -111,25 +120,21 @@ function CalendarEventCard({
   return (
     <button
       type="button"
-      disabled={isPast}
-      onClick={() => onSelect(activity.id)}
-      className={`block h-14 w-full min-w-0 overflow-hidden border-l-[3px] px-2 py-1.5 text-left transition-colors ${
-        isPast
-          ? "cursor-default border-coco-ink/20 bg-coco-ink/[0.025]"
-          : "border-coco-accent bg-coco-accent/5 hover:bg-coco-accent/10 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-coco-accent"
-      }`}
+      disabled={isDisabled}
+      onClick={() => onSelect(activity.id, event.archivePath)}
+      className={`block h-14 w-full min-w-0 overflow-hidden border-l-[3px] px-2 py-1.5 text-left transition-colors ${cardTone}`}
       aria-label={
-        isPast
+        isDisabled
           ? accessibleLabel
           : `${accessibleLabel} — ${
-              actionLabel ?? (lang === "ja" ? "活動ページへ" : "View event details")
+              event.archivePath ? t.program_episode_view : actionLabel ?? (lang === "ja" ? "活動ページへ" : "View event details")
             }`
       }
     >
       <span className="flex min-w-0 items-center gap-1 text-[10px]">
         <span
           className={`min-w-0 truncate text-[10px] font-bold uppercase tracking-wide ${
-            isPast ? "text-coco-ink/40" : "text-coco-accent/75"
+            isMuted ? "text-coco-ink/40" : "text-coco-accent/75"
           }`}
         >
           {category}
@@ -137,7 +142,7 @@ function CalendarEventCard({
         {timeSummary && (
           <span
             className={`min-w-0 truncate ${
-              isPast ? "text-coco-ink/40" : "text-coco-accent"
+              isMuted ? "text-coco-ink/40" : "text-coco-accent"
             }`}
           >
             · {timeSummary}
@@ -146,10 +151,10 @@ function CalendarEventCard({
       </span>
       <span
         className={`mt-1 block truncate text-xs leading-snug ${
-          isPast ? "text-coco-ink/55" : "text-coco-ink/80"
+          isMuted ? "text-coco-ink/55" : "text-coco-ink/80"
         }`}
       >
-        {activity.title[lang]}
+        {title}
       </span>
     </button>
   )
@@ -176,7 +181,7 @@ export default function CalendarMonth({
   today?: string
   now?: string
   activities: Activity[]
-  onSelectEvent: (activityId: string) => void
+  onSelectEvent: (activityId: string, archivePath?: string) => void
   hasPrev: boolean
   hasNext: boolean
   onPrev: () => void
@@ -187,6 +192,7 @@ export default function CalendarMonth({
   className?: string
 }) {
   const labels = lang === "ja" ? DAY_LABELS_JA : DAY_LABELS_EN
+  const t = TRANSLATIONS[lang]
   const isToday = today ?? ""
   const activitiesById = new Map(
     activities.map((activity) => [activity.id, activity])
@@ -244,6 +250,7 @@ export default function CalendarMonth({
 
         {month.weeks.map((week, weekIndex) => {
           const weekHasEvents = week.some((day) => day.events.length > 0)
+          const weekIncludesToday = week.some((day) => day.date === isToday)
 
           return (
             <section key={weekIndex} className="border-t grid-line first:border-t-0">
@@ -261,6 +268,7 @@ export default function CalendarMonth({
                       {day.dayNumber !== null && (
                         <>
                           <span
+                            aria-current={isTodayDay ? "date" : undefined}
                             className={`flex h-6 w-6 items-center justify-center rounded-full text-xs ${
                               isTodayDay
                                 ? "bg-coco-accent font-bold text-white shadow-sm"
@@ -282,10 +290,11 @@ export default function CalendarMonth({
                 })}
               </div>
 
-              {weekHasEvents && (
+              {(weekHasEvents || weekIncludesToday) && (
                 <div className="space-y-3 border-t grid-line bg-coco-ink/[0.0125] px-2 py-3">
                   {week.map((day, dayIndex) => {
-                    if (day.dayNumber === null || day.events.length === 0) {
+                    const isTodayDay = day.date === isToday
+                    if (day.dayNumber === null || (day.events.length === 0 && !isTodayDay)) {
                       return null
                     }
 
@@ -294,17 +303,35 @@ export default function CalendarMonth({
                         key={dayIndex}
                         className="grid grid-cols-[2.75rem_minmax(0,1fr)] gap-2"
                       >
-                        <div className="pt-2 text-center">
-                          <div className="text-sm font-medium text-coco-ink/70">
+                        <div className="flex flex-col items-center pt-1.5 text-center">
+                          <time
+                            dateTime={day.date ?? undefined}
+                            aria-current={isTodayDay ? "date" : undefined}
+                            className={`flex h-8 w-8 items-center justify-center rounded-full text-sm ${
+                              isTodayDay
+                                ? "bg-coco-accent font-bold text-white"
+                                : "font-medium text-coco-ink/70"
+                            }`}
+                          >
                             {day.dayNumber}
-                          </div>
-                          <div className="mt-0.5 text-[9px] uppercase tracking-wide text-coco-ink/40">
+                          </time>
+                          {isTodayDay && (
+                            <span className="mt-1 text-[10px] font-bold leading-4 text-coco-accent">
+                              {t.calendar_today}
+                            </span>
+                          )}
+                          <div className="mt-0.5 text-[10px] leading-4 text-coco-ink/50">
                             {lang === "ja"
                               ? DAY_LABELS_JA[dayIndex]
-                              : DAY_LABELS_EN_COMPACT[dayIndex]}
+                              : DAY_LABELS_EN[dayIndex]}
                           </div>
                         </div>
                         <div className="space-y-1.5">
+                          {isTodayDay && day.events.length === 0 && (
+                            <p className="flex min-h-16 items-center rounded border border-dashed border-coco-ink/15 px-3 py-2.5 text-sm text-coco-ink/55">
+                              {t.calendar_no_events_today}
+                            </p>
+                          )}
                           {day.events.map((event, eventIndex) => {
                             const activity = activitiesById.get(event.activityId)
                             if (!activity) return null

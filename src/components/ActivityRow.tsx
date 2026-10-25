@@ -8,6 +8,8 @@ import ExternalAnchor from "./ExternalAnchor"
 import VenueLabel from "./VenueLabel"
 import ActivityResourcesDisclosure from "./ActivityResourcesDisclosure"
 import { getActivityDisplaySchedule } from "../utils/activityDisplaySchedule"
+import { hasEpisodeArchive } from "../utils/programEpisodes"
+import ProgramEpisodes from "./ProgramEpisodes"
 
 export default function ActivityRow({
   activity,
@@ -31,6 +33,7 @@ export default function ActivityRow({
   const supportsHighlight = highlighted !== undefined
   const t = TRANSLATIONS[lang]
   const localSchedule = getActivityDisplaySchedule(activity)
+  const description = activity.description?.[lang]
   return (
     <article
       id={supportsHighlight ? `event-${activity.id}` : undefined}
@@ -69,13 +72,13 @@ export default function ActivityRow({
                 linked
               />
             )}
-            {activity.description && (
-              <div className="text-sm leading-6 text-coco-ink/60">
-                {activity.description[lang]}
+            {description && (
+              <div className="break-words text-sm leading-6 text-coco-ink/60">
+                {description}
               </div>
             )}
           </div>
-          {!activity.recurrence && (scheduleContent ?? <ActivityPerformanceDetails
+          {hasEpisodeArchive(activity) ? <ProgramEpisodes activity={activity} lang={lang} /> : !activity.recurrence && (scheduleContent ?? <ActivityPerformanceDetails
               performances={activity.performances}
               durationMinutes={activity.durationMinutes}
               sourceZone={activity.timeZone}

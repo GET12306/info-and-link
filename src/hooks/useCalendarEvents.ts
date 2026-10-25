@@ -2,6 +2,7 @@ import { getDay } from "date-fns"
 import type { Activity, ActivityMilestone } from "../types"
 import { getActivityOccurrences } from "../utils/activitySchedule"
 import { dateTimeForViewer, instantFromSourceKey, viewerTimeZone } from "../utils/timeZone"
+import { hasEpisodeArchive, programArchivePath } from "../utils/programEpisodes"
 
 export interface CalendarEvent {
   date: string
@@ -10,6 +11,9 @@ export interface CalendarEvent {
   endInstant: number
   startTime?: string
   milestones: ActivityMilestone[]
+  /** Published recordings remain accessible after their publication date. */
+  archivePath?: string
+  episode?: string
 }
 
 export interface CalendarDay {
@@ -60,6 +64,9 @@ function collectEvents(activities: Activity[], timeZone: string): CalendarEvent[
         endInstant: occurrence.endInstant,
         startTime: startLocal?.substring(11),
         milestones: localMilestones.filter((item) => item.date === date).map((item) => item.milestone),
+        archivePath: hasEpisodeArchive(act)
+          ? programArchivePath(act.id, occurrence.startAt ?? occurrence.date) : undefined,
+        episode: occurrence.episode,
       })
       for (const milestone of localMilestones.filter((item) => item.date !== date)) {
         result.push({

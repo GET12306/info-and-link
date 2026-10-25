@@ -14,6 +14,7 @@ const ArchivedAccounts = lazy(pageLoaders.archivedAccounts)
 const Museum = lazy(pageLoaders.museum)
 const Credits = lazy(pageLoaders.credits)
 const Programs = lazy(pageLoaders.programs)
+const ProgramDetails = lazy(pageLoaders.programDetails)
 const Media = lazy(pageLoaders.media)
 const Home = lazy(pageLoaders.home)
 const Activities = lazy(pageLoaders.activities)
@@ -54,6 +55,7 @@ function AnimatedRoutes({ lang }: { lang: Language }) {
                 <Route path="/museum" element={<Museum lang={lang} />} />
                 <Route path="/museum/credits" element={<Credits lang={lang} />} />
                 <Route path="/museum/programs" element={<Programs lang={lang} />} />
+                <Route path="/museum/programs/:activityId" element={<ProgramDetails lang={lang} />} />
                 <Route path="/museum/daily-posts" element={<DailyPosts lang={lang} />} />
                 <Route path="/museum/accounts" element={<ArchivedAccounts lang={lang} />} />
                 <Route path="/museum/media" element={<Media lang={lang} />} />

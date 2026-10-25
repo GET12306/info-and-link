@@ -4,8 +4,8 @@ import type {
   Activity,
   ActivityMilestone,
   ActivityPerformance,
+  ActivityPerformanceDetails,
   ActivityWeekday,
-  LocalizedText,
   WeeklyActivityRecurrence,
 } from "../types"
 import { getValidActivityMilestones } from "./activityMilestones"
@@ -26,13 +26,12 @@ const WEEKDAY_INDEX: Record<ActivityWeekday, number> = {
   saturday: 6,
 }
 
-export interface ActivityOccurrence {
+export interface ActivityOccurrence extends ActivityPerformanceDetails {
   date: string
   startAt?: string
   endAt: string
   allDay: boolean
   performanceIndex?: number
-  label?: LocalizedText
   milestones: ActivityMilestone[]
   showEndAt: boolean
   timeZone: string
@@ -77,6 +76,7 @@ export function getPerformanceOccurrences(
         const endInstant = instantFromSourceKey(date, timeZone, "end")
         if (startInstant === null || endInstant === null) return null
         return {
+          ...performance,
           date,
           endAt: normalizeJapanDateTimeKey(date, "end"),
           allDay: true,
@@ -99,6 +99,7 @@ export function getPerformanceOccurrences(
       if (endInstant === null || endInstant <= startInstant) return null
 
       return {
+        ...performance,
         date: startAt.substring(0, 10),
         startAt,
         endAt: explicitEndAt ?? dateTimeInZone(endInstant, timeZone),

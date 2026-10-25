@@ -1,7 +1,9 @@
 import { ChevronDown, Plus } from "lucide-react"
+import { useState } from "react"
 import type { ActivityMilestone, ActivityPerformance, ActivityRecurrence, WeeklyActivityRecurrence } from "../types"
 import { ItemToolbar, LocalizedEditor } from "./ActivityEditorFields"
 import { setOptional, type EditorMilestone, type EditorPerformance, type EditorWeeklyOverride } from "./activityEditorValues"
+import { PROGRAM_EPISODE_PAGE_SIZE } from "../utils/programEpisodes"
 
 function MilestoneEditor({
   milestones,
@@ -247,13 +249,22 @@ export function RecurrenceEditor({
 export function PerformanceEditor({
   performances,
   recurrenceType,
+  episodeMode = false,
+  sourceFile,
   onChange,
 }: {
   performances?: ActivityPerformance[]
   recurrenceType?: ActivityRecurrence["type"]
+  episodeMode?: boolean
+  sourceFile?: string
   onChange: (performances: ActivityPerformance[] | undefined) => void
 }) {
   const items = (performances ?? []) as EditorPerformance[]
+  const [page, setPage] = useState(0)
+  const pageSize = episodeMode ? PROGRAM_EPISODE_PAGE_SIZE : Math.max(items.length, 1)
+  const pageCount = Math.max(1, Math.ceil(items.length / pageSize))
+  const currentPage = Math.min(page, pageCount - 1)
+  const startIndex = currentPage * pageSize
   const update = (index: number, value: EditorPerformance) => {
     onChange(items.map((item, itemIndex) => itemIndex === index ? value : item))
   }
@@ -274,11 +285,22 @@ export function PerformanceEditor({
         <div>
           <h2>场次</h2>
           <p>精确时间和仅日期场次使用互斥结构；拖动的替代方式是上下移动按钮。</p>
+          {sourceFile && <p>数据文件：src/data/{sourceFile}。点击顶部“保存 YAML”会自动保存到这个子文件。</p>}
         </div>
+        {episodeMode && <button type="button" className="secondary-button" onClick={() => {
+          onChange([{ startAt: "" }, ...items])
+          setPage(0)
+        }}><Plus /> 添加回数</button>}
       </div>
+      {pageCount > 1 && <nav className="performance-pagination" aria-label="场次分页">
+        <button type="button" className="secondary-button" disabled={currentPage === 0} onClick={() => setPage(currentPage - 1)}>上一页</button>
+        <span aria-live="polite">{currentPage + 1} / {pageCount} 页 · 共 {items.length} 条，每页 {pageSize} 条</span>
+        <button type="button" className="secondary-button" disabled={currentPage === pageCount - 1} onClick={() => setPage(currentPage + 1)}>下一页</button>
+      </nav>}
       {items.length === 0 && <p className="empty-copy">{recurrenceType === "manual" ? "请手动添加已确认的更新日期。" : "没有独立场次，将使用上方连续日期。"}</p>}
       <div className="card-stack">
-        {items.map((performance, index) => {
+        {items.slice(startIndex, startIndex + pageSize).map((performance, offset) => {
+          const index = startIndex + offset
           const dateOnly = "occursOn" in performance
           return (
             <div className="item-card" key={index}>
@@ -304,10 +326,11 @@ export function PerformanceEditor({
                     <select
                       value={dateOnly ? "date" : "timed"}
                       onChange={(event) => {
-                        const shared = {
-                          ...(performance.label ? { label: performance.label } : {}),
-                          ...(performance.milestones ? { milestones: performance.milestones } : {}),
-                        }
+                        // Changing precision must not discard links, episode numbers or notes.
+                        const shared = { ...performance } as Record<string, unknown>
+                        delete shared.startAt
+                        delete shared.endAt
+                        delete shared.occursOn
                         update(index, event.target.value === "date"
                           ? { ...shared, occursOn: "" } as EditorPerformance
                           : { ...shared, startAt: "" } as EditorPerformance)
@@ -355,6 +378,24 @@ export function PerformanceEditor({
                   </>
                 )}
               </div>
+              <div className="field-grid three">
+                <label className="form-field">
+                  <span>performances[].episode <em className="optional">optional</em></span>
+                  <input type="text" placeholder="200 / SP" value={performance.episode ?? ""} onChange={event => update(index, setOptional(performance, "episode", event.target.value) as EditorPerformance)} />
+                </label>
+                <label className="form-field">
+                  <span>performances[].link <em className="optional">optional</em></span>
+                  <input type="url" placeholder="https://example.com/episode" value={performance.link ?? ""} onChange={event => update(index, setOptional(performance, "link", event.target.value) as EditorPerformance)} />
+                </label>
+                <label className="form-field">
+                  <span>performances[].status <em className="optional">optional</em></span>
+                  <span className="select-wrap"><select value={performance.status ?? ""} onChange={event => update(index, setOptional(performance, "status", event.target.value) as EditorPerformance)}>
+                    <option value="">(omit) — 正常</option>
+                    <option value="available">available — 可访问</option>
+                    <option value="expired">expired — 链接失效</option>
+                  </select><ChevronDown aria-hidden="true" /></span>
+                </label>
+              </div>
               <LocalizedEditor
                 label="performances[].label"
                 value={performance.label}
@@ -364,18 +405,19 @@ export function PerformanceEditor({
                 milestones={performance.milestones}
                 onChange={(value) => update(index, setOptional(performance, "milestones", value) as EditorPerformance)}
               />
+              <LocalizedEditor label="performances[].description" multiline value={performance.description} onChange={value => update(index, setOptional(performance, "description", value) as EditorPerformance)} />
             </div>
           )
         })}
       </div>
-      <div className="list-append-action">
+      {!episodeMode && <div className="list-append-action">
         <button type="button" className="secondary-button" onClick={() => onChange([
           ...items,
           { startAt: "" },
         ])}>
           <Plus /> 添加场次
         </button>
-      </div>
+      </div>}
     </section>
   )
 }

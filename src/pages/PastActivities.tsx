@@ -1,6 +1,6 @@
 import { lazy, Suspense, useEffect, useMemo, useState } from "react"
 import { TRANSLATIONS } from "../i18n"
-import ACTIVITIES from "../data/activities.yaml"
+import ACTIVITIES from "../data/activities"
 import type { Activity, Language } from "../types"
 import { getPastActivities } from "../utils/activityStatus"
 import { ArchiveCatalog, CatalogDisclosure, CatalogFilterBar, CatalogGrid } from "../components/ArchiveCatalog"

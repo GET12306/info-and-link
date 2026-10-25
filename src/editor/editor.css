@@ -21,6 +21,7 @@ button { color: inherit; }
 svg { width: 16px; height: 16px; flex: 0 0 auto; }
 
 .editor-shell { min-height: 100vh; }
+.performance-pagination { display: flex; align-items: center; gap: 12px; margin: 16px 0; font-size: 13px; color: var(--ink-soft); }
 .workspace-tabs {
   height: 52px;
   padding: 7px 20px;

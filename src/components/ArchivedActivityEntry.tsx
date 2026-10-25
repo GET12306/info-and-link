@@ -7,11 +7,14 @@ import VenueLabel from "./VenueLabel"
 import ActivityPerformanceDetails from "./ActivityPerformanceDetails"
 import ActivityResourcesDisclosure from "./ActivityResourcesDisclosure"
 import { getActivityDisplaySchedule } from "../utils/activityDisplaySchedule"
+import ProgramEpisodes from "./ProgramEpisodes"
+import { hasEpisodeArchive } from "../utils/programEpisodes"
 
 export default function ArchivedActivityEntry({ activity, lang }: { activity: Activity; lang: Language }) {
   const t = TRANSLATIONS[lang]
   const tickets = activity.ticketInfo?.entries ?? []
   const localSchedule = getActivityDisplaySchedule(activity)
+  const description = activity.description?.[lang]
   return <CatalogEntry id={`archive-activity-${activity.id}`}>
     <div className="mb-2 flex flex-wrap gap-x-3 text-xs leading-5 text-coco-ink/50">
       <span>{localSchedule ?? activity.scheduleLabel}</span><span>{getActivityCategoryLabel(activity.category, t)}</span>
@@ -22,8 +25,8 @@ export default function ArchivedActivityEntry({ activity, lang }: { activity: Ac
         <VenueLabel venueIds={activity.venueIds} venueNote={activity.venueNote} lang={lang} />
       </div>
     )}
-    {activity.description && <p className="mt-2 text-sm leading-6 text-coco-ink/60">{activity.description[lang]}</p>}
-    {!activity.recurrence && <ActivityPerformanceDetails compact performances={activity.performances} durationMinutes={activity.durationMinutes} sourceZone={activity.timeZone} lang={lang} startLabel={activity.category === "Program" ? t.milestone_update : undefined} />}
+    {description && <p className="mt-2 break-words text-sm leading-6 text-coco-ink/60">{description}</p>}
+    {hasEpisodeArchive(activity) ? <ProgramEpisodes activity={activity} lang={lang} compact /> : !activity.recurrence && <ActivityPerformanceDetails compact performances={activity.performances} durationMinutes={activity.durationMinutes} sourceZone={activity.timeZone} lang={lang} startLabel={activity.category === "Program" ? t.milestone_update : undefined} />}
     <ActivityResourcesDisclosure activityId={activity.id} lang={lang} />
     {tickets.length > 0 && <CatalogDisclosure deferMount label={t.archived_ticket_records.replace("{count}", String(tickets.length))}>
       {() => <div className="divide-y divide-coco-ink/10">

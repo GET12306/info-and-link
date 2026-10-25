@@ -54,6 +54,11 @@ export interface Activity {
   startDate?: string;
   endDate?: string;
   recurrence?: ActivityRecurrence;
+  program?: {
+    display: "episodes";
+  };
+  /** Optional child YAML containing the same performances array used inline. */
+  performancesFile?: string;
   durationMinutes?: number;
   calendarExport?: "auto" | "enabled" | "disabled";
   performances?: ActivityPerformance[];
@@ -154,20 +159,26 @@ export type ActivityRecurrence =
   | ManualActivityRecurrence
   | WeeklyActivityRecurrence;
 
-export interface TimedActivityPerformance {
+export interface ActivityPerformanceDetails {
+  label?: LocalizedText;
+  milestones?: ActivityMilestone[];
+  /** Optional episode identifier, e.g. "200" or "SP". */
+  episode?: string;
+  link?: string;
+  status?: "available" | "expired";
+  description?: LocalizedText;
+}
+
+export interface TimedActivityPerformance extends ActivityPerformanceDetails {
   startAt: string;
   endAt?: string;
   occursOn?: never;
-  label?: LocalizedText;
-  milestones?: ActivityMilestone[];
 }
 
-export interface DateOnlyActivityPerformance {
+export interface DateOnlyActivityPerformance extends ActivityPerformanceDetails {
   occursOn: string;
   startAt?: never;
   endAt?: never;
-  label?: LocalizedText;
-  milestones?: ActivityMilestone[];
 }
 
 export type ActivityPerformance =

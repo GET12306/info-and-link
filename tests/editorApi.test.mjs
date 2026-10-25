@@ -70,3 +70,108 @@ test("activity resource reads include activity titles for editor lookup", async 
   assert.equal(result.status, 200)
   assert.deepEqual(result.body.activityReferences, [{ id: base.id, title: base.title }])
 })
+
+async function childScheduleFixture(t) {
+  const root = await mkdtemp(path.join(tmpdir(), "activity-child-test-"))
+  t.after(() => rm(root, { recursive: true, force: true }))
+  const directory = path.join(root, "src/data")
+  await mkdir(path.join(directory, "activity-schedules"), { recursive: true })
+  const parent = { ...base, category: "Program", recurrence: { type: "manual" }, program: { display: "episodes" }, performances: undefined, performancesFile: "activity-schedules/example-program.yaml" }
+  const parentPath = path.join(directory, "activities.yaml")
+  const childPath = path.join(directory, parent.performancesFile)
+  await writeFile(parentPath, "# Parent reference\n" + JSON.stringify([parent]))
+  await writeFile(childPath, '# Child reference\nperformances:\n  - startAt: "2026-10-10T18:00" # preserve original time comment\n    episode: "123"\n    link: "https://example.com/123"\n')
+  await writeFile(path.join(directory, "venues.yaml"), "venues: []\n")
+  let handler
+  activityEditorPlugin(true).configureServer({ config: { root }, middlewares: { use(fn) { handler = fn } } })
+  const request = (method, payload) => new Promise((resolve, reject) => {
+    const req = Readable.from(payload ? [Buffer.from(JSON.stringify(payload))] : [])
+    Object.assign(req, { url: "/__activity-editor/activities", method, socket: { remoteAddress: "127.0.0.1" } })
+    const response = { statusCode: 200, setHeader() {}, end(body) { resolve({ status: response.statusCode, body: JSON.parse(body) }) } }
+    Promise.resolve(handler(req, response, () => reject(new Error("API not handled")))).catch(reject)
+  })
+  return { root, directory, parentPath, childPath, request }
+}
+
+test("the activity API reads and saves common performances in their child YAML without duplicating them", async t => {
+  const { parentPath, childPath, request } = await childScheduleFixture(t)
+  const initialParent = await readFile(parentPath, "utf8")
+  const initial = await request("GET")
+  assert.equal(initial.status, 200)
+  assert.equal(initial.body.activities[0].performances[0].episode, "123")
+  const activities = initial.body.activities
+  activities[0].performances.unshift({ startAt: "2026-10-17T19:01", episode: "124", link: "https://example.com/124" })
+  const saved = await request("PUT", { activities, revision: initial.body.revision })
+  assert.equal(saved.status, 200)
+  assert.equal(await readFile(parentPath, "utf8"), initialParent, "editing an episode must not rewrite the parent")
+  const child = await readFile(childPath, "utf8")
+  assert.match(child, /# Child reference/)
+  assert.match(child, /# preserve original time comment/)
+  assert.deepEqual(parse(child).performances, activities[0].performances)
+  assert.equal(parse(await readFile(parentPath, "utf8"))[0].performances, undefined)
+  const reread = await request("GET")
+  assert.equal(reread.body.revision, saved.body.revision)
+  assert.deepEqual(reread.body.activities, activities)
+})
+
+test("external child changes invalidate the editor revision and invalid child rows cannot write either file", async t => {
+  const { parentPath, childPath, request } = await childScheduleFixture(t)
+  const initial = await request("GET")
+  await writeFile(childPath, (await readFile(childPath, "utf8")) + "# External edit\n")
+  const external = await readFile(childPath, "utf8")
+  const parent = await readFile(parentPath, "utf8")
+  assert.equal((await request("PUT", { activities: initial.body.activities, revision: initial.body.revision })).status, 409)
+  assert.equal(await readFile(childPath, "utf8"), external)
+  const current = await request("GET")
+  assert.notEqual(current.body.revision, initial.body.revision)
+  const activities = current.body.activities
+  activities[0].performances[0].link = "javascript:alert(1)"
+  assert.equal((await request("PUT", { activities, revision: current.body.revision })).status, 422)
+  assert.equal(await readFile(parentPath, "utf8"), parent)
+  assert.equal(await readFile(childPath, "utf8"), external)
+})
+
+test("bundle saves serialize concurrent child edits and never lose the winning record", async t => {
+  const { childPath, request } = await childScheduleFixture(t)
+  const initial = await request("GET")
+  const save = episode => {
+    const activities = structuredClone(initial.body.activities)
+    activities[0].performances[0].episode = episode
+    return request("PUT", { activities, revision: initial.body.revision })
+  }
+  const results = await Promise.all([save("First"), save("Second")])
+  assert.deepEqual(results.map(result => result.status).sort(), [200, 409])
+  const reread = await request("GET")
+  assert.equal(reread.body.revision, results.find(result => result.status === 200).body.revision)
+  assert.equal(reread.body.activities[0].performances[0].episode, parse(await readFile(childPath, "utf8")).performances[0].episode)
+})
+
+test("one save can change the parent and child while preserving the split structure", async t => {
+  const { parentPath, childPath, request } = await childScheduleFixture(t)
+  const initial = await request("GET")
+  const activities = initial.body.activities
+  activities[0].title = { ja: "更新", en: "Updated" }
+  activities[0].performances[0].link = "https://example.com/updated"
+  assert.equal((await request("PUT", { activities, revision: initial.body.revision })).status, 200)
+  const parent = parse(await readFile(parentPath, "utf8"))[0]
+  const child = parse(await readFile(childPath, "utf8"))
+  assert.equal(parent.title.en, "Updated")
+  assert.equal(parent.performances, undefined)
+  assert.equal(child.performances[0].link, "https://example.com/updated")
+  assert.deepEqual((await request("GET")).body.activities, activities)
+})
+
+test("a failed later file replacement rolls back earlier child changes", async t => {
+  const { directory, parentPath, childPath } = await childScheduleFixture(t)
+  const { readActivityDocuments, writeActivityDocuments } = await server.ssrLoadModule("/tools/content-editor/activityDocuments.ts")
+  const snapshot = await readActivityDocuments(directory)
+  const originalParent = await readFile(parentPath, "utf8")
+  const originalChild = await readFile(childPath, "utf8")
+  const changes = new Map([
+    ["activity-schedules/example-program.yaml", originalChild + "# Temporary change\n"],
+    ["missing-directory/failure.yaml", "performances: []\n"],
+  ])
+  await assert.rejects(() => writeActivityDocuments(directory, snapshot, changes))
+  assert.equal(await readFile(childPath, "utf8"), originalChild)
+  assert.equal(await readFile(parentPath, "utf8"), originalParent)
+})

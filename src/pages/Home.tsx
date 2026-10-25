@@ -5,7 +5,7 @@ import { SiX, SiInstagram } from "react-icons/si"
 import { TRANSLATIONS } from "../i18n"
 import COCO_PROFILE from "../data/profile.yaml"
 import LINKS from "../data/links.yaml"
-import ACTIVITIES from "../data/activities.yaml"
+import ACTIVITIES from "../data/activities"
 import type { Activity, Language, LinkItem, Profile } from "../types"
 import { buildCalendarData } from "../hooks/useCalendarEvents"
 import { getCalendarActivities } from "../utils/activityStatus"
@@ -31,8 +31,9 @@ export default function Home({ lang }: { lang: Language }) {
   const [monthKey, setMonthKey] = useState(() => today.substring(0, 7))
   const monthIndex = Math.max(0, months.findIndex(month => month.key === monthKey))
 
-  const scrollToEvent = (activityId: string) => {
-    navigate("/activities", { state: { activityId } })
+  const scrollToEvent = (activityId: string, archivePath?: string) => {
+    if (archivePath) navigate(archivePath)
+    else navigate("/activities", { state: { activityId } })
   }
 
   return (

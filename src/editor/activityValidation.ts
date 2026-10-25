@@ -1,6 +1,7 @@
 import { ACTIVITY_CATEGORY_ORDER } from "../config/activityCategories"
 import { isRecord, isCalendarDate as isRealDate, isCalendarDateTime as isRealDateTime, isClockTime as isRealTime, isHttpUrl } from "../utils/contentValidation"
 import { instantFromSourceKey, isValidTimeZone, sourceTimeZone } from "../utils/timeZone"
+import { ACTIVITY_SCHEDULE_FILE_PATTERN } from "../utils/activityScheduleFiles"
 
 export interface ActivityValidationIssue {
   path: string
@@ -144,6 +145,16 @@ function validatePerformances(
       issues.push({ path: `${itemPath}.endAt`, message: "结束时间必须晚于开演时间", severity: "error" })
     }
     validateLocalized(performance.label, `${itemPath}.label`, issues, false)
+    validateLocalized(performance.description, `${itemPath}.description`, issues, false)
+    if (performance.episode !== undefined && (typeof performance.episode !== "string" || !performance.episode.trim())) {
+      issues.push({ path: `${itemPath}.episode`, message: "回数必须是非空字符串，例如 200 或 SP", severity: "error" })
+    }
+    if (performance.link !== undefined && !isHttpUrl(performance.link)) {
+      issues.push({ path: `${itemPath}.link`, message: "场次链接必须是 HTTP(S) URL", severity: "error" })
+    }
+    if (performance.status !== undefined && !["available", "expired"].includes(String(performance.status))) {
+      issues.push({ path: `${itemPath}.status`, message: "链接状态必须是 available 或 expired", severity: "error" })
+    }
     validateMilestones(performance.milestones, `${itemPath}.milestones`, issues)
     const performanceDate = typeof performance.startAt === "string" && isRealDateTime(performance.startAt)
       ? performance.startAt.substring(0, 10)
@@ -202,7 +213,9 @@ function validateRecurrence(
   }
 
   if (value.type === "manual") {
-    if (!Array.isArray(activity.performances) || activity.performances.length === 0) {
+    const episodeArchive = isRecord(activity.program) && activity.program.display === "episodes"
+    const externalSchedule = activity.performances === undefined && typeof activity.performancesFile === "string"
+    if (!episodeArchive && !externalSchedule && (!Array.isArray(activity.performances) || activity.performances.length === 0)) {
       issues.push({
         path: `${path}.performances`,
         message: "manual 循环活动至少需要一个手动场次",
@@ -212,7 +225,7 @@ function validateRecurrence(
     return
   }
 
-  if (activity.performances !== undefined) {
+  if (activity.performances !== undefined || activity.performancesFile !== undefined) {
     issues.push({
       path: `${path}.performances`,
       message: "weekly 循环活动由规则生成场次，请将例外写入 recurrence.overrides",
@@ -383,6 +396,7 @@ export function validateActivities(value: unknown, venueIds?: ReadonlySet<string
     return [{ path: "activities", message: "YAML 根节点必须是活动数组", severity: "error" }]
   }
   const ids = new Set<string>()
+  const scheduleFiles = new Set<string>()
   value.forEach((activity, index) => {
     const path = `activities[${index}]`
     if (!isRecord(activity)) {
@@ -427,6 +441,26 @@ export function validateActivities(value: unknown, venueIds?: ReadonlySet<string
     }
     validateLocalized(activity.venueNote, `${path}.venueNote`, issues, false)
     validateLocalized(activity.description, `${path}.description`, issues, false)
+    if (activity.program !== undefined) {
+      if (!isRecord(activity.program) || activity.program.display !== "episodes") {
+        issues.push({ path: `${path}.program`, message: "节目展示方式必须是 display: episodes", severity: "error" })
+      } else {
+        if (activity.category !== "Program") issues.push({ path: `${path}.program`, message: "回数档案只适用于 Program 类别", severity: "error" })
+        if (isRecord(activity.recurrence) && activity.recurrence.type === "weekly") {
+          issues.push({ path: `${path}.program`, message: "出演回数不能使用 weekly 推测未来出演", severity: "error" })
+        }
+      }
+    }
+    if (activity.performancesFile !== undefined) {
+      if (typeof activity.performancesFile !== "string" || !ACTIVITY_SCHEDULE_FILE_PATTERN.test(activity.performancesFile)) {
+        issues.push({ path: `${path}.performancesFile`, message: "子文件必须位于 activity-schedules/，文件名使用小写字母、数字、连字符及 .yaml", severity: "error" })
+      } else if (scheduleFiles.has(activity.performancesFile)) {
+        issues.push({ path: `${path}.performancesFile`, message: "多个活动不能共享同一个子日程文件", severity: "error" })
+      } else scheduleFiles.add(activity.performancesFile)
+      if (activity.startDate !== undefined || activity.endDate !== undefined) {
+        issues.push({ path: `${path}.performancesFile`, message: "独立日程文件不能同时使用连续日期", severity: "error" })
+      }
+    }
     if (!isHttpUrl(activity.link)) {
       issues.push({ path: `${path}.link`, message: "活动链接必须是 HTTP(S) URL", severity: "error" })
     }

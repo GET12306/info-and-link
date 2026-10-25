@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
+import { useNavigate } from "react-router-dom"
 import type { Activity, Language } from "../types"
 import { buildCalendarData } from "../hooks/useCalendarEvents"
 import CalendarMonth from "./CalendarMonth"
@@ -12,6 +13,7 @@ export default function HistoricalActivityCalendar({
   lang: Language
   onSelectActivity: (activityId: string) => void
 }) {
+  const navigate = useNavigate()
   const months = useMemo(() => buildCalendarData(activities), [activities])
   const monthKeys = months.map((month) => month.key)
   const [monthKey, setMonthKey] = useState(() => monthKeys.at(-1) ?? "")
@@ -28,7 +30,10 @@ export default function HistoricalActivityCalendar({
     month={month}
     lang={lang}
     activities={activities}
-    onSelectEvent={onSelectActivity}
+    onSelectEvent={(activityId, archivePath) => {
+      if (archivePath) navigate(archivePath)
+      else onSelectActivity(activityId)
+    }}
     eventActionLabel={lang === "ja" ? "活動記録へ" : "View archived event"}
     hasPrev={monthIndex > 0}
     hasNext={monthIndex < months.length - 1}

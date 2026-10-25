@@ -17,6 +17,7 @@ import { dailyPostDate, dailyPostLinks, dailyPostPrimaryLink } from "./dailyPost
 import { localizedText } from "./localizedText"
 import { resourceLinkLabel } from "./relatedResources"
 import { ACTIVITY_CATEGORY_META } from "../config/activityCategories"
+import { getProgramEpisodes, performanceDateKey, programArchivePath, programEpisodeDate, programEpisodeLabel, programEpisodeLink } from "./programEpisodes"
 
 import { expandMuseumDate, type MuseumSearchItem } from "./museumSearchFilters"
 export { expandMuseumDate, filterMuseumItems, normalizeMuseumDateQuery } from "./museumSearchFilters"
@@ -26,6 +27,7 @@ export interface MuseumSearchSources {
   credits: Credit[]
   activities: Activity[]
   programs: ProgramArchiveEntry[]
+  episodePrograms?: Activity[]
   photobooks: PhotoBook[]
   magazines: Magazine[]
   notes: Note[]
@@ -104,6 +106,21 @@ export function buildMuseumSearchItems(sources: MuseumSearchSources, lang: Langu
       href: program.status === "expired" ? undefined : program.url,
       path: "/museum/programs",
       searchText: searchable([program.title, program.description, program.date, "program show 番組 企画"]),
+    })),
+    ...(sources.episodePrograms ?? []).flatMap(activity => getProgramEpisodes(activity).map(episode => {
+      const dateLabel = programEpisodeDate(episode, activity, timeZone)
+      const label = programEpisodeLabel(episode, lang)
+      return {
+        id: `program-episode-${activity.id}-${performanceDateKey(episode)}`,
+        collection: "programs" as const,
+        title: `${activity.title[lang]} — ${label}`,
+        description: episode.description?.[lang],
+        dateLabel: dateLabel.replace("T", " "),
+        dates: [dateLabel.substring(0, 10)],
+        href: programEpisodeLink(episode),
+        path: programArchivePath(activity.id, performanceDateKey(episode)),
+        searchText: searchable([activity.title, episode.episode, episode.description, "program episode appearance 番組 出演 回"]),
+      }
     })),
     ...sources.photobooks.map((book) => ({
       id: `photobook-${book.id}`,

@@ -3,13 +3,16 @@ import { readFile, stat } from "node:fs/promises"
 import path from "node:path"
 import type { IncomingMessage, ServerResponse } from "node:http"
 import type { Plugin } from "vite"
-import { isMap, isSeq, parseDocument, Scalar, visit, type Document, type YAMLSeq } from "yaml"
+import type { Activity } from "../../src/types"
+import { parseListDocument, parseVenueDocument, updateListDocument, updateVenueDocument } from "./yamlDocuments"
+export { parseActivityDocument, updateActivityDocument, parseListDocument, updateListDocument, parseVenueDocument, updateVenueDocument } from "./yamlDocuments"
 import { validateActivities } from "../../src/editor/activityValidation"
 import { RESOURCE_DOCUMENT_KEYS, type ActivityReference, type ResourceDocumentKey } from "../../src/editor/resourceEditorSchema"
 import { validateResourceDocument } from "../../src/editor/resourceValidation"
 import { validateVenues } from "../../src/editor/venueValidation"
 
 import { replaceFile, withFileWrite } from "./fileWrites"
+import { readActivityDocuments, serializeActivityDocuments, writeActivityDocuments } from "./activityDocuments"
 
 const API_PATH = "/__activity-editor/activities"
 const VENUE_API_PATH = "/__activity-editor/venues"
@@ -48,114 +51,6 @@ async function readRequestBody(request: IncomingMessage) {
   return JSON.parse(Buffer.concat(chunks).toString("utf8")) as unknown
 }
 
-export function parseListDocument(source: string) {
-  const document = parseDocument(source)
-  if (document.errors.length > 0) {
-    throw new Error(document.errors.map((error) => error.message).join("\n"))
-  }
-  const activities = document.toJS() as unknown
-  if (!Array.isArray(activities) || !isSeq(document.contents)) {
-    throw new Error("YAML 的根节点必须是数组")
-  }
-  return { document, activities }
-}
-
-function updateSequence(
-  document: Document.Parsed,
-  sequence: YAMLSeq<unknown>,
-  currentActivities: unknown[],
-  nextActivities: unknown[]
-) {
-  const currentById = new Map<string, { data: unknown; node: unknown }>()
-  currentActivities.forEach((activity, index) => {
-    if (activity && typeof activity === "object" && "id" in activity) {
-      currentById.set(String(activity.id), {
-        data: activity,
-        node: sequence.items[index],
-      })
-    }
-  })
-
-  const usedNodes = new Set<unknown>()
-  sequence.items = nextActivities.map((activity, index) => {
-    const id = activity && typeof activity === "object" && "id" in activity
-      ? String(activity.id)
-      : ""
-    const existing = currentById.get(id)
-    const matchingIndex = currentActivities.findIndex((current, currentIndex) =>
-      !usedNodes.has(sequence.items[currentIndex]) && JSON.stringify(current) === JSON.stringify(activity)
-    )
-    if (matchingIndex >= 0) {
-      const matchingNode = sequence.items[matchingIndex]
-      usedNodes.add(matchingNode)
-      return matchingNode
-    }
-    if (existing && JSON.stringify(existing.data) === JSON.stringify(activity)) {
-      usedNodes.add(existing.node)
-      return existing.node as never
-    }
-
-    const fallbackNode = existing?.node ?? sequence.items[index]
-    const nextNode = document.createNode(activity)
-    visit(nextNode, {
-      Scalar(key, node) {
-        if (key !== "key" && typeof node.value === "string") {
-          node.type = Scalar.QUOTE_DOUBLE
-        }
-      },
-    })
-    if (fallbackNode && !usedNodes.has(fallbackNode)) {
-      const previous = fallbackNode as {
-        comment?: string | null
-        commentBefore?: string | null
-        spaceBefore?: boolean
-      }
-      const replacement = nextNode as typeof previous
-      replacement.comment = previous.comment
-      replacement.commentBefore = previous.commentBefore
-      replacement.spaceBefore = previous.spaceBefore
-      usedNodes.add(fallbackNode)
-    }
-    return nextNode as never
-  })
-}
-
-export function updateListDocument(source: string, nextActivities: unknown[]) {
-  const { document, activities: currentActivities } = parseListDocument(source)
-  if (!isSeq(document.contents)) throw new Error("YAML 的根节点必须是数组")
-  updateSequence(document, document.contents, currentActivities, nextActivities)
-
-  return document.toString({ lineWidth: 0 })
-}
-
-export function parseVenueDocument(source: string) {
-  const document = parseDocument(source)
-  if (document.errors.length > 0) {
-    throw new Error(document.errors.map((error) => error.message).join("\n"))
-  }
-  const value = document.toJS() as unknown
-  const venueNode = document.get("venues", true)
-  if (!value || typeof value !== "object" || Array.isArray(value) ||
-      !Array.isArray((value as { venues?: unknown }).venues) ||
-      !isMap(document.contents) || !isSeq(venueNode)) {
-    throw new Error("venues.yaml 必须是包含 venues 数组的对象")
-  }
-  return {
-    document,
-    value: value as Record<string, unknown>,
-    venues: (value as { venues: unknown[] }).venues,
-    venueNode,
-  }
-}
-
-export function updateVenueDocument(source: string, nextVenues: unknown[]) {
-  const { document, venues: currentVenues, venueNode } = parseVenueDocument(source)
-  updateSequence(document, venueNode, currentVenues, nextVenues)
-  return document.toString({ lineWidth: 0 })
-}
-
-export const parseActivityDocument = parseListDocument
-export const updateActivityDocument = updateListDocument
 
 function activityReferencesFrom(entries: unknown[]): ActivityReference[] {
   return entries.flatMap((entry) => {
@@ -198,6 +93,13 @@ export function activityEditorPlugin(enabled: boolean): Plugin {
 
         try {
           if (request.method === "GET") {
+            if (isActivity) {
+              const snapshot = await readActivityDocuments(dataDirectory)
+              return sendJson(response, 200, {
+                activities: snapshot.activities, revision: snapshot.revision,
+                modifiedAt: snapshot.modifiedAt, path: snapshot.path,
+              })
+            }
             const source = await readFile(currentPath, "utf8")
             const fileStat = await stat(currentPath)
             if (isVenue) {
@@ -213,11 +115,11 @@ export function activityEditorPlugin(enabled: boolean): Plugin {
             }
             const { activities } = parseListDocument(source)
             return sendJson(response, 200, {
-              [isActivity ? "activities" : "entries"]: activities,
+              entries: activities,
               revision: revisionFor(source),
               modifiedAt: fileStat.mtime.toISOString(),
               path: `src/data/${filename}`,
-              ...(!isActivity && documentKey === "activity-resources" ? {
+              ...(documentKey === "activity-resources" ? {
                 activityReferences: activityReferencesFrom(parseListDocument(await readFile(dataPath, "utf8")).activities),
               } : {}),
             })
@@ -236,21 +138,34 @@ export function activityEditorPlugin(enabled: boolean): Plugin {
               return sendJson(response, 400, { error: "保存请求格式无效" })
             }
 
+            if (isActivity) return await withFileWrite(dataPath, async () => {
+              const snapshot = await readActivityDocuments(dataDirectory)
+              if (snapshot.revision !== revision) {
+                return sendJson(response, 409, { error: "活动主文件或子日程已被修改；当前输入已保留，请先处理差异" })
+              }
+              const venues = parseVenueDocument(await readFile(venuePath, "utf8")).venues
+              const venueIds = new Set(venues.flatMap(venue =>
+                venue && typeof venue === "object" && "id" in venue ? [String(venue.id)] : []))
+              const issues = validateActivities(entries, venueIds)
+              if (issues.some(issue => issue.severity === "error")) {
+                return sendJson(response, 422, { error: "数据校验失败", issues })
+              }
+              const serialized = serializeActivityDocuments(snapshot, entries as Activity[])
+              const verificationIssues = validateActivities(serialized.activities, venueIds)
+              if (verificationIssues.some(issue => issue.severity === "error")) {
+                return sendJson(response, 500, { error: "序列化后的 YAML 未通过校验", issues: verificationIssues })
+              }
+              await writeActivityDocuments(dataDirectory, snapshot, serialized.documents)
+              const saved = await readActivityDocuments(dataDirectory)
+              return sendJson(response, 200, { revision: saved.revision, modifiedAt: saved.modifiedAt, issues })
+            })
+
             return await withFileWrite(currentPath, async () => {
-              const activityIds = !isActivity && documentKey === "activity-resources"
+              const activityIds = documentKey === "activity-resources"
                 ? new Set((parseListDocument(await readFile(dataPath, "utf8")).activities as Array<{ id: string }>).map(item => item.id))
                 : undefined
-              const venueDocument = isActivity
-                ? parseVenueDocument(await readFile(venuePath, "utf8"))
-                : undefined
-              const venueIds = venueDocument
-                ? new Set(venueDocument.venues.flatMap(venue =>
-                  venue && typeof venue === "object" && "id" in venue ? [String(venue.id)] : []))
-                : undefined
-              const issues = isActivity
-                ? validateActivities(entries, venueIds)
-                : isVenue ? validateVenues(entries) : validateResourceDocument(documentKey!, entries, activityIds)
-              const errors = isActivity || isVenue
+              const issues = isVenue ? validateVenues(entries) : validateResourceDocument(documentKey!, entries, activityIds)
+              const errors = isVenue
                 ? issues.filter((issue) => "severity" in issue && issue.severity === "error")
                 : issues
               if (errors.length > 0) {
@@ -270,10 +185,8 @@ export function activityEditorPlugin(enabled: boolean): Plugin {
               const verification = isVenue
                 ? parseVenueDocument(nextSource).venues
                 : parseListDocument(nextSource).activities
-              const verificationIssues = isActivity
-                ? validateActivities(verification, venueIds)
-                : isVenue ? validateVenues(verification) : validateResourceDocument(documentKey!, verification, activityIds)
-              const verificationErrors = isActivity || isVenue
+              const verificationIssues = isVenue ? validateVenues(verification) : validateResourceDocument(documentKey!, verification, activityIds)
+              const verificationErrors = isVenue
                 ? verificationIssues.filter((issue) => "severity" in issue && issue.severity === "error")
                 : verificationIssues
               if (verificationErrors.length > 0) {
