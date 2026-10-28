@@ -1,6 +1,6 @@
 import type { Activity, Language } from "../types"
 import { isCalendarDate as validDate, isCalendarDateTime as validDateTime } from "./contentValidation"
-import { getActivityOccurrences, type ActivityOccurrence } from "./activitySchedule"
+import { getActivityOccurrences, getWeeklyPerformances, type ActivityOccurrence } from "./activitySchedule"
 import {
   getActivityMilestoneLabel,
   isValidActivityMilestone,
@@ -22,11 +22,11 @@ export function getCalendarOccurrences(activity: Activity, now?: string): Activi
       (!Number.isInteger(activity.durationMinutes) || activity.durationMinutes <= 0)) return []
   if (activity.timeZone !== undefined && !isValidTimeZone(activity.timeZone)) return []
 
-  if (activity.recurrence?.type === "weekly") {
-    if (activity.performances?.length || activity.startDate || activity.endDate) return []
-  } else if (activity.performances?.length) {
+  const weekly = activity.recurrence?.type === "weekly"
+  const performances = weekly ? getWeeklyPerformances(activity) : activity.performances
+  if (performances?.length) {
     if (activity.startDate || activity.endDate) return []
-    for (const performance of activity.performances) {
+    for (const performance of weekly ? [...(activity.performances ?? []), ...performances] : performances) {
       if (!performance) return []
       if (
         performance.milestones !== undefined &&
@@ -48,14 +48,14 @@ export function getCalendarOccurrences(activity: Activity, now?: string): Activi
             (!validDateTime(performance.endAt) || performance.endAt <= performance.startAt)) return []
       }
     }
-  } else {
+  } else if (!weekly) {
     if (!validDate(activity.startDate)) return []
     if (activity.endDate !== undefined &&
         (!validDate(activity.endDate) || activity.endDate < activity.startDate!)) return []
   }
 
   const occurrences = getActivityOccurrences(activity)
-  if (activity.performances?.length && occurrences.length !== activity.performances.length) return []
+  if (performances?.length && occurrences.length !== performances.length) return []
   const keys = occurrences.map((occurrence) => occurrence.startAt ?? occurrence.date)
   if (new Set(keys).size !== keys.length) return []
   if (mode === "auto" && occurrences.some((occurrence) => occurrence.allDay)) return []

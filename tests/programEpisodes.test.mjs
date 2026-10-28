@@ -201,6 +201,16 @@ test("the usual update schedule is display-only and cannot generate additional a
   assert.equal(getCurrentActivities([empty], "2030-01-01T12:00").length, 1)
 })
 
+test("episodes without replay links do not add a missing-link explanation", () => {
+  const activity = { ...maigo, performances: [{ occursOn: "2026-10-01", episode: "4" }] }
+  for (const lang of ["ja", "en"]) {
+    const html = render(createElement(ProgramEpisodes, { activity, lang, full: true }))
+    assert.match(html, /<time /)
+    assert.match(html, lang === "ja" ? /第4回/ : /Episode 4/)
+    assert.doesNotMatch(html, /個別リンク未登録|Appearance recorded|Episode link not added/)
+  }
+})
+
 test("listening availability follows the link status, independent of publication age", () => {
   const episode = { occursOn: "2023-01-01", episode: "123", link: "https://example.com/123" }
   assert.equal(programEpisodeLink(episode), episode.link)

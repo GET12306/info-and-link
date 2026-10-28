@@ -1,0 +1,15 @@
+# 林鼓子のメゾンド・ココ — 通常回は activities.yaml の毎週ルールから生成。
+# 単期の補足・特別回は共通の performances 形式で編集できます。
+# 特別回の startAt はその回の実際の開始時刻。通常の金曜回と重複生成しません。
+# 番組全体のリンクを使用するため、各回の link は省略しています。
+# 確認元: https://audee-membership.jp/coco-hayashi/videos?tags%5B%5D=RADIO
+performances:
+  - occursOn: "2026-01-02"
+    episode: "0"
+    label:
+      ja: "第0回 プレオープン"
+      en: "Episode 0 · Pre-opening"
+  - startAt: "2026-05-15T20:00"
+    label:
+      ja: "バースデー生配信"
+      en: "Birthday livestream"

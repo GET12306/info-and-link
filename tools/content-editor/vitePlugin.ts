@@ -7,7 +7,8 @@ import type { Activity } from "../../src/types"
 import { parseListDocument, parseVenueDocument, updateListDocument, updateVenueDocument } from "./yamlDocuments"
 export { parseActivityDocument, updateActivityDocument, parseListDocument, updateListDocument, parseVenueDocument, updateVenueDocument } from "./yamlDocuments"
 import { validateActivities } from "../../src/editor/activityValidation"
-import { RESOURCE_DOCUMENT_KEYS, type ActivityReference, type ResourceDocumentKey } from "../../src/editor/resourceEditorSchema"
+import { RESOURCE_DOCUMENT_KEYS, type ResourceDocumentKey } from "../../src/editor/resourceEditorSchema"
+import { activityReference } from "../../src/editor/activityNavigation"
 import { validateResourceDocument } from "../../src/editor/resourceValidation"
 import { validateVenues } from "../../src/editor/venueValidation"
 
@@ -18,6 +19,7 @@ const API_PATH = "/__activity-editor/activities"
 const VENUE_API_PATH = "/__activity-editor/venues"
 const RESOURCE_API_PREFIX = "/__activity-editor/data/"
 const MAX_REQUEST_BYTES = 2 * 1024 * 1024
+const DATA_UPDATED_EVENT = "content-editor:data-updated"
 
 function revisionFor(source: string) {
   return createHash("sha256").update(source).digest("hex")
@@ -52,20 +54,38 @@ async function readRequestBody(request: IncomingMessage) {
 }
 
 
-function activityReferencesFrom(entries: unknown[]): ActivityReference[] {
-  return entries.flatMap((entry) => {
-    if (!entry || typeof entry !== "object" || !("id" in entry) || typeof entry.id !== "string") return []
-    const title = "title" in entry && (typeof entry.title === "string" || (
-      entry.title !== null && typeof entry.title === "object" && !Array.isArray(entry.title)
-    )) ? entry.title as ActivityReference["title"] : undefined
-    return [{ id: entry.id, ...(title ? { title } : {}) }]
-  })
-}
-
 export function activityEditorPlugin(enabled: boolean): Plugin {
   return {
     name: "local-activity-editor",
     apply: "serve",
+    // Data is edited through the API. Broadcasting YAML HMR would reset every
+    // open page, including drafts in the editor, when the preview imports it.
+    hotUpdate: {
+      order: "post",
+      handler({ file, modules, server, timestamp }) {
+        const dataDirectory = path.resolve(server.config.root, "src/data")
+        if (!enabled || !path.resolve(file).startsWith(`${dataDirectory}${path.sep}`) || !/\.ya?ml$/i.test(file)) return
+        for (const module of modules) this.environment.moduleGraph.invalidateModule(module, undefined, timestamp, true)
+        if (this.environment.name === "client") {
+          this.environment.hot.send({ type: "custom", event: DATA_UPDATED_EVENT, data: {} })
+        }
+        return []
+      },
+    },
+    transformIndexHtml: {
+      order: "pre",
+      handler(_html, context) {
+        if (!enabled || !context.server || context.filename !== path.resolve(context.server.config.root, "index.html")) return
+        // Only the website preview subscribes; the editor retains its mounted
+        // state and continues to read external changes through its guarded API.
+        return [{
+          tag: "script",
+          attrs: { type: "module" },
+          children: `if (import.meta.hot) import.meta.hot.on("${DATA_UPDATED_EVENT}", () => window.location.reload());`,
+          injectTo: "head",
+        }]
+      },
+    },
     configureServer(server) {
       if (!enabled) return
       const dataDirectory = path.resolve(server.config.root, "src/data")
@@ -120,7 +140,7 @@ export function activityEditorPlugin(enabled: boolean): Plugin {
               modifiedAt: fileStat.mtime.toISOString(),
               path: `src/data/${filename}`,
               ...(documentKey === "activity-resources" ? {
-                activityReferences: activityReferencesFrom(parseListDocument(await readFile(dataPath, "utf8")).activities),
+                activityReferences: (await readActivityDocuments(dataDirectory)).activities.map(activityReference),
               } : {}),
             })
           }

@@ -4,6 +4,10 @@ export type ResourceDocumentKey = typeof RESOURCE_DOCUMENT_KEYS[number]
 export interface ActivityReference {
   id: string
   title?: string | { ja?: string; en?: string }
+  category?: string
+  scheduleLabel?: string
+  startAt?: string
+  startInstant?: number
 }
 
 export interface EditorField {

@@ -2,6 +2,8 @@ import { ACTIVITY_CATEGORY_ORDER } from "../config/activityCategories"
 import { isRecord, isCalendarDate as isRealDate, isCalendarDateTime as isRealDateTime, isClockTime as isRealTime, isHttpUrl } from "../utils/contentValidation"
 import { instantFromSourceKey, isValidTimeZone, sourceTimeZone } from "../utils/timeZone"
 import { ACTIVITY_SCHEDULE_FILE_PATTERN } from "../utils/activityScheduleFiles"
+import { getMonthlyPerformances, monthlyRuleIssues } from "../utils/monthlySchedule"
+import type { Activity } from "../types"
 
 export interface ActivityValidationIssue {
   path: string
@@ -199,8 +201,8 @@ function validateRecurrence(
     })
   }
   if (value === undefined) return
-  if (!isRecord(value) || (value.type !== "manual" && value.type !== "weekly")) {
-    issues.push({ path: `${path}.recurrence`, message: "循环方式必须是 manual 或 weekly", severity: "error" })
+  if (!isRecord(value) || !["manual", "weekly", "monthly"].includes(String(value.type))) {
+    issues.push({ path: `${path}.recurrence`, message: "循环方式必须是 manual、weekly 或 monthly", severity: "error" })
     return
   }
 
@@ -210,6 +212,28 @@ function validateRecurrence(
       message: "循环活动不能同时使用连续日期 startDate/endDate",
       severity: "error",
     })
+  }
+
+  if (value.type === "monthly") {
+    const ruleIssues = monthlyRuleIssues(value)
+    issues.push(...ruleIssues.map(issue => ({ path: `${path}.recurrence.${issue.path}`, message: issue.message, severity: "error" as const })))
+    if (ruleIssues.length === 0 && !issues.some(issue => issue.severity === "error" && issue.path.startsWith(`${path}.performances`))) {
+      const horizon = new Date()
+      horizon.setUTCFullYear(horizon.getUTCFullYear() + 1)
+      const generated = getMonthlyPerformances(activity as unknown as Activity, horizon.toISOString().slice(0, 10))
+      const dates = new Set<string>()
+      const zone = sourceTimeZone(typeof activity.timeZone === "string" ? activity.timeZone : undefined)
+      for (const performance of generated) {
+        const key = performance.startAt ?? performance.occursOn
+        if (dates.has(key)) issues.push({ path: `${path}.recurrence.overrides`, message: "生成日程与其他场次重合，请使用原定日期补充资料并检查改期", severity: "error" })
+        dates.add(key)
+        const date = key.slice(0, 10)
+        if (performance.milestones?.some(item => instantFromSourceKey(`${date}T${item.at}`, zone) === null)) {
+          issues.push({ path: `${path}.recurrence.updateTime`, message: `${date} 的更新时间在指定时区不存在，请增加该回的时间例外`, severity: "error" })
+        }
+      }
+    }
+    return
   }
 
   if (value.type === "manual") {
@@ -225,13 +249,23 @@ function validateRecurrence(
     return
   }
 
-  if (activity.performances !== undefined || activity.performancesFile !== undefined) {
-    issues.push({
-      path: `${path}.performances`,
-      message: "weekly 循环活动由规则生成场次，请将例外写入 recurrence.overrides",
-      severity: "error",
-    })
+  if (value.firstEpisode !== undefined && (!Number.isInteger(value.firstEpisode) || Number(value.firstEpisode) < 0)) {
+    issues.push({ path: `${path}.recurrence.firstEpisode`, message: "起始回数必须为非负整数", severity: "error" })
   }
+  // A rule slot may carry one ordinary performance record for labels and metadata.
+  const dates = new Set<string>()
+  if (Array.isArray(activity.performances)) activity.performances.forEach((performance, index) => {
+    if (!isRecord(performance)) return
+    const date = String(performance.startAt ?? performance.occursOn ?? "").slice(0, 10)
+    if (dates.has(date)) issues.push({ path: `${path}.performances[${index}]`, message: "每周节目同一天只能补充一条场次资料", severity: "error" })
+    dates.add(date)
+    if (isRealDate(date) && typeof value.startOn === "string" && typeof value.endOn === "string" &&
+        date >= value.startOn && date <= value.endOn && WEEKDAY_INDEX[new Date(`${date}T12:00:00Z`).getUTCDay()] === value.weekday) {
+      const override = Array.isArray(value.overrides) ? value.overrides.find(item => isRecord(item) && item.date === date) : undefined
+      if (!isRealDateTime(performance.startAt)) issues.push({ path: `${path}.performances[${index}].startAt`, message: "每周规则日期的补充场次须使用 startAt", severity: "error" })
+      if (isRecord(override) && override.cancelled === true) issues.push({ path: `${path}.performances[${index}]`, message: "已取消的规则日期不能同时补充场次资料", severity: "error" })
+    }
+  })
   if (!isRealDate(value.startOn)) {
     issues.push({ path: `${path}.recurrence.startOn`, message: "范围开始日必须是 YYYY-MM-DD", severity: "error" })
   }
@@ -446,9 +480,6 @@ export function validateActivities(value: unknown, venueIds?: ReadonlySet<string
         issues.push({ path: `${path}.program`, message: "节目展示方式必须是 display: episodes", severity: "error" })
       } else {
         if (activity.category !== "Program") issues.push({ path: `${path}.program`, message: "回数档案只适用于 Program 类别", severity: "error" })
-        if (isRecord(activity.recurrence) && activity.recurrence.type === "weekly") {
-          issues.push({ path: `${path}.program`, message: "出演回数不能使用 weekly 推测未来出演", severity: "error" })
-        }
       }
     }
     if (activity.performancesFile !== undefined) {
@@ -475,6 +506,9 @@ export function validateActivities(value: unknown, venueIds?: ReadonlySet<string
     }
     if (activity.calendarExport !== undefined && !["auto", "enabled", "disabled"].includes(String(activity.calendarExport))) {
       issues.push({ path: `${path}.calendarExport`, message: "日历导出值无效", severity: "error" })
+    }
+    if (activity.calendarRange !== undefined && activity.calendarRange !== "existing-months") {
+      issues.push({ path: `${path}.calendarRange`, message: "日历范围仅支持 existing-months，或留空以参与月份范围计算", severity: "error" })
     }
     if (Array.isArray(activity.performances) && activity.performances.length > 0 &&
         (activity.startDate !== undefined || activity.endDate !== undefined)) {

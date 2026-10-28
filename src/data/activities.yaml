@@ -20,6 +20,7 @@
 #   calendarExport: "auto"             # [可选] 默认 auto：所有场次有准确开始时间才开放 ICS 下载
 #                                      # enabled：手动开放，允许仅日期的全天占位；仍必须有有效日期、标题和链接
 #                                      # disabled：手动隐藏下载；导入后不会自动更新，修改本站数据不会改变已导入的日程
+#   calendarRange: "existing-months"   # [可选] 首页只在其他活动已有的月份中加入本活动，不扩展范围；博物馆不受限制
 #   durationMinutes: 120               # [可选] 所有定时场次的统一时长（分钟）；默认 90，可被场次 endAt 覆盖
 #   performances:                      # [条件必填] 非连续日期或精确场次；与 startDate/endDate 二选一
 #     - occursOn: "2026-08-10"         # [二选一] 仅知日期的场次；作为全天日程显示
@@ -84,18 +85,39 @@
 #           en: "Additional note"
 #         link: "https://example.com/entry" # [可选] 此票务条目链接；回退顺序为 entry → ticketInfo → activity
 #
-# 每周固定节目使用以下有限生成规则替代 performances；只生成 startOn 到 endOn 范围内符合星期的日期：
+# 每月固定节目可使用 monthly；规则生成通用全天 performances，updateTime 仅作为更新时间显示：
+# recurrence:
+#   type: "monthly"
+#   startOn: "2026-07-01"             # [必填] 从这个月开始；仅生成不早于该日期的场次
+#   weekday: "thursday"               # [必填] 每月的星期几
+#   weekOfMonth: 1                     # [必填] 第几个该星期，1～5；不存在第 5 个时当月不生成
+#   updateTime: "12:00"               # [可选] 辅助更新时间 HH:mm，不将全天日程改为定时场次
+#   firstEpisode: 1                    # [可选] 起始月份对应的回数；按月份递增，取消或改期不改变后续编号
+#   overrides:                         # [可选] 改期、改时、取消；仅针对原本由规则生成的日期
+#     - date: "2026-11-05"            # [必填] 原定日期
+#       occursOn: "2026-11-12"        # [可选] 改期后的实际日期
+#       updateTime: "14:00"           # [可选] 该回特殊更新时间
+#     - date: "2026-12-03"
+#       cancelled: true                # 取消时不能同时填写改期或改时
+# 常规日期不需要逐期填写；可在 performances 中按原定日期补充 link、description、label 等。
+# 博物馆只收录已到更新时间的回数；首页通过 calendarRange: existing-months 跟随其他活动月份。
+#
+# 每周固定节目使用以下有限生成规则；只生成 startOn 到 endOn 范围内符合星期的日期：
 # recurrence:
 #   type: "weekly"
 #   startOn: "2026-09-01"             # [必填] 已知日程范围起点，不一定需要正好落在固定星期
 #   endOn: "2026-09-30"               # [必填] 已知日程范围终点；必须显式延长，不会无限生成
 #   weekday: "friday"                 # [必填] sunday | monday | tuesday | wednesday | thursday | friday | saturday
 #   startTime: "22:00"                # [必填] 每次默认开始/更新时间，HH:mm 日本时间
+#   firstEpisode: 1                    # [可选] 第一次规则更新对应的回数，可为 0；每周递增，取消不改变后续编号
 #   overrides:                         # [可选] 只记录范围内某次的改时或取消
 #     - date: "2026-09-18"            # [必填] 原本由规则生成的日期
 #       startTime: "22:30"            # [可选] 仅覆盖这一次的默认时间
 #     - date: "2026-09-25"
 #       cancelled: true                # [可选] 不生成这一次；不能与 startTime 同时使用
+# performances / performancesFile 可补充单期 label、episode、description 或规则外的特别回。
+# 补充规则日期时，使用 startAt 填写实际时刻，不会额外生成一回；overrides 的改时优先。
+# program.display: episodes 启用回数列表；博物馆只显示已到发布时间的回数。
 #
 - id: "2026-skip-and-loafer-musical"
   category: "Musical"
@@ -676,8 +698,18 @@
   category: "Program"
   scheduleLabel: "Monthly"
   calendarExport: "disabled"
+  calendarRange: "existing-months"
+  program:
+    display: "episodes"
   recurrence:
-    type: "manual"
+    type: "monthly"
+    startOn: "2026-07-01"
+    weekday: "thursday"
+    weekOfMonth: 1
+    updateTime: "12:00"
+    firstEpisode: 1
+  # 通常日程自动生成；以下已填写的场次保留，可用于补充单期链接、说明或特殊时刻。
+  # 改期/取消请在 recurrence.overrides 中填写原定 date 和实际 occursOn / cancelled。
   performances:
     - occursOn: "2026-09-03"
       milestones:
@@ -703,20 +735,22 @@
     ja: "ラブライブ！虹ヶ咲学園 ～ディスカバー放送室～"
     en: "Love Live! Nijigasaki High School ~Discover Broadcast Room~"
   description:
-    ja: "優木せつ菜役 毎月第一木曜日配信 次: 11月5日"
-    en: "Streaming on the first Thursday of every month as Setsuna Yuki. Next update: November 5"
+    ja: "優木せつ菜役。2026年7月より毎月第1木曜日12:00更新。"
+    en: "As Setsuna Yuki. Updated at 12:00 on the first Thursday of each month, starting July 2026."
   link: "https://hibiki-radio.jp/description/lldiscover/detail"
 
 - id: "maison-de-coco"
   category: "Program"
   scheduleLabel: "Weekly"
   calendarExport: "disabled"
+  performancesFile: "activity-schedules/maison-de-coco.yaml"
   recurrence:
     type: "weekly"
-    startOn: "2026-09-01"
+    startOn: "2026-01-09"
     endOn: "2027-01-31"
     weekday: "friday"
     startTime: "22:00"
+    firstEpisode: 1
   title:
     ja: "林鼓子のメゾンド・ココ"
     en: "Maison De Coco"
@@ -724,17 +758,17 @@
     ja: "毎週金曜22時"
     en: "Every Friday at 10 p.m."
   link: "https://audee-membership.jp/coco-hayashi"
+  program:
+    display: "episodes"
 
 - id: "tricolor"
   category: "Program"
   scheduleLabel: "Monthly"
   recurrence:
     type: "manual"
-  performances:
-    - occursOn: "2026-08-27"
-    - occursOn: "2026-09-10"
-    - occursOn: "2026-10-22"
-    - occursOn: "2026-11-19"
+  program:
+    display: "episodes"
+  performancesFile: "activity-schedules/tricolor.yaml"
   title:
     ja: "礒部花凜・土屋李央・林鼓子 トリコロールカラー"
     en: "Karin Isobe, Rio Tsuchiya, Coco Hayashi Tricolor"
@@ -3874,7 +3908,7 @@
   description:
     ja: "椎名立希役 https://x.com/EUPD_official/status/2113223842852454606"
     en: "As Taki Shiina"
-- id: "bang-dream-our-notes-daran-tv-1"
+- id: "2026-10-bang-dream-our-notes-daran-tv-1"
   category: "Program"
   scheduleLabel: "2026.10.26 20:00"
   title:

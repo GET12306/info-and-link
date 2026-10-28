@@ -14,7 +14,7 @@ import ExpiredLinkBadge from "./ExpiredLinkBadge"
 
 function ResourceLink({ link, index, resource, lang }: {
   link: string | RelatedResourceLink
-  index: number
+  index?: number
   resource: RelatedResource
   lang: Language
 }) {
@@ -22,7 +22,7 @@ function ResourceLink({ link, index, resource, lang }: {
   const status = details.status ?? resource.status
   return <li className="min-w-0 py-2">
     <div className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
-      <span className="w-5 shrink-0 text-[10px] tabular-nums text-coco-ink/35" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>
+      {index !== undefined && <span className="w-5 shrink-0 text-[10px] tabular-nums text-coco-ink/35" aria-hidden="true">{String(index + 1).padStart(2, "0")}</span>}
       <CatalogTextLink href={details.url} suffix={<ExternalLink className="mt-1 h-3 w-3 shrink-0 opacity-45" aria-hidden="true" />}>
         {resourceLinkLabel(link, lang)}
       </CatalogTextLink>
@@ -37,7 +37,6 @@ function ResourceEntry({ resource, lang }: { resource: RelatedResource; lang: La
   const collection = isRelatedResourceCollection(resource)
   const sortedLinks = collection ? [...resource.links].sort((a, b) =>
     (resourceLinkDetails(b).date ?? "").localeCompare(resourceLinkDetails(a).date ?? "")) : []
-  const singleLink = sortedLinks.length === 1 ? resourceLinkDetails(sortedLinks[0]) : undefined
   const title = archiveText(resource.title, lang)
   const description = archiveText(resource.description, lang)
   return <section className="grid gap-2 py-3 first:pt-0 sm:grid-cols-[7rem_minmax(0,1fr)] sm:gap-3">
@@ -48,21 +47,19 @@ function ResourceEntry({ resource, lang }: { resource: RelatedResource; lang: La
       </span>
     </div>
     <div className="min-w-0">
-      {singleLink
-        ? <div className="flex min-w-0 flex-wrap items-baseline gap-x-2 gap-y-1">
-          <CatalogItemTitle href={singleLink.url} suffix={<ExternalLink className="mt-1 h-3.5 w-3.5 shrink-0 opacity-45" aria-hidden="true" />}>{title}</CatalogItemTitle>
-          {singleLink.date && <time dateTime={singleLink.date} className="text-[10px] text-coco-ink/40">{singleLink.date}</time>}
-        </div>
-        : collection
-          ? <CatalogItemTitle>{title}</CatalogItemTitle>
+      {collection
+        ? <CatalogItemTitle>{title}</CatalogItemTitle>
         : <CatalogItemTitle href={resource.url} suffix={<ExternalLink className="mt-1 h-3.5 w-3.5 shrink-0 opacity-45" aria-hidden="true" />}>{title}</CatalogItemTitle>}
       {description && <p className="mt-1 text-xs leading-5 text-coco-ink/60">{description}</p>}
+      {collection && sortedLinks.length === 1 && <ul className="mt-1 min-w-0">
+        <ResourceLink link={sortedLinks[0]} resource={resource} lang={lang} />
+      </ul>}
       {collection && sortedLinks.length > 1 && <CatalogDisclosure nested label={t.related_resource_collection.replace("{count}", String(sortedLinks.length))}>
         <ul className="grid min-w-0 grid-cols-1 gap-x-4 gap-y-1 sm:grid-cols-2">
           {sortedLinks.map((link, index) => <ResourceLink key={`${resourceLinkDetails(link).url}-${index}`} link={link} index={index} resource={resource} lang={lang} />)}
         </ul>
       </CatalogDisclosure>}
-      {(!collection && resource.status === "expired" || singleLink && (singleLink.status ?? resource.status) === "expired") && <div className="mt-1"><ExpiredLinkBadge lang={lang} /></div>}
+      {!collection && resource.status === "expired" && <div className="mt-1"><ExpiredLinkBadge lang={lang} /></div>}
     </div>
   </section>
 }

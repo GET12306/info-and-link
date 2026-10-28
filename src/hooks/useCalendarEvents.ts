@@ -3,6 +3,7 @@ import type { Activity, ActivityMilestone } from "../types"
 import { getActivityOccurrences } from "../utils/activitySchedule"
 import { dateTimeForViewer, instantFromSourceKey, viewerTimeZone } from "../utils/timeZone"
 import { hasEpisodeArchive, programArchivePath } from "../utils/programEpisodes"
+import { performanceUpdateInstant } from "../utils/monthlySchedule"
 
 export interface CalendarEvent {
   date: string
@@ -27,16 +28,31 @@ export interface CalendarMonthData {
   weeks: CalendarDay[][]
 }
 
-export function buildCalendarData(activities: Activity[], includeDate?: string, timeZone = viewerTimeZone()): CalendarMonthData[] {
-  const events = collectEvents(activities, timeZone)
+export function buildCalendarData(activities: Activity[], includeDate?: string, timeZone = viewerTimeZone(), now = Date.now()): CalendarMonthData[] {
+  const events = collectEvents(activities, timeZone, undefined, now)
   return buildMonths(events, includeDate?.substring(0, 7))
 }
 
-function collectEvents(activities: Activity[], timeZone: string): CalendarEvent[] {
+/** Supplementary programs cannot create home months, including otherwise-empty gaps. */
+export function buildHomeCalendarData(activities: Activity[], today: string, timeZone = viewerTimeZone(), now = Date.now()): CalendarMonthData[] {
+  const primary = collectEvents(activities.filter(activity => activity.calendarRange !== "existing-months"), timeZone, undefined, now)
+  const months = new Set(primary.map(event => event.date.slice(0, 7)))
+  const lastMonth = [...months, today.slice(0, 7)].sort().at(-1)!
+  const [year, month] = lastMonth.split("-").map(Number)
+  const through = lastMonth + "-" + new Date(Date.UTC(year, month, 0)).getUTCDate()
+  const supplemental = collectEvents(activities.filter(activity => activity.calendarRange === "existing-months"), timeZone, through, now)
+    .filter(event => months.has(event.date.slice(0, 7)))
+  return buildMonths([...primary, ...supplemental], today.slice(0, 7))
+}
+
+function collectEvents(activities: Activity[], timeZone: string, through?: string, now = Date.now()): CalendarEvent[] {
   const result: CalendarEvent[] = []
 
   for (const act of activities) {
-    getActivityOccurrences(act).forEach((occurrence) => {
+    getActivityOccurrences(act, through).forEach((occurrence) => {
+      const published = (performanceUpdateInstant({ ...occurrence, occursOn: occurrence.date }, occurrence.timeZone) ?? Infinity) <= now
+      const archivePath = hasEpisodeArchive(act) && published
+        ? programArchivePath(act.id, occurrence.startAt ?? occurrence.date) : undefined
       const startLocal = occurrence.allDay ? undefined : dateTimeForViewer(occurrence.startInstant, timeZone)
       const date = startLocal?.substring(0, 10) ?? occurrence.date
       const localMilestones = occurrence.milestones.map((milestone) => {
@@ -64,8 +80,7 @@ function collectEvents(activities: Activity[], timeZone: string): CalendarEvent[
         endInstant: occurrence.endInstant,
         startTime: startLocal?.substring(11),
         milestones: localMilestones.filter((item) => item.date === date).map((item) => item.milestone),
-        archivePath: hasEpisodeArchive(act)
-          ? programArchivePath(act.id, occurrence.startAt ?? occurrence.date) : undefined,
+        archivePath,
         episode: occurrence.episode,
       })
       for (const milestone of localMilestones.filter((item) => item.date !== date)) {
@@ -74,6 +89,8 @@ function collectEvents(activities: Activity[], timeZone: string): CalendarEvent[
           performanceIndex: occurrence.performanceIndex,
           endInstant: milestone.end,
           milestones: [milestone.milestone],
+          archivePath,
+          episode: occurrence.episode,
         })
       }
     })

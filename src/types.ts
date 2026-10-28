@@ -61,6 +61,8 @@ export interface Activity {
   performancesFile?: string;
   durationMinutes?: number;
   calendarExport?: "auto" | "enabled" | "disabled";
+  /** Supplement existing home-calendar months without creating months of its own. */
+  calendarRange?: "existing-months";
   performances?: ActivityPerformance[];
   title: LocalizedText;
   /** Legacy inline venue text retained while records move to venueIds/venueNote. */
@@ -152,12 +154,34 @@ export interface WeeklyActivityRecurrence {
   endOn: string;
   weekday: ActivityWeekday;
   startTime: string;
+  /** Number of the first generated slot; zero supports a pre-opening episode. */
+  firstEpisode?: number;
   overrides?: WeeklyActivityRecurrenceOverride[];
+}
+
+export interface MonthlyActivityRecurrenceOverride {
+  /** Original rule-generated date, even when the actual date changes. */
+  date: string;
+  occursOn?: string;
+  updateTime?: string;
+  cancelled?: boolean;
+}
+
+export interface MonthlyActivityRecurrence {
+  type: "monthly";
+  startOn: string;
+  weekday: ActivityWeekday;
+  weekOfMonth: number;
+  /** A display/update milestone; the generated performance remains all-day. */
+  updateTime?: string;
+  firstEpisode?: number;
+  overrides?: MonthlyActivityRecurrenceOverride[];
 }
 
 export type ActivityRecurrence =
   | ManualActivityRecurrence
-  | WeeklyActivityRecurrence;
+  | WeeklyActivityRecurrence
+  | MonthlyActivityRecurrence;
 
 export interface ActivityPerformanceDetails {
   label?: LocalizedText;
@@ -287,6 +311,7 @@ export interface RelatedResourceSingle extends RelatedResourceBase {
 export interface RelatedResourceLink {
   url: string;
   date?: string;
+  /** Summary of this individual link, also displayed for a one-link collection. */
   label?: ArchiveText;
   platform?: ActivityResourcePlatform;
   status?: "available" | "expired";
@@ -307,6 +332,7 @@ export interface ActivityResource {
   activityId: string;
   kind: ActivityResourceKind;
   platform: ActivityResourcePlatform;
+  /** Collection name, commonly identifying the author or source of the links. */
   title: LocalizedText;
   description?: LocalizedText;
   status?: "available" | "expired";

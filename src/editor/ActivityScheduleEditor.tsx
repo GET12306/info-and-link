@@ -4,6 +4,7 @@ import type { ActivityMilestone, ActivityPerformance, ActivityRecurrence, Weekly
 import { ItemToolbar, LocalizedEditor } from "./ActivityEditorFields"
 import { setOptional, type EditorMilestone, type EditorPerformance, type EditorWeeklyOverride } from "./activityEditorValues"
 import { PROGRAM_EPISODE_PAGE_SIZE } from "../utils/programEpisodes"
+import MonthlyRecurrenceFields from "./MonthlyRecurrenceFields"
 
 function MilestoneEditor({
   milestones,
@@ -116,7 +117,7 @@ export function RecurrenceEditor({
       <div className="section-heading">
         <div>
           <h2>经常性节目</h2>
-          <p>每周固定节目按有限范围自动生成；月更或不定期节目只使用手动场次。</p>
+          <p>每周或每月固定节目按规则生成；不固定日期的节目使用手动场次。</p>
         </div>
       </div>
       <div className="field-grid">
@@ -128,6 +129,7 @@ export function RecurrenceEditor({
               onChange={(event) => {
                 if (event.target.value === "none") onChange(undefined)
                 else if (event.target.value === "manual") onChange({ type: "manual" })
+                else if (event.target.value === "monthly") onChange({ type: "monthly", startOn: "", weekday: "thursday", weekOfMonth: 1, updateTime: "12:00", firstEpisode: 1 })
                 else onChange({
                   type: "weekly",
                   startOn: "",
@@ -140,12 +142,14 @@ export function RecurrenceEditor({
               <option value="none">(omit) — 非经常性活动</option>
               <option value="manual">manual — 月更/不定期（手动添加日期）</option>
               <option value="weekly">weekly — 每周固定（范围内自动生成）</option>
+              <option value="monthly">monthly — 每月第几个星期几（自动生成）</option>
             </select>
             <ChevronDown aria-hidden="true" />
           </span>
         </label>
       </div>
 
+      {recurrence?.type === "monthly" && <MonthlyRecurrenceFields rule={recurrence} onChange={onChange} />}
       {weekly && (
         <>
           <div className="field-grid four recurrence-fields">
@@ -172,6 +176,12 @@ export function RecurrenceEditor({
             <label className="form-field">
               <span>recurrence.startTime <em className="required">required</em></span>
               <input type="text" placeholder="HH:mm" value={weekly.startTime} onChange={(event) => updateWeekly({ ...weekly, startTime: event.target.value })} />
+            </label>
+          </div>
+          <div className="field-grid">
+            <label className="form-field">
+              <span>recurrence.firstEpisode <em className="optional">optional</em></span>
+              <input type="number" min="0" step="1" value={weekly.firstEpisode ?? ""} onChange={event => updateWeekly(setOptional(weekly as WeeklyActivityRecurrence & Record<string, unknown>, "firstEpisode", event.target.value === "" ? undefined : Number(event.target.value)))} />
             </label>
           </div>
           <div className="nested-heading ticket-heading">
@@ -269,22 +279,16 @@ export function PerformanceEditor({
     onChange(items.map((item, itemIndex) => itemIndex === index ? value : item))
   }
 
-  if (recurrenceType === "weekly") {
-    return (
-      <section className="editor-section compact-section">
-        <div className="section-heading">
-          <div><h2>场次</h2><p>当前场次由每周规则自动生成；特殊情况请使用上方的例外覆盖。</p></div>
-        </div>
-      </section>
-    )
-  }
+  const generated = recurrenceType === "monthly" || recurrenceType === "weekly"
 
   return (
     <section className="editor-section">
       <div className="section-heading">
         <div>
-          <h2>场次</h2>
+          <h2>{generated ? "单期补充信息 / 特别回" : "场次"}</h2>
           <p>精确时间和仅日期场次使用互斥结构；拖动的替代方式是上下移动按钮。</p>
+          {recurrenceType === "monthly" && <p>普通回数由月更规则生成。此处只需补充原定日期对应的单期链接、说明或特殊时刻；改期与取消请使用上方月更例外。</p>}
+          {recurrenceType === "weekly" && <p>普通回数由每周规则生成。此处可补充该回的实际 startAt、标题、回数或说明，不会重复生成；上方例外中的改时优先，取消时请移除对应补充资料。</p>}
           {sourceFile && <p>数据文件：src/data/{sourceFile}。点击顶部“保存 YAML”会自动保存到这个子文件。</p>}
         </div>
         {episodeMode && <button type="button" className="secondary-button" onClick={() => {
@@ -297,7 +301,7 @@ export function PerformanceEditor({
         <span aria-live="polite">{currentPage + 1} / {pageCount} 页 · 共 {items.length} 条，每页 {pageSize} 条</span>
         <button type="button" className="secondary-button" disabled={currentPage === pageCount - 1} onClick={() => setPage(currentPage + 1)}>下一页</button>
       </nav>}
-      {items.length === 0 && <p className="empty-copy">{recurrenceType === "manual" ? "请手动添加已确认的更新日期。" : "没有独立场次，将使用上方连续日期。"}</p>}
+      {items.length === 0 && <p className="empty-copy">{generated ? "常规回数自动生成，无需重复添加；只在补充单期链接、备注或特别回时添加。" : recurrenceType === "manual" ? "请手动添加已确认的更新日期。" : "没有独立场次，将使用上方连续日期。"}</p>}
       <div className="card-stack">
         {items.slice(startIndex, startIndex + pageSize).map((performance, offset) => {
           const index = startIndex + offset

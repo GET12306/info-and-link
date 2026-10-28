@@ -73,3 +73,34 @@ test("activity resources render inline in a collapsed disclosure", async () => {
   assert.doesNotMatch(html, /<details[^>]*\bopen/)
   assert.ok(html.includes("Sample video"))
 })
+
+test("a one-link collection shows its source title and individual summary without an extra disclosure", async () => {
+  const { default: Disclosure } = await server.ssrLoadModule("/src/components/RelatedResourcesDisclosure.tsx")
+  const resource = { kind: "photo", platform: "x", title: { ja: "公式投稿", en: "Official Posts" }, links: [
+    { url: "https://example.com/photo", date: "2026-10-10", label: { ja: "終演後の集合写真", en: "Post-performance Group Photo" } },
+  ] }
+  for (const [lang, title, label] of [["en", "Official Posts", "Post-performance Group Photo"], ["ja", "公式投稿", "終演後の集合写真"]]) {
+    const html = renderToStaticMarkup(createElement(Disclosure, { resources: [resource], lang }))
+    assert.ok(html.includes(`>${title}</h3>`), "The collection title is a separate heading")
+    const anchor = html.match(/<a\b[^>]*href="https:\/\/example.com\/photo"[^>]*>([\s\S]*?)<\/a>/)?.[1]
+    assert.ok(anchor?.includes(label), "The link uses its own content summary")
+    assert.ok(!anchor.includes(title), "The collection name does not replace the summary")
+    assert.match(html, /2026-10-10/)
+    assert.equal((html.match(/<details\b/g) ?? []).length, 1, "Only the overall resources disclosure remains")
+  }
+})
+
+test("single-link summaries support partial translation and retain availability and unlabeled fallbacks", async () => {
+  const { default: Disclosure } = await server.ssrLoadModule("/src/components/RelatedResourcesDisclosure.tsx")
+  const resource = { kind: "post", platform: "x", title: { ja: "事務所", en: "Agency" }, status: "expired", links: [
+    { url: "https://x.com/agency/status/1", date: "2026-10-10", label: { ja: "出演決定のお知らせ" } },
+  ] }
+  const html = renderToStaticMarkup(createElement(Disclosure, { resources: [resource], lang: "en" }))
+  assert.match(html, /出演決定のお知らせ/)
+  assert.equal((html.match(/Expired/g) ?? []).length, 1, "Inherited expired status appears once")
+  const fallback = renderToStaticMarkup(createElement(Disclosure, { resources: [{ ...resource, links: [
+    { url: "https://x.com/agency/status/1", date: "2026-10-10", status: "available" },
+  ] }], lang: "en" }))
+  assert.match(fallback, /@agency/)
+  assert.doesNotMatch(fallback, /Expired/)
+})

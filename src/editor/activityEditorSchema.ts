@@ -10,6 +10,7 @@ export type ActivityEditorScalarKey =
   | "endDate"
   | "durationMinutes"
   | "calendarExport"
+  | "calendarRange"
 
 export interface ActivityEditorField {
   key: ActivityEditorScalarKey
@@ -93,6 +94,14 @@ export const ACTIVITY_EDITOR_SECTIONS: readonly ActivityEditorSection[] = [
           { value: "disabled", label: "disabled" },
         ],
       },
+      {
+        key: "calendarRange", label: "calendarRange", input: "select",
+        description: "existing-months：首页只在其他活动已有的月份中显示，不单独增加月份范围；博物馆不受影响。",
+        options: [
+          { value: "", label: "(omit) — 正常参与月份范围" },
+          { value: "existing-months", label: "existing-months — 跟随其他活动已有月份" },
+        ],
+      },
     ],
   },
 ] as const
@@ -108,6 +117,7 @@ export const ACTIVITY_EDITOR_KNOWN_FIELDS = new Set([
   "program",
   "durationMinutes",
   "calendarExport",
+  "calendarRange",
   "performances",
   "performancesFile",
   "title",

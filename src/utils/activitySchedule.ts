@@ -6,13 +6,13 @@ import type {
   ActivityPerformance,
   ActivityPerformanceDetails,
   ActivityWeekday,
-  WeeklyActivityRecurrence,
 } from "../types"
 import { getValidActivityMilestones } from "./activityMilestones"
 import {
   normalizeJapanDateTimeKey,
 } from "./japanTime"
 import { dateTimeInZone, instantFromSourceKey, sourceTimeZone } from "./timeZone"
+import { getMonthlyPerformances } from "./monthlySchedule"
 
 export const DEFAULT_ACTIVITY_DURATION_MINUTES = 90
 
@@ -138,16 +138,16 @@ function getDateRangeOccurrences(startDate?: string, endDate?: string, timeZone 
   )
 }
 
-function getWeeklyRecurrenceOccurrences(
-  recurrence: WeeklyActivityRecurrence,
-  durationMinutes?: number,
-  timeZone = sourceTimeZone()
-) {
+/** Weekly rules and per-episode metadata share the ordinary performances model. */
+export function getWeeklyPerformances(activity: Activity): ActivityPerformance[] {
+  if (activity.recurrence?.type !== "weekly") return []
+  const recurrence = activity.recurrence
   const start = normalizeDate(recurrence.startOn)
   const end = normalizeDate(recurrence.endOn)
   const weekday = WEEKDAY_INDEX[recurrence.weekday]
   if (!start || !end || end < start || weekday === undefined ||
-      !isClockTime(recurrence.startTime)) return []
+      !isClockTime(recurrence.startTime) ||
+      (recurrence.firstEpisode !== undefined && (!Number.isInteger(recurrence.firstEpisode) || recurrence.firstEpisode < 0))) return []
 
   if (recurrence.overrides !== undefined && !Array.isArray(recurrence.overrides)) {
     return []
@@ -175,25 +175,48 @@ function getWeeklyRecurrenceOccurrences(
       (typeof override.startTime !== "string" || !isClockTime(override.startTime)))
   )) return []
 
+  if (activity.performances !== undefined && !Array.isArray(activity.performances)) return []
+  const manual = activity.performances ?? []
+  const manualDates = new Set<string>()
+  for (const performance of manual) {
+    if (!performance || typeof performance !== "object") return []
+    const key = performance.startAt ?? performance.occursOn
+    if (typeof key !== "string") return []
+    const date = key.slice(0, 10)
+    if (manualDates.has(date)) return []
+    manualDates.add(date)
+    if (scheduledDates.includes(date)) {
+      const override = overrides.get(date)
+      if (override?.cancelled || !isCalendarDateTime(performance.startAt)) return []
+    }
+  }
+  const consumed = new Set<ActivityPerformance>()
   const generatedPerformances: ActivityPerformance[] = []
-  for (const date of scheduledDates) {
+  for (const [index, date] of scheduledDates.entries()) {
+    const saved = manual.find(item => (item.startAt ?? item.occursOn)?.slice(0, 10) === date)
+    if (saved) consumed.add(saved)
     const override = overrides.get(date)
     if (override?.cancelled) continue
+    const { occursOn: _occursOn, ...details } = saved ?? {}
     generatedPerformances.push({
-      startAt: `${date}T${override?.startTime ?? recurrence.startTime}`,
+      ...details,
+      startAt: override?.startTime ? `${date}T${override.startTime}` : saved?.startAt ?? `${date}T${recurrence.startTime}`,
+      ...(saved?.episode !== undefined ? { episode: saved.episode }
+        : recurrence.firstEpisode !== undefined ? { episode: String(recurrence.firstEpisode + index) } : {}),
     })
   }
-  const occurrences = getPerformanceOccurrences(generatedPerformances, durationMinutes, timeZone)
-  return occurrences.length === generatedPerformances.length ? occurrences : []
+  generatedPerformances.push(...manual.filter(item => !consumed.has(item)))
+  return generatedPerformances
 }
 
-export function getActivityOccurrences(activity: Activity) {
+export function getActivityOccurrences(activity: Activity, through?: string) {
+  if (activity.recurrence?.type === "monthly") {
+    return getPerformanceOccurrences(getMonthlyPerformances(activity, through), activity.durationMinutes, sourceTimeZone(activity.timeZone))
+  }
   if (activity.recurrence?.type === "weekly") {
-    return getWeeklyRecurrenceOccurrences(
-      activity.recurrence,
-      activity.durationMinutes,
-      sourceTimeZone(activity.timeZone)
-    )
+    const performances = getWeeklyPerformances(activity)
+    const occurrences = getPerformanceOccurrences(performances, activity.durationMinutes, sourceTimeZone(activity.timeZone))
+    return occurrences.length === performances.length ? occurrences : []
   }
   const performanceOccurrences = getPerformanceOccurrences(
     activity.performances,

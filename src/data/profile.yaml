@@ -33,26 +33,26 @@ items:
       en: "Blood Type"
     value: "A"
 
-  - id: "agency"
-    label:
-      ja: "所属"
-      en: "Agency"
-    value:
-      ja: "株式会社LIBERTE"
-      en: "LIBERTE"
+  # - id: "agency"
+  #   label:
+  #     ja: "所属"
+  #     en: "Agency"
+  #   value:
+  #     ja: "株式会社LIBERTE"
+  #     en: "LIBERTE"
 
-  - id: "hobbies"
-    label:
-      ja: "趣味"
-      en: "Hobbies"
-    value:
-      ja: "ミュージカル鑑賞、イラストを描くこと"
-      en: "Watching musicals and drawing illustrations"
+  # - id: "hobbies"
+  #   label:
+  #     ja: "趣味"
+  #     en: "Hobbies"
+  #   value:
+  #     ja: "ミュージカル鑑賞、イラストを描くこと"
+  #     en: "Watching musicals and drawing illustrations"
 
-  - id: "skills"
-    label:
-      ja: "特技"
-      en: "Skills"
-    value:
-      ja: "ドラム、パーカッション全般、ピアノ"
-      en: "Drums, percussion, and piano"
+  # - id: "skills"
+  #   label:
+  #     ja: "特技"
+  #     en: "Skills"
+  #   value:
+  #     ja: "ドラム、パーカッション全般、ピアノ"
+  #     en: "Drums, percussion, and piano"

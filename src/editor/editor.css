@@ -121,6 +121,12 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .select-wrap select { width: 100%; appearance: none; padding-right: 34px !important; }
 .select-wrap > svg { position: absolute; right: 11px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #817973; }
 .sidebar-tools select { height: 36px; padding: 0 11px; border: 1px solid var(--line); border-radius: 10px; background: var(--panel); font-size: 12px; }
+.sidebar-sort-note { margin: 0; color: var(--ink-soft); font-size: 12px; line-height: 1.5; }
+.activity-list .activity-list-date { color: #655a53; font-size: 12px; }
+.resource-activity-group + .resource-activity-group { margin-top: 12px; padding-top: 8px; border-top: 1px solid var(--line); }
+.resource-activity-group-heading { position: sticky; top: 0; z-index: 1; padding: 9px 10px; background: #efebe7; }
+.resource-activity-group-heading h3 { margin: 0; font-size: 14px; font-weight: 650; line-height: 1.5; overflow-wrap: anywhere; }
+.resource-activity-group-heading p { margin: 5px 0 0; color: var(--ink-soft); font-size: 12px; line-height: 1.5; }
 .sidebar-title { min-height: 43px; padding: 8px 16px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--line); color: var(--ink-soft); font-size: 11px; }
 .sidebar-title button, .quiet-button {
   border: 0;

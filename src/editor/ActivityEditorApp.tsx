@@ -11,6 +11,8 @@ import { EMPTY_LOCALIZED_TEXT, setOptional, type EditorActivity } from "./activi
 import { LocalizedEditor, ScalarField, VenueEditor } from "./ActivityEditorFields"
 import { PerformanceEditor, RecurrenceEditor } from "./ActivityScheduleEditor"
 import { TicketEditor } from "./ActivityTicketEditor"
+import { ACTIVITY_CATEGORY_ORDER } from "../config/activityCategories"
+import { activityDateLabel, activityReference, activitySearchText, compareEditorActivities } from "./activityNavigation"
 
 interface EditorResponse {
   activities: EditorActivity[]
@@ -61,10 +63,11 @@ export default function ActivityEditorApp({ active = true }: { active?: boolean 
     issue.path === `activities[${selectedIndex}]` || issue.path.startsWith(`activities[${selectedIndex}].`)
   )
 
-  const filteredActivities = activities.filter((activity) => {
+  const activityList = useMemo(() => activities.map(activity => ({ activity, reference: activityReference(activity) }))
+    .sort((a, b) => compareEditorActivities(a.reference, b.reference)), [activities])
+  const filteredActivities = activityList.filter(({ activity, reference }) => {
     const normalizedQuery = query.trim().toLowerCase()
-    const matchesQuery = !normalizedQuery || [activity.id, activity.title?.ja, activity.title?.en]
-      .some((value) => value?.toLowerCase().includes(normalizedQuery))
+    const matchesQuery = activitySearchText(reference).toLowerCase().includes(normalizedQuery)
     return matchesQuery && (!category || activity.category === category)
   })
 
@@ -82,7 +85,7 @@ export default function ActivityEditorApp({ active = true }: { active?: boolean 
       setRevision(payload.revision)
       setSelectedId((current) => payload.activities.some((activity) => activity.id === current)
         ? current
-        : payload.activities[0]?.id ?? "")
+        : [...payload.activities].sort((a, b) => compareEditorActivities(activityReference(a), activityReference(b)))[0]?.id ?? "")
     } catch (error) {
       if (request === loadRequest.current) setMessage(error instanceof Error ? error.message : "读取失败")
     } finally {
@@ -103,7 +106,7 @@ export default function ActivityEditorApp({ active = true }: { active?: boolean 
       setSavedActivities(structuredClone(payload.activities))
       setRevision(payload.revision)
       setSelectedId((current) => payload.activities.some(activity => activity.id === current)
-        ? current : payload.activities[0]?.id ?? "")
+        ? current : [...payload.activities].sort((a, b) => compareEditorActivities(activityReference(a), activityReference(b)))[0]?.id ?? "")
       setMessage("检测到磁盘内容更新，已自动载入最新版本。")
     },
   })
@@ -193,6 +196,8 @@ export default function ActivityEditorApp({ active = true }: { active?: boolean 
     }
     setActivities((current) => [...current, activity])
     setSelectedId(id)
+    setQuery("")
+    setCategory("")
   }
 
   const duplicateActivity = () => {
@@ -249,27 +254,29 @@ export default function ActivityEditorApp({ active = true }: { active?: boolean 
       <main className="editor-layout">
         <aside className="activity-sidebar">
           <div className="sidebar-tools">
-            <label className="search-field"><Search /><input value={query} placeholder="搜索标题或 ID" onChange={(event) => setQuery(event.target.value)} /></label>
+            <label className="search-field"><Search /><input aria-label="搜索活动" value={query} placeholder="搜索日英标题、日期或 ID" onChange={(event) => setQuery(event.target.value)} /></label>
             <span className="select-wrap">
-              <select value={category} onChange={(event) => setCategory(event.target.value)}>
-                <option value="">全部类别</option>
-                {["Live", "Musical", "Stage", "Reading", "Event", "Program", "Other"].map((value) => <option key={value}>{value}</option>)}
+              <select aria-label="活动类别" value={category} onChange={(event) => setCategory(event.target.value)}>
+                <option value="">全部活动类别</option>
+                {ACTIVITY_CATEGORY_ORDER.map((value) => <option key={value}>{value}</option>)}
               </select>
               <ChevronDown aria-hidden="true" />
             </span>
+            <p className="sidebar-sort-note">按最早场次倒序 · 日期未定置后</p>
           </div>
           <div className="sidebar-title"><span>{filteredActivities.length} / {activities.length} 条活动</span><button type="button" onClick={addActivity}><Plus /> 新建</button></div>
           <nav className="activity-list" aria-label="活动列表">
-            {filteredActivities.map((activity) => {
+            {filteredActivities.map(({ activity, reference }) => {
               const index = activities.indexOf(activity)
               const hasError = issues.some((issue) => issue.severity === "error" && issue.path.startsWith(`activities[${index}]`))
               return (
                 <button type="button" key={activity.id} className={activity.id === selectedId ? "active" : ""} onClick={() => setSelectedId(activity.id)}>
-                  <span><strong>{activity.title?.ja || "未命名活动"}</strong><small>{activity.id}</small></span>
+                  <span><strong>{activity.title?.ja || activity.title?.en || "未命名活动"}</strong><small className="activity-list-date">{activityDateLabel(reference)} · {activity.category}</small><small>{activity.id}</small></span>
                   {hasError && <AlertCircle className="error-icon" />}
                 </button>
               )
             })}
+            {!filteredActivities.length && <p className="empty-copy">没有匹配的活动，请调整搜索或类别筛选。</p>}
           </nav>
         </aside>
 
@@ -314,7 +321,9 @@ export default function ActivityEditorApp({ active = true }: { active?: boolean 
               {selectedActivity.category === "Program" && <section className="editor-section">
                 <div className="section-heading"><div>
                   <h2>节目出演回数</h2>
-                  <p>仍使用下方通用场次编辑器填写实际更新时间、回数和链接；只记录已经确认的出演。一般更新时间和确认方式写在 description 中。</p>
+                  <p>{["monthly", "weekly"].includes(selectedActivity.recurrence?.type ?? "")
+                    ? "普通回数由日程规则生成，到更新时间后进入博物馆。单期资料仍在下方通用场次中补充，取消请使用规则例外。"
+                    : "仍使用下方通用场次编辑器填写实际更新时间、回数和链接；只记录已经确认的出演。一般更新时间和确认方式写在 description 中。"}</p>
                 </div></div>
                 <label className="checkbox-field">
                   <input type="checkbox" checked={selectedActivity.program?.display === "episodes"} onChange={event => updateSelected(setOptional(selectedActivity, "program", event.target.checked ? { display: "episodes" } : undefined) as EditorActivity)} />

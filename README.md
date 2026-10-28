@@ -116,6 +116,11 @@ a save is pending remains an unsaved draft. Inactive tabs retain their drafts an
 pause automatic polling. `editor.html` is explicitly excluded from the
 production build and has no deployed write API.
 
+Saving YAML keeps the editor's selected tab, filters, scroll position, and drafts
+in place. In editor mode, YAML changes refresh only the website preview; the
+editor reads data through its API instead of receiving a Vite page reload.
+Source-code hot updates and the normal development server are unaffected.
+
 Simple top-level fields are described in `src/editor/activityEditorSchema.ts`, so a
 future text, URL, date, number, checkbox, or select field can be added to the form by
 updating that schema. Nested structures with their own ordering or conditional rules
@@ -183,7 +188,7 @@ Recommended fields:
 - `performances`: exact non-consecutive dates or timed performances. A performance uses either `occursOn: YYYY-MM-DD` or `startAt: YYYY-MM-DDTHH:mm` in the activity's `timeZone`, and can have a bilingual `label`.
 - `milestones`: optional supplementary times within a performance, such as an update, merchandise sales, or doors opening. They can be selected for calendar export, but never change whether the parent performance is all-day, its end time, or activity status. `at` and `until` use same-day `HH:mm` values in the activity's `timeZone`, not full date-times.
 - `durationMinutes`: positive integer duration shared by timed performances. An individual performance's `endAt` overrides it.
-- `recurrence`: marks an ongoing program and describes how its known occurrences are supplied. Use `type: manual` for monthly/irregular programs, or the bounded `type: weekly` rule described below.
+- `recurrence`: marks an ongoing program and describes its schedule. Use `type: manual` for confirmed irregular appearances, `type: monthly` for a fixed monthly weekday, or the bounded `type: weekly` rule described below.
 - `venueIds`: stable IDs from `src/data/venues.yaml`, shared by activity, ticket, and calendar displays. Use `venueNote.ja` / `venueNote.en` for an area or an unannounced venue; the legacy `venue` field is no longer displayed.
 - `description.ja` and `description.en`: role, appearance note, or other short context. Use `venueIds` / `venueNote` for venue information.
 
@@ -288,6 +293,54 @@ The audit JSON retains excluded/unavailable records as evidence only; its
 `included` flags are not runtime filters or an editing requirement.
 Other recurring programs continue to use the following schedule rules.
 
+Tricolor uses manual dates in `activity-schedules/tricolor.yaml`, editable through
+the same activity editor. The official archive was checked through episode 41;
+episodes 32 and 33 explicitly omit Coco Hayashi and are excluded. Main and bonus
+tracks on the same date count as one appearance. The program homepage is the only
+listening link. Existing future dates remain on the calendar, but all episode
+archives (including manual schedules) wait until the publication date/time before
+displaying them. See [the source audit](docs/data-audits/tricolor.md).
+
+Fixed monthly programs can use a shared rule instead of adding every future date:
+
+```yaml
+recurrence:
+  type: "monthly"
+  startOn: "2026-07-01"
+  weekday: "thursday"
+  weekOfMonth: 1
+  updateTime: "12:00"
+  firstEpisode: 1
+  # Optional exceptions refer to the ORIGINAL rule date:
+  overrides:
+    - date: "2026-11-05"
+      occursOn: "2026-11-12"
+      updateTime: "14:00"
+    - date: "2026-12-03"
+      cancelled: true
+program:
+  display: "episodes"
+calendarRange: "existing-months"
+calendarExport: "disabled"
+```
+
+Discover Broadcast Room uses the first Thursday rule starting July 2026. Generated
+dates are ordinary all-day performances with an update milestone, not one-hour
+appointments. Episode numbers advance by month from `firstEpisode`; a moved or
+cancelled date does not renumber subsequent months. Optional `performances` entries
+merge by their original scheduled date, allowing per-episode links, notes, labels,
+and special update times; off-rule entries can represent special episodes. Existing
+authored dates and times are retained. Use `recurrence.overrides` to reschedule or
+cancel a regular episode rather than adding a second copy on its replacement date.
+
+The editor exposes these rule and exception fields. Museum pages include only
+episodes whose update time has arrived, while the home calendar may show scheduled
+future updates. `calendarRange: existing-months` never creates home months of its
+own: the program is included only in months containing other activities, not in
+otherwise-empty intervening months. Museum history remains independent of this
+home-only restriction. The rule generates only the horizon needed by each view;
+it does not append an unbounded future schedule to the YAML.
+
 Monthly programs whose dates are irregular or only gradually announced use manual
 recurrence. Add only confirmed dates to `performances`:
 
@@ -321,8 +374,18 @@ recurrence:
 - `startOn` and `endOn` are inclusive boundaries of the currently confirmed range; extending the schedule requires changing `endOn` explicitly.
 - `weekday` is one of `sunday` through `saturday`, and `startTime` is `HH:mm` in the activity's source zone.
 - `overrides` may change one generated date's time or cancel it. Its `date` must be a date that the base rule would generate.
-- Weekly rules and `performances` are mutually exclusive. Manual recurrence requires at least one performance, unless the program uses the episode archive above.
+- Optional `firstEpisode` is a non-negative integer that numbers generated slots; cancellation does not renumber later weeks.
+- Weekly `performances` (inline or in a child YAML) supplement a rule slot's actual `startAt`, labels and metadata, or add an off-rule special episode. A rule's explicit time override takes precedence; only one supplement is allowed per date. Manual recurrence requires at least one performance, unless the program uses the episode archive above.
 - Generated Program times are labelled as updates rather than stage-performance starts in the site UI.
+
+Maison de Coco uses this weekly rule from January 9, 2026 at 22:00, with episode
+numbers starting at 1. Its child `activity-schedules/maison-de-coco.yaml` contains
+the January 2 date-only episode 0 and the May 15 birthday livestream; the latter
+has its actual 20:00 start in the child record and occupies that week's normal slot.
+The official RADIO list was checked through episode 42 (October 23, 2026).
+Museum history includes only already-published updates and keeps the usual
+five-record pagination. The activity's overall homepage is used for listening;
+individual episode links are intentionally omitted.
 
 Example with two performances on the same day:
 
@@ -512,7 +575,7 @@ When adding or editing content:
 - Both activities and ticket entries use `scheduleLabel` for display-only schedule text; never use it for sorting or status logic.
 - Keep venue information only at the activity level unless a future performance explicitly needs a different venue.
 - Prefer exact source links from official sites or reliable announcements.
-- For monthly or irregular programs, use `recurrence.type: manual` and add only confirmed dates to `performances`. For fixed weekly programs, update the bounded `recurrence.endOn`; never create an unbounded rule.
+- For irregular programs, use `recurrence.type: manual` and add only confirmed dates to `performances`. For fixed monthly programs, use `recurrence.type: monthly` with exceptions for rescheduling or cancellation. For fixed weekly programs, update the bounded `recurrence.endOn`; never create an unbounded weekly rule.
 - Run `npm run check` before opening a PR.
 
 ## Deployment

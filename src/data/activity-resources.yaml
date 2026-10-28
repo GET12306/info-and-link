@@ -1,6 +1,7 @@
 # 活动相关信息与资源
 #
-# 本文件顶层为资源组列表。每条记录描述同一活动下的一类资源；实际链接与发布日期全部写入 links。
+# 本文件顶层为资源组列表。每条记录描述同一活动下的一个链接合集；实际链接与发布日期全部写入 links。
+# title 表示合集名称，例如本人、官方、事务所、其他演员；links[].label 表示每条链接的具体内容概括。
 # 页面先按 activityId 聚类，再按各资源组中最新的 links[].date 从新到旧排序。
 # activityId 必须与 activities.yaml 中某项的 id 完全一致；同一活动可关联任意数量的资源。
 # 票务信息仍保存在 activities.yaml 的 ticketInfo 中，不放在本文件。
@@ -9,18 +10,18 @@
 # - activityId: "2026-example-event" # [必填] 对应 activities.yaml 中的活动 id
 #   kind: "post"                     # [必填] announcement | merchandise | post | photo | video | report | other
 #   platform: "x"                    # [必填] 资源组的默认平台：x | instagram | youtube | web | other
-#   title:                            # [必填] 资源组标题；单链接时也是页面上的链接标题
-#     ja: "出演関連投稿"
-#     en: "Performance-related Posts"
+#   title:                            # [必填] 合集名称；链接数量不会改变其含义
+#     ja: "公式投稿"
+#     en: "Official Posts"
 #   description:                      # [可选] 整组资源共用的补充说明
 #     ja: "公演に関連して公開された投稿です。"
 #     en: "Posts published in connection with the performance."
 #   links:                            # [必填] 一个或多个链接；单链接也必须使用此结构
 #     - url: "https://x.com/example/status/123456789" # [必填] 资源地址
 #       date: "2026-08-30"            # [必填] 此 URL 的公开日期，YYYY-MM-DD（日本时间）
-#       label:
-#         ja: "出演者による投稿"
-#         en: "Post from a cast member"
+#       label:                        # [可选] 此链接的内容概括；单链接时同样显示，建议填写
+#         ja: "公演終了後の写真"
+#         en: "Photos after the Performance"
 #       platform: "instagram"         # [可选] 仅当此 URL 与顶层默认平台不同时覆盖
 #       status: "expired"             # [可选] 仅标记这个 URL 已失效
 #   status: "expired"                # [可选] 整组链接的默认状态；可被 links[].status 覆盖
@@ -35,6 +36,8 @@
 # - other: 无法归入以上类别的内容
 #
 # links[].label 可省略；页面会根据 URL 自动显示 X 账号名或网站域名。
+# 只有一个链接时，合集名称和该链接的 label 会直接显示；多个链接时可展开查看各条 label。
+# 合集名称为自由文本，常见来源包括本人、官方、事务所、其他演员，无须新增类别字段。
 # 每个 URL 都拥有自己的 date，顶层不再使用 date 或 url。页面计数按实际链接数计算。
 #
 # -----------------------------------------------------------------------------
@@ -44,14 +47,17 @@
 #   kind: "post"
 #   platform: "x"
 #   title:
-#     ja: "千秋楽終演後コメント"
-#     en: "Closing-day Post-performance Comment"
+#     ja: "ココポスト"
+#     en: "Coco's Posts"
 #   description:
 #     ja: "千秋楽の終演後に公開された投稿。"
 #     en: "A post published after the closing performance."
 #   links:
 #     - url: "https://x.com/example/status/123456789"
 #       date: "2026-03-22"
+#       label:
+#         ja: "千秋楽終演後コメント"
+#         en: "Closing-day Post-performance Comment"
 #
 # -----------------------------------------------------------------------------
 # 填写示例 2：同一活动、同一类别下的多条投稿归入一个资源组
@@ -60,14 +66,14 @@
 #   kind: "photo"
 #   platform: "instagram"
 #   title:
-#     ja: "出演者・関係者による公演写真"
-#     en: "Performance Photos from Cast and Staff"
+#     ja: "他の出演者の投稿"
+#     en: "Posts from Other Cast Members"
 #   links:
 #     - url: "https://www.instagram.com/p/EXAMPLE1/"
 #       date: "2026-03-21"
 #       label:
-#         ja: "出演者による投稿"
-#         en: "Post from a cast member"
+#         ja: "稽古風景の写真"
+#         en: "Rehearsal Photos"
 #     - url: "https://www.instagram.com/p/EXAMPLE2/"
 #       date: "2026-03-22"
 #       label:
@@ -155,7 +161,7 @@
   kind: "post"
   platform: "x"
   title:
-    ja: "主催者の投稿"
+    ja: "主催者ポスト"
     en: "Post by the Organizer"
   links:
     - url: "https://x.com/bridgebond_llc/status/2078329086263656795"
@@ -422,8 +428,8 @@
   kind: "post"
   platform: "x"
   title:
-    ja: "公式投稿"
-    en: "Official Post"
+    ja: "公式ポスト"
+    en: "Official Posts"
   links:
     - url: "https://x.com/neo_slime300/status/2079144292652863573"
       date: "2026-07-20"
@@ -587,6 +593,11 @@
       label:
         ja: "キービジュアル解禁"
         en: "Key Visual Revealed"
+    - url: "https://x.com/kotoravel2026/status/2114552614226686195"
+      date: "2026-10-26"
+      label:
+        ja: "キャラクタービジュアル公開"
+        en: "Character Art Revealed"
 - activityId: "2024-coco-ichiban-photobook-release-events-2"
   kind: "photo"
   platform: "x"
@@ -725,6 +736,21 @@
       label:
         ja: "工藤理子"
         en: "Riko Kudo"
+    - url: "https://x.com/yui_w717/status/2114555093366575332"
+      date: "2026-10-26"
+      label:
+        ja: "渡邉結衣-1"
+        en: "Yui Watanabe -1"
+    - url: "https://x.com/yui_w717/status/2114552625081483645"
+      date: "2026-10-26"
+      label:
+        ja: "渡邉結衣-2"
+        en: "Yui Watanabe -2"
+    - url: "https://x.com/fuyuna_asakura/status/2114680672338243589"
+      date: "2026-10-26"
+      label:
+        ja: "朝倉ふゆな"
+        en: "Fuyuna Asakura"
 - activityId: "2026-assault-lily-reading-vol-2"
   kind: "post"
   platform: "x"
@@ -737,6 +763,11 @@
       label:
         ja: "お稽古始まっていますっ！"
         en: "Rehearsal has started!"
+    - url: "https://x.com/cocohayashi515/status/2115068589158088742"
+      date: "2026-10-27"
+      label:
+        ja: "明日から開幕"
+        en: "It starts tomorrow!"
 - activityId: "2026-wonderlivet"
   kind: "post"
   platform: "x"
@@ -778,3 +809,52 @@
       label:
         ja: "ビジュアル撮影時の様子"
         en: "Behind the Scenes of the Photo Shoot"
+- activityId: "2026-10-bang-dream-our-notes-daran-tv-1"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "ココポスト"
+    en: "Posts from Coco"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2114634116918550554"
+      date: "2026-10-26"
+      label:
+        ja: "出演告知"
+        en: "Announcement"
+    - url: "https://x.com/cocohayashi515/status/2114722537942954172"
+      date: "2026-10-26"
+      label: "✌️"
+- activityId: "2026-10-bang-dream-our-notes-daran-tv-1"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "キャストポスト"
+    en: "Posts from other casts"
+  links:
+    - url: "https://x.com/Watase_Yuzuki/status/2114720278655971658"
+      date: "2026-10-26"
+      label:
+        ja: "渡瀬結月"
+        en: "Yuzuki Watase"
+    - url: "https://x.com/May_o_o_T/status/2114720679782482196"
+      date: "2026-10-26"
+      label:
+        ja: "橘めい"
+        en: "Mei Tachibana"
+- activityId: "2026-10-bang-dream-our-notes-daran-tv-1"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "公式ポスト"
+    en: "Official Posts"
+  links:
+    - url: "https://x.com/bang_dream_on/status/2114673881118347338"
+      date: "2026-10-26"
+      label:
+        ja: "配信開始"
+        en: "Streaming Begins"
+    - url: "https://x.com/bang_dream_on/status/2114693975638679703"
+      date: "2026-10-26"
+      label:
+        ja: "配信終了"
+        en: "Stream Ended"

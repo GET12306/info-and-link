@@ -78,16 +78,18 @@ test("ticket boundaries accept either dates or precise times but reject legacy p
   assert.ok(issues.some((issue) => issue.message.includes("startDate/endDate 已停用")))
 })
 
-test("weekly and manual recurrence enforce separate schedule sources", () => {
+test("weekly rule-date supplements use timed records and manual recurrence needs authored dates", () => {
   const invalid = structuredClone(activities)
   const weekly = invalid.find((activity) => activity.id === "maison-de-coco")
   weekly.performances = [{ occursOn: "2026-09-04" }]
   const manual = invalid.find((activity) => activity.id === "tricolor")
   manual.performances = []
+  manual.program = undefined
+  manual.performancesFile = undefined
   invalid[0].recurring = true
 
   const issues = validateActivities(invalid)
-  assert.ok(issues.some((issue) => issue.message.includes("weekly 循环活动由规则生成场次")))
+  assert.ok(issues.some((issue) => issue.message.includes("每周规则日期的补充场次须使用 startAt")))
   assert.ok(issues.some((issue) => issue.message.includes("manual 循环活动至少需要一个手动场次")))
   assert.ok(issues.some((issue) => issue.message.includes("recurring 已停用")))
 })

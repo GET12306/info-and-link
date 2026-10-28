@@ -7,7 +7,7 @@ import COCO_PROFILE from "../data/profile.yaml"
 import LINKS from "../data/links.yaml"
 import ACTIVITIES from "../data/activities"
 import type { Activity, Language, LinkItem, Profile } from "../types"
-import { buildCalendarData } from "../hooks/useCalendarEvents"
+import { buildHomeCalendarData } from "../hooks/useCalendarEvents"
 import { getCalendarActivities } from "../utils/activityStatus"
 import useJapanNow from "../hooks/useJapanNow"
 import CalendarMonth from "../components/CalendarMonth"
@@ -27,7 +27,7 @@ export default function Home({ lang }: { lang: Language }) {
   const now = useJapanNow()
   const today = dateTimeForViewer(instantFromSourceKey(now, sourceTimeZone()) ?? Date.now()).substring(0, 10)
   const calendarActivities = useMemo(() => getCalendarActivities(allActivities, now), [allActivities, now])
-  const months = useMemo(() => buildCalendarData(calendarActivities, today), [calendarActivities, today])
+  const months = useMemo(() => buildHomeCalendarData(calendarActivities, today), [calendarActivities, today, now])
   const [monthKey, setMonthKey] = useState(() => today.substring(0, 7))
   const monthIndex = Math.max(0, months.findIndex(month => month.key === monthKey))
 

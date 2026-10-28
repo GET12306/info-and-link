@@ -68,7 +68,13 @@ test("activity resource reads include activity titles for editor lookup", async 
     Promise.resolve(handler(request, response, () => reject(new Error("API not handled")))).catch(reject)
   })
   assert.equal(result.status, 200)
-  assert.deepEqual(result.body.activityReferences, [{ id: base.id, title: base.title }])
+  const [reference] = result.body.activityReferences
+  assert.equal(reference.id, base.id)
+  assert.deepEqual(reference.title, base.title)
+  assert.equal(reference.category, "Live")
+  assert.equal(reference.scheduleLabel, base.scheduleLabel)
+  assert.equal(reference.startAt, "2026-10-10T18:00")
+  assert.equal(reference.startInstant, Date.parse("2026-10-10T18:00:00+09:00"))
 })
 
 async function childScheduleFixture(t) {
@@ -84,14 +90,23 @@ async function childScheduleFixture(t) {
   await writeFile(path.join(directory, "venues.yaml"), "venues: []\n")
   let handler
   activityEditorPlugin(true).configureServer({ config: { root }, middlewares: { use(fn) { handler = fn } } })
-  const request = (method, payload) => new Promise((resolve, reject) => {
+  const request = (method, payload, url = "/__activity-editor/activities") => new Promise((resolve, reject) => {
     const req = Readable.from(payload ? [Buffer.from(JSON.stringify(payload))] : [])
-    Object.assign(req, { url: "/__activity-editor/activities", method, socket: { remoteAddress: "127.0.0.1" } })
+    Object.assign(req, { url, method, socket: { remoteAddress: "127.0.0.1" } })
     const response = { statusCode: 200, setHeader() {}, end(body) { resolve({ status: response.statusCode, body: JSON.parse(body) }) } }
     Promise.resolve(handler(req, response, () => reject(new Error("API not handled")))).catch(reject)
   })
   return { root, directory, parentPath, childPath, request }
 }
+
+test("resource navigation includes the first date from a separate activity schedule file", async t => {
+  const { directory, request } = await childScheduleFixture(t)
+  await writeFile(path.join(directory, "activity-resources.yaml"), "[]\n")
+  const result = await request("GET", undefined, "/__activity-editor/data/activity-resources")
+  assert.equal(result.status, 200)
+  assert.equal(result.body.activityReferences[0].startAt, "2026-10-10T18:00")
+  assert.equal(result.body.activityReferences[0].category, "Program")
+})
 
 test("the activity API reads and saves common performances in their child YAML without duplicating them", async t => {
   const { parentPath, childPath, request } = await childScheduleFixture(t)

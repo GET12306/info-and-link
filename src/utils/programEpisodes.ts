@@ -2,6 +2,8 @@ import type { Activity, ActivityPerformance, Language } from "../types"
 import { TRANSLATIONS } from "../i18n"
 import { isCalendarDate, isCalendarDateTime, isHttpUrl } from "./contentValidation"
 import { dateTimeForViewer, instantFromSourceKey, sourceTimeZone, viewerTimeZone } from "./timeZone"
+import { getMonthlyPerformances, performanceUpdateInstant } from "./monthlySchedule"
+import { getWeeklyPerformances } from "./activitySchedule"
 
 export const PROGRAM_EPISODE_PAGE_SIZE = 5
 
@@ -14,12 +16,16 @@ export function performanceDateKey(performance: ActivityPerformance) {
 }
 
 /** Episode presentation uses the same schedule records as every other activity. */
-export function getProgramEpisodes(activity: Activity): ActivityPerformance[] {
+export function getProgramEpisodes(activity: Activity, now = Date.now()): ActivityPerformance[] {
   if (!hasEpisodeArchive(activity)) return []
   const zone = sourceTimeZone(activity.timeZone)
-  return (activity.performances ?? []).filter(performance => {
+  const monthly = activity.recurrence?.type === "monthly"
+  const performances = monthly ? getMonthlyPerformances(activity, dateTimeForViewer(now, zone).slice(0, 10))
+    : activity.recurrence?.type === "weekly" ? getWeeklyPerformances(activity) : activity.performances ?? []
+  return performances.filter(performance => {
     const date = performanceDateKey(performance)
-    return (isCalendarDate(date) || isCalendarDateTime(date)) && instantFromSourceKey(date, zone) !== null
+    return (isCalendarDate(date) || isCalendarDateTime(date)) && instantFromSourceKey(date, zone) !== null &&
+      (performanceUpdateInstant(performance, zone) ?? Infinity) <= now
   }).sort((a, b) => performanceDateKey(b).localeCompare(performanceDateKey(a)))
 }
 
