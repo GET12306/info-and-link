@@ -3893,9 +3893,7 @@
   performances:
     - startAt: "2027-01-03T19:00"
   timeZone: "Asia/Hong_Kong"
-  venueNote:
-    ja: "亞洲國際博覽館5號展館"
-    en: "Hall 5, AsiaWorld-Expo, Hong Kong"
+  venueIds: [ "asiaworld-expo-hall-5" ]
   ticketInfo:
     entries:
       - type:
@@ -3917,3 +3915,34 @@
   link: "https://www.youtube.com/watch?v=y2jXT9dAvCo"
   performances:
     - startAt: "2026-10-26T20:00"
+- id: "new-activity-copy"
+  category: "Event"
+  scheduleLabel: "2027.01.08"
+  title:
+    ja: "【第1部】ブシロード新春大発表会2027"
+    en: "[Part 1] Bushiroad New Year Grand Announcement Event 2027"
+  link: "https://bushiroad.com/2027newyear_launch_event"
+  performances:
+    - startAt: "2027-01-08T13:00"
+      endAt: "2027-01-08T18:00"
+      milestones:
+        - kind: "doors"
+          at: "11:30"
+  venueNote:
+    ja: "Kanadevia Hall"
+    en: "Kanadevia Hall"
+  ticketInfo:
+    entries:
+      - type:
+          ja: "1次先行（抽選）"
+          en: "1st Round (Lottery)"
+        scheduleLabel: "10月29日(木) 12:00 〜 11月8日(日) 23:59"
+        startAt: "2026-10-29T12:00"
+        endAt: "2026-11-08T23:59"
+    price:
+      ja: "グッズ付きチケット 3,000円(税込) ※別途ドリンク代が必要です。"
+      en: "Ticket with Merchandise: 3,000 yen (tax included) *Drinks are sold separately."
+    link: "https://bushiroad.com/2027newyear_launch_event"
+  description:
+    ja: "椎名立希役"
+    en: "As Taki Shiina"

@@ -768,6 +768,11 @@
       label:
         ja: "明日から開幕"
         en: "It starts tomorrow!"
+    - url: "https://x.com/cocohayashi515/status/2115421202315714596"
+      date: "2026-10-28"
+      label:
+        ja: "初日"
+        en: "Day One"
 - activityId: "2026-wonderlivet"
   kind: "post"
   platform: "x"
@@ -858,3 +863,25 @@
       label:
         ja: "配信終了"
         en: "Stream Ended"
+- activityId: "2026-assault-lily-reading-vol-2"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "キャストポスト"
+    en: "Posts from other casts"
+  links:
+    - url: "https://x.com/hinagaurara/status/2115425024391946511"
+      date: "2026-10-28"
+      label:
+        ja: "日永麗"
+        en: "Urara Hinaga"
+    - url: "https://x.com/itsuki_makiura/status/2115423050091135153"
+      date: "2026-10-28"
+      label:
+        ja: "牧浦乙葵"
+        en: "Itsuki Makiura"
+    - url: "https://x.com/sonohara_staff/status/2115424871832596933"
+      date: "2026-10-28"
+      label:
+        ja: "其原有沙"
+        en: "Arisa Sonohara"

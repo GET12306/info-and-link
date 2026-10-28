@@ -770,6 +770,72 @@ venues:
         url: "https://www.hotelalexandrahk.com/hotelalexandra/files/brochure_files/251/jp/Hotel-Alexandra-Factsheet-%28EN-Low%29.pdf"
         covers: ["address", "transport"]
 
+  # 本条目资料核对日期：2026-10-28
+  - id: "asiaworld-expo-hall-5"
+    name:
+      ja: "亞洲國際博覽館5號展館"
+      en: "AsiaWorld-Expo Hall 5"
+    aliases:
+      ja: ["亞博館5號展館", "亞洲國際博覽館 5號展館"]
+      en: ["Hall 5, AsiaWorld-Expo, Hong Kong", "AsiaWorld-Expo Hall 5, Hong Kong"]
+    countryCode: "HK"
+    timeZone: "Asia/Hong_Kong"
+    address:
+      region:
+        ja: "香港"
+        en: "Hong Kong"
+      locality:
+        ja: "大嶼山赤鱲角"
+        en: "Chek Lap Kok, Lantau Island"
+      street:
+        ja: "香港國際機場 亞洲國際博覽館 地下5號展館"
+        en: "Hall 5, Ground Floor, AsiaWorld-Expo, Hong Kong International Airport"
+    capacity:
+      seated: 2800
+      note:
+        ja: "香港政府観光局の会場案内では単独の標準展館は劇院式2,800名。固定席ではなく、実際の公演の収容人数は舞台・座席配置により異なります"
+        en: "The Hong Kong Tourism Board lists 2,800 people per typical hall in theatre layout. Seating is not fixed; actual concert capacity depends on the stage and seating configuration"
+    spaces:
+      - name:
+          ja: "5號展館"
+          en: "Hall 5"
+        areaSquareMeters: 5680
+    transport:
+      - type: "rail"
+        station:
+          ja: "博覽館站"
+          en: "AsiaWorld-Expo Station"
+        line:
+          ja: "港鐵機場快綫"
+          en: "MTR Airport Express"
+        connected: true
+      - type: "bus"
+        station:
+          ja: "航展道／航天城交通總匯"
+          en: "Airport Expo Boulevard / SKYCITY Transport Terminal"
+    officialUrl: "https://www.asiaworld-expo.com/en-us/planning/venues/typical-halls/"
+    notes:
+      - text:
+          ja: "バスの停留所と運行時間は路線・活動日によって異なります。来場前に公式交通案内をご確認ください"
+          en: "Bus stops and service hours vary by route and event day. Check the official transport guide before travelling"
+        sourceUrl: "https://www.asiaworld-expo.com/zh-tc/visiting/getting-here/in-hong-kong/bus/"
+    sources:
+      - label: "AsiaWorld-Expo・Typical Halls (Hall 3-11)"
+        url: "https://www.asiaworld-expo.com/en-us/planning/venues/typical-halls/"
+        covers: ["name", "officialUrl"]
+      - label: "Meetings & Exhibitions Hong Kong・AsiaWorld-Expo 会場紹介"
+        url: "https://www.mehongkong.com/eng/home/mice-ideas/detail/AsiaWorld-Expo.html"
+        covers: ["capacity", "spaces"]
+      - label: "AsiaWorld-Expo・Contact Us"
+        url: "https://www.asiaworld-expo.com/en-us/about-us/contact-us/"
+        covers: ["address"]
+      - label: "亞洲國際博覽館・機場快綫／港鐵"
+        url: "https://www.asiaworld-expo.com/zh-tc/visiting/getting-here/in-hong-kong/airport-express-mtr/"
+        covers: ["transport"]
+      - label: "亞洲國際博覽館・巴士"
+        url: "https://www.asiaworld-expo.com/zh-tc/visiting/getting-here/in-hong-kong/bus/"
+        covers: ["transport", "notes"]
+
   - id: "hanaspace-taipei"
     name:
       ja: "HANASPACE 花漾展演空間"

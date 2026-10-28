@@ -19,9 +19,9 @@ function EditorWorkspace() {
       {tabs.map(tab => <button type="button" key={tab.key} className={tab.key === active ? "active" : ""}
         aria-current={tab.key === active ? "page" : undefined} onClick={() => setActive(tab.key)}>{tab.label}</button>)}
     </nav>
-    <div hidden={active !== "activities"}><ActivityEditorApp active={active === "activities"} /></div>
-    <div hidden={active !== "venues"}><VenueEditorApp active={active === "venues"} /></div>
-    {RESOURCE_DOCUMENT_KEYS.map(key => <div key={key} hidden={active !== key}><ResourceEditorApp documentKey={key} active={active === key} /></div>)}
+    <div className="workspace-panel" hidden={active !== "activities"}><ActivityEditorApp active={active === "activities"} /></div>
+    <div className="workspace-panel" hidden={active !== "venues"}><VenueEditorApp active={active === "venues"} /></div>
+    {RESOURCE_DOCUMENT_KEYS.map(key => <div className="workspace-panel" key={key} hidden={active !== key}><ResourceEditorApp documentKey={key} active={active === key} /></div>)}
   </>
 }
 
