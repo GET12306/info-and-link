@@ -38,6 +38,11 @@
 # links[].label 可省略；页面会根据 URL 自动显示 X 账号名或网站域名。
 # 只有一个链接时，合集名称和该链接的 label 会直接显示；多个链接时可展开查看各条 label。
 # 合集名称为自由文本，常见来源包括本人、官方、事务所、其他演员，无须新增类别字段。
+# 编辑器提供以下 title 双语预设，也可选择 other 自定义（other 不会写入 YAML）：
+# - ココポスト / Coco's Posts
+# - 公式ポスト / Official Posts
+# - 事務所ポスト / Agency Posts
+# - キャストポスト / Other Cast Members' Posts
 # 每个 URL 都拥有自己的 date，顶层不再使用 date 或 url。页面计数按实际链接数计算。
 #
 # -----------------------------------------------------------------------------
@@ -257,7 +262,7 @@
   platform: "x"
   title:
     ja: "ココポスト"
-    en: "Posts from Coco"
+    en: "Coco's Posts"
   status: "available"
   links:
     - url: "https://x.com/cocohayashi515/status/2100891994285576406"
@@ -311,6 +316,8 @@
       date: "2026-10-16"
     - url: "https://x.com/cocohayashi515/status/2113617006415212822"
       date: "2026-10-23"
+    - url: "https://x.com/cocohayashi515/status/2116151113196208604"
+      date: "2026-10-30"
 - activityId: "2026-liberte-first-act"
   kind: "photo"
   platform: "x"
@@ -379,7 +386,7 @@
   platform: "x"
   title:
     ja: "ココポスト"
-    en: "Posts from Coco"
+    en: "Coco's Posts"
   links:
     - url: "https://x.com/cocohayashi515/status/2103841725378859443"
       date: "2026-09-26"
@@ -407,7 +414,7 @@
   platform: "x"
   title:
     ja: "ココポスト"
-    en: "Posts from Coco"
+    en: "Coco's Posts"
   links:
     - url: "https://x.com/cocohayashi515/status/2104197717031596310"
       date: "2026-09-27"
@@ -535,7 +542,7 @@
   platform: "x"
   title:
     ja: "ココポスト"
-    en: "Posts from Coco"
+    en: "Coco's Posts"
   links:
     - url: "https://x.com/cocohayashi515/status/2108565330423673125"
       date: "2026-10-09"
@@ -581,7 +588,7 @@
   platform: "x"
   title:
     ja: "公式ポスト"
-    en: "Official Post"
+    en: "Official Posts"
   links:
     - url: "https://x.com/kotoravel2026/status/2109116788923334899"
       date: "2026-10-11"
@@ -620,7 +627,7 @@
   platform: "x"
   title:
     ja: "ココポスト"
-    en: "Posts from Coco"
+    en: "Coco's Posts"
   links:
     - url: "https://x.com/cocohayashi515/status/2109629229570936864"
       date: "2026-10-12"
@@ -677,7 +684,7 @@
   platform: "x"
   title:
     ja: "事務所ポスト"
-    en: "Posts from Agency"
+    en: "Agency Posts"
   links:
     - url: "https://x.com/LIBERTE__2024/status/2111363102331818313"
       date: "2026-10-17"
@@ -694,7 +701,7 @@
   platform: "x"
   title:
     ja: "キャストポスト"
-    en: "Posts from other casts"
+    en: "Other Cast Members' Posts"
   links:
     - url: "https://x.com/tanda_hazuki/status/2111381821158306279"
       date: "2026-10-17"
@@ -756,7 +763,7 @@
   platform: "x"
   title:
     ja: "ココポスト"
-    en: "Posts from Coco"
+    en: "Coco's Posts"
   links:
     - url: "https://x.com/cocohayashi515/status/2110737622838710471"
       date: "2026-10-15"
@@ -773,6 +780,11 @@
       label:
         ja: "初日"
         en: "Day One"
+    - url: "https://x.com/cocohayashi515/status/2116150703412683018"
+      date: "2026-10-30"
+      label:
+        ja: "2日目"
+        en: "Day Two"
 - activityId: "2026-wonderlivet"
   kind: "post"
   platform: "x"
@@ -819,7 +831,7 @@
   platform: "x"
   title:
     ja: "ココポスト"
-    en: "Posts from Coco"
+    en: "Coco's Posts"
   links:
     - url: "https://x.com/cocohayashi515/status/2114634116918550554"
       date: "2026-10-26"
@@ -834,7 +846,7 @@
   platform: "x"
   title:
     ja: "キャストポスト"
-    en: "Posts from other casts"
+    en: "Other Cast Members' Posts"
   links:
     - url: "https://x.com/Watase_Yuzuki/status/2114720278655971658"
       date: "2026-10-26"
@@ -868,7 +880,7 @@
   platform: "x"
   title:
     ja: "キャストポスト"
-    en: "Posts from other casts"
+    en: "Other Cast Members' Posts"
   links:
     - url: "https://x.com/hinagaurara/status/2115425024391946511"
       date: "2026-10-28"
@@ -885,3 +897,15 @@
       label:
         ja: "其原有沙"
         en: "Arisa Sonohara"
+- activityId: "2026-assault-lily-reading-vol-2"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "事務所ポスト"
+    en: "Agency Posts"
+  links:
+    - url: "https://x.com/LIBERTE__2024/status/2115453403510067567"
+      date: "2026-10-28"
+      label:
+        ja: "㊗️初日"
+        en: "🎉 Day One"

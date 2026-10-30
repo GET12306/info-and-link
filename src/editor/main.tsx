@@ -17,7 +17,10 @@ function EditorWorkspace() {
   return <>
     <nav className="workspace-tabs" aria-label="YAML 文件切换">
       {tabs.map(tab => <button type="button" key={tab.key} className={tab.key === active ? "active" : ""}
-        aria-current={tab.key === active ? "page" : undefined} onClick={() => setActive(tab.key)}>{tab.label}</button>)}
+        aria-current={tab.key === active ? "page" : undefined} onClick={event => {
+          setActive(tab.key)
+          event.currentTarget.scrollIntoView({ block: "nearest", inline: "nearest" })
+        }}>{tab.label}</button>)}
     </nav>
     <div className="workspace-panel" hidden={active !== "activities"}><ActivityEditorApp active={active === "activities"} /></div>
     <div className="workspace-panel" hidden={active !== "venues"}><VenueEditorApp active={active === "venues"} /></div>

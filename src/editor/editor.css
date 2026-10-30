@@ -28,16 +28,24 @@ svg { width: 16px; height: 16px; flex: 0 0 auto; }
 .performance-pagination { display: flex; align-items: center; gap: 12px; margin: 16px 0; font-size: 13px; color: var(--ink-soft); }
 .workspace-tabs {
   min-width: 0;
-  height: 52px;
+  min-height: 52px;
   padding: 7px 20px;
   display: flex;
   align-items: center;
   gap: 6px;
   overflow-x: auto;
+  overflow-y: hidden;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: #66544c #171413;
   background: #171413;
   border-bottom: 1px solid #423a37;
 }
 .workspace-tabs button {
+  appearance: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   min-height: 34px;
   flex: 0 0 auto;
   padding: 0 15px;
@@ -47,8 +55,13 @@ svg { width: 16px; height: 16px; flex: 0 0 auto; }
   color: #d2c8c3;
   font-size: 12px;
   font-weight: 600;
+  white-space: nowrap;
   cursor: pointer;
 }
+.workspace-tabs button:hover:not(:disabled) { transform: none; }
+.workspace-tabs::-webkit-scrollbar { height: 6px; }
+.workspace-tabs::-webkit-scrollbar-track { background: #171413; }
+.workspace-tabs::-webkit-scrollbar-thumb { background: #66544c; border-radius: 999px; }
 .workspace-tabs button.active { border-color: #d84961; background: var(--accent); color: white; }
 .workspace-tabs button:hover:not(.active) { border-color: #66544c; color: white; }
 .editor-header {
@@ -153,6 +166,8 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .activity-list button { width: 100%; padding: 11px 10px; display: flex; align-items: center; justify-content: space-between; gap: 10px; border: 1px solid transparent; border-radius: 9px; background: transparent; text-align: left; cursor: pointer; }
 .activity-list button:hover { transform: none; background: rgba(255,255,255,.55); }
 .activity-list button.active { background: var(--panel); border-color: #d8d0ca; box-shadow: 0 2px 8px rgba(40,25,18,.05); }
+.resource-group-actions { padding: 4px 10px 12px; }
+.activity-list .resource-group-add { width: auto; min-height: 32px; padding: 5px 10px; justify-content: flex-start; border: 1px dashed #c9beb6; border-radius: 999px; color: var(--accent); font-size: 11px; font-weight: 600; }
 .activity-list button span { min-width: 0; }
 .activity-list strong, .activity-list small { display: block; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .activity-list strong { font-size: 12px; font-weight: 600; }
@@ -303,7 +318,7 @@ button:focus-visible, a:focus-visible, input:focus-visible, textarea:focus-visib
 .yaml-section pre { max-height: 440px; margin: 14px 0 0; padding: 16px; overflow: auto; border-radius: 9px; color: #efeae6; background: #25211f; font: 11px/1.65 ui-monospace, SFMono-Regular, Menlo, monospace; }
 
 .resource-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 17px 20px; }
-.resource-fields > .resource-complex-field, .resource-fields > .resource-localized-field { grid-column: 1 / -1; }
+.resource-fields > .resource-complex-field, .resource-fields > .resource-localized-field, .resource-fields > .resource-title-field { grid-column: 1 / -1; }
 .resource-complex-field { min-width: 0; padding: 15px; border: 1px solid #e5ded8; border-radius: 12px; background: #faf8f6; }
 .resource-field-heading { margin-bottom: 12px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px; color: #574f4a; font-size: 13px; }
 .resource-field-heading strong { font-weight: 600; }

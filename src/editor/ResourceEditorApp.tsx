@@ -12,6 +12,7 @@ import { validateResourceDocument } from "./resourceValidation"
 import { useEditorAutoRefresh, useUnsavedChanges } from "./useEditorAutoRefresh"
 import { ACTIVITY_CATEGORY_ORDER } from "../config/activityCategories"
 import { activityDateLabel, activitySearchText, compareEditorActivities, groupActivityResourceEntries } from "./activityNavigation"
+import ActivityResourceTitleEditor from "./ActivityResourceTitleEditor"
 
 type RecordValue = Record<string, unknown>
 type ResourceResponse = {
@@ -228,6 +229,7 @@ export default function ResourceEditorApp({ documentKey, active }: { documentKey
   const [selectedIndex, setSelectedIndex] = useState(0)
   const [query, setQuery] = useState("")
   const [category, setCategory] = useState("")
+  const contentRef = useRef<HTMLElement>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const savingRef = useRef(false)
@@ -324,11 +326,14 @@ export default function ResourceEditorApp({ documentKey, active }: { documentKey
     setMessage("")
     setEntries(current => current.map((entry, index) => index === selectedIndex ? next : entry))
   }
-  const add = () => {
-    setEntries(current => [...current, schema.create()])
+  const add = (activityId?: string) => {
+    const entry = schema.create()
+    if (isActivityResource && activityId) entry.activityId = activityId
+    setEntries(current => [...current, entry])
     setSelectedIndex(entries.length)
     setQuery("")
-    setCategory("")
+    if (!activityId) setCategory("")
+    contentRef.current?.scrollTo({ top: 0 })
     setMessage("")
   }
   const duplicate = () => { if (!selected) return; setEntries(current => [...current.slice(0, selectedIndex + 1), structuredClone(selected), ...current.slice(selectedIndex + 1)]); setSelectedIndex(selectedIndex + 1); setMessage("") }
@@ -368,7 +373,7 @@ export default function ResourceEditorApp({ documentKey, active }: { documentKey
           <p className="sidebar-sort-note">按活动分组 · 最早场次从新到旧</p>
         </>}
       </div>
-      <div className="sidebar-title"><span>{visibleEntries.length} / {entries.length} 条记录</span><button type="button" disabled={loading || saving} onClick={add}><Plus /> 新建</button></div>
+      <div className="sidebar-title"><span>{visibleEntries.length} / {entries.length} 条记录</span><button type="button" disabled={loading || saving} onClick={() => add()}><Plus /> 新建</button></div>
       <nav className="activity-list" aria-label="记录列表">
         {isActivityResource ? activityGroups.map(group => <section className="resource-activity-group" key={group.activityId} aria-label={localizedLabel(group.activity?.title) || group.activityId || "未选择活动"}>
           <div className="resource-activity-group-heading">
@@ -376,10 +381,15 @@ export default function ResourceEditorApp({ documentKey, active }: { documentKey
             <p>{[activityDateLabel(group.activity), group.activity?.category, `${group.entries.length} 条资源`].filter(Boolean).join(" · ")}</p>
           </div>
           {group.entries.map(entryButton)}
+          {group.activityId && <div className="resource-group-actions">
+            <button type="button" className="resource-group-add" disabled={loading || saving}
+              aria-label={`为${localizedLabel(group.activity?.title) || group.activityId}添加资料`}
+              onClick={() => add(group.activityId)}><Plus /> 添加资料</button>
+          </div>}
         </section>) : visibleEntries.map(entryButton)}
         {!visibleEntries.length && <p className="empty-copy">没有匹配的记录，请调整搜索或筛选。</p>}
       </nav>
-    </aside><section className="editor-content">
+    </aside><section className="editor-content" ref={contentRef}>
       {loading ? <div className="center-state"><RefreshCw className="spin" /> 正在读取 YAML…</div> : selected ? <>
         <div className={`record-heading${documentKey === "activity-resources" ? " activity-resource-record-heading" : ""}`}><div>
           {documentKey === "activity-resources" ? <>
@@ -395,7 +405,11 @@ export default function ResourceEditorApp({ documentKey, active }: { documentKey
           {isActivityResource && <p>title 是合集名称（如本人、官方、事务所、其他演员）；links[].label 是每条链接的具体内容概括，只有一条链接时也会显示。</p>}
         </div></div>
           {documentKey === "activity-resources" && <datalist id="activity-ids">{sortedReferences.map(activity => <option value={activity.id} label={`${localizedLabel(activity.title) || activity.id} · ${activityDateLabel(activity)}`} key={activity.id} />)}</datalist>}
-          <div className="resource-fields">{schema.fields.map(field => <FieldEditor key={field.key} field={field} path="" record={selected} onChange={updateSelected} activityTitles={activityTitles} />)}</div>
+          <div className="resource-fields">{schema.fields.map(field => isActivityResource && field.key === "title"
+            ? <ActivityResourceTitleEditor key={`title-${selectedIndex}`} value={selected.title} onChange={title => updateSelected({ ...selected, title })}>
+              <FieldEditor field={field} path="" record={selected} onChange={updateSelected} />
+            </ActivityResourceTitleEditor>
+            : <FieldEditor key={field.key} field={field} path="" record={selected} onChange={updateSelected} activityTitles={activityTitles} />)}</div>
         </section>
         {unknownFields.length > 0 && <section className="editor-section warning-section"><h2>尚未配置的字段</h2><p>这些字段会原样保留，但尚无专用输入框：{unknownFields.join(", ")}</p></section>}
         <section className="editor-section yaml-section"><button type="button" className="yaml-toggle" onClick={() => setShowYaml(value => !value)}><FileCode2 /> YAML 预览 {showYaml ? <ChevronUp /> : <ChevronDown />}</button>{showYaml && <pre>{stringify(selected, { lineWidth: 0, defaultStringType: "QUOTE_DOUBLE" })}</pre>}</section>

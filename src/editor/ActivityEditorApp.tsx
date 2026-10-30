@@ -11,7 +11,7 @@ import { EMPTY_LOCALIZED_TEXT, setOptional, type EditorActivity } from "./activi
 import { LocalizedEditor, ScalarField, VenueEditor } from "./ActivityEditorFields"
 import { PerformanceEditor, RecurrenceEditor } from "./ActivityScheduleEditor"
 import { TicketEditor } from "./ActivityTicketEditor"
-import { ACTIVITY_CATEGORY_ORDER } from "../config/activityCategories"
+import { ACTIVITY_CATEGORY_ORDER, type ActivityCategory } from "../config/activityCategories"
 import { activityDateLabel, activityReference, activitySearchText, compareEditorActivities } from "./activityNavigation"
 
 interface EditorResponse {
@@ -46,7 +46,8 @@ export default function ActivityEditorApp({ active = true }: { active?: boolean 
   const [revision, setRevision] = useState("")
   const [selectedId, setSelectedId] = useState("")
   const [query, setQuery] = useState("")
-  const [category, setCategory] = useState("")
+  const [category, setCategory] = useState<ActivityCategory | "">("")
+  const contentRef = useRef<HTMLElement>(null)
   const [loading, setLoading] = useState(true)
   const [saving, setSaving] = useState(false)
   const savingRef = useRef(false)
@@ -189,7 +190,7 @@ export default function ActivityEditorApp({ active = true }: { active?: boolean 
     const id = nextUniqueId("new-activity", activities)
     const activity: EditorActivity = {
       id,
-      category: "Event",
+      category: category || "Event",
       scheduleLabel: "",
       title: { ja: "", en: "" },
       link: "",
@@ -197,7 +198,7 @@ export default function ActivityEditorApp({ active = true }: { active?: boolean 
     setActivities((current) => [...current, activity])
     setSelectedId(id)
     setQuery("")
-    setCategory("")
+    contentRef.current?.scrollTo({ top: 0 })
   }
 
   const duplicateActivity = () => {
@@ -256,7 +257,7 @@ export default function ActivityEditorApp({ active = true }: { active?: boolean 
           <div className="sidebar-tools">
             <label className="search-field"><Search /><input aria-label="搜索活动" value={query} placeholder="搜索日英标题、日期或 ID" onChange={(event) => setQuery(event.target.value)} /></label>
             <span className="select-wrap">
-              <select aria-label="活动类别" value={category} onChange={(event) => setCategory(event.target.value)}>
+              <select aria-label="活动类别" value={category} onChange={(event) => setCategory(ACTIVITY_CATEGORY_ORDER.find(value => value === event.target.value) ?? "")}>
                 <option value="">全部活动类别</option>
                 {ACTIVITY_CATEGORY_ORDER.map((value) => <option key={value}>{value}</option>)}
               </select>
@@ -280,7 +281,7 @@ export default function ActivityEditorApp({ active = true }: { active?: boolean 
           </nav>
         </aside>
 
-        <section className="editor-content">
+        <section className="editor-content" ref={contentRef}>
           {loading ? <div className="center-state"><RefreshCw className="spin" /> 正在读取 YAML…</div> : !selectedActivity ? (
             <div className="center-state">请选择或新建一个活动</div>
           ) : (
