@@ -6,6 +6,8 @@ The site collects profile details, official links, upcoming and archived activit
 
 This project is unofficial and is not affiliated with or endorsed by LIBERTE or Coco Hayashi.
 
+See the [website improvement history (中文)](docs/feature-history.zh-CN.md) for a dated account of feature, UI, and maintenance improvements, excluding routine content updates.
+
 ## Features
 
 - **Bilingual UI**: Uses Japanese only when the browser's primary language is Japanese; otherwise defaults to English. A manual language choice is persisted and kept in sync with the document `lang` attribute.

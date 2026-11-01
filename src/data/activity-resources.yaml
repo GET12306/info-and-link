@@ -785,6 +785,21 @@
       label:
         ja: "2日目"
         en: "Day Two"
+    - url: "https://x.com/cocohayashi515/status/2116544416165122171"
+      date: "2026-10-31"
+      label:
+        ja: "3日目"
+        en: "Day Three"
+    - url: "https://x.com/cocohayashi515/status/2116543577539158432"
+      date: "2026-10-31"
+      label:
+        ja: "橘めいとのやりとり"
+        en: "Conversation with Mei Tachibana"
+    - url: "https://x.com/cocohayashi515/status/2116845546992464106"
+      date: "2026-11-01"
+      label:
+        ja: "最強で草！"
+        en: "Final Performance"
 - activityId: "2026-wonderlivet"
   kind: "post"
   platform: "x"
@@ -897,6 +912,36 @@
       label:
         ja: "其原有沙"
         en: "Arisa Sonohara"
+    - url: "https://x.com/ando_chikana/status/2116495462643708035"
+      date: "2026-10-31"
+      label:
+        ja: "安藤千伽奈"
+        en: "Chikana Ando"
+    - url: "https://x.com/sonohara_staff/status/2116501654606676315"
+      date: "2026-10-31"
+      label:
+        ja: "其原有沙"
+        en: "Arisa Sonohara"
+    - url: "https://x.com/ando_chikana/status/2116844300957052959"
+      date: "2026-11-01"
+      label:
+        ja: "安藤千伽奈"
+        en: "Chikana Ando"
+    - url: "https://x.com/hinagaurara/status/2116844873961853330"
+      date: "2026-11-01"
+      label:
+        ja: "日永麗"
+        en: "Urara Hinaga"
+    - url: "https://x.com/itsuki_makiura/status/2116843034369569057"
+      date: "2026-11-01"
+      label:
+        ja: "牧浦乙葵"
+        en: "Itsuki Makiura"
+    - url: "https://x.com/sonohara_staff/status/2116842290446754254"
+      date: "2026-11-01"
+      label:
+        ja: "其原有沙"
+        en: "Arisa Sonohara"
 - activityId: "2026-assault-lily-reading-vol-2"
   kind: "post"
   platform: "x"
@@ -909,3 +954,24 @@
       label:
         ja: "㊗️初日"
         en: "🎉 Day One"
+    - url: "https://x.com/LIBERTE__2024/status/2116858697309982811"
+      date: "2026-11-01"
+      label:
+        ja: "千穐楽"
+        en: "Final Performance"
+- activityId: "2025-assault-lily-reading-red-blue"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "ココポスト"
+    en: "Coco's Posts"
+  links:
+    - url: "https://x.com/cocohayashi515/status/1996214610362519879"
+      date: "2025-12-03"
+    - url: "https://x.com/cocohayashi515/status/1996494405939912919"
+      date: "2025-12-04"
+    - url: "https://x.com/cocohayashi515/status/1997626222592004589"
+      date: "2025-12-07"
+      label:
+        ja: "千穐楽"
+        en: "Final Performance"
