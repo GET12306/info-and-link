@@ -3946,3 +3946,32 @@
   description:
     ja: "椎名立希役"
     en: "As Taki Shiina"
+- id: "2026-piano-bar-claps-2"
+  category: "Live"
+  scheduleLabel: "2026.11.27"
+  title:
+    ja: "PIANO BAR C*LAPS"
+    en: "PIANO BAR C*LAPS"
+  link: "https://x.com/LIBERTE__2024/status/2117272264748224868"
+  performances:
+    - startAt: "2026-11-27T15:00"
+      milestones:
+        - kind: "doors"
+          at: "14:00"
+    - startAt: "2026-11-27T19:30"
+      milestones:
+        - kind: "doors"
+          at: "18:30"
+  ticketInfo:
+    entries:
+      - type:
+          ja: "FC先行"
+          en: "FC Pre-sale"
+        scheduleLabel: "2026.11.03"
+        startAt: "2026-11-03T10:00"
+    link: "https://fan.pia.jp/cocohayashi/news/detail/91/?page=1&ptag=NEWS"
+    price:
+      ja: "6,000円＋1drink"
+      en: "6,000 yen + 1 drink"
+  venueIds:
+    - "roppongi-claps"

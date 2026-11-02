@@ -975,3 +975,15 @@
       label:
         ja: "千穐楽"
         en: "Final Performance"
+- activityId: "2026-sneaker-age"
+  kind: "video"
+  platform: "x"
+  title:
+    ja: "公式ポスト"
+    en: "Official Posts"
+  links:
+    - url: "https://x.com/sneakerages1979/status/2117253116584509587"
+      date: "2026-11-02"
+      label:
+        ja: "素敵なメッセージ"
+        en: "A Lovely Message"
