@@ -987,3 +987,54 @@
       label:
         ja: "素敵なメッセージ"
         en: "A Lovely Message"
+    - url: "https://x.com/sneakerages1979/status/2117580220601651442"
+      date: "2026-11-03"
+      label:
+        ja: "ありがとうございました"
+        en: "Thank you very much"
+- activityId: "2026-piano-bar-claps-2"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "事務所ポスト"
+    en: "Agency Posts"
+  links:
+    - url: "https://x.com/LIBERTE__2024/status/2117272264748224868"
+      date: "2026-11-03"
+      label:
+        ja: "告知"
+        en: "Announcement"
+- activityId: "2026-sneaker-age"
+  kind: "photo"
+  platform: "x"
+  title:
+    ja: "事務所ポスト"
+    en: "Agency Posts"
+  links:
+    - url: "https://x.com/LIBERTE__2024/status/2117561717769359418"
+      date: "2026-11-03"
+      label:
+        ja: "審査員として参加"
+        en: "Participate as a judge"
+- activityId: "2026-sneaker-age"
+  kind: "photo"
+  platform: "x"
+  title:
+    ja: "ココポスト"
+    en: "Coco's Posts"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2117560835887476861"
+      date: "2026-11-03"
+      label:
+        ja: "バンド、最高"
+        en: "The band is awesome"
+- activityId: "2026-sneaker-age"
+  kind: "video"
+  platform: "x"
+  title:
+    ja: "FCポスト"
+    en: "Posts from FC"
+  links:
+    - url: "https://x.com/FC_coco2025/status/2117563595152368020"
+      date: "2026-11-03"
+      label: "🎥"
