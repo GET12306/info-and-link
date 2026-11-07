@@ -698,7 +698,6 @@
   category: "Program"
   scheduleLabel: "Monthly"
   calendarExport: "disabled"
-  calendarRange: "existing-months"
   program:
     display: "episodes"
   recurrence:
@@ -708,8 +707,6 @@
     weekOfMonth: 1
     updateTime: "12:00"
     firstEpisode: 1
-  # 通常日程自动生成；以下已填写的场次保留，可用于补充单期链接、说明或特殊时刻。
-  # 改期/取消请在 recurrence.overrides 中填写原定 date 和实际 occursOn / cancelled。
   performances:
     - occursOn: "2026-09-03"
       milestones:
@@ -738,6 +735,7 @@
     ja: "優木せつ菜役。2026年7月より毎月第1木曜日12:00更新。"
     en: "As Setsuna Yuki. Updated at 12:00 on the first Thursday of each month, starting July 2026."
   link: "https://hibiki-radio.jp/description/lldiscover/detail"
+  calendarRange: "existing-months"
 
 - id: "maison-de-coco"
   category: "Program"
@@ -747,7 +745,7 @@
   recurrence:
     type: "weekly"
     startOn: "2026-01-09"
-    endOn: "2027-01-31"
+    endOn: "2027-03-31"
     weekday: "friday"
     startTime: "22:00"
     firstEpisode: 1
@@ -3889,11 +3887,12 @@
   title:
     ja: "MyGO!!!!! 9th LIVE「つなぎ目の向こうに」 - 香港還想編 -"
     en: "MyGO!!!!! 9th LIVE “Beyond the Seam” - in Hong Kong -"
-  link: "https://x.com/bang_dream_mygo/status/2113223844055925103"
+  link: "https://bang-dream.com/events/mygo_9th_hongkong/"
   performances:
     - startAt: "2027-01-03T19:00"
   timeZone: "Asia/Hong_Kong"
-  venueIds: [ "asiaworld-expo-hall-5" ]
+  venueIds:
+    - "asiaworld-expo-hall-5"
   ticketInfo:
     entries:
       - type:
@@ -3902,9 +3901,12 @@
         scheduleLabel: "2026.11.04 12:00 - 11.08"
         startAt: "2026-11-04T12:00"
         endAt: "2026-11-08T23:59"
-    link: "https://www.bilibili.com/opus/1261983370803412999"
+        link: "https://asiaworld-expo.kktix.cc/events/mygo-9th-live-2027"
+    price:
+      ja: "HK$1788 / HK$1488 / HK$988 / HK$788"
+      en: "HK$1788 / HK$1488 / HK$988 / HK$788"
   description:
-    ja: "椎名立希役 https://x.com/EUPD_official/status/2113223842852454606"
+    ja: "椎名立希役"
     en: "As Taki Shiina"
 - id: "2026-10-bang-dream-our-notes-daran-tv-1"
   category: "Program"
@@ -3975,3 +3977,49 @@
       en: "6,000 yen + 1 drink"
   venueIds:
     - "roppongi-claps"
+- id: "2027-anisama-fukuoka-day1"
+  category: "Live"
+  scheduleLabel: "2027.03.13"
+  title:
+    ja: "ANISAMA FUKUOKA 2027 DAY1"
+    en: "ANISAMA FUKUOKA 2027 DAY1"
+  link: "https://anisama.tv/2027/fukuoka/"
+  venueNote:
+    ja: "みずほPayPayドーム福岡"
+    en: "Mizuho PayPay Dome Fukuoka"
+  performances:
+    - startAt: "2027-03-13T15:00"
+      endAt: "2027-03-13T20:00"
+      milestones:
+        - kind: "doors"
+          at: "13:30"
+  ticketInfo:
+    entries:
+      - type:
+          ja: "抽選"
+          en: "Lottery"
+        scheduleLabel: "2026-11-04 19:30-"
+        startAt: "2026-11-04T19:30"
+    link: "https://anisama.tv/2027/fukuoka/tickets/"
+    price:
+      ja: "詳細はホームページまで"
+      en: "For more details, please visit the website."
+- id: "2026-anisama-fukuoka-announcement"
+  category: "Program"
+  scheduleLabel: "2026.11.04"
+  title:
+    ja: "ANISAMA FUKUOKA 2027 開催発表会"
+    en: "ANISAMA FUKUOKA 2027 Press Conference"
+  link: "https://x.com/anisama/status/2117921861468147721"
+  performances:
+    - startAt: "2026-11-04T19:00"
+      endAt: "2026-11-04T20:00"
+- id: "2026-11-nijigaku-monthly-live-stream"
+  category: "Program"
+  scheduleLabel: "2026-11-24"
+  title:
+    ja: "虹ヶ咲生放送"
+    en: "Nijigasaki Live Stream"
+  link: "https://x.com/Nijigaku_movie/status/2118190759006605318"
+  performances:
+    - startAt: "2026-11-24T20:30"

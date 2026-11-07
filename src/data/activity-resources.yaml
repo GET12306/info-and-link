@@ -318,6 +318,8 @@
       date: "2026-10-23"
     - url: "https://x.com/cocohayashi515/status/2116151113196208604"
       date: "2026-10-30"
+    - url: "https://x.com/cocohayashi515/status/2118700306095800513"
+      date: "2026-11-06"
 - activityId: "2026-liberte-first-act"
   kind: "photo"
   platform: "x"
@@ -1038,3 +1040,56 @@
     - url: "https://x.com/FC_coco2025/status/2117563595152368020"
       date: "2026-11-03"
       label: "🎥"
+- activityId: "2026-anisama-fukuoka-announcement"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "事務所ポスト"
+    en: "Agency Posts"
+  links:
+    - url: "https://x.com/LIBERTE__2024/status/2117924005911073096"
+      date: "2026-11-04"
+      label:
+        ja: "出演中"
+        en: "Currently Airing"
+    - url: "https://x.com/LIBERTE__2024/status/2117962928637059116"
+      date: "2026-11-04"
+      label:
+        ja: "ご視聴ありがとうございました"
+        en: "Thank you for watching."
+- activityId: "2026-anisama-fukuoka-announcement"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "公式ポスト"
+    en: "Official Posts"
+  links:
+    - url: "https://x.com/bang_dream_info/status/2117950001338864106"
+      date: "2026-11-04"
+      label:
+        ja: "出演しました"
+        en: "Made an appearance"
+- activityId: "2026-anisama-fukuoka-announcement"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "キャストポスト"
+    en: "Other Cast Members' Posts"
+  links:
+    - url: "https://x.com/Watase_Yuzuki/status/2117966944913723721"
+      date: "2026-11-04"
+      label:
+        ja: "渡瀬結月"
+        en: "Yuzuki Watase"
+- activityId: "2026-anisama-fukuoka-announcement"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "ココポスト"
+    en: "Coco's Posts"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2117983029058773412"
+      date: "2026-11-04"
+      label:
+        ja: "DAY1への出演"
+        en: "Appearance on DAY1"
