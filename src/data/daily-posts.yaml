@@ -68,7 +68,7 @@
   platform: "x"
   date: "2026-10-07"
 - title:
-    ja: "安藤千伽奈さんに写真集"
+    ja: "安藤千伽奈さんに写真集を"
     en: "Giving her PhotoBook to Chikana Ando"
   url: "https://x.com/ando_chikana/status/2117096997278880133"
   date: "2026-11-02"
@@ -77,3 +77,11 @@
     en: "Birthday of Uta Gamagori"
   url: "https://x.com/cocohayashi515/status/2117642294887370894"
   date: "2026-11-04"
+- title:
+    ja: "初ハットグ"
+    en: "First time to Korean corn dog"
+  url: "https://x.com/cocohayashi515/status/1459470790185811968"
+  date: "2021-11-13"
+  platform: "x"
+  links:
+    - "https://x.com/cocohayashi515/status/1459472022279311360"

@@ -277,6 +277,12 @@
       label:
         ja: "昼公演"
         en: "Matinee"
+      milestones:
+        - kind: "other"
+          at: "16:00"
+          label:
+            ja: "アフタートーク"
+            en: "After talk"
     - startAt: "2026-12-17T19:00"
       label:
         ja: "夜公演"
@@ -290,6 +296,12 @@
       label:
         ja: "夜公演"
         en: "Evening"
+      milestones:
+        - kind: "other"
+          at: "19:00"
+          label:
+            ja: "アフタートーク"
+            en: "After talk"
     - startAt: "2026-12-20T12:00"
       label:
         ja: "昼公演"
@@ -4004,6 +4016,9 @@
     price:
       ja: "詳細はホームページまで"
       en: "For more details, please visit the website."
+  description:
+    ja: "椎名立希役"
+    en: "As Taki  Shiina"
 - id: "2026-anisama-fukuoka-announcement"
   category: "Program"
   scheduleLabel: "2026.11.04"
@@ -4023,3 +4038,45 @@
   link: "https://x.com/Nijigaku_movie/status/2118190759006605318"
   performances:
     - startAt: "2026-11-24T20:30"
+- id: "2027-01-reading-minamoto"
+  category: "Reading"
+  scheduleLabel: "2026"
+  title:
+    ja: "源 -minamoto- 銀灰の時旅人"
+    en: "Minamoto - The Silver-Gray Time Traveler"
+  link: "https://www.logproject.jp/roudoku_ginkai/"
+  performances:
+    - startAt: "2027-01-23T13:00"
+      milestones:
+        - kind: "doors"
+          at: "12:15"
+      label:
+        ja: "第1回"
+        en: "First"
+    - startAt: "2027-01-23T17:30"
+      milestones:
+        - kind: "doors"
+          at: "16:45"
+      label:
+        ja: "第2回"
+        en: "Second"
+    - startAt: "2027-01-24T12:00"
+      milestones:
+        - kind: "doors"
+          at: "11:15"
+      label:
+        ja: "第3回"
+        en: "Third"
+    - startAt: "2027-01-24T16:30"
+      milestones:
+        - kind: "doors"
+          at: "15:45"
+      label:
+        ja: "第4回"
+        en: "Fourth"
+  venueNote:
+    ja: "スタァライト劇場"
+    en: "Starlight Theater"
+  description:
+    ja: "政姫／熊谷直実 役。その記憶が交差し、時を巡る者たちの物語が動き出す。"
+    en: "As Masahime / Naomi Kumagai. As those memories intertwine, the story of those who travel through time begins to unfold."

@@ -1093,3 +1093,15 @@
       label:
         ja: "DAY1への出演"
         en: "Appearance on DAY1"
+- activityId: "2027-01-reading-minamoto"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "事務所ポスト"
+    en: "Agency Posts"
+  links:
+    - url: "https://x.com/LIBERTE__2024/status/2119326545227677797"
+      date: "2026-11-08"
+      label:
+        ja: "出演情報"
+        en: "Casting Information"
