@@ -1105,3 +1105,15 @@
       label:
         ja: "出演情報"
         en: "Casting Information"
+- activityId: "2027-01-reading-minamoto"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "ココポスト"
+    en: "Coco's Posts"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2120472051790336413"
+      date: "2026-11-11"
+      label:
+        ja: "出演のお知らせ"
+        en: "Announcement"

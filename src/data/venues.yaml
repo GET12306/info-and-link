@@ -1910,10 +1910,32 @@ venues:
     sources: [{ label: "雷5656会館 公式案内", url: "https://tokiwado.tokyo/kaikan/", covers: ["name", "address", "capacity", "transport"] }]
 
   - id: "hikosen-theater"
-    name: { ja: "飛行船シアター", en: "Hikosen Theater" }
+    name: { ja: "スタァライト劇場", en: "Starlight Theater" }
+    formerName: { ja: "飛行船シアター", en: "Hikosen Theater" }
     address: { postalCode: "110-0015", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "台東区", en: "Taito City" }, street: { ja: "東上野4-24-11", en: "4-24-11 Higashi-Ueno" } }
+    capacity: { seated: 508, wheelchairSpaces: 2 }
+    transport:
+      - { type: "rail", station: { ja: "上野駅", en: "Ueno Station" }, line: { ja: "JR各線", en: "JR lines" }, exit: { ja: "入谷口", en: "Iriya Exit" }, walkingMinutes: 8 }
+      - { type: "metro", station: { ja: "上野駅", en: "Ueno Station" }, line: { ja: "東京メトロ日比谷線・銀座線", en: "Tokyo Metro Hibiya and Ginza Lines" }, exit: "1", walkingMinutes: 8 }
     officialUrl: "https://hikosen-theater.com/"
-    sources: [{ label: "飛行船シアター 公式サイト", url: "https://hikosen-theater.com/", covers: ["name", "address", "capacity", "transport"] }]
+    sources:
+      - { label: "スタァライト劇場 公式サイト", url: "https://hikosen-theater.com/", covers: ["name", "address", "capacity", "transport"] }
+      - { label: "施設名称変更のお知らせ", url: "https://hikosen-theater.com/news/ir", covers: ["name", "formerName"] }
+
+  - id: "mizuho-paypay-dome-fukuoka"
+    name: { ja: "みずほPayPayドーム福岡", en: "Mizuho PayPay Dome Fukuoka" }
+    aliases: { ja: ["みずほPayPayドーム", "福岡ドーム"], en: ["Fukuoka Dome"] }
+    address: { postalCode: "810-0065", region: { ja: "福岡県", en: "Fukuoka Prefecture" }, locality: { ja: "福岡市中央区", en: "Chuo Ward, Fukuoka" }, street: { ja: "地行浜2-2-2", en: "2-2-2 Jigyohama" } }
+    capacity:
+      note: { ja: "公式施設概要の定員は2026年11月1日以降40,029人。公演時は会場構成により異なります", en: "The operator lists a capacity of 40,029 from November 1, 2026. Concert capacity varies by layout" }
+    transport:
+      - { type: "metro", station: { ja: "唐人町駅", en: "Tojinmachi Station" }, line: { ja: "福岡市地下鉄空港線", en: "Fukuoka City Subway Airport Line" }, exit: "3", walkingMinutes: 15 }
+      - { type: "bus", station: { ja: "医療センター前", en: "Iryo Center-mae" }, line: { ja: "西鉄バス", en: "Nishitetsu Bus" }, walkingMinutes: 2 }
+    officialUrl: "https://www.softbankhawks.co.jp/stadium/institution.html"
+    sources:
+      - { label: "福岡ソフトバンクホークス・施設概要", url: "https://www.softbankhawks.co.jp/stadium/institution.html", covers: ["name", "address", "capacity"] }
+      - { label: "福岡県観光連盟・施設案内", url: "https://www.crossroadfukuoka.jp/spot/12266", covers: ["address", "transport"] }
+      - { label: "日本政府観光局・MICE施設案内", url: "https://mice.jnto.go.jp/organizer-support/search/venue-detail/703.html", covers: ["transport"] }
 
   - id: "komaba-park-saku"
     name: { ja: "駒場公園（長野県佐久市）", en: "Komaba Park, Saku, Nagano" }

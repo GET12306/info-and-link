@@ -3942,9 +3942,7 @@
       milestones:
         - kind: "doors"
           at: "11:30"
-  venueNote:
-    ja: "Kanadevia Hall"
-    en: "Kanadevia Hall"
+  venueIds: ["kanadevia-hall"]
   ticketInfo:
     entries:
       - type:
@@ -3996,9 +3994,7 @@
     ja: "ANISAMA FUKUOKA 2027 DAY1"
     en: "ANISAMA FUKUOKA 2027 DAY1"
   link: "https://anisama.tv/2027/fukuoka/"
-  venueNote:
-    ja: "みずほPayPayドーム福岡"
-    en: "Mizuho PayPay Dome Fukuoka"
+  venueIds: ["mizuho-paypay-dome-fukuoka"]
   performances:
     - startAt: "2027-03-13T15:00"
       endAt: "2027-03-13T20:00"
@@ -4074,9 +4070,7 @@
       label:
         ja: "第4回"
         en: "Fourth"
-  venueNote:
-    ja: "スタァライト劇場"
-    en: "Starlight Theater"
+  venueIds: ["hikosen-theater"]
   description:
     ja: "政姫／熊谷直実 役。その記憶が交差し、時を巡る者たちの物語が動き出す。"
     en: "As Masahime / Naomi Kumagai. As those memories intertwine, the story of those who travel through time begins to unfold."
