@@ -1131,9 +1131,11 @@
     en: "Coco Hayashi Fan Club Event 2027 ~ The Star Meeting, Vol. 1 ~"
   link: "https://fan.pia.jp/cocohayashi/news/detail/85/?page=1&ptag=NEWS"
   description:
-    ja: "詳細・チケット先行販売に関しましては、少々お待ちください。"
-    en: "Please wait a moment for details and information regarding the advance ticket sale."
-  venueNote: { ja: "都内某所", en: "Somewhere in Tokyo" }
+    ja: "イベント詳細・チケット情報は近日中に発表予定です"
+    en: "Event details and ticket information will be announced soon."
+  venueNote:
+    ja: "P.O.南青山ホール"
+    en: "P.O. Minami-Aoyama Hall"
   startDate: "2027-01-30"
   endDate: "2027-01-30"
   durationMinutes: 90
@@ -1216,6 +1218,7 @@
   performances:
     - startAt: "2026-09-24T22:00"
       endAt: "2026-09-24T23:00"
+    - startAt: "2026-11-19T22:00"
   calendarExport: "disabled"
 
 # ------------------------------------------------------------------------------------------------------------
@@ -3942,7 +3945,7 @@
       milestones:
         - kind: "doors"
           at: "11:30"
-  venueIds: ["kanadevia-hall"]
+  venueIds: [ "kanadevia-hall" ]
   ticketInfo:
     entries:
       - type:
@@ -3994,7 +3997,7 @@
     ja: "ANISAMA FUKUOKA 2027 DAY1"
     en: "ANISAMA FUKUOKA 2027 DAY1"
   link: "https://anisama.tv/2027/fukuoka/"
-  venueIds: ["mizuho-paypay-dome-fukuoka"]
+  venueIds: [ "mizuho-paypay-dome-fukuoka" ]
   performances:
     - startAt: "2027-03-13T15:00"
       endAt: "2027-03-13T20:00"
@@ -4029,8 +4032,8 @@
   category: "Program"
   scheduleLabel: "2026-11-24"
   title:
-    ja: "虹ヶ咲生放送"
-    en: "Nijigasaki Live Stream"
+    ja: "虹ヶ咲生放送 冬のはじまり♡あなたとときめく 見つけて！語って！魅力ディスカバー♪"
+    en: "Nijigasaki Live Stream The Start of Winter ♡ Heart-Fluttering Moments with You Find It! Talk About It! Discover the Charm♪"
   link: "https://x.com/Nijigaku_movie/status/2118190759006605318"
   performances:
     - startAt: "2026-11-24T20:30"
@@ -4070,7 +4073,7 @@
       label:
         ja: "第4回"
         en: "Fourth"
-  venueIds: ["hikosen-theater"]
+  venueIds: [ "hikosen-theater" ]
   description:
     ja: "政姫／熊谷直実 役。その記憶が交差し、時を巡る者たちの物語が動き出す。"
     en: "As Masahime / Naomi Kumagai. As those memories intertwine, the story of those who travel through time begins to unfold."

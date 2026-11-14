@@ -320,6 +320,8 @@
       date: "2026-10-30"
     - url: "https://x.com/cocohayashi515/status/2118700306095800513"
       date: "2026-11-06"
+    - url: "https://x.com/cocohayashi515/status/2121222842956267565"
+      date: "2026-11-13"
 - activityId: "2026-liberte-first-act"
   kind: "photo"
   platform: "x"
@@ -1117,3 +1119,25 @@
       label:
         ja: "出演のお知らせ"
         en: "Announcement"
+- activityId: "bang-dream-tv-live-2026"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "#341 関連ポスト"
+    en: "#341 Related Posts"
+  links:
+    - url: "https://x.com/bang_dream_info/status/2120878736254124400"
+      date: "2026-11-12"
+      label:
+        ja: "告知"
+        en: "Announcement"
+- activityId: "2026-mygo-9th-kobe-revival"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "ココポスト"
+    en: "Coco's Posts"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2121223304224870657"
+      date: "2026-11-13"
+      label: "💪"
