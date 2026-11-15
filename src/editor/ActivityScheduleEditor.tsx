@@ -118,6 +118,7 @@ export function RecurrenceEditor({
         <div>
           <h2>经常性节目</h2>
           <p>每周或每月固定节目按规则生成；不固定日期的节目使用手动场次。</p>
+          <p>修改规则会保留已填写的场次。循环节目不能同时使用上方的连续日期；如有冲突，请按校验提示手动调整。</p>
         </div>
       </div>
       <div className="field-grid">
@@ -320,7 +321,7 @@ export function PerformanceEditor({
                 }}
                 onRemove={() => {
                   const next = items.filter((_, itemIndex) => itemIndex !== index)
-                  onChange(next.length ? next : undefined)
+                  onChange(next.length || sourceFile ? next : undefined)
                 }}
               />
               <div className="field-grid three">

@@ -129,6 +129,35 @@ test("the activity API reads and saves common performances in their child YAML w
   assert.deepEqual(reread.body.activities, activities)
 })
 
+test("saving a weekly rule preserves its child records unless they are explicitly removed", async t => {
+  const { parentPath, childPath, request } = await childScheduleFixture(t)
+  const initial = await request("GET")
+  const originalChild = await readFile(childPath, "utf8")
+  const activities = initial.body.activities
+  const activity = activities[0]
+  activity.recurrence = {
+    type: "weekly", startOn: "2026-10-10", endOn: "2026-10-31",
+    weekday: "saturday", startTime: "18:00",
+  }
+  const saved = await request("PUT", { activities, revision: initial.body.revision })
+  assert.equal(saved.status, 200)
+  assert.equal(await readFile(childPath, "utf8"), originalChild)
+  const savedParent = await readFile(parentPath, "utf8")
+  assert.equal(parse(savedParent)[0].recurrence.endOn, "2026-10-31")
+
+  activity.recurrence.endOn = "2026-11-07"
+  delete activity.performances
+  const rejected = await request("PUT", { activities, revision: saved.body.revision })
+  assert.match(rejected.body.error, /缺少场次数据/)
+  assert.equal(await readFile(parentPath, "utf8"), savedParent)
+  assert.equal(await readFile(childPath, "utf8"), originalChild)
+
+  activity.performances = []
+  const cleared = await request("PUT", { activities, revision: saved.body.revision })
+  assert.equal(cleared.status, 200)
+  assert.deepEqual(parse(await readFile(childPath, "utf8")).performances, [])
+})
+
 test("external child changes invalidate the editor revision and invalid child rows cannot write either file", async t => {
   const { parentPath, childPath, request } = await childScheduleFixture(t)
   const initial = await request("GET")

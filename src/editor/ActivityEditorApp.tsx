@@ -333,15 +333,7 @@ export default function ActivityEditorApp({ active = true }: { active?: boolean 
               </section>}
               <RecurrenceEditor
                 recurrence={selectedActivity.recurrence}
-                onChange={(recurrence) => {
-                  let next = setOptional(selectedActivity, "recurrence", recurrence) as EditorActivity
-                  if (recurrence?.type === "weekly") {
-                    next = setOptional(next, "performances", undefined) as EditorActivity
-                    next = setOptional(next, "startDate", undefined) as EditorActivity
-                    next = setOptional(next, "endDate", undefined) as EditorActivity
-                  }
-                  updateSelected(next)
-                }}
+                onChange={(recurrence) => updateSelected(setOptional(selectedActivity, "recurrence", recurrence))}
               />
               <PerformanceEditor
                 key={selectedActivity.id}

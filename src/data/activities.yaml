@@ -1131,11 +1131,8 @@
     en: "Coco Hayashi Fan Club Event 2027 ~ The Star Meeting, Vol. 1 ~"
   link: "https://fan.pia.jp/cocohayashi/news/detail/85/?page=1&ptag=NEWS"
   description:
-    ja: "イベント詳細・チケット情報は近日中に発表予定です"
-    en: "Event details and ticket information will be announced soon."
-  venueNote:
-    ja: "P.O.南青山ホール"
-    en: "P.O. Minami-Aoyama Hall"
+    ja: "詳細は追ってお知らせいたします"
+    en: "Details TBA"
   startDate: "2027-01-30"
   endDate: "2027-01-30"
   durationMinutes: 90
@@ -4127,9 +4124,6 @@
   description:
     ja: "椎名立希役（MyGO!!!!!）"
     en: "As Taki Shiina (MyGO!!!!!)"
-  performances:
-    - startAt: "2027-06-12T17:00"
-    - startAt: "2027-06-13T17:00"
   ticketInfo:
     entries:
       - type:
@@ -4140,6 +4134,8 @@
           ja: "申込の詳細は後日公開いたします。"
           en: "Details will be announced at a later date."
     link: "https://live.bushiroad-music.com/bushiroad_20thlive/"
+  startDate: "2027-06-12"
+  endDate: "2027-06-13"
 - id: "2027-04-mygo-10th-live"
   category: "Live"
   scheduleLabel: "2027.04.29-04.30"
@@ -4176,3 +4172,17 @@
     price:
       ja: "S席(特製グッズ付き)：27,500円(税込) A席(特製グッズ付き)：16,500円(税込) 一般指定席：9,900円(税込) 2DAYS通しチケット：12,100円(税込) ※座席は一般指定席となります。"
       en: "S Seats (includes exclusive merchandise): 27,500 yen (tax included) A Seats (includes exclusive merchandise): 16,500 yen (tax included) General Reserved Seats: 9,900 yen (tax included) 2-Day Pass: 12,100 yen (tax included) *Seats are general reserved seats."
+- id: "2026-12-maison-de-coco-1st-anniversary-event"
+  category: "Event"
+  scheduleLabel: "2026.12.26"
+  title:
+    ja: "「林鼓子のメゾン・ド・ココ」1周年記念イベント"
+    en: "“Koko Hayashi's Maison de Coco” 1st Anniversary Event"
+  link: "https://audee-membership.jp/coco-hayashi/articles/news/areikjnjbEfP3W8QTTKQD6rK"
+  venueNote:
+    ja: "P.O.南青山ホール"
+    en: "P.O. Minami-Aoyama Hall"
+  description:
+    ja: "チケット情報、販売スケジュールなど詳細は追ってお知らせいたします"
+    en: "Details TBA"
+  startDate: "2026-12-26"

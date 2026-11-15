@@ -43,7 +43,10 @@ export function serializeActivityDocuments(snapshot: Awaited<ReturnType<typeof r
     const source = snapshot.sources.get(activity.performancesFile)
     if (source === undefined) throw new Error(`请先在 activities.yaml 中配置已有子文件：${activity.performancesFile}`)
     const { performances, ...parent } = activity
-    documents.set(activity.performancesFile, updatePerformanceDocument(source, performances ?? []))
+    if (performances === undefined) {
+      throw new Error(`保存请求缺少场次数据：${activity.performancesFile}。请重新载入；清空场次必须明确提交空数组。`)
+    }
+    documents.set(activity.performancesFile, updatePerformanceDocument(source, performances))
     return parent
   })
   documents.set("activities.yaml", updateListDocument(snapshot.sources.get("activities.yaml")!, parents))
