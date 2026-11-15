@@ -1132,7 +1132,7 @@
         ja: "告知"
         en: "Announcement"
 - activityId: "2026-mygo-9th-kobe-revival"
-  kind: "post"
+  kind: "photo"
   platform: "x"
   title:
     ja: "ココポスト"
@@ -1141,3 +1141,69 @@
     - url: "https://x.com/cocohayashi515/status/2121223304224870657"
       date: "2026-11-13"
       label: "💪"
+    - url: "https://x.com/cocohayashi515/status/2121569393381626308"
+      date: "2026-11-14"
+      label:
+        ja: "DAY1 ありがとうございました"
+        en: "Thank you for day one"
+    - url: "https://x.com/cocohayashi515/status/2121846613782224924"
+      date: "2026-11-15"
+    - url: "https://x.com/cocohayashi515/status/2121921989178990727"
+      date: "2026-11-15"
+      label:
+        ja: "神戸ありがとうございました"
+        en: "Thank you Kobe"
+- activityId: "2026-mygo-9th-kobe-revival"
+  kind: "photo"
+  platform: "x"
+  title:
+    ja: "事務所ポスト"
+    en: "Agency Posts"
+  links:
+    - url: "https://x.com/LIBERTE__2024/status/2121571927026483446"
+      date: "2026-11-14"
+      label: "Day 1"
+    - url: "https://x.com/LIBERTE__2024/status/2121923805748879827"
+      date: "2026-11-15"
+      label: "Day 2"
+- activityId: "2026-mygo-9th-kobe-revival"
+  kind: "video"
+  platform: "x"
+  title:
+    ja: "FCポスト"
+    en: "Posts from FanClub"
+  links:
+    - url: "https://x.com/FC_coco2025/status/2121828070890090624"
+      date: "2026-11-15"
+      label:
+        ja: "｢がんばろう｣"
+        en: "“Let's do our best!”"
+    - url: "https://x.com/FC_coco2025/status/2121924555195425017"
+      date: "2026-11-15"
+      label:
+        ja: "｢えむ（M）｣"
+        en: "｢M｣"
+- activityId: "2027-02-lovelive-15th-encore-tokyo"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "ココポスト"
+    en: "Coco's Posts"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2121924569766474224"
+      date: "2026-11-15"
+      label:
+        ja: "出演のお知らせ"
+        en: "Announcement"
+- activityId: "2027-02-lovelive-15th-encore-tokyo"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "事務所ポスト"
+    en: "Agency Posts"
+  links:
+    - url: "https://x.com/LIBERTE__2024/status/2121921251585511859"
+      date: "2025-11-15"
+      label:
+        ja: "出演のお知らせ"
+        en: "Announcement"

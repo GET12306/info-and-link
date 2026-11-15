@@ -757,7 +757,7 @@
   recurrence:
     type: "weekly"
     startOn: "2026-01-09"
-    endOn: "2027-03-31"
+    endOn: "2027-06-30"
     weekday: "friday"
     startTime: "22:00"
     firstEpisode: 1
@@ -3997,7 +3997,8 @@
     ja: "ANISAMA FUKUOKA 2027 DAY1"
     en: "ANISAMA FUKUOKA 2027 DAY1"
   link: "https://anisama.tv/2027/fukuoka/"
-  venueIds: [ "mizuho-paypay-dome-fukuoka" ]
+  venueIds:
+    - "mizuho-paypay-dome-fukuoka"
   performances:
     - startAt: "2027-03-13T15:00"
       endAt: "2027-03-13T20:00"
@@ -4016,8 +4017,8 @@
       ja: "詳細はホームページまで"
       en: "For more details, please visit the website."
   description:
-    ja: "椎名立希役"
-    en: "As Taki  Shiina"
+    ja: "椎名立希役（MyGO!!!!!）"
+    en: "As Taki  Shiina (MyGO!!!!!)"
 - id: "2026-anisama-fukuoka-announcement"
   category: "Program"
   scheduleLabel: "2026.11.04"
@@ -4077,3 +4078,101 @@
   description:
     ja: "政姫／熊谷直実 役。その記憶が交差し、時を巡る者たちの物語が動き出す。"
     en: "As Masahime / Naomi Kumagai. As those memories intertwine, the story of those who travel through time begins to unfold."
+- id: "2027-02-lovelive-15th-encore-tokyo"
+  category: "Live"
+  scheduleLabel: "2027.02.13-02.14"
+  title:
+    ja: "LoveLive! Series 15th Annivesary ラブライブ！フェス Encore in TOKYO DOME"
+    en: "LoveLive! Series 15th Annivesary Love Live! Festival Encore in TOKYO DOME"
+  link: "https://www.lovelive-anime.jp/special/live/live_detail.php?p=15th_lovelivefest_encore"
+  performances:
+    - startAt: "2027-02-13T17:00"
+      milestones:
+        - kind: "doors"
+          at: "15:00"
+    - startAt: "2027-02-14T17:00"
+      milestones:
+        - kind: "doors"
+          at: "15:00"
+  venueIds:
+    - "tokyo-dome"
+  ticketInfo:
+    entries:
+      - type:
+          ja: "最速先行抽選"
+          en: "First Lottery"
+        scheduleLabel: "2026年11月16日 12:00～11月29日 23:59 "
+        startAt: "2026-11-16T12:00"
+        endAt: "2026-11-29T23:59"
+        link: "https://www.lovelive-anime.jp/special/live/live_detail.php?p=15th_lovelivefest_encore"
+        description:
+          ja: "二つの抽選があります。詳細はHPまで。"
+          en: "There are two entries. Please visit HP for details."
+    link: "https://www.lovelive-anime.jp/special/live/live_detail.php?p=15th_lovelivefest_encore"
+    price:
+      ja: "全席指定：15,000円（税込） U-20割引チケット：7,500円（税込） アリーナS席アップグレードチケット（グッズ付き）：＋15,000円 アリーナA席アップグレードチケット（グッズ付き）：＋10,000円"
+      en: "All reserved seating: 15,000 yen (tax included) U-20 discount ticket: 7,500 yen (tax included) Arena S Seat Upgrade Ticket (includes merchandise): +15,000 yen Arena A Seat Upgrade Ticket (includes merchandise): +10,000 yen"
+  description:
+    ja: "優木せつ菜役"
+    en: "As Setsuna Yūki"
+- id: "2027-06-bushiroad-20th-anniversary-live"
+  category: "Live"
+  scheduleLabel: "2027.06.12-06.13"
+  title:
+    ja: "ブシロード20周年記念ライブ"
+    en: "Bushiroad 20th Anniversary Live"
+  link: "https://live.bushiroad-music.com/bushiroad_20thlive/"
+  venueIds:
+    - "yokohama-arena"
+  description:
+    ja: "椎名立希役（MyGO!!!!!）"
+    en: "As Taki Shiina (MyGO!!!!!)"
+  performances:
+    - startAt: "2027-06-12T17:00"
+    - startAt: "2027-06-13T17:00"
+  ticketInfo:
+    entries:
+      - type:
+          ja: "最速先行抽選"
+          en: "First Lottery"
+        scheduleLabel: "2027-01-08"
+        description:
+          ja: "申込の詳細は後日公開いたします。"
+          en: "Details will be announced at a later date."
+    link: "https://live.bushiroad-music.com/bushiroad_20thlive/"
+- id: "2027-04-mygo-10th-live"
+  category: "Live"
+  scheduleLabel: "2027.04.29-04.30"
+  title:
+    ja: "MyGO!!!!! 10th LIVE「僕たちのいまを越えて」"
+    en: "MyGO!!!!! 10th LIVE “Beyond Our Present”"
+  link: "https://bang-dream.com/events/mygo_10th/"
+  performances:
+    - startAt: "2027-04-29T18:00"
+      milestones:
+        - kind: "doors"
+          at: "16:30"
+    - startAt: "2027-04-30T18:30"
+      milestones:
+        - kind: "doors"
+          at: "17:00"
+  venueIds:
+    - "k-arena-yokohama"
+  description:
+    ja: "椎名立希役"
+    en: "As Taki  Shiina"
+  ticketInfo:
+    entries:
+      - type:
+          ja: "最速先行抽選"
+          en: "First Lottery"
+        scheduleLabel: "2026.11.15 20:00 - 12.20"
+        startAt: "2026-11-15T20:00"
+        description:
+          ja: "MyGO!!!!! 9th Single「世点彩」初回生産分に封入の申込券でご応募いただけます。"
+          en: "You can enter the lottery using the entry coupon included in the first press run of MyGO!!!!!'s 9th single, “Sepia”"
+        endAt: "2026-12-20"
+    link: "https://bang-dream.com/events/mygo_10th/"
+    price:
+      ja: "S席(特製グッズ付き)：27,500円(税込) A席(特製グッズ付き)：16,500円(税込) 一般指定席：9,900円(税込) 2DAYS通しチケット：12,100円(税込) ※座席は一般指定席となります。"
+      en: "S Seats (includes exclusive merchandise): 27,500 yen (tax included) A Seats (includes exclusive merchandise): 16,500 yen (tax included) General Reserved Seats: 9,900 yen (tax included) 2-Day Pass: 12,100 yen (tax included) *Seats are general reserved seats."
