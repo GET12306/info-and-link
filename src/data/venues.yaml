@@ -1969,6 +1969,35 @@ venues:
       - { label: "Mercedes-Benz Arena・About", url: "https://www.mercedes-benzarena.com/en/AboutUs/", covers: ["name", "capacity"] }
       - { label: "Mercedes-Benz Arena・Traffic Guide", url: "https://www.mercedes-benzarena.com/en/trafficguide.html", covers: ["address", "transport"] }
 
+
+  - id: "po-minami-aoyama-hall"
+    name: { ja: "P.O.南青山ホール", en: "P.O. Minami-Aoyama Hall" }
+    address: { postalCode: "107-0062", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "港区", en: "Minato City" }, street: { ja: "南青山2-5-17 ポーラ青山ビルディング地下1階", en: "Pola Aoyama Building B1, 2-5-17 Minami-Aoyama" } }
+    capacity:
+      seated: 240
+      note: { ja: "シアター形式の最大席数。イベントのレイアウトにより異なります", en: "Up to 240 seats in theater layout; actual seating varies by event" }
+    transport:
+      - { type: "metro", station: { ja: "青山一丁目駅", en: "Aoyama-itchome Station" }, line: { ja: "東京メトロ銀座線・半蔵門線／都営大江戸線", en: "Tokyo Metro Ginza and Hanzomon lines / Toei Oedo Line" }, walkingMinutes: 2 }
+    officialUrl: "https://po-hall.jp/"
+    sources:
+      - { label: "P.O.南青山ホール・公式サイト", url: "https://po-hall.jp/", covers: ["name", "address", "transport"] }
+      - { label: "東京ロケーションボックス・P.O.南青山ホール", url: "https://www.locationbox.metro.tokyo.lg.jp/catalog/8039/", covers: ["capacity"] }
+
+  - id: "nippon-seinenkan-hall"
+    name: { ja: "日本青年館ホール", en: "Nippon Seinenkan Hall" }
+    address: { postalCode: "160-0013", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "新宿区", en: "Shinjuku City" }, street: { ja: "霞ヶ丘町4-1", en: "4-1 Kasumigaokamachi" } }
+    capacity:
+      seated: 1245
+      wheelchairSpaces: 4
+      maximum: 1249
+    transport:
+      - { type: "metro", station: { ja: "外苑前駅", en: "Gaiemmae Station" }, line: { ja: "東京メトロ銀座線", en: "Tokyo Metro Ginza Line" }, exit: "2b", walkingMinutes: 5 }
+      - { type: "metro", station: { ja: "国立競技場駅", en: "Kokuritsu-kyogijo Station" }, line: { ja: "都営大江戸線", en: "Toei Oedo Line" }, exit: "A2", walkingMinutes: 10 }
+    officialUrl: "https://seinenkan-hall.com/"
+    sources:
+      - { label: "日本青年館ホール・ホールのご案内", url: "https://seinenkan-hall.com/hall", covers: ["name", "capacity"] }
+      - { label: "日本青年館ホール・アクセス", url: "https://seinenkan-hall.com/access", covers: ["address", "transport"] }
+
   - id: "shinjuku-wald-9"
     name: { ja: "新宿バルト9", en: "Shinjuku Wald 9" }
     address: { postalCode: "160-0022", region: { ja: "東京都", en: "Tokyo" }, locality: { ja: "新宿区", en: "Shinjuku City" }, street: { ja: "新宿3-1-26 新宿三丁目イーストビル9F", en: "Shinjuku 3-chome East Building 9F, 3-1-26 Shinjuku" } }

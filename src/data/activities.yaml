@@ -4179,10 +4179,75 @@
     ja: "「林鼓子のメゾン・ド・ココ」1周年記念イベント"
     en: "“Koko Hayashi's Maison de Coco” 1st Anniversary Event"
   link: "https://audee-membership.jp/coco-hayashi/articles/news/areikjnjbEfP3W8QTTKQD6rK"
-  venueNote:
-    ja: "P.O.南青山ホール"
-    en: "P.O. Minami-Aoyama Hall"
+  venueIds: [ "po-minami-aoyama-hall" ]
   description:
     ja: "チケット情報、販売スケジュールなど詳細は追ってお知らせいたします"
     en: "Details TBA"
   startDate: "2026-12-26"
+- id: "2027-01-score-musical-friends"
+  category: "Musical"
+  scheduleLabel: "2027.01.09-01.15"
+  title:
+    ja: "SCORE!! 〜Musical friends〜 2027"
+    en: "SCORE!! 〜Musical friends〜 2027"
+  link: "https://contentsbusiness.aoi-pro.com/aoistage/work/score2027/"
+  venueIds:
+    - "nippon-seinenkan-hall"
+  description:
+    ja: "全公演に出演"
+    en: "Appears in all 10 performances"
+  performances:
+    - startAt: "2027-01-09T18:00"
+    - startAt: "2027-01-10T13:00"
+    - startAt: "2027-01-10T18:00"
+    - startAt: "2027-01-11T13:00"
+    - startAt: "2027-01-11T18:00"
+    - startAt: "2027-01-13T13:00"
+    - startAt: "2027-01-13T18:00"
+    - startAt: "2027-01-14T13:00"
+    - startAt: "2027-01-15T13:00"
+    - startAt: "2027-01-15T18:00"
+  ticketInfo:
+    link: "https://contentsbusiness.aoi-pro.com/aoistage/work/score2027/#ticket"
+    price:
+      ja: "S席：12,500円／A席：9,500円（全席指定・税込）"
+      en: "S seats: ¥12,500 / A seats: ¥9,500 (reserved seating, tax included)"
+    entries:
+      - type:
+          ja: "FC先行受付"
+          en: "FC Early Registration"
+        scheduleLabel: "2026年11月16日 19:00～11月23日"
+        startAt: "2026-11-16T19:00"
+        endAt: "2026-11-23"
+        link: "https://fan.pia.jp/cocohayashi/ticket/detail/11/?page=1&ptag="
+      - type:
+          ja: "公式サイト先行"
+          en: "Official Website Presale"
+        startAt: "2026-11-25T12:00"
+        endAt: "2026-12-04T23:59"
+        scheduleLabel: "2026.11.25 12:00–12.04 23:59"
+        link: "https://w.pia.jp/t/score/"
+      - type:
+          ja: "プレイガイド最速先行"
+          en: "First Ticket Agency Presale"
+        startAt: "2026-12-05T12:00"
+        endAt: "2026-12-09T23:59"
+        scheduleLabel: "2026.12.05 12:00–12.09 23:59"
+        link: "https://w.pia.jp/t/score/"
+      - type:
+          ja: "プレイガイド先行"
+          en: "Ticket Agency Presale"
+        startAt: "2026-12-11T12:00"
+        endAt: "2026-12-15T23:59"
+        scheduleLabel: "2026.12.11 12:00–12.15 23:59"
+        description:
+          ja: "チケットぴあ／ローソンチケット／イープラス"
+          en: "Ticket Pia / Lawson Ticket / eplus"
+      - type:
+          ja: "一般発売"
+          en: "General Sale"
+        startAt: "2026-12-19T10:00"
+        scheduleLabel: "2026.12.19 10:00"
+        description:
+          ja: "チケットぴあ（Pコード：546-564）／ローソンチケット（Lコード：33046）／イープラス。未就学児入場不可。"
+          en: "Ticket Pia (P code 546-564) / Lawson Ticket (L code 33046) / eplus. Preschool children are not admitted."
