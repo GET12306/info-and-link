@@ -7,6 +7,7 @@
 # 既存の2026-11-19予定は保持。未来の予定は公開日まで博物館に表示しません。
 performances:
   - occursOn: "2026-11-19"
+    episode: "42"
   - occursOn: "2026-10-22"
     episode: "41"
   - occursOn: "2026-09-10"

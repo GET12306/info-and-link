@@ -39,7 +39,7 @@ export default function HistoricalActivityCalendar({
     hasNext={monthIndex < months.length - 1}
     onPrev={() => setMonthKey(monthKeys[monthIndex - 1])}
     onNext={() => setMonthKey(monthKeys[monthIndex + 1])}
-    monthKeys={monthKeys}
+    months={months}
     onSelectMonth={setMonthKey}
   />
 }

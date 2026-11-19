@@ -29,27 +29,15 @@ export interface CalendarMonthData {
 }
 
 export function buildCalendarData(activities: Activity[], includeDate?: string, timeZone = viewerTimeZone(), now = Date.now()): CalendarMonthData[] {
-  const events = collectEvents(activities, timeZone, undefined, now)
+  const events = collectEvents(activities, timeZone, now)
   return buildMonths(events, includeDate?.substring(0, 7))
 }
 
-/** Supplementary programs cannot create home months, including otherwise-empty gaps. */
-export function buildHomeCalendarData(activities: Activity[], today: string, timeZone = viewerTimeZone(), now = Date.now()): CalendarMonthData[] {
-  const primary = collectEvents(activities.filter(activity => activity.calendarRange !== "existing-months"), timeZone, undefined, now)
-  const months = new Set(primary.map(event => event.date.slice(0, 7)))
-  const lastMonth = [...months, today.slice(0, 7)].sort().at(-1)!
-  const [year, month] = lastMonth.split("-").map(Number)
-  const through = lastMonth + "-" + new Date(Date.UTC(year, month, 0)).getUTCDate()
-  const supplemental = collectEvents(activities.filter(activity => activity.calendarRange === "existing-months"), timeZone, through, now)
-    .filter(event => months.has(event.date.slice(0, 7)))
-  return buildMonths([...primary, ...supplemental], today.slice(0, 7))
-}
-
-function collectEvents(activities: Activity[], timeZone: string, through?: string, now = Date.now()): CalendarEvent[] {
+function collectEvents(activities: Activity[], timeZone: string, now: number): CalendarEvent[] {
   const result: CalendarEvent[] = []
 
   for (const act of activities) {
-    getActivityOccurrences(act, through).forEach((occurrence) => {
+    getActivityOccurrences(act).forEach((occurrence) => {
       const published = (performanceUpdateInstant({ ...occurrence, occursOn: occurrence.date }, occurrence.timeZone) ?? Infinity) <= now
       const archivePath = hasEpisodeArchive(act) && published
         ? programArchivePath(act.id, occurrence.startAt ?? occurrence.date) : undefined

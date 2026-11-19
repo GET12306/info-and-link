@@ -1,5 +1,6 @@
 import { isRecord, isNonempty, isHttpUrl, isCalendarDate } from "../utils/contentValidation"
 import { RESOURCE_EDITOR_DOCUMENTS, RESOURCE_LINK_FIELDS, type EditorField, type ResourceDocumentKey } from "./resourceEditorSchema"
+import type { ActivityReference } from "./resourceEditorSchema"
 
 export interface ResourceValidationIssue {
   path: string
@@ -103,7 +104,8 @@ function validateField(value: unknown, field: EditorField, path: string, issues:
 export function validateResourceDocument(
   key: ResourceDocumentKey,
   value: unknown,
-  activityIds?: ReadonlySet<string>
+  activityIds?: ReadonlySet<string>,
+  activityReferences?: ReadonlyMap<string, ActivityReference>
 ): ResourceValidationIssue[] {
   const issues: ResourceValidationIssue[] = []
   if (!Array.isArray(value)) return [{ path: key, message: "顶层必须是列表" }]
@@ -119,6 +121,10 @@ export function validateResourceDocument(
     }
     if (key === "activity-resources" && activityIds && isNonempty(entry.activityId) && !activityIds.has(entry.activityId)) {
       issues.push({ path: `${path}.activityId`, message: "activities.yaml 中找不到这个 id" })
+    }
+    if (key === "activity-resources" && entry.performance !== undefined && activityReferences &&
+        !activityReferences.get(String(entry.activityId))?.performances?.some(item => item.key === entry.performance)) {
+      issues.push({ path: `${path}.performance`, message: "请选择该节目日程中已记录的回数" })
     }
     if (key === "activity-resources" && entry.date !== undefined) {
       issues.push({ path: `${path}.date`, message: "日期应填写在对应的 links[].date 中" })

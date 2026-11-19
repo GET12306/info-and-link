@@ -285,6 +285,28 @@ opens its archive record. Exact times follow the visitor's time zone, while date
 records retain their authored calendar date. A record count means collected
 appearances, not all appearances in the program's history.
 
+Selected-appearance programs such as `bang-dream-tv-live` and
+`nijigaku-monthly-live-stream` use manual `performances`, never automatic weekly
+or monthly predictions. Add only Coco Hayashi's appearances. Store each episode's
+number in `episode` or its individual title in `label`; the activity title stays
+the general program name.
+
+The Activities page's appearance schedule includes every recorded/confirmed
+episode, including future dates (and bounded rule-generated dates for recurring
+programs). Museum lists and search keep their published-only filter. The two
+views use the same records without deleting future plans or prematurely archiving them.
+Set `program.showSchedule: false` to hide only the Activities page's appearance
+schedule button for a particular program. This does not affect Museum records,
+calendar events, or schedule maintenance. The activity editor exposes this toggle;
+Discover Broadcast Room and Maison de Coco disable it.
+
+In `activity-resources.yaml`, optional `performance` must match that episode's
+exact `startAt` or `occursOn`. Resources then display under the episode, keeping
+the usual Coco/official/agency/cast source titles inside it. Post publication dates
+do not determine the episode. Omit `performance` for program-wide resources.
+The resource editor offers an episode selector and an “add resources for this
+episode” action; the save API rejects references to unrecorded episodes.
+
 In the Activities editor, select Maigo Center, then use the standard performance
 editor to add/edit/delete episode numbers, dates, links, link status, and bilingual
 notes. It shows five records per editor page. The ordinary Save YAML button writes
@@ -309,6 +331,7 @@ Fixed monthly programs can use a shared rule instead of adding every future date
 recurrence:
   type: "monthly"
   startOn: "2026-07-01"
+  endMonth: "2027-01"
   weekday: "thursday"
   weekOfMonth: 1
   updateTime: "12:00"
@@ -322,7 +345,6 @@ recurrence:
       cancelled: true
 program:
   display: "episodes"
-calendarRange: "existing-months"
 calendarExport: "disabled"
 ```
 
@@ -335,13 +357,11 @@ and special update times; off-rule entries can represent special episodes. Exist
 authored dates and times are retained. Use `recurrence.overrides` to reschedule or
 cancel a regular episode rather than adding a second copy on its replacement date.
 
-The editor exposes these rule and exception fields. Museum pages include only
-episodes whose update time has arrived, while the home calendar may show scheduled
-future updates. `calendarRange: existing-months` never creates home months of its
-own: the program is included only in months containing other activities, not in
-otherwise-empty intervening months. Museum history remains independent of this
-home-only restriction. The rule generates only the horizon needed by each view;
-it does not append an unbounded future schedule to the YAML.
+The editor exposes these rule and exception fields. Extend `endMonth` manually
+to generate more regular episodes. The last month is inclusive, and other
+activities do not affect the generation range. Explicit special episodes and
+rescheduled dates can fall outside that range without extending the regular
+schedule. Museum pages include only episodes whose update time has arrived.
 
 Monthly programs whose dates are irregular or only gradually announced use manual
 recurrence. Add only confirmed dates to `performances`:

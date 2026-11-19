@@ -75,7 +75,7 @@ test("published calendar entries stay actionable after publication and link to t
   assert.equal(event.archivePath, programArchivePath(maigo.id, "2026-10-07T19:00"))
   const html = render(createElement(CalendarMonth, {
     month, lang: "en", now: "2026-10-20T12:00", activities: [maigo], onSelectEvent() {},
-    hasPrev: false, hasNext: false, onPrev() {}, onNext() {}, monthKeys: [month.key], onSelectMonth() {},
+    hasPrev: false, hasNext: false, onPrev() {}, onNext() {}, months: [month], onSelectMonth() {},
   }))
   const episodeButtons = html.match(/<button[^>]+aria-label="[^"]*View episode record[^"]*"[^>]*>/g)
   assert.equal(episodeButtons.length, month.weeks.flat().flatMap(day => day.events).length * 2, "mobile and desktop render each recording as actionable")
@@ -96,7 +96,7 @@ test("published recordings are neutral immediately, without waiting for their de
     const month = buildCalendarData([activity], undefined, "Asia/Tokyo")[0]
     const html = render(createElement(CalendarMonth, {
       month, lang: "en", now, activities: [activity], onSelectEvent() {},
-      hasPrev: false, hasNext: false, onPrev() {}, onNext() {}, monthKeys: [month.key], onSelectMonth() {},
+      hasPrev: false, hasNext: false, onPrev() {}, onNext() {}, months: [month], onSelectMonth() {},
     }))
     const cards = html.match(/<button[^>]+aria-label="[^"]*View episode record[^"]*"[^>]*>[\s\S]*?<\/button>/g) ?? []
     assert.equal(cards.length, 2, "both mobile and desktop layouts retain archive actions")
@@ -113,7 +113,7 @@ test("ordinary performances retain red upcoming/current cards and disabled gray 
   for (const [now, past] of [["2026-10-07T18:00", false], ["2026-10-07T19:05", false], ["2026-10-07T20:31", true]]) {
     const html = render(createElement(CalendarMonth, {
       month, lang: "en", now, activities: [activity], onSelectEvent() {},
-      hasPrev: false, hasNext: false, onPrev() {}, onNext() {}, monthKeys: [month.key], onSelectMonth() {},
+      hasPrev: false, hasNext: false, onPrev() {}, onNext() {}, months: [month], onSelectMonth() {},
     }))
     const cards = html.match(/<button[^>]+aria-label="[^"]*Maigo Center[^"]*"[^>]*>/g) ?? []
     assert.equal(cards.length, 2)

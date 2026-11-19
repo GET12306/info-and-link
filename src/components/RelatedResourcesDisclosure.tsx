@@ -67,11 +67,15 @@ function ResourceEntry({ resource, lang }: { resource: RelatedResource; lang: La
 export default function RelatedResourcesDisclosure({ resources, lang }: { resources?: RelatedResource[]; lang: Language }) {
   if (!resources?.length) return null
   const t = TRANSLATIONS[lang]
-  const sorted = [...resources].sort((a, b) => latestRelatedResourceDate(b).localeCompare(latestRelatedResourceDate(a)))
   const linkCount = resources.reduce((count, resource) => count + relatedResourceLinkCount(resource), 0)
   return <CatalogDisclosure label={t.related_resources_link.replace("{count}", String(linkCount))}>
-    <div className="divide-y divide-coco-ink/10 dark:divide-white/10">
-      {sorted.map((resource, index) => <ResourceEntry key={`${latestRelatedResourceDate(resource) || "undated"}-${index}`} resource={resource} lang={lang} />)}
-    </div>
+    <RelatedResourcesList resources={resources} lang={lang} />
   </CatalogDisclosure>
+}
+
+export function RelatedResourcesList({ resources, lang }: { resources: RelatedResource[]; lang: Language }) {
+  const sorted = [...resources].sort((a, b) => latestRelatedResourceDate(b).localeCompare(latestRelatedResourceDate(a)))
+  return <div className="divide-y divide-coco-ink/10 dark:divide-white/10">
+    {sorted.map((resource, index) => <ResourceEntry key={`${latestRelatedResourceDate(resource) || "undated"}-${index}`} resource={resource} lang={lang} />)}
+  </div>
 }

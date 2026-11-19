@@ -11,6 +11,7 @@ import { CatalogDisclosure } from "./ArchiveCatalog"
 import ActivityDisclosureButton from "./ActivityDisclosureButton"
 import { performanceUpdateInstant } from "../utils/monthlySchedule"
 import useJapanNow from "../hooks/useJapanNow"
+import ActivityResourcesDisclosure from "./ActivityResourcesDisclosure"
 
 function EpisodeDate({ episode, activity, lang }: { episode: ActivityPerformance; activity: Activity; lang: Language }) {
   const key = performanceDateKey(episode)
@@ -26,16 +27,20 @@ function EpisodeDate({ episode, activity, lang }: { episode: ActivityPerformance
   </time>
 }
 
-export default function ProgramEpisodes({ activity, lang, full = false, compact = false, selectedPublishedAt }: {
+export default function ProgramEpisodes({ activity, lang, full = false, compact = false, selectedPublishedAt, scope = "published" }: {
   activity: Activity
   lang: Language
   full?: boolean
   compact?: boolean
   selectedPublishedAt?: string | null
+  scope?: "published" | "all"
 }) {
   const t = TRANSLATIONS[lang]
   const now = useJapanNow()
-  const episodes = getProgramEpisodes(activity, instantFromSourceKey(now, sourceTimeZone()) ?? Date.now())
+  const nowInstant = instantFromSourceKey(now, sourceTimeZone()) ?? Date.now()
+  const episodes = getProgramEpisodes(activity, nowInstant, scope)
+  const hasPublishedEpisodes = episodes.some(episode => (performanceUpdateInstant(episode, sourceTimeZone(activity.timeZone)) ?? Infinity) <= nowInstant)
+  const disclosureLabel = scope === "all" ? t.program_episode_schedule : t.program_episode_recent
   const selectedIndex = episodes.findIndex(episode => performanceDateKey(episode) === selectedPublishedAt)
   const [page, setPage] = useState(() => full && selectedIndex >= 0 ? Math.floor(selectedIndex / PROGRAM_EPISODE_PAGE_SIZE) : 0)
   const [open, setOpen] = useState(false)
@@ -66,6 +71,7 @@ export default function ProgramEpisodes({ activity, lang, full = false, compact 
             ? <ExternalAnchor href={url} className="inline-block break-words text-sm leading-6 text-coco-ink/80 transition-colors hover:text-coco-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coco-accent">{programEpisodeLabel(episode, lang)}</ExternalAnchor>
             : <span className="text-sm leading-6 text-coco-ink/80">{programEpisodeLabel(episode, lang)}</span>}
           {episode.description && <p className="break-words text-sm leading-6 text-coco-ink/60">{episode.description[lang]}</p>}
+          <ActivityResourcesDisclosure activityId={activity.id} performance={key} lang={lang} />
           {!url && episode.status === "expired" && <ExpiredLinkBadge lang={lang} />}
         </div>
       </li>
@@ -83,14 +89,14 @@ export default function ProgramEpisodes({ activity, lang, full = false, compact 
   const recentPanel = () => <>
     {episodes.length ? list : <p className="text-sm text-coco-ink/55">{t.program_episode_empty}</p>}
     {pagination}
-    {episodes.length > 0 && <Link to={programArchivePath(activity.id)} className="mt-2 inline-flex min-h-11 items-center text-sm text-coco-ink/60 transition-colors hover:text-coco-accent">{t.program_episode_all}</Link>}
+    {hasPublishedEpisodes && <Link to={programArchivePath(activity.id)} className="mt-2 inline-flex min-h-11 items-center text-sm text-coco-ink/60 transition-colors hover:text-coco-accent">{t.program_episode_all}</Link>}
   </>
 
-  if (compact) return <CatalogDisclosure deferMount label={t.program_episode_recent}>{recentPanel}</CatalogDisclosure>
+  if (compact) return <CatalogDisclosure deferMount label={disclosureLabel}>{recentPanel}</CatalogDisclosure>
 
   return <div className="mt-4 min-w-0">
     <ActivityDisclosureButton
-      label={t.program_episode_recent}
+      label={disclosureLabel}
       icon={<Radio className="h-3.5 w-3.5" aria-hidden="true" />}
       open={open}
       panelId={panelId}

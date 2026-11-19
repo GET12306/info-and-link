@@ -78,7 +78,7 @@ export default function ActivityRow({
               </div>
             )}
           </div>
-          {hasEpisodeArchive(activity) ? <ProgramEpisodes activity={activity} lang={lang} /> : !activity.recurrence && (scheduleContent ?? <ActivityPerformanceDetails
+          {hasEpisodeArchive(activity) ? activity.program?.showSchedule !== false && <ProgramEpisodes activity={activity} lang={lang} scope="all" /> : !activity.recurrence && (scheduleContent ?? <ActivityPerformanceDetails
               performances={activity.performances}
               durationMinutes={activity.durationMinutes}
               sourceZone={activity.timeZone}

@@ -330,6 +330,15 @@ export default function ActivityEditorApp({ active = true }: { active?: boolean 
                   <input type="checkbox" checked={selectedActivity.program?.display === "episodes"} onChange={event => updateSelected(setOptional(selectedActivity, "program", event.target.checked ? { display: "episodes" } : undefined) as EditorActivity)} />
                   <span>使用回数列表展示（每页 5 回）</span>
                 </label>
+                {selectedActivity.program?.display === "episodes" && <label className="checkbox-field">
+                  <input type="checkbox" checked={selectedActivity.program.showSchedule !== false} onChange={event => {
+                    const program = { ...selectedActivity.program!, display: "episodes" as const }
+                    if (event.target.checked) delete program.showSchedule
+                    else program.showSchedule = false
+                    updateSelected({ ...selectedActivity, program })
+                  }} />
+                  <span>在活动情报页显示出演日程（不影响博物馆和首页日历）</span>
+                </label>}
               </section>}
               <RecurrenceEditor
                 recurrence={selectedActivity.recurrence}

@@ -244,14 +244,14 @@ export default function ResourceEditorApp({ documentKey, active }: { documentKey
   const selectedActivityId = documentKey === "activity-resources" ? String(selected?.activityId ?? "") : ""
   const selectedActivityTitle = activityTitles.get(selectedActivityId)
   const unknownFields = selected ? unknownFieldNames(selected, schema.fields) : []
-  const issues = useMemo(() => validateResourceDocument(documentKey, entries, documentKey === "activity-resources" ? new Set(activityIds) : undefined), [documentKey, entries, activityIds])
+  const issues = useMemo(() => validateResourceDocument(documentKey, entries, documentKey === "activity-resources" ? new Set(activityIds) : undefined, referencesById), [documentKey, entries, activityIds, referencesById])
   const selectedIssues = issues.filter(issue => issue.path === `${documentKey}[${selectedIndex}]` || issue.path.startsWith(`${documentKey}[${selectedIndex}].`))
   const isActivityResource = documentKey === "activity-resources"
   const visibleEntries = entries.map((entry, index) => ({ entry, index })).filter(({ entry }) => {
     const activity = referencesById.get(String(entry.activityId ?? ""))
     const linkLabels = Array.isArray(entry.links) ? entry.links.filter(isRecord).map(link => localizedSearchText(link.label)) : []
     return (!isActivityResource || !category || activity?.category === category) &&
-    [localizedSearchText(entry.title), ...linkLabels, String(entry.id ?? ""), String(entry.activityId ?? ""), activitySearchText(activity),
+    [localizedSearchText(entry.title), ...linkLabels, String(entry.id ?? ""), String(entry.activityId ?? ""), String(entry.performance ?? ""), activitySearchText(activity),
       String(entry.kind ?? ""), String(entry.platform ?? ""), String(entry.date ?? entry.publicationDate ?? ""), ...resourceLinkDates(entry)]
       .join(" ").toLocaleLowerCase().includes(query.trim().toLocaleLowerCase())
   })
@@ -326,9 +326,10 @@ export default function ResourceEditorApp({ documentKey, active }: { documentKey
     setMessage("")
     setEntries(current => current.map((entry, index) => index === selectedIndex ? next : entry))
   }
-  const add = (activityId?: string) => {
+  const add = (activityId?: string, performance?: string) => {
     const entry = schema.create()
     if (isActivityResource && activityId) entry.activityId = activityId
+    if (performance) entry.performance = performance
     setEntries(current => [...current, entry])
     setSelectedIndex(entries.length)
     setQuery("")
@@ -380,7 +381,13 @@ export default function ResourceEditorApp({ documentKey, active }: { documentKey
             <h3>{localizedLabel(group.activity?.title) || group.activityId || "未选择活动"}</h3>
             <p>{[activityDateLabel(group.activity), group.activity?.category, `${group.entries.length} 条资源`].filter(Boolean).join(" · ")}</p>
           </div>
-          {group.entries.map(entryButton)}
+          {[...new Set(group.entries.map(item => String(item.entry.performance ?? "")))].sort().reverse().map(key => <div key={key}>
+            {key && <div className="resource-activity-group-heading">
+              <h4>{group.activity?.performances?.find(item => item.key === key)?.title ?? key}</h4>
+              <button type="button" className="resource-group-add" disabled={loading || saving} onClick={() => add(group.activityId, key)}><Plus /> 为本回添加资料</button>
+            </div>}
+            {group.entries.filter(item => String(item.entry.performance ?? "") === key).map(entryButton)}
+          </div>)}
           {group.activityId && <div className="resource-group-actions">
             <button type="button" className="resource-group-add" disabled={loading || saving}
               aria-label={`为${localizedLabel(group.activity?.title) || group.activityId}添加资料`}
@@ -409,7 +416,19 @@ export default function ResourceEditorApp({ documentKey, active }: { documentKey
             ? <ActivityResourceTitleEditor key={`title-${selectedIndex}`} value={selected.title} onChange={title => updateSelected({ ...selected, title })}>
               <FieldEditor field={field} path="" record={selected} onChange={updateSelected} />
             </ActivityResourceTitleEditor>
-            : <FieldEditor key={field.key} field={field} path="" record={selected} onChange={updateSelected} activityTitles={activityTitles} />)}</div>
+            : isActivityResource && field.key === "performance" ? <label className="form-field" key={field.key}>
+              <span>performance — 所属回数 <em className="optional">optional</em></span>
+              <select value={String(selected.performance ?? "")} onChange={event => {
+                const next = { ...selected }
+                if (event.target.value) next.performance = event.target.value
+                else delete next.performance
+                updateSelected(next)
+              }}>
+                <option value="">节目整体（不关联特定回数）</option>
+                {Boolean(selected.performance) && !referencesById.get(selectedActivityId)?.performances?.some(item => item.key === selected.performance) && <option value={String(selected.performance)}>未匹配：{String(selected.performance)}</option>}
+                {referencesById.get(selectedActivityId)?.performances?.map(item => <option key={item.key} value={item.key}>{item.title}</option>)}
+              </select>
+            </label> : <FieldEditor key={field.key} field={field} path="" record={selected} onChange={updateSelected} activityTitles={activityTitles} />)}</div>
         </section>
         {unknownFields.length > 0 && <section className="editor-section warning-section"><h2>尚未配置的字段</h2><p>这些字段会原样保留，但尚无专用输入框：{unknownFields.join(", ")}</p></section>}
         <section className="editor-section yaml-section"><button type="button" className="yaml-toggle" onClick={() => setShowYaml(value => !value)}><FileCode2 /> YAML 预览 {showYaml ? <ChevronUp /> : <ChevronDown />}</button>{showYaml && <pre>{stringify(selected, { lineWidth: 0, defaultStringType: "QUOTE_DOUBLE" })}</pre>}</section>

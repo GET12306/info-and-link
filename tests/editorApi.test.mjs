@@ -77,6 +77,37 @@ test("activity resource reads include activity titles for editor lookup", async 
   assert.equal(reference.startInstant, Date.parse("2026-10-10T18:00:00+09:00"))
 })
 
+test("resource API exposes manual episode choices and rejects foreign episode references without writing", async t => {
+  const root = await mkdtemp(path.join(tmpdir(), "episode-resource-api-"))
+  t.after(() => rm(root, { recursive: true, force: true }))
+  const directory = path.join(root, "src/data")
+  await mkdir(directory, { recursive: true })
+  const program = { ...base, category: "Program", recurrence: { type: "manual" },
+    performances: [{ startAt: "2026-10-10T18:00", episode: "333" }] }
+  await writeFile(path.join(directory, "activities.yaml"), JSON.stringify([program]))
+  const file = path.join(directory, "activity-resources.yaml")
+  const source = JSON.stringify([])
+  await writeFile(file, source)
+  let handler
+  activityEditorPlugin(true).configureServer({ config: { root }, middlewares: { use(fn) { handler = fn } } })
+  const call = (method, payload) => new Promise((resolve, reject) => {
+    const request = Readable.from(payload ? [Buffer.from(JSON.stringify(payload))] : [])
+    Object.assign(request, { url: "/__activity-editor/data/activity-resources", method, socket: { remoteAddress: "127.0.0.1" } })
+    const response = { statusCode: 200, setHeader() {}, end(body) { resolve({ status: response.statusCode, body: JSON.parse(body) }) } }
+    Promise.resolve(handler(request, response, () => reject(new Error("API not handled")))).catch(reject)
+  })
+  const loaded = await call("GET")
+  assert.equal(loaded.body.activityReferences[0].performances[0].key, "2026-10-10T18:00")
+  assert.match(loaded.body.activityReferences[0].performances[0].title, /333/)
+  const resource = { activityId: "event", performance: "2026-11-01T18:00", kind: "post", platform: "x",
+    title: { ja: "ココポスト", en: "Coco's Posts" }, links: [{ url: "https://example.com/post", date: "2026-10-01" }] }
+  assert.equal((await call("PUT", { entries: [resource], revision: loaded.body.revision })).status, 422)
+  assert.equal(await readFile(file, "utf8"), source)
+  resource.performance = "2026-10-10T18:00"
+  assert.equal((await call("PUT", { entries: [resource], revision: loaded.body.revision })).status, 200)
+  assert.equal(parse(await readFile(file, "utf8"))[0].performance, resource.performance)
+})
+
 async function childScheduleFixture(t) {
   const root = await mkdtemp(path.join(tmpdir(), "activity-child-test-"))
   t.after(() => rm(root, { recursive: true, force: true }))

@@ -1,6 +1,6 @@
 import type { Activity, ActivityPerformance, MonthlyActivityRecurrence } from "../types"
 import { isCalendarDate, isClockTime, isRecord } from "./contentValidation"
-import { dateTimeInZone, instantFromSourceKey, sourceTimeZone } from "./timeZone"
+import { instantFromSourceKey } from "./timeZone"
 
 const WEEKDAYS = ["sunday", "monday", "tuesday", "wednesday", "thursday", "friday", "saturday"]
 
@@ -18,6 +18,8 @@ export function monthlyRuleIssues(value: unknown): Array<{ path: string; message
   const issues: Array<{ path: string; message: string }> = []
   const add = (path: string, message: string) => issues.push({ path, message })
   if (!isCalendarDate(value.startOn)) add("startOn", "开始日必须是有效的 YYYY-MM-DD")
+  if (typeof value.endMonth !== "string" || !/^\d{4}-\d{2}$/.test(value.endMonth) || !isCalendarDate(value.endMonth + "-01")) add("endMonth", "结束月份必须是有效的 YYYY-MM")
+  else if (isCalendarDate(value.startOn) && value.endMonth < value.startOn.slice(0, 7)) add("endMonth", "结束月份不能早于开始月份")
   if (!WEEKDAYS.includes(String(value.weekday))) add("weekday", "请选择有效星期")
   if (!Number.isInteger(value.weekOfMonth) || Number(value.weekOfMonth) < 1 || Number(value.weekOfMonth) > 5) add("weekOfMonth", "每月第几次必须为 1～5")
   if (value.updateTime !== undefined && !isClockTime(value.updateTime)) add("updateTime", "更新时间必须是 HH:mm")
@@ -33,7 +35,7 @@ export function monthlyRuleIssues(value: unknown): Array<{ path: string; message
     else {
       if (dates.has(override.date)) add(prefix + ".date", "同一原定日不能有重复例外")
       dates.add(override.date)
-      if (validRule && (override.date < String(value.startOn) || monthlyDate(override.date.slice(0, 7), String(value.weekday), Number(value.weekOfMonth)) !== override.date)) add(prefix + ".date", "原定日必须对应月更规则中的日期")
+      if (validRule && (override.date < String(value.startOn) || override.date.slice(0, 7) > String(value.endMonth) || monthlyDate(override.date.slice(0, 7), String(value.weekday), Number(value.weekOfMonth)) !== override.date)) add(prefix + ".date", "原定日必须对应生成范围内的月更日期")
     }
     if (override.occursOn !== undefined && !isCalendarDate(override.occursOn)) add(prefix + ".occursOn", "改期日期必须是有效日期")
     if (override.updateTime !== undefined && !isClockTime(override.updateTime)) add(prefix + ".updateTime", "更新时间必须是 HH:mm")
@@ -45,6 +47,7 @@ export function monthlyRuleIssues(value: unknown): Array<{ path: string; message
     const months = new Set(overrides!.flatMap(item => [item.date.slice(0, 7), ...(item.occursOn ? [item.occursOn.slice(0, 7)] : [])]))
     const actualDates = new Set<string>()
     for (const month of months) {
+      if (month > String(value.endMonth)) continue
       const original = monthlyDate(month, String(value.weekday), Number(value.weekOfMonth))
       if (!original || original < String(value.startOn)) continue
       const index = overrides!.findIndex(item => item.date === original)
@@ -58,21 +61,17 @@ export function monthlyRuleIssues(value: unknown): Array<{ path: string; message
   return issues
 }
 
-/** Materialize ordinary performances only through the requested horizon, never an infinite list. */
-export function getMonthlyPerformances(activity: Activity, through?: string): ActivityPerformance[] {
+/** Generate regular episodes only through the configured end month. */
+export function getMonthlyPerformances(activity: Activity): ActivityPerformance[] {
   if (activity.recurrence?.type !== "monthly" || monthlyRuleIssues(activity.recurrence).length) return []
   const rule: MonthlyActivityRecurrence = activity.recurrence
-  const zone = sourceTimeZone(activity.timeZone)
-  const end = through ?? dateTimeInZone(Date.now(), zone).slice(0, 10)
-  if (!isCalendarDate(end)) return []
   const key = (performance: ActivityPerformance) => {
     const value = performance?.startAt ?? performance?.occursOn
     return typeof value === "string" ? value.slice(0, 10) : ""
   }
   const manual = (Array.isArray(activity.performances) ? activity.performances : []).filter(item => isCalendarDate(key(item)))
-  const last = [end, ...manual.map(key), ...(rule.overrides ?? []).map(item => item.date)].sort().at(-1)!
   const [startYear, startMonth] = rule.startOn.split("-").map(Number)
-  const [endYear, endMonth] = last.split("-").map(Number)
+  const [endYear, endMonth] = rule.endMonth.split("-").map(Number)
   const firstIndex = startYear * 12 + startMonth - 1
   const lastIndex = endYear * 12 + endMonth - 1
   const consumed = new Set<ActivityPerformance>()
@@ -80,7 +79,7 @@ export function getMonthlyPerformances(activity: Activity, through?: string): Ac
   for (let index = firstIndex; index <= lastIndex; index++) {
     const month = String(Math.floor(index / 12)).padStart(4, "0") + "-" + String(index % 12 + 1).padStart(2, "0")
     const date = monthlyDate(month, rule.weekday, rule.weekOfMonth)
-    if (!date || date < rule.startOn || date > last) continue
+    if (!date || date < rule.startOn) continue
     const saved = manual.find(item => key(item) === date)
     if (saved) consumed.add(saved)
     const override = rule.overrides?.find(item => item.date === date)

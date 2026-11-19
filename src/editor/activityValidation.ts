@@ -218,9 +218,7 @@ function validateRecurrence(
     const ruleIssues = monthlyRuleIssues(value)
     issues.push(...ruleIssues.map(issue => ({ path: `${path}.recurrence.${issue.path}`, message: issue.message, severity: "error" as const })))
     if (ruleIssues.length === 0 && !issues.some(issue => issue.severity === "error" && issue.path.startsWith(`${path}.performances`))) {
-      const horizon = new Date()
-      horizon.setUTCFullYear(horizon.getUTCFullYear() + 1)
-      const generated = getMonthlyPerformances(activity as unknown as Activity, horizon.toISOString().slice(0, 10))
+      const generated = getMonthlyPerformances(activity as unknown as Activity)
       const dates = new Set<string>()
       const zone = sourceTimeZone(typeof activity.timeZone === "string" ? activity.timeZone : undefined)
       for (const performance of generated) {
@@ -480,6 +478,9 @@ export function validateActivities(value: unknown, venueIds?: ReadonlySet<string
         issues.push({ path: `${path}.program`, message: "节目展示方式必须是 display: episodes", severity: "error" })
       } else {
         if (activity.category !== "Program") issues.push({ path: `${path}.program`, message: "回数档案只适用于 Program 类别", severity: "error" })
+        if (activity.program.showSchedule !== undefined && typeof activity.program.showSchedule !== "boolean") {
+          issues.push({ path: `${path}.program.showSchedule`, message: "日程显示开关必须是布尔值", severity: "error" })
+        }
       }
     }
     if (activity.performancesFile !== undefined) {
@@ -506,9 +507,6 @@ export function validateActivities(value: unknown, venueIds?: ReadonlySet<string
     }
     if (activity.calendarExport !== undefined && !["auto", "enabled", "disabled"].includes(String(activity.calendarExport))) {
       issues.push({ path: `${path}.calendarExport`, message: "日历导出值无效", severity: "error" })
-    }
-    if (activity.calendarRange !== undefined && activity.calendarRange !== "existing-months") {
-      issues.push({ path: `${path}.calendarRange`, message: "日历范围仅支持 existing-months，或留空以参与月份范围计算", severity: "error" })
     }
     if (Array.isArray(activity.performances) && activity.performances.length > 0 &&
         (activity.startDate !== undefined || activity.endDate !== undefined)) {

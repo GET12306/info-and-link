@@ -56,13 +56,13 @@ export interface Activity {
   recurrence?: ActivityRecurrence;
   program?: {
     display: "episodes";
+    /** Hide only the Activities page's schedule disclosure; Museum/calendar stay unchanged. */
+    showSchedule?: boolean;
   };
   /** Optional child YAML containing the same performances array used inline. */
   performancesFile?: string;
   durationMinutes?: number;
   calendarExport?: "auto" | "enabled" | "disabled";
-  /** Supplement existing home-calendar months without creating months of its own. */
-  calendarRange?: "existing-months";
   performances?: ActivityPerformance[];
   title: LocalizedText;
   /** Legacy inline venue text retained while records move to venueIds/venueNote. */
@@ -170,6 +170,8 @@ export interface MonthlyActivityRecurrenceOverride {
 export interface MonthlyActivityRecurrence {
   type: "monthly";
   startOn: string;
+  /** Inclusive last month for automatically generated episodes (YYYY-MM). */
+  endMonth: string;
   weekday: ActivityWeekday;
   weekOfMonth: number;
   /** A display/update milestone; the generated performance remains all-day. */
@@ -330,6 +332,8 @@ export interface ActivityResourceLink extends RelatedResourceLink {
 
 export interface ActivityResource {
   activityId: string;
+  /** Exact startAt/occursOn key of the associated episode; omit for program-wide resources. */
+  performance?: string;
   kind: ActivityResourceKind;
   platform: ActivityResourcePlatform;
   /** Collection name, commonly identifying the author or source of the links. */

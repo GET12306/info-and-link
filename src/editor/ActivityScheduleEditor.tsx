@@ -130,7 +130,7 @@ export function RecurrenceEditor({
               onChange={(event) => {
                 if (event.target.value === "none") onChange(undefined)
                 else if (event.target.value === "manual") onChange({ type: "manual" })
-                else if (event.target.value === "monthly") onChange({ type: "monthly", startOn: "", weekday: "thursday", weekOfMonth: 1, updateTime: "12:00", firstEpisode: 1 })
+                else if (event.target.value === "monthly") onChange({ type: "monthly", startOn: "", endMonth: "", weekday: "thursday", weekOfMonth: 1, updateTime: "12:00", firstEpisode: 1 })
                 else onChange({
                   type: "weekly",
                   startOn: "",

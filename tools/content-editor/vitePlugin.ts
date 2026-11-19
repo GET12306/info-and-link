@@ -181,10 +181,11 @@ export function activityEditorPlugin(enabled: boolean): Plugin {
             })
 
             return await withFileWrite(currentPath, async () => {
-              const activityIds = documentKey === "activity-resources"
-                ? new Set((parseListDocument(await readFile(dataPath, "utf8")).activities as Array<{ id: string }>).map(item => item.id))
+              const references = documentKey === "activity-resources"
+                ? new Map((await readActivityDocuments(dataDirectory)).activities.map(item => [item.id, activityReference(item)]))
                 : undefined
-              const issues = isVenue ? validateVenues(entries) : validateResourceDocument(documentKey!, entries, activityIds)
+              const activityIds = references ? new Set(references.keys()) : undefined
+              const issues = isVenue ? validateVenues(entries) : validateResourceDocument(documentKey!, entries, activityIds, references)
               const errors = isVenue
                 ? issues.filter((issue) => "severity" in issue && issue.severity === "error")
                 : issues
@@ -205,7 +206,7 @@ export function activityEditorPlugin(enabled: boolean): Plugin {
               const verification = isVenue
                 ? parseVenueDocument(nextSource).venues
                 : parseListDocument(nextSource).activities
-              const verificationIssues = isVenue ? validateVenues(verification) : validateResourceDocument(documentKey!, verification, activityIds)
+              const verificationIssues = isVenue ? validateVenues(verification) : validateResourceDocument(documentKey!, verification, activityIds, references)
               const verificationErrors = isVenue
                 ? verificationIssues.filter((issue) => "severity" in issue && issue.severity === "error")
                 : verificationIssues

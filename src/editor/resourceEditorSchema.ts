@@ -8,6 +8,7 @@ export interface ActivityReference {
   scheduleLabel?: string
   startAt?: string
   startInstant?: number
+  performances?: Array<{ key: string; title: string }>
 }
 
 export interface EditorField {
@@ -71,6 +72,7 @@ export const RESOURCE_EDITOR_DOCUMENTS: Record<ResourceDocumentKey, {
     description: "与活动 ID 关联的官方告知、返图、视频和其他链接。",
     fields: [
       { key: "activityId", kind: "text", required: true, placeholder: "activities.yaml 中的 id" },
+      { key: "performance", kind: "text", placeholder: "可选：该回的 startAt / occursOn，与活动日程完全一致" },
       { key: "kind", kind: "select", required: true, options: KINDS },
       { key: "platform", kind: "select", required: true, options: PLATFORMS },
       { key: "title", kind: "localized", required: true },
@@ -85,15 +87,15 @@ export const RESOURCE_EDITOR_DOCUMENTS: Record<ResourceDocumentKey, {
     filename: "daily-posts.yaml",
     description: "不依附活动的日常投稿；同一主题可用 links 收纳原帖、转发和回复。",
     fields: [
-      { key: "id", kind: "text" },
       { key: "date", kind: "text", format: "date", placeholder: "YYYY-MM-DD" },
       { key: "title", kind: "archiveText", required: true },
-      { key: "platform", kind: "select", options: PLATFORMS },
       { key: "description", kind: "archiveText", multiline: true },
-      { key: "tags", kind: "array", item: { key: "tags[]", kind: "archiveText", required: true } },
-      { key: "status", kind: "select", options: STATUS },
       { key: "url", kind: "url", required: true },
       { key: "links", kind: "array", item: { key: "links[]", kind: "resourceLink", required: true } },
+      { key: "platform", kind: "select", options: PLATFORMS },
+      { key: "status", kind: "select", options: STATUS },
+      { key: "tags", kind: "array", item: { key: "tags[]", kind: "archiveText", required: true } },
+      { key: "id", kind: "text" },
     ],
     create: () => ({ title: { ja: "", en: "" }, url: "" }),
   },

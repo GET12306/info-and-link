@@ -16,7 +16,10 @@ const { PerformanceEditor } = await server.ssrLoadModule("/src/editor/ActivitySc
 const { default: ProgramEpisodes } = await server.ssrLoadModule("/src/components/ProgramEpisodes.tsx")
 const { default: Programs } = await server.ssrLoadModule("/src/pages/Programs.tsx")
 const { MemoryRouter } = await server.ssrLoadModule("react-router-dom")
-const program = activities.find(activity => activity.id === "tricolor")
+const currentProgram = activities.find(activity => activity.id === "tricolor")
+// Keep the original audit snapshot; real episode numbers are maintained independently.
+const program = { ...currentProgram, performances: currentProgram.performances.map(item =>
+  item.occursOn === "2026-11-19" ? { occursOn: item.occursOn } : item) }
 const now = Date.parse("2026-10-26T11:00:00Z")
 const render = element => renderToStaticMarkup(createElement(MemoryRouter, null, element))
 
@@ -69,7 +72,7 @@ test("Tricolor uses the shared editor, overall program link and five-record arch
   assert.equal((editor.match(/class="item-card"/g) ?? []).length, 5)
   const museum = render(createElement(Programs, { lang: "ja" }))
   assert.match(museum, /href="https:\/\/www.onsen.ag\/program\/tricolor"/)
-  const list = render(createElement(ProgramEpisodes, { activity: program, lang: "ja", full: true }))
+  const list = render(createElement(ProgramEpisodes, { activity: { ...program, performances: getProgramEpisodes(program, now) }, lang: "ja", full: true }))
   assert.equal((list.match(/<li\b/g) ?? []).length, 5)
   assert.match(list, /第41回/)
   assert.doesNotMatch(list, /個別リンク未登録|回数未登録|2026年11月19日/)

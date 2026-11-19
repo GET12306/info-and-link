@@ -1,6 +1,7 @@
 import type { Activity } from "../types"
 import { getActivityOccurrences } from "../utils/activitySchedule"
 import type { ActivityReference } from "./resourceEditorSchema"
+import { programEpisodeLabel } from "../utils/programEpisodes"
 
 export function activityReference(activity: Activity): ActivityReference {
   const first = getActivityOccurrences(activity)[0]
@@ -9,6 +10,10 @@ export function activityReference(activity: Activity): ActivityReference {
     title: activity.title,
     category: activity.category,
     scheduleLabel: activity.scheduleLabel,
+    performances: activity.recurrence?.type === "manual" ? getActivityOccurrences(activity).map(item => ({
+      key: item.startAt ?? item.date,
+      title: `${item.date} · ${programEpisodeLabel(item, "ja")}`,
+    })) : undefined,
     ...(first ? { startAt: first.startAt ?? first.date, startInstant: first.startInstant } : {}),
   }
 }

@@ -1,4 +1,10 @@
 import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
+import { useMemo, useState } from "react"
+import {
+  ACTIVITY_CATEGORY_META,
+  ACTIVITY_CATEGORY_ORDER,
+  type ActivityCategory,
+} from "../config/activityCategories"
 import type {
   CalendarEvent,
   CalendarMonthData,
@@ -171,7 +177,7 @@ export default function CalendarMonth({
   hasNext,
   onPrev,
   onNext,
-  monthKeys,
+  months,
   onSelectMonth,
   eventActionLabel,
   className = "",
@@ -186,7 +192,7 @@ export default function CalendarMonth({
   hasNext: boolean
   onPrev: () => void
   onNext: () => void
-  monthKeys: string[]
+  months: CalendarMonthData[]
   onSelectMonth: (monthKey: string) => void
   eventActionLabel?: string
   className?: string
@@ -194,9 +200,48 @@ export default function CalendarMonth({
   const labels = lang === "ja" ? DAY_LABELS_JA : DAY_LABELS_EN
   const t = TRANSLATIONS[lang]
   const isToday = today ?? ""
-  const activitiesById = new Map(
-    activities.map((activity) => [activity.id, activity])
+  const [selectedCategories, setSelectedCategories] = useState<ActivityCategory[]>([])
+  const activitiesById = useMemo(
+    () => new Map(activities.map((activity) => [activity.id, activity])),
+    [activities]
   )
+  const categories = useMemo(() => {
+    const available = new Set<ActivityCategory>()
+    for (const { weeks } of months) {
+      for (const week of weeks) {
+        for (const day of week) {
+          for (const event of day.events) {
+            const category = activitiesById.get(event.activityId)?.category
+            if (category) available.add(category)
+          }
+        }
+      }
+    }
+    return ACTIVITY_CATEGORY_ORDER.filter((category) => available.has(category))
+  }, [months, activitiesById])
+  const activeCategories = selectedCategories.filter((category) => categories.includes(category))
+  const isFiltered = activeCategories.length > 0
+  const visibleWeeks = isFiltered
+    ? month.weeks.map((week) => week.map((day) => ({
+        ...day,
+        events: day.events.filter((event) => {
+          const category = activitiesById.get(event.activityId)?.category
+          return category !== undefined && activeCategories.includes(category)
+        }),
+      })))
+    : month.weeks
+  const noMatches = isFiltered && !visibleWeeks.some((week) =>
+    week.some((day) => day.events.length > 0))
+
+  function toggleCategory(category: ActivityCategory | null) {
+    setSelectedCategories((previous) => {
+      if (category === null) return []
+      const available = previous.filter((item) => categories.includes(item))
+      return available.includes(category)
+        ? available.filter((item) => item !== category)
+        : [...available, category]
+    })
+  }
 
   return (
     <div className={`border grid-line rounded bg-white dark:bg-neutral-900 ${className}`}>
@@ -216,7 +261,7 @@ export default function CalendarMonth({
             aria-label={lang === "ja" ? "表示する月を選択" : "Select month"}
             className="cursor-pointer appearance-none bg-transparent py-1 pl-3 pr-8 text-xs font-bold uppercase tracking-widest text-coco-accent outline-none"
           >
-            {monthKeys.map((monthKey) => (
+            {months.map(({ key: monthKey }) => (
               <option key={monthKey} value={monthKey}>
                 {formatMonthLabel(monthKey, lang)}
               </option>
@@ -236,6 +281,29 @@ export default function CalendarMonth({
           <ChevronRight className="w-4 h-4" />
         </button>
       </div>
+      {categories.length > 1 && (
+        <div role="group" aria-label={t.calendar_filter_categories}
+          className="flex flex-wrap gap-1.5 border-t grid-line px-3 py-2.5">
+          {([null, ...categories] as const).map((category) => {
+            const selected = category === null ? !isFiltered : activeCategories.includes(category)
+            const label = category ? ACTIVITY_CATEGORY_META[category].compactLabel[lang] : t.calendar_filter_all
+            return (
+              <button key={category ?? "all"} type="button" aria-pressed={selected}
+                onClick={() => toggleCategory(category)}
+                className={`min-h-9 rounded-full border px-3 text-xs font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coco-accent ${selected
+                  ? "border-coco-accent bg-coco-accent text-white"
+                  : "grid-line text-coco-ink/70 hover:border-coco-accent hover:text-coco-accent"}`}>
+                {label}
+              </button>
+            )
+          })}
+        </div>
+      )}
+      <div role="status" className={noMatches
+        ? "border-t grid-line px-4 py-2 text-sm text-coco-ink/60"
+        : "sr-only"}>
+        {noMatches ? t.calendar_filter_no_matches : ""}
+      </div>
       <div className="border-t grid-line lg:hidden">
         <div className="grid grid-cols-7">
           {labels.map((label, i) => (
@@ -248,9 +316,9 @@ export default function CalendarMonth({
           ))}
         </div>
 
-        {month.weeks.map((week, weekIndex) => {
+        {visibleWeeks.map((week, weekIndex) => {
           const weekHasEvents = week.some((day) => day.events.length > 0)
-          const weekIncludesToday = week.some((day) => day.date === isToday)
+          const showTodayWithoutEvents = !isFiltered && week.some((day) => day.date === isToday)
 
           return (
             <section key={weekIndex} className="border-t grid-line first:border-t-0">
@@ -290,11 +358,12 @@ export default function CalendarMonth({
                 })}
               </div>
 
-              {(weekHasEvents || weekIncludesToday) && (
+              {(weekHasEvents || showTodayWithoutEvents) && (
                 <div className="space-y-3 border-t grid-line bg-coco-ink/[0.0125] px-2 py-3">
                   {week.map((day, dayIndex) => {
                     const isTodayDay = day.date === isToday
-                    if (day.dayNumber === null || (day.events.length === 0 && !isTodayDay)) {
+                    if (day.dayNumber === null ||
+                        (day.events.length === 0 && !(isTodayDay && showTodayWithoutEvents))) {
                       return null
                     }
 
@@ -327,7 +396,7 @@ export default function CalendarMonth({
                           </div>
                         </div>
                         <div className="space-y-1.5">
-                          {isTodayDay && day.events.length === 0 && (
+                          {isTodayDay && day.events.length === 0 && !isFiltered && (
                             <p className="flex min-h-16 items-center rounded border border-dashed border-coco-ink/15 px-3 py-2.5 text-sm text-coco-ink/55">
                               {t.calendar_no_events_today}
                             </p>
@@ -376,7 +445,7 @@ export default function CalendarMonth({
           </div>
 
           <div className="grid grid-cols-7 border-t border-l grid-line">
-            {month.weeks.flat().map((day, i) => {
+            {visibleWeeks.flat().map((day, i) => {
               const isTodayDay = day.date === isToday
 
               return (

@@ -12,10 +12,13 @@ export default function MonthlyRecurrenceFields({ rule, onChange }: { rule: Mont
   const updateOverrides = (items: Override[]) => onChange(setOptional({ ...rule }, "overrides", items.length ? items : undefined))
   const update = (index: number, item: Override) => updateOverrides(overrides.map((current, itemIndex) => itemIndex === index ? item : current))
   return <>
-    <p className="empty-copy">每月按规则自动生成全天场次，更新时间作为辅助时刻显示。只把已经到更新时间的回数加入博物馆；通常不需要逐期新增场次。</p>
+    <p className="empty-copy">常规回生成到结束月份（含该月）。延长日程时修改结束月份；特别回可单独添加，停播请使用下方例外。</p>
     <div className="field-grid three recurrence-fields">
       <label className="form-field"><span>recurrence.startOn <em className="required">required</em></span>
         <input type="text" placeholder="YYYY-MM-DD" value={rule.startOn} onChange={event => onChange({ ...rule, startOn: event.target.value })} />
+      </label>
+      <label className="form-field"><span>recurrence.endMonth — 结束月份 <em className="required">required</em></span>
+        <input type="text" placeholder="YYYY-MM" value={rule.endMonth} onChange={event => onChange({ ...rule, endMonth: event.target.value })} />
       </label>
       <label className="form-field"><span>recurrence.weekOfMonth <em className="required">required</em></span>
         <select value={rule.weekOfMonth} onChange={event => onChange({ ...rule, weekOfMonth: Number(event.target.value) })}>

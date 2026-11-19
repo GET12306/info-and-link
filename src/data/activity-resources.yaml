@@ -9,6 +9,8 @@
 # 数据结构参考：
 # - activityId: "2026-example-event" # [必填] 对应 activities.yaml 中的活动 id
 #   kind: "post"                     # [必填] announcement | merchandise | post | photo | video | report | other
+#   performance: "2026-08-30T20:00"  # [可选] 关联具体回数：与该活动的 startAt / occursOn 完全一致
+#                                    # 不按 posts 发布日期推断回数；留空表示节目整体资源
 #   platform: "x"                    # [必填] 资源组的默认平台：x | instagram | youtube | web | other
 #   title:                            # [必填] 合集名称；链接数量不会改变其含义
 #     ja: "公式投稿"
@@ -43,6 +45,7 @@
 # - 公式ポスト / Official Posts
 # - 事務所ポスト / Agency Posts
 # - キャストポスト / Other Cast Members' Posts
+# - FCポスト / Fan Club Posts
 # 每个 URL 都拥有自己的 date，顶层不再使用 date 或 url。页面计数按实际链接数计算。
 #
 # -----------------------------------------------------------------------------
@@ -402,12 +405,13 @@
       label:
         ja: "フラスタ"
         en: "Flower Stand"
-- activityId: "bang-dream-tv-live-2026"
+- activityId: "bang-dream-tv-live"
+  performance: "2026-09-24T22:00"
   kind: "post"
   platform: "x"
   title:
-    ja: "#333関連ポスト"
-    en: "#333 Related Posts"
+    ja: "ココポスト"
+    en: "Coco's Posts"
   links:
     - url: "https://x.com/cocohayashi515/status/2103072268490592512"
       date: "2026-09-24"
@@ -828,6 +832,11 @@
       label:
         ja: "第41回配信開始🇫🇷"
         en: "Episode 41 Is Now Available 🇫🇷"
+    - url: "https://x.com/onsenradio/status/2123265878280294415"
+      date: "2026-11-19"
+      label:
+        ja: "第42回配信開始🇫🇷"
+        en: "Episode 42 Is Now Available 🇫🇷"
 - activityId: "2026-assault-lily-reading-vol-2"
   kind: "post"
   platform: "x"
@@ -1037,7 +1046,7 @@
   platform: "x"
   title:
     ja: "FCポスト"
-    en: "Posts from FC"
+    en: "Fan Club Posts"
   links:
     - url: "https://x.com/FC_coco2025/status/2117563595152368020"
       date: "2026-11-03"
@@ -1119,18 +1128,63 @@
       label:
         ja: "出演のお知らせ"
         en: "Announcement"
-- activityId: "bang-dream-tv-live-2026"
+- activityId: "bang-dream-tv-live"
+  performance: "2026-11-19T22:00"
   kind: "post"
   platform: "x"
   title:
-    ja: "#341 関連ポスト"
-    en: "#341 Related Posts"
+    ja: "ココポスト"
+    en: "Coco's Posts"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2123397990429950113"
+      date: "2026-11-19"
+      label:
+        ja: "このあと"
+        en: "Next..."
+    - url: "https://x.com/cocohayashi515/status/2123435675517427752"
+      date: "2026-11-20"
+      label:
+        ja: "ありがとうございました"
+        en: "Thank you for watching"
+- activityId: "bang-dream-tv-live"
+  performance: "2026-11-19T22:00"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "公式ポスト"
+    en: "Official Posts"
   links:
     - url: "https://x.com/bang_dream_info/status/2120878736254124400"
       date: "2026-11-12"
       label:
         ja: "告知"
         en: "Announcement"
+    - url: "https://x.com/bang_dream_info/status/2123402662628450631"
+      date: "2026-11-19"
+      label:
+        ja: "このあと生配信"
+        en: "Live stream coming up"
+    - url: "https://x.com/bang_dream_info/status/2123401092151332881"
+      date: "2026-11-19"
+      label:
+        ja: "配信開始"
+        en: "Streaming Begins"
+- activityId: "bang-dream-tv-live"
+  performance: "2026-11-19T22:00"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "キャストポスト"
+    en: "Other Cast Members' Posts"
+  links:
+    - url: "https://x.com/kohinatamika/status/2123428900001005674"
+      date: "2026-11-19"
+      label:
+        ja: "小日向美香"
+        en: "Mika Kohinata"
+    - url: "https://x.com/mika_d_dr/status/2123428380188274814"
+      date: "2026-11-19"
+      label: "mika"
 - activityId: "2026-mygo-9th-kobe-revival"
   kind: "photo"
   platform: "x"
@@ -1171,7 +1225,7 @@
   platform: "x"
   title:
     ja: "FCポスト"
-    en: "Posts from FanClub"
+    en: "Fan Club Posts"
   links:
     - url: "https://x.com/FC_coco2025/status/2121828070890090624"
       date: "2026-11-15"
@@ -1204,6 +1258,30 @@
   links:
     - url: "https://x.com/LIBERTE__2024/status/2121921251585511859"
       date: "2025-11-15"
+      label:
+        ja: "出演のお知らせ"
+        en: "Announcement"
+- activityId: "2027-01-score-musical-friends"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "公式ポスト"
+    en: "Official Posts"
+  links:
+    - url: "https://x.com/aoi_score2027/status/2122268438659743805"
+      date: "2026-11-16"
+      label:
+        ja: "ゲスト解禁"
+        en: "Announcement"
+- activityId: "2027-01-score-musical-friends"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "ココポスト"
+    en: "Coco's Posts"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2122309787329454199"
+      date: "2026-11-16"
       label:
         ja: "出演のお知らせ"
         en: "Announcement"

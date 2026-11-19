@@ -209,9 +209,9 @@ export function getWeeklyPerformances(activity: Activity): ActivityPerformance[]
   return generatedPerformances
 }
 
-export function getActivityOccurrences(activity: Activity, through?: string) {
+export function getActivityOccurrences(activity: Activity) {
   if (activity.recurrence?.type === "monthly") {
-    return getPerformanceOccurrences(getMonthlyPerformances(activity, through), activity.durationMinutes, sourceTimeZone(activity.timeZone))
+    return getPerformanceOccurrences(getMonthlyPerformances(activity), activity.durationMinutes, sourceTimeZone(activity.timeZone))
   }
   if (activity.recurrence?.type === "weekly") {
     const performances = getWeeklyPerformances(activity)

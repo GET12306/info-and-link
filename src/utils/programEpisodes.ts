@@ -16,20 +16,20 @@ export function performanceDateKey(performance: ActivityPerformance) {
 }
 
 /** Episode presentation uses the same schedule records as every other activity. */
-export function getProgramEpisodes(activity: Activity, now = Date.now()): ActivityPerformance[] {
+export function getProgramEpisodes(activity: Activity, now = Date.now(), scope: "published" | "all" = "published"): ActivityPerformance[] {
   if (!hasEpisodeArchive(activity)) return []
   const zone = sourceTimeZone(activity.timeZone)
   const monthly = activity.recurrence?.type === "monthly"
-  const performances = monthly ? getMonthlyPerformances(activity, dateTimeForViewer(now, zone).slice(0, 10))
+  const performances = monthly ? getMonthlyPerformances(activity)
     : activity.recurrence?.type === "weekly" ? getWeeklyPerformances(activity) : activity.performances ?? []
   return performances.filter(performance => {
     const date = performanceDateKey(performance)
     return (isCalendarDate(date) || isCalendarDateTime(date)) && instantFromSourceKey(date, zone) !== null &&
-      (performanceUpdateInstant(performance, zone) ?? Infinity) <= now
+      (scope === "all" || (performanceUpdateInstant(performance, zone) ?? Infinity) <= now)
   }).sort((a, b) => performanceDateKey(b).localeCompare(performanceDateKey(a)))
 }
 
-export function programEpisodeLabel(episode: ActivityPerformance, lang: Language) {
+export function programEpisodeLabel(episode: Pick<ActivityPerformance, "label" | "episode">, lang: Language) {
   return episode.label?.[lang] ?? (episode.episode
     ? TRANSLATIONS[lang].program_episode_number.replace("{episode}", episode.episode)
     : TRANSLATIONS[lang].program_episode_unknown)

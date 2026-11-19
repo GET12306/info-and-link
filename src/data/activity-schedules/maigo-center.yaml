@@ -19,6 +19,12 @@
 # 未出演及无法核对的记录只保留在 docs/data-audits/maigo-center.json，不进入网页数据。
 # 网页的活动日程、日历和归档只读取本 YAML，与 audit JSON 无运行时依赖。
 performances:
+  - startAt: "2026-11-18T19:00"
+    episode: "205"
+    link: "https://www.youtube.com/watch?v=BjTKnxfEJZk&list=PLUFFl4hYd1R0SQPSCAqPVuT5F2By4pqO7&index=1"
+  - startAt: "2026-11-11T19:00"
+    episode: "204"
+    link: "https://www.youtube.com/watch?v=ncv0UYmtMX4&list=PLUFFl4hYd1R0SQPSCAqPVuT5F2By4pqO7&index=2"
   - startAt: "2026-10-21T19:00"
     episode: "201"
     link: "https://www.youtube.com/watch?v=nWE5BuYvYJ4"
