@@ -4196,11 +4196,34 @@
     ja: "「林鼓子のメゾン・ド・ココ」1周年記念イベント"
     en: "“Koko Hayashi's Maison de Coco” 1st Anniversary Event"
   link: "https://audee-membership.jp/coco-hayashi/articles/news/areikjnjbEfP3W8QTTKQD6rK"
-  venueIds: [ "po-minami-aoyama-hall" ]
-  description:
-    ja: "チケット情報、販売スケジュールなど詳細は追ってお知らせいたします"
-    en: "Details TBA"
-  startDate: "2026-12-26"
+  venueIds:
+    - "po-minami-aoyama-hall"
+  performances:
+    - startAt: "2026-12-26T13:30"
+      milestones:
+        - kind: "doors"
+          at: "13:00"
+    - startAt: "2026-12-26T16:30"
+      milestones:
+        - kind: "doors"
+          at: "16:00"
+  ticketInfo:
+    entries:
+      - type:
+          ja: "メンバーシップ会員先行抽選"
+          en: "Members-Only Priority Lottery"
+        scheduleLabel: "2026.11.20 22:00 - 11.27 23:59"
+        startAt: "2026-11-20T20:00"
+        endAt: "2026-11-27"
+      - type:
+          ja: "一般販売"
+          en: "General Sales"
+        scheduleLabel: "2026.12.04 22:00-"
+        startAt: "2026-12-04T22:00"
+    link: "https://audee-membership.jp/coco-hayashi/articles/news/ardj5LzUSTqLXuiVtHs89tve"
+    price:
+      ja: "・スペシャル特典付き会員：7700円（税込）・会員一般：5500円（税込）・一般：6600円（税込）"
+      en: "・Membership with Special Goods: 7,700 yen (tax included) ・General Membership: 5,500 yen (tax included) ・General Admission: 6,600 yen (tax included)"
 - id: "2027-01-score-musical-friends"
   category: "Musical"
   scheduleLabel: "2027.01.09-01.15"
