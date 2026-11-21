@@ -2,6 +2,7 @@ import type { Activity, TicketEntry } from "../types"
 import { getCurrentActivities } from "./activityStatus"
 import { getJapanDateTimeKey, normalizeJapanDateTimeKey } from "./japanTime"
 import { dateTimeForViewer, instantFromSourceKey, sourceTimeZone, viewerTimeZone } from "./timeZone"
+import { formatScheduleDateTime } from "./scheduleDisplay"
 
 export type TicketStatus = "upcoming" | "open" | "past" | "tba"
 
@@ -28,9 +29,9 @@ export function getTicketEntryPrice(activity: Activity, entry: TicketEntry) {
 export function getTicketDisplaySchedule(entry: TicketEntry, activityTimeZone?: string) {
   const timeZone = sourceTimeZone(entry.timeZone ?? activityTimeZone)
   const format = (value: string, boundary: "start" | "end") => {
-    if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return value
+    if (/^\d{4}-\d{2}-\d{2}$/.test(value)) return formatScheduleDateTime(value)
     const instant = instantFromSourceKey(value, timeZone, boundary)
-    return instant === null ? value : dateTimeForViewer(instant, viewerTimeZone()).replace("T", " ")
+    return formatScheduleDateTime(instant === null ? value : dateTimeForViewer(instant, viewerTimeZone()))
   }
   const start = entry.startAt ? format(entry.startAt, "start") : null
   const end = entry.endAt ? format(entry.endAt, "end") : null

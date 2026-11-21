@@ -178,7 +178,7 @@ Required fields:
 
 - `id`: permanent, unique lowercase slug used by navigation, UI identity, and calendar UIDs. Once published, do not rename it when a title or URL changes.
 - `category`: one of `Stage`, `Musical`, `Program`, `Event`, `Live`, `Reading`, or `Other`. Use `Program` for streamed/broadcast programs and `Event` for in-person events.
-- `scheduleLabel`: human-readable schedule text used only for display. This can be a single date, date range, `Weekly`, `Monthly`, or any concise label.
+- `scheduleLabel`: optional display fallback, required only when no activity dates are known. Known dates (including recurring schedules) take precedence; summaries show `YYYY.MM.DD` or a date range. Use a concise label such as `Date TBA` when dates are unknown.
 - `timeZone`: optional IANA time zone for all machine-readable activity and recurrence times. Omit it to author in `Asia/Tokyo` (UTC+9), even when an event takes place in Hong Kong or Taiwan. Set `Asia/Hong_Kong` or `Asia/Taipei` only when the source schedule is actually published in that local time.
 - `title.ja` and `title.en`: bilingual title.
 - `link`: source or official activity information URL.
@@ -571,7 +571,7 @@ Ticket field notes:
 - `entry.timeZone`: optional IANA zone override for a ticket stage; otherwise it inherits the activity's `timeZone` (default `Asia/Tokyo`).
 - `entry.startAt`: optional start boundary. Use either `YYYY-MM-DD` or minute-precise `YYYY-MM-DDTHH:mm` in the entry's source zone. A date-only value starts at `00:00`.
 - `entry.endAt`: optional closing boundary in the same two formats. A date-only value remains open through `23:59`; if the official cutoff is unknown, the parent activity `endDate` may be used.
-- `entry.scheduleLabel`: language-independent, human-readable sale/application period used only for display.
+- `entry.scheduleLabel`: language-independent display fallback, required only when both `startAt` and `endAt` are absent. A known start, end, or pair takes precedence, rendered as `YYYY.MM.DD` or `YYYY.MM.DD HH:mm` after the usual time-zone conversion.
 - `entry.price`: optional price override for an exceptional ticket stage. The UI falls back to `ticketInfo.price` when omitted.
 - `entry.description`: optional application conditions or other supplementary details, with the same meaning as activity `description`.
 - `entry.link`: optional URL for this exact ticket entry. Link resolution is `entry.link`, then `ticketInfo.link`, then the activity `link`.
@@ -594,7 +594,7 @@ When adding or editing content:
 - Give every activity a permanent unique `id`; do not derive UI identity from its list position.
 - Keep Japanese and English fields in sync.
 - Use `YYYY-MM-DD` for machine-readable dates and `YYYY-MM-DDTHH:mm` for precise times in the declared source zone (default `Asia/Tokyo`). Ticket `startAt`/`endAt` accept either format and supply boundary defaults for date-only values.
-- Both activities and ticket entries use `scheduleLabel` for display-only schedule text; never use it for sorting or status logic.
+- Both activities and ticket entries use `scheduleLabel` only as the fallback when no dates are known; never use it for sorting or status logic. Display punctuation (`.` and spaces) does not change the ISO dates stored in YAML.
 - Keep venue information only at the activity level unless a future performance explicitly needs a different venue.
 - Prefer exact source links from official sites or reliable announcements.
 - For irregular programs, use `recurrence.type: manual` and add only confirmed dates to `performances`. For fixed monthly programs, use `recurrence.type: monthly` with exceptions for rescheduling or cancellation. For fixed weekly programs, update the bounded `recurrence.endOn`; never create an unbounded weekly rule.

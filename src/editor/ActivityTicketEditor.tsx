@@ -1,5 +1,6 @@
 import { Plus, Trash2 } from "lucide-react"
 import type { Activity } from "../types"
+import { hasTicketScheduleDates } from "../utils/scheduleDisplay"
 import { ItemToolbar, LocalizedEditor } from "./ActivityEditorFields"
 import { EMPTY_LOCALIZED_TEXT, setOptional, type EditorActivity, type EditorTicketEntry } from "./activityEditorValues"
 
@@ -96,8 +97,9 @@ export function TicketEditor({
             />
             <div className="field-grid">
               <label className="form-field">
-                <span>ticketInfo.entries[].scheduleLabel <em className="required">required</em></span>
-                <input value={entry.scheduleLabel} onChange={(event) => updateEntry(index, { ...entry, scheduleLabel: event.target.value })} />
+                <span>ticketInfo.entries[].scheduleLabel <em className={hasTicketScheduleDates(entry) ? "optional" : "required"}>{hasTicketScheduleDates(entry) ? "optional" : "required"}</em></span>
+                <input value={entry.scheduleLabel ?? ""} placeholder="日程未定 / Date TBA" onChange={(event) => updateEntry(index, setOptional(entry, "scheduleLabel", event.target.value) as EditorTicketEntry)} />
+                <small>startAt / endAt 均未填写时必填；有日期时优先自动显示日期和时间。</small>
               </label>
               <label className="form-field">
                 <span>ticketInfo.entries[].link <em className="optional">optional</em></span>
@@ -132,7 +134,6 @@ export function TicketEditor({
           ...ticketInfo,
           entries: [...entries, {
             type: { ja: "", en: "" },
-            scheduleLabel: "",
           }],
         })}>
           <Plus /> 添加条目

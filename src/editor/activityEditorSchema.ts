@@ -52,8 +52,8 @@ export const ACTIVITY_EDITOR_SECTIONS: readonly ActivityEditorSection[] = [
         key: "scheduleLabel",
         label: "scheduleLabel",
         input: "text",
-        required: true,
-        placeholder: "2026.09.12 / Weekly",
+        description: "仅在完全没有已知日期时必填，作为页面回落文字；有日期时自动生成显示日程。",
+        placeholder: "日程未定 / Date TBA",
       },
       {
         key: "link",

@@ -13,6 +13,7 @@ import { useEditorAutoRefresh, useUnsavedChanges } from "./useEditorAutoRefresh"
 import { ACTIVITY_CATEGORY_ORDER } from "../config/activityCategories"
 import { activityDateLabel, activitySearchText, compareEditorActivities, groupActivityResourceEntries } from "./activityNavigation"
 import ActivityResourceTitleEditor from "./ActivityResourceTitleEditor"
+import EditorTextInput from "./EditorTextInput"
 
 type RecordValue = Record<string, unknown>
 type ResourceResponse = {
@@ -88,6 +89,7 @@ function FieldEditor({ field, path, record, onChange, activityTitles }: {
   activityTitles?: ReadonlyMap<string, string>
 }) {
   const value = field.kind === "resourceTarget" ? record : record[field.key]
+  const [textMode, setTextMode] = useState(() => isRecord(value) ? "localized" : "plain")
   const name = field.kind === "resourceTarget"
     ? `${path ? `${path}.` : ""}url / links`
     : `${path ? `${path}.` : ""}${field.key}`
@@ -161,22 +163,19 @@ function FieldEditor({ field, path, record, onChange, activityTitles }: {
   }
 
   if (field.kind === "localized" || field.kind === "archiveText") {
-    const plain = field.kind === "archiveText" && (typeof value === "string" || value === undefined)
+    const plain = field.kind === "archiveText" && (value === undefined ? textMode === "plain" : typeof value === "string")
     const localized = isRecord(value) ? value : {}
     return <fieldset className="localized-field resource-localized-field"><legend>{label}</legend>
       {field.kind === "archiveText" && <div className="resource-mode-buttons resource-text-mode">
-        <button type="button" className={plain ? "selected" : ""} onClick={() => change(localizedLabel(value))}>single text</button>
-        <button type="button" className={!plain ? "selected" : ""} onClick={() => change(typeof value === "string" ? { ja: value, en: "" } : value ?? { ja: "", en: "" })}>ja / en</button>
+        <button type="button" className={plain ? "selected" : ""} onClick={() => { setTextMode("plain"); change(localizedLabel(value)) }}>single text</button>
+        <button type="button" className={!plain ? "selected" : ""} onClick={() => { setTextMode("localized"); change(typeof value === "string" ? { ja: value, en: "" } : value ?? { ja: "", en: "" }) }}>ja / en</button>
       </div>}
-      {plain ? <textarea rows={field.multiline ? 3 : 1} className="resource-text-input" value={typeof value === "string" ? value : ""} onChange={event => change(event.target.value)} />
+      {plain ? <EditorTextInput multiline rows={field.multiline ? 3 : 1} className="resource-text-input" value={typeof value === "string" ? value : ""} onChange={change} />
         : <div className="localized-inputs">{(["ja", "en"] as const).map(lang => <label key={lang}><span>{name}.{lang}</span>
-          {field.multiline ? <textarea rows={3} value={typeof localized[lang] === "string" ? localized[lang] : ""} onChange={event => {
-            const next = { ...localized, [lang]: event.target.value }
+          <EditorTextInput multiline={field.multiline} value={typeof localized[lang] === "string" ? localized[lang] : ""} onChange={text => {
+            const next = { ...localized, [lang]: text }
             change(!field.required && !next.ja && !next.en ? undefined : next)
-          }} /> : <input value={typeof localized[lang] === "string" ? localized[lang] : ""} onChange={event => {
-            const next = { ...localized, [lang]: event.target.value }
-            change(!field.required && !next.ja && !next.en ? undefined : next)
-          }} />}
+          }} />
         </label>)}</div>}
     </fieldset>
   }
@@ -412,7 +411,7 @@ export default function ResourceEditorApp({ documentKey, active }: { documentKey
           {isActivityResource && <p>title 是合集名称（如本人、官方、事务所、其他演员）；links[].label 是每条链接的具体内容概括，只有一条链接时也会显示。</p>}
         </div></div>
           {documentKey === "activity-resources" && <datalist id="activity-ids">{sortedReferences.map(activity => <option value={activity.id} label={`${localizedLabel(activity.title) || activity.id} · ${activityDateLabel(activity)}`} key={activity.id} />)}</datalist>}
-          <div className="resource-fields">{schema.fields.map(field => isActivityResource && field.key === "title"
+          <div className="resource-fields" key={selectedIndex}>{schema.fields.map(field => isActivityResource && field.key === "title"
             ? <ActivityResourceTitleEditor key={`title-${selectedIndex}`} value={selected.title} onChange={title => updateSelected({ ...selected, title })}>
               <FieldEditor field={field} path="" record={selected} onChange={updateSelected} />
             </ActivityResourceTitleEditor>

@@ -3,6 +3,7 @@ import { ChevronDown, ChevronUp, Trash2 } from "lucide-react"
 import type { Language, LocalizedText } from "../types"
 import type { ActivityEditorField, ActivityEditorScalarKey } from "./activityEditorSchema"
 import { EMPTY_LOCALIZED_TEXT, type EditorActivity } from "./activityEditorValues"
+import { hasActivityScheduleDates } from "../utils/scheduleDisplay"
 
 export function LocalizedEditor({
   label,
@@ -120,10 +121,11 @@ export function ScalarField({
   }
 
   const value = activity[field.key] ?? ""
+  const required = field.key === "scheduleLabel" ? !hasActivityScheduleDates(activity) : field.required
   return (
     <label className="form-field">
       <span>
-        {field.label} <em className={field.required ? "required" : "optional"}>{field.required ? "required" : "optional"}</em>
+        {field.label} <em className={required ? "required" : "optional"}>{required ? "required" : "optional"}</em>
       </span>
       {field.input === "select" ? (
         <span className="select-wrap">

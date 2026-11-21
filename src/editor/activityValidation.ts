@@ -4,6 +4,7 @@ import { instantFromSourceKey, isValidTimeZone, sourceTimeZone } from "../utils/
 import { ACTIVITY_SCHEDULE_FILE_PATTERN } from "../utils/activityScheduleFiles"
 import { getMonthlyPerformances, monthlyRuleIssues } from "../utils/monthlySchedule"
 import type { Activity } from "../types"
+import { hasActivityScheduleDates, hasTicketScheduleDates } from "../utils/scheduleDisplay"
 
 export interface ActivityValidationIssue {
   path: string
@@ -350,8 +351,9 @@ function validateTicketInfo(
       return
     }
     validateLocalized(entry.type, `${itemPath}.type`, issues, true)
-    if (typeof entry.scheduleLabel !== "string" || !entry.scheduleLabel.trim()) {
-      issues.push({ path: `${itemPath}.scheduleLabel`, message: "显示日程不能为空", severity: "error" })
+    if (entry.scheduleLabel !== undefined && typeof entry.scheduleLabel !== "string" ||
+        !hasTicketScheduleDates(entry) && (typeof entry.scheduleLabel !== "string" || !entry.scheduleLabel.trim())) {
+      issues.push({ path: `${itemPath}.scheduleLabel`, message: "未填写日期时必须填写 scheduleLabel 回落文字；该字段必须为文本", severity: "error" })
     }
     if (entry.timeZone !== undefined && !isValidTimeZone(entry.timeZone)) {
       issues.push({ path: `${itemPath}.timeZone`, message: "请输入有效的 IANA 时区", severity: "error" })
@@ -445,8 +447,9 @@ export function validateActivities(value: unknown, venueIds?: ReadonlySet<string
     if (typeof activity.category !== "string" || !CATEGORIES.has(activity.category)) {
       issues.push({ path: `${path}.category`, message: "未知的活动类别", severity: "error" })
     }
-    if (typeof activity.scheduleLabel !== "string" || !activity.scheduleLabel.trim()) {
-      issues.push({ path: `${path}.scheduleLabel`, message: "显示日程不能为空", severity: "error" })
+    if (activity.scheduleLabel !== undefined && typeof activity.scheduleLabel !== "string" ||
+        !hasActivityScheduleDates(activity) && (typeof activity.scheduleLabel !== "string" || !activity.scheduleLabel.trim())) {
+      issues.push({ path: `${path}.scheduleLabel`, message: "未填写日期时必须填写 scheduleLabel 回落文字；该字段必须为文本", severity: "error" })
     }
     if (activity.timeZone !== undefined && !isValidTimeZone(activity.timeZone)) {
       issues.push({ path: `${path}.timeZone`, message: "请输入有效的 IANA 时区", severity: "error" })

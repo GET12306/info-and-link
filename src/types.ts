@@ -48,7 +48,8 @@ export interface Credit {
 export interface Activity {
   id: string;
   category: ActivityCategory;
-  scheduleLabel: string;
+  /** Display fallback, required only when no schedule dates are known. */
+  scheduleLabel?: string;
   /** IANA time zone of machine-readable schedule times; defaults to Asia/Tokyo. */
   timeZone?: string;
   startDate?: string;
@@ -287,7 +288,8 @@ export interface TicketEntry {
   startAt?: string;
   /** YYYY-MM-DD, or YYYY-MM-DDTHH:mm in the entry/activity time zone. */
   endAt?: string;
-  scheduleLabel: string;
+  /** Display fallback, required only when neither startAt nor endAt is known. */
+  scheduleLabel?: string;
   price?: LocalizedText;
   description?: LocalizedText;
   link?: string;

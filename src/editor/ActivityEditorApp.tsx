@@ -121,7 +121,7 @@ export default function ActivityEditorApp({ active = true }: { active?: boolean 
 
   const updateScalar = (key: ActivityEditorScalarKey, value: unknown) => {
     if (!selectedActivity) return
-    const required = key === "id" || key === "category" || key === "scheduleLabel" || key === "link"
+    const required = key === "id" || key === "category" || key === "link"
     updateSelected(required
       ? { ...selectedActivity, [key]: value }
       : setOptional(selectedActivity, key, value) as EditorActivity)
@@ -191,7 +191,6 @@ export default function ActivityEditorApp({ active = true }: { active?: boolean 
     const activity: EditorActivity = {
       id,
       category: category || "Event",
-      scheduleLabel: "",
       title: { ja: "", en: "" },
       link: "",
     }

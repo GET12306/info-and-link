@@ -814,14 +814,18 @@
   kind: "post"
   platform: "x"
   title:
-    ja: "公式宣伝ポスト"
-    en: "Official Promotional Post"
+    ja: "公式ポスト"
+    en: "Official Posts"
   links:
     - url: "https://x.com/WONDERLIVET/status/2111049929963761854"
       date: "2026-10-16"
       label:
         ja: "宣伝ビデオ"
         en: "Promotional Video"
+    - url: "https://x.com/bang_dream_info/status/2124073463627591854"
+      date: "2026-11-21"
+    - url: "https://x.com/bang_dream_mygo/status/2123954522158760416"
+      date: "2026-11-21"
 - activityId: "tricolor"
   kind: "post"
   platform: "x"
@@ -1292,3 +1296,29 @@
       label:
         ja: "出演のお知らせ"
         en: "Announcement"
+- activityId: "2026-wonderlivet"
+  kind: "photo"
+  platform: "x"
+  title:
+    ja: "ココポスト"
+    en: "Coco's Posts"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2123960968250347564"
+      date: "2026-11-21"
+      label:
+        ja: "よろしく"
+        en: "Nice to meet you"
+    - url: "https://x.com/cocohayashi515/status/2124034652549902455"
+      date: "2026-11-21"
+      label:
+        ja: "ありがとうございました！"
+        en: "Thank you!"
+- activityId: "2026-wonderlivet"
+  kind: "photo"
+  platform: "x"
+  title:
+    ja: "事務所ポスト"
+    en: "Agency Posts"
+  links:
+    - url: "https://x.com/LIBERTE__2024/status/2124037523085443335"
+      date: "2026-11-21"

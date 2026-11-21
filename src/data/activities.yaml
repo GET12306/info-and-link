@@ -1,13 +1,15 @@
 # 数据结构参考（依据当前 Activity / TicketInfo 类型与页面读取逻辑）
 # [必填] 缺少后页面无法正常展示；[可选] 可整项省略，不要用空字符串代替。
-# 字段规则：活动与票务条目均使用 scheduleLabel 保存自由书写的显示日程。票务的 startAt/endAt 可写
+# 字段规则：活动与票务优先根据已知日期自动显示日程；scheduleLabel 仅作无日期时的回落文字。
+#          网页将日期显示为 YYYY.MM.DD，T 显示为空格；YAML 日期仍保持 YYYY-MM-DD / YYYY-MM-DDTHH:mm。
+#          日期范围使用 – 连接。票务的 startAt/endAt 可写
 #          YYYY-MM-DD 或 YYYY-MM-DDTHH:mm；省略时间时，开始按 00:00、结束按 23:59 计算。均为日本时间。
 #
 # - id: "2026-example-event"          # [必填] 全局唯一且永久不变的标识；小写字母、数字及连字符
 #   category: "Event"                 # [必填] 分类：Stage | Musical | Program | Event | Live | Reading | Other
 #                                     # 舞台/音乐剧/直播节目/线下活动/live/朗读剧/其他
 #                                        # Program=配信番組，Event=リアルイベント
-#   scheduleLabel: "2026.08.11"       # [必填] 活动页的日程显示文字；不参与日期计算，建议加引号
+#   scheduleLabel: "日程未定"         # [条件必填] 完全没有已知日期时必填；有日期时可省略，不覆盖自动日程
 #   startDate: "2026-08-11"           # [条件必填] 连续活动首日；与 performances 二选一
 #   endDate: "2026-08-12"             # [可选] 连续活动末日；省略时视为单日活动
 #   recurrence:                        # [可选] 经常性节目；存在时不会因已知场次过期而进入历史
@@ -76,7 +78,7 @@
 #           en: "General Sale"
 #         startAt: "2026-07-11T12:00"  # [可选] 开始日或时刻；无 T 时默认当天 00:00
 #         endAt: "2026-07-20"          # [可选] 截止日或时刻；无 T 时默认当天 23:59；不明时可用活动 endDate
-#         scheduleLabel: "2026.07.11-07.20" # [必填] 两种语言共用的显示日程；不参与状态计算
+#         scheduleLabel: "日程未定"    # [条件必填] startAt/endAt 均未知时必填；任一日期已知即可省略
 #         price:                       # [可选] 仅在此阶段价格不同时填写，覆盖 ticketInfo.price
 #           ja: "当日券 10,500円"
 #           en: "Same-day ticket: 10,500 yen"

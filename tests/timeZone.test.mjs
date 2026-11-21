@@ -34,7 +34,7 @@ test("unqualified authored JST converts to the viewer's prior day, including mil
   assert.equal(day.events[0].startTime, "23:30")
   assert.equal(day.events[0].milestones[0].at, "23:15")
   assert.equal(zone.dateTimeForViewer(day.events[0].endInstant, "Asia/Shanghai"), "2026-09-12T01:00")
-  assert.equal(getActivityDisplaySchedule(event, "Asia/Shanghai"), "2026-09-11")
+  assert.equal(getActivityDisplaySchedule(event, "Asia/Shanghai"), "2026.09.11")
 })
 
 test("activity summaries show dates only while detailed times stay timezone-aware", () => {
@@ -45,16 +45,16 @@ test("activity summaries show dates only while detailed times stay timezone-awar
       { startAt: "2026-10-25T12:00" },
     ],
   }
-  assert.equal(getActivityDisplaySchedule(ranged, "Asia/Shanghai"), "2026-10-17 – 2026-10-25")
+  assert.equal(getActivityDisplaySchedule(ranged, "Asia/Shanghai"), "2026.10.17 – 2026.10.25")
 })
 
-test("recurring activity summaries defer entirely to scheduleLabel", () => {
+test("recurring activity summaries also prefer known dates to scheduleLabel", () => {
   const recurring = {
     ...event,
     scheduleLabel: "Weekly",
     recurrence: { type: "manual" },
   }
-  assert.equal(getActivityDisplaySchedule(recurring, "Asia/Shanghai"), null)
+  assert.equal(getActivityDisplaySchedule(recurring, "Asia/Shanghai"), "2026.09.11")
 })
 
 test("all-day dates stay on their authored calendar day", () => {
@@ -72,7 +72,25 @@ test("a declared Hong Kong source zone governs activity and ticket boundaries", 
   assert.equal(getTicketStatus(entry, "2026-09-12T01:00", "Asia/Hong_Kong"), "upcoming")
   assert.equal(getTicketStatus(entry, "2026-09-12T01:30", "Asia/Hong_Kong"), "open")
   assert.equal(getTicketDisplaySchedule(entry, "Asia/Hong_Kong"),
-    zone.dateTimeForViewer(zone.instantFromSourceKey(entry.startAt, "Asia/Hong_Kong")).replace("T", " "))
+    zone.dateTimeForViewer(zone.instantFromSourceKey(entry.startAt, "Asia/Hong_Kong")).replace(/-/g, ".").replace("T", " "))
+})
+
+test("scheduleLabel is a conditional fallback for activities and ticket entries", () => {
+  const { scheduleLabel, ...dated } = event
+  assert.equal(validateActivities([dated]).filter(issue => issue.path.endsWith('.scheduleLabel')).length, 0)
+  const undated = { ...dated, performances: undefined }
+  assert.ok(validateActivities([undated]).some(issue => issue.path === 'activities[0].scheduleLabel'))
+  assert.ok(!validateActivities([{ ...undated, scheduleLabel: 'Date TBA' }]).some(issue => issue.path.endsWith('.scheduleLabel')))
+  for (const boundary of [{ startAt: '2026-11-21' }, { endAt: '2026-11-22T23:59' }, { startAt: '2026-11-21', endAt: '2026-11-22' }]) {
+    const activity = { ...dated, ticketInfo: { entries: [{ type: { ja: '一般', en: 'Sale' }, ...boundary }] } }
+    assert.ok(!validateActivities([activity]).some(issue => issue.path.endsWith('.scheduleLabel')))
+  }
+  const ticket = { type: { ja: '一般', en: 'Sale' } }
+  assert.ok(validateActivities([{ ...dated, ticketInfo: { entries: [ticket] } }]).some(issue => issue.path.endsWith('entries[0].scheduleLabel')))
+  assert.ok(!validateActivities([{ ...dated, ticketInfo: { entries: [{ ...ticket, scheduleLabel: 'TBA' }] } }]).some(issue => issue.path.endsWith('.scheduleLabel')))
+  assert.equal(getTicketDisplaySchedule({ startAt: '2026-11-21', endAt: '2026-11-22', scheduleLabel: 'Ignored' }), '2026.11.21 – 2026.11.22')
+  assert.equal(getTicketDisplaySchedule({ scheduleLabel: 'TBA' }), null)
+  assert.equal(getActivityDisplaySchedule({ ...undated, endDate: '2026-11-22' }), '2026.11.22')
 })
 
 test("calendar export converts declared source zone into recipient zone", async () => {

@@ -81,7 +81,7 @@ export function buildMuseumSearchItems(sources: MuseumSearchSources, lang: Langu
       collection: "activities" as const,
       title: activity.title[lang],
       description: activity.description?.[lang] || getActivityVenueText(activity, lang),
-      dateLabel: getActivityDisplaySchedule(activity, timeZone) ?? activity.scheduleLabel,
+      dateLabel: getActivityDisplaySchedule(activity, timeZone) ?? activity.scheduleLabel ?? "",
       dates: [...new Set(getActivityOccurrences(activity).map((occurrence) => occurrence.allDay
         ? occurrence.date : dateTimeForViewer(occurrence.startInstant, timeZone).substring(0, 10)))],
       href: activity.link,
