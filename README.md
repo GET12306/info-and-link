@@ -178,7 +178,8 @@ Required fields:
 
 - `id`: permanent, unique lowercase slug used by navigation, UI identity, and calendar UIDs. Once published, do not rename it when a title or URL changes.
 - `category`: one of `Stage`, `Musical`, `Program`, `Event`, `Live`, `Reading`, or `Other`. Use `Program` for streamed/broadcast programs and `Event` for in-person events.
-- `scheduleLabel`: optional display fallback, required only when no activity dates are known. Known dates (including recurring schedules) take precedence; summaries show `YYYY.MM.DD` or a date range. Use a concise label such as `Date TBA` when dates are unknown.
+- `scheduleLabel`: required update-frequency text for recurring programs (for example `Weekly` or `Monthly`); episode dates never replace it. For other activities, it is a fallback required only when no dates are known; known dates use `YYYY.MM.DD` or a date range.
+- `program.appearanceNote`: optional bilingual short note after the update frequency, such as rotating cast or selected appearances. This changes presentation only; detailed dates remain in the appearance schedule.
 - `timeZone`: optional IANA time zone for all machine-readable activity and recurrence times. Omit it to author in `Asia/Tokyo` (UTC+9), even when an event takes place in Hong Kong or Taiwan. Set `Asia/Hong_Kong` or `Asia/Taipei` only when the source schedule is actually published in that local time.
 - `title.ja` and `title.en`: bilingual title.
 - `link`: source or official activity information URL.
@@ -594,7 +595,7 @@ When adding or editing content:
 - Give every activity a permanent unique `id`; do not derive UI identity from its list position.
 - Keep Japanese and English fields in sync.
 - Use `YYYY-MM-DD` for machine-readable dates and `YYYY-MM-DDTHH:mm` for precise times in the declared source zone (default `Asia/Tokyo`). Ticket `startAt`/`endAt` accept either format and supply boundary defaults for date-only values.
-- Both activities and ticket entries use `scheduleLabel` only as the fallback when no dates are known; never use it for sorting or status logic. Display punctuation (`.` and spaces) does not change the ISO dates stored in YAML.
+- Recurring programs always use `scheduleLabel` for their update frequency. Other activities and ticket entries use it as a fallback when no dates are known; it never affects sorting or status. Display punctuation (`.` and spaces) does not change ISO dates stored in YAML.
 - Keep venue information only at the activity level unless a future performance explicitly needs a different venue.
 - Prefer exact source links from official sites or reliable announcements.
 - For irregular programs, use `recurrence.type: manual` and add only confirmed dates to `performances`. For fixed monthly programs, use `recurrence.type: monthly` with exceptions for rescheduling or cancellation. For fixed weekly programs, update the bounded `recurrence.endOn`; never create an unbounded weekly rule.

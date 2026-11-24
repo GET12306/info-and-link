@@ -48,13 +48,13 @@ test("activity summaries show dates only while detailed times stay timezone-awar
   assert.equal(getActivityDisplaySchedule(ranged, "Asia/Shanghai"), "2026.10.17 – 2026.10.25")
 })
 
-test("recurring activity summaries also prefer known dates to scheduleLabel", () => {
+test("recurring activity summaries preserve update frequency instead of episode dates", () => {
   const recurring = {
     ...event,
     scheduleLabel: "Weekly",
     recurrence: { type: "manual" },
   }
-  assert.equal(getActivityDisplaySchedule(recurring, "Asia/Shanghai"), "2026.09.11")
+  assert.equal(getActivityDisplaySchedule(recurring, "Asia/Shanghai"), null)
 })
 
 test("all-day dates stay on their authored calendar day", () => {

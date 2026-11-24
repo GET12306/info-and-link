@@ -27,13 +27,15 @@ function EpisodeDate({ episode, activity, lang }: { episode: ActivityPerformance
   </time>
 }
 
-export default function ProgramEpisodes({ activity, lang, full = false, compact = false, selectedPublishedAt, scope = "published" }: {
+export default function ProgramEpisodes({ activity, lang, full = false, compact = false, selectedPublishedAt, scope = "published", showResources = true }: {
   activity: Activity
   lang: Language
   full?: boolean
   compact?: boolean
   selectedPublishedAt?: string | null
   scope?: "published" | "all"
+  /** Disable when the parent already renders the complete grouped resources. */
+  showResources?: boolean
 }) {
   const t = TRANSLATIONS[lang]
   const now = useJapanNow()
@@ -71,7 +73,7 @@ export default function ProgramEpisodes({ activity, lang, full = false, compact 
             ? <ExternalAnchor href={url} className="inline-block break-words text-sm leading-6 text-coco-ink/80 transition-colors hover:text-coco-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coco-accent">{programEpisodeLabel(episode, lang)}</ExternalAnchor>
             : <span className="text-sm leading-6 text-coco-ink/80">{programEpisodeLabel(episode, lang)}</span>}
           {episode.description && <p className="break-words text-sm leading-6 text-coco-ink/60">{episode.description[lang]}</p>}
-          <ActivityResourcesDisclosure activityId={activity.id} performance={key} lang={lang} />
+          {showResources && <ActivityResourcesDisclosure activityId={activity.id} performance={key} lang={lang} />}
           {!url && episode.status === "expired" && <ExpiredLinkBadge lang={lang} />}
         </div>
       </li>

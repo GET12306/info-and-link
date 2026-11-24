@@ -448,8 +448,8 @@ export function validateActivities(value: unknown, venueIds?: ReadonlySet<string
       issues.push({ path: `${path}.category`, message: "未知的活动类别", severity: "error" })
     }
     if (activity.scheduleLabel !== undefined && typeof activity.scheduleLabel !== "string" ||
-        !hasActivityScheduleDates(activity) && (typeof activity.scheduleLabel !== "string" || !activity.scheduleLabel.trim())) {
-      issues.push({ path: `${path}.scheduleLabel`, message: "未填写日期时必须填写 scheduleLabel 回落文字；该字段必须为文本", severity: "error" })
+        (activity.recurrence !== undefined || !hasActivityScheduleDates(activity)) && (typeof activity.scheduleLabel !== "string" || !activity.scheduleLabel.trim())) {
+      issues.push({ path: `${path}.scheduleLabel`, message: "定期节目须填写更新频率；其他活动未填写日期时须填写回落文字。scheduleLabel 必须为文本", severity: "error" })
     }
     if (activity.timeZone !== undefined && !isValidTimeZone(activity.timeZone)) {
       issues.push({ path: `${path}.timeZone`, message: "请输入有效的 IANA 时区", severity: "error" })
@@ -481,6 +481,7 @@ export function validateActivities(value: unknown, venueIds?: ReadonlySet<string
         issues.push({ path: `${path}.program`, message: "节目展示方式必须是 display: episodes", severity: "error" })
       } else {
         if (activity.category !== "Program") issues.push({ path: `${path}.program`, message: "回数档案只适用于 Program 类别", severity: "error" })
+        validateLocalized(activity.program.appearanceNote, `${path}.program.appearanceNote`, issues, false)
         if (activity.program.showSchedule !== undefined && typeof activity.program.showSchedule !== "boolean") {
           issues.push({ path: `${path}.program.showSchedule`, message: "日程显示开关必须是布尔值", severity: "error" })
         }

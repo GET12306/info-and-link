@@ -42,10 +42,10 @@ test("deferred disclosures do not mount children or run detail calculations init
   assert.equal(calculations, 1)
   assert.match(eager, /Expensive details/)
 })
-test("recurring activity summaries prefer known dates over authored fallback text",()=>{
+test("recurring activity summaries retain the authored update frequency",()=>{
   const html=render({...base,scheduleLabel:"Weekly",recurrence:{type:"manual"},performances:[{startAt:"2025-01-01T18:00"}]})
-  assert.match(html,/>2025\.01\.01<\/span>/)
-  assert.doesNotMatch(html,/>Weekly<|18:00|Performance Schedule/)
+  assert.match(html,/>Weekly<\/span>/)
+  assert.doesNotMatch(html,/>2025\.01\.01<|18:00|Performance Schedule/)
 })
 test("all remaining archive pages render the shared compact layout", async()=>{
   for(const page of ["PastActivities","Programs","Credits","Media"]){

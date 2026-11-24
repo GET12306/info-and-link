@@ -18,6 +18,7 @@ export default function ArchivedActivityEntry({ activity, lang }: { activity: Ac
   return <CatalogEntry id={`archive-activity-${activity.id}`}>
     <div className="mb-2 flex flex-wrap gap-x-3 text-xs leading-5 text-coco-ink/50">
       <span>{localSchedule ?? activity.scheduleLabel}</span><span>{getActivityCategoryLabel(activity.category, t)}</span>
+      {activity.recurrence && activity.program?.appearanceNote?.[lang] && <span>{activity.program.appearanceNote[lang]}</span>}
     </div>
     <CatalogEntryTitle href={activity.link}>{activity.title[lang]}</CatalogEntryTitle>
     {(activity.venueIds?.length || activity.venueNote) && (
@@ -26,7 +27,7 @@ export default function ArchivedActivityEntry({ activity, lang }: { activity: Ac
       </div>
     )}
     {description && <p className="mt-2 break-words text-sm leading-6 text-coco-ink/60">{description}</p>}
-    {hasEpisodeArchive(activity) ? <ProgramEpisodes activity={activity} lang={lang} compact /> : !activity.recurrence && <ActivityPerformanceDetails compact performances={activity.performances} durationMinutes={activity.durationMinutes} sourceZone={activity.timeZone} lang={lang} startLabel={activity.category === "Program" ? t.milestone_update : undefined} />}
+    {hasEpisodeArchive(activity) ? <ProgramEpisodes activity={activity} lang={lang} compact showResources={false} /> : !activity.recurrence && <ActivityPerformanceDetails compact performances={activity.performances} durationMinutes={activity.durationMinutes} sourceZone={activity.timeZone} lang={lang} startLabel={activity.category === "Program" ? t.milestone_update : undefined} />}
     <ActivityResourcesDisclosure activityId={activity.id} lang={lang} />
     {tickets.length > 0 && <CatalogDisclosure deferMount label={t.archived_ticket_records.replace("{count}", String(tickets.length))}>
       {() => <div className="divide-y divide-coco-ink/10">

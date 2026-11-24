@@ -1296,6 +1296,11 @@
       label:
         ja: "出演のお知らせ"
         en: "Announcement"
+    - url: "https://x.com/cocohayashi515/status/2124736284967268565"
+      date: "2026-11-23"
+      label:
+        ja: "チケットリマインダー"
+        en: "Reminder for Tickets"
 - activityId: "2026-wonderlivet"
   kind: "photo"
   platform: "x"
@@ -1322,3 +1327,73 @@
   links:
     - url: "https://x.com/LIBERTE__2024/status/2124037523085443335"
       date: "2026-11-21"
+- activityId: "2026-wonderlivet"
+  kind: "post"
+  platform: "instagram"
+  title:
+    ja: "公式ins"
+    en: "Official Ins"
+  links:
+    - url: "https://www.instagram.com/p/Df_9OR4NCWR/"
+      date: "2026-11-21"
+- activityId: "2027-02-100-years-letter"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "ココポスト"
+    en: "Coco's Posts"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2124735847471989013"
+      date: "2026-11-24"
+      label:
+        ja: "出演のお知らせ"
+        en: "Announcement of Appearance"
+- activityId: "nijigaku-monthly-live-stream"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "ココポスト"
+    en: "Coco's Posts"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2124860831288721627"
+      date: "2026-11-23"
+    - url: "https://x.com/cocohayashi515/status/2125222796209062099"
+      date: "2026-11-24"
+  performance: "2026-11-24T20:30"
+- activityId: "nijigaku-monthly-live-stream"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "公式ポスト"
+    en: "Official Posts"
+  links:
+    - url: "https://x.com/Nijigaku_movie/status/2124676809807876376"
+      date: "2026-11-23"
+    - url: "https://x.com/Nijigaku_movie/status/2125210467094466857"
+      date: "2026-11-24"
+  performance: "2026-11-24T20:30"
+- activityId: "2023-nijitabi-fan-meeting-tour"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "ココポスト"
+    en: "Coco's Posts"
+  links:
+    - url: "https://x.com/cocohayashi515/status/1680898739647692800"
+      date: "2023-07-17"
+      label:
+        ja: "にじたび北海道 Day2 "
+        en: "Nijitabi Hokkaido Day 2"
+- activityId: "nijigaku-monthly-live-stream"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "キャストポスト"
+    en: "Other Cast Members' Posts"
+  links:
+    - url: "https://x.com/k_moeka_/status/2125229733772439909"
+      date: "2026-11-24"
+      label:
+        ja: "小泉萌香"
+        en: "Moeka Koizumi"
+  performance: "2026-11-24T20:30"

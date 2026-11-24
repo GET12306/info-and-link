@@ -49,6 +49,7 @@ export default function ActivityRow({
     >
       <div className="text-sm text-coco-ink/40 md:w-32">
         {localSchedule ?? activity.scheduleLabel}
+        {activity.recurrence && activity.program?.appearanceNote?.[lang] && <span className="mt-1 block text-xs text-coco-ink/50">{activity.program.appearanceNote[lang]}</span>}
       </div>
       <div className="flex flex-1 flex-col justify-between gap-4 sm:flex-row sm:items-start">
         <div className="min-w-0 flex-1">
@@ -78,7 +79,7 @@ export default function ActivityRow({
               </div>
             )}
           </div>
-          {hasEpisodeArchive(activity) ? activity.program?.showSchedule !== false && <ProgramEpisodes activity={activity} lang={lang} scope="all" /> : !activity.recurrence && (scheduleContent ?? <ActivityPerformanceDetails
+          {hasEpisodeArchive(activity) ? activity.program?.showSchedule !== false && <ProgramEpisodes activity={activity} lang={lang} scope="all" showResources={false} /> : !activity.recurrence && (scheduleContent ?? <ActivityPerformanceDetails
               performances={activity.performances}
               durationMinutes={activity.durationMinutes}
               sourceZone={activity.timeZone}

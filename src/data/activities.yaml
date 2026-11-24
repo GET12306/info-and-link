@@ -9,7 +9,7 @@
 #   category: "Event"                 # [必填] 分类：Stage | Musical | Program | Event | Live | Reading | Other
 #                                     # 舞台/音乐剧/直播节目/线下活动/live/朗读剧/其他
 #                                        # Program=配信番組，Event=リアルイベント
-#   scheduleLabel: "日程未定"         # [条件必填] 完全没有已知日期时必填；有日期时可省略，不覆盖自动日程
+#   scheduleLabel: "日程未定"         # [条件必填] 定期节目填写更新频率（Weekly / Monthly）；其他活动在没有日期时填写回落文字
 #   startDate: "2026-08-11"           # [条件必填] 连续活动首日；与 performances 二选一
 #   endDate: "2026-08-12"             # [可选] 连续活动末日；省略时视为单日活动
 #   recurrence:                        # [可选] 经常性节目；存在时不会因已知场次过期而进入历史
@@ -17,6 +17,9 @@
 #   program:                           # [可选/仅 Program] 按已确认出演回数展示的节目
 #     display: "episodes"              # 仅优化展示：展开后每页 5 回；底层仍使用通用 performances
 #     showSchedule: false              # [可选] 仅隐藏活动情报页的出演日程按钮；默认显示，不影响博物馆和日历
+#     appearanceNote:                  # [可选] 更新频率之后的简短出演说明；不影响日期或状态判断
+#       ja: "不定期出演"
+#       en: "Selected appearances"
 #   performancesFile: "activity-schedules/maigo-center.yaml" # [可选] 将长日程拆到子 YAML，与内联 performances 二选一
 #                                      # 子文件根节点为 performances:，字段与下方场次一致；编辑器自动读写
 #                                      # 通常更新时间、出演确认方式等说明统一写在 description 中
@@ -1128,6 +1131,9 @@
   calendarExport: "disabled"
   program:
     display: "episodes"
+    appearanceNote:
+      ja: "ランダム出演"
+      en: "Rotating cast"
 - id: "coco-fc2025-event2027-01"
   category: "Event"
   scheduleLabel: "2027.01.30"
@@ -1226,6 +1232,9 @@
   calendarExport: "disabled"
   program:
     display: "episodes"
+    appearanceNote:
+      ja: "不定期出演"
+      en: "Selected appearances"
 
 # ------------------------------------------------------------------------------------------------------------
 # 事务所履历「舞台」补录。每条 link 同时作为该条目的来源页；已存在的同名活动不在此处重复。
@@ -4048,6 +4057,9 @@
     type: "manual"
   program:
     display: "episodes"
+    appearanceNote:
+      ja: "不定期出演"
+      en: "Selected appearances"
   performances:
     - startAt: "2026-11-24T20:30"
       label:

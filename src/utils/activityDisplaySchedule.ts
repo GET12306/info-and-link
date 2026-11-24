@@ -5,6 +5,8 @@ import { formatScheduleDateTime } from "./scheduleDisplay"
 
 /** A concise date-only summary in the viewer's calendar dates. */
 export function getActivityDisplaySchedule(activity: Activity, timeZone = viewerTimeZone()) {
+  // Recurring programs use the authored update frequency, not their episode span.
+  if (activity.recurrence) return null
   const occurrences = getActivityOccurrences(activity)
   const dates = [...new Set(occurrences.map((item) => item.allDay
     ? item.date

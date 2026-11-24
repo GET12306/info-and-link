@@ -148,7 +148,8 @@ test("program notes live in the ordinary description field", () => {
   const html = render(createElement(ActivityRow, { activity, lang: "en" }))
   assert.equal(html.split(description).length - 1, 1)
   assert.doesNotMatch(html, /JST|日本時間|日本时间/)
-  assert.deepEqual(Object.keys(maigo.program), ["display"])
+  assert.equal(maigo.program.display, "episodes")
+  assert.deepEqual(maigo.program.appearanceNote, { ja: "ランダム出演", en: "Rotating cast" })
 })
 
 test("episode dates omit timezone labels while still converting to the viewer's timezone", () => {

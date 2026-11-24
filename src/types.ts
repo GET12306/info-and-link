@@ -59,6 +59,8 @@ export interface Activity {
     display: "episodes";
     /** Hide only the Activities page's schedule disclosure; Museum/calendar stay unchanged. */
     showSchedule?: boolean;
+    /** Optional short note following the update frequency, e.g. selected/rotating appearances. */
+    appearanceNote?: LocalizedText;
   };
   /** Optional child YAML containing the same performances array used inline. */
   performancesFile?: string;

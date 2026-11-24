@@ -13,6 +13,7 @@ const { default: activities } = await server.ssrLoadModule("/src/data/activities
 const { activityResources } = await server.ssrLoadModule("/src/data/activityResources.ts")
 const { filterActivityResources, groupEpisodeResources } = await server.ssrLoadModule("/src/utils/activityResources.ts")
 const { getActivityOccurrences } = await server.ssrLoadModule("/src/utils/activitySchedule.ts")
+const { getActivityDisplaySchedule } = await server.ssrLoadModule("/src/utils/activityDisplaySchedule.ts")
 const { getProgramEpisodes } = await server.ssrLoadModule("/src/utils/programEpisodes.ts")
 const { activityReference } = await server.ssrLoadModule("/src/editor/activityNavigation.ts")
 const { validateResourceDocument } = await server.ssrLoadModule("/src/editor/resourceValidation.ts")
@@ -21,12 +22,32 @@ const { buildCalendarData } = await server.ssrLoadModule("/src/hooks/useCalendar
 const { default: Disclosure } = await server.ssrLoadModule("/src/components/ActivityResourcesDisclosure.tsx")
 const { default: ProgramEpisodes } = await server.ssrLoadModule("/src/components/ProgramEpisodes.tsx")
 const { default: ActivityRow } = await server.ssrLoadModule("/src/components/ActivityRow.tsx")
+const { default: ArchivedActivityEntry } = await server.ssrLoadModule("/src/components/ArchivedActivityEntry.tsx")
 const { MemoryRouter } = await server.ssrLoadModule("react-router-dom")
 const tv = activities.find(item => item.id === "bang-dream-tv-live")
 const niji = activities.find(item => item.id === "nijigaku-monthly-live-stream")
 const references = new Map(activities.map(item => [item.id, activityReference(item)]))
 const ids = new Set(references.keys())
 const render = element => renderToStaticMarkup(createElement(MemoryRouter, null, element))
+
+test("all recurring programs show frequency and optional appearance notes, never episode date ranges", () => {
+  const recurring = activities.filter(item => item.recurrence)
+  assert.ok(recurring.length >= 6)
+  for (const activity of recurring) {
+    assert.equal(getActivityDisplaySchedule(activity), null, activity.id)
+    const html = render(createElement(ActivityRow, { activity, lang: "ja" }))
+    const summary = html.match(/<div class="text-sm text-coco-ink\/40 md:w-32">([\s\S]*?)<\/div>/)?.[1]
+    assert.ok(summary?.includes(activity.scheduleLabel), activity.id)
+    assert.doesNotMatch(summary, /\d{4}[.-]\d{2}[.-]\d{2}/)
+    if (activity.program?.appearanceNote) {
+      assert.ok(summary.includes(activity.program.appearanceNote.ja))
+      assert.ok(render(createElement(ArchivedActivityEntry, { activity, lang: "en" })).includes(activity.program.appearanceNote.en))
+    }
+    const { scheduleLabel, ...missingFrequency } = activity
+    assert.ok(validateActivities([missingFrequency]).some(issue => issue.path.endsWith(".scheduleLabel")))
+  }
+  assert.equal(getActivityDisplaySchedule({ ...tv, recurrence: undefined }), "2026.09.24 – 2026.11.19")
+})
 
 test("selected appearance programs use general IDs and manual episodes only", () => {
   for (const activity of [tv, niji]) {
@@ -129,6 +150,21 @@ test("activity and episode archive show the same source categories without mixin
   const expectedLinks = filterActivityResources(activityResources, tv.id).flatMap(item => item.links)
   assert.equal((archive.match(/href="https:\/\/x.com\//g) ?? []).length, expectedLinks.length)
   for (const link of expectedLinks) assert.ok(archive.includes(`href="${link.url}"`), link.url)
+})
+
+test("embedded schedules omit duplicate resources while the lower grouped disclosure and standalone archives retain them", () => {
+  for (const activity of [tv, niji]) {
+    const schedule = render(createElement(ProgramEpisodes, { activity, lang: "en", full: true, scope: "all", showResources: false }))
+    assert.doesNotMatch(schedule, /Related resources|Official Posts|Coco&#x27;s Posts/)
+    const grouped = render(createElement(Disclosure, { activityId: activity.id, lang: "en" }))
+    for (const resource of filterActivityResources(activityResources, activity.id)) {
+      for (const link of resource.links) assert.ok(grouped.includes(link.url))
+    }
+    const row = render(createElement(ActivityRow, { activity, lang: "en" }))
+    assert.equal((row.match(/<summary[^>]*>Related resources/g) ?? []).length, 1)
+  }
+  const archive = render(createElement(ProgramEpisodes, { activity: tv, lang: "en", full: true }))
+  assert.match(archive, /Official Posts/)
 })
 
 test("the same reference structure supports monthly appearances and rejects orphaned or cross-program resources", () => {
