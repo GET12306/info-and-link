@@ -1,4 +1,4 @@
-# 首页资料。items 可自由增加、删除和调整顺序；每项的 id 必须唯一。
+# 个人资料页。items 可自由增加、删除和调整顺序；每项的 id 必须唯一。
 # label 和 value 均可使用 ja / en，也可直接写成两种语言共用的字符串。
 name:
   ja: "林 鼓子"
@@ -33,26 +33,26 @@ items:
       en: "Blood Type"
     value: "A"
 
-  # - id: "agency"
-  #   label:
-  #     ja: "所属"
-  #     en: "Agency"
-  #   value:
-  #     ja: "株式会社LIBERTE"
-  #     en: "LIBERTE"
+  - id: "agency"
+    label:
+      ja: "所属"
+      en: "Agency"
+    value:
+      ja: "株式会社LIBERTE"
+      en: "LIBERTE"
 
-  # - id: "hobbies"
-  #   label:
-  #     ja: "趣味"
-  #     en: "Hobbies"
-  #   value:
-  #     ja: "ミュージカル鑑賞、イラストを描くこと"
-  #     en: "Watching musicals and drawing illustrations"
+  - id: "hobbies"
+    label:
+      ja: "趣味"
+      en: "Hobbies"
+    value:
+      ja: "ミュージカル鑑賞、イラストを描くこと"
+      en: "Watching musicals and drawing illustrations"
 
-  # - id: "skills"
-  #   label:
-  #     ja: "特技"
-  #     en: "Skills"
-  #   value:
-  #     ja: "ドラム、パーカッション全般、ピアノ"
-  #     en: "Drums, percussion, and piano"
+  - id: "skills"
+    label:
+      ja: "特技"
+      en: "Skills"
+    value:
+      ja: "ドラム、パーカッション全般、ピアノ"
+      en: "Drums, percussion, and piano"

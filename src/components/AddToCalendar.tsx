@@ -1,4 +1,4 @@
-import { CalendarPlus, Check, SlidersHorizontal } from "lucide-react"
+import { Bookmark, CalendarPlus, Check, SlidersHorizontal } from "lucide-react"
 import { useId, useState } from "react"
 import { TRANSLATIONS } from "../i18n"
 import type { Activity, Language } from "../types"
@@ -14,6 +14,9 @@ import {
 } from "../utils/activitySchedule"
 import useCalendarDownload from "../hooks/useCalendarDownload"
 import ActivityPerformanceDetails from "./ActivityPerformanceDetails"
+import { getAttendanceKey } from "../utils/attendance"
+import { toggleAttendance, useAttendance } from "../hooks/useAttendance"
+import { instantFromSourceKey, sourceTimeZone } from "../utils/timeZone"
 
 export default function AddToCalendar({ activity, lang, now }: {
   activity: Activity
@@ -25,6 +28,8 @@ export default function AddToCalendar({ activity, lang, now }: {
   const [settingsOpen, setSettingsOpen] = useState(false)
   const settingsId = useId()
   const t = TRANSLATIONS[lang]
+  const attending = useAttendance()
+  const nowInstant = instantFromSourceKey(now, sourceTimeZone()) ?? Date.now()
   const occurrences = getCalendarOccurrences(activity, now)
   const availableEventKinds = getAvailableCalendarEventKinds(occurrences)
   const displayOccurrences = getActivityOccurrences(activity)
@@ -91,15 +96,28 @@ export default function AddToCalendar({ activity, lang, now }: {
       )}
       renderPerformanceAction={(occurrence) => {
         const key = getCalendarOccurrenceKey(occurrence)
-        if (!availableKeys.has(key) || !occurrenceHasCalendarEventKinds(occurrence, eventKinds)) return null
+        const attendanceKey = getAttendanceKey(activity, occurrence)
+        const saved = attendanceKey !== undefined && attending.has(attendanceKey)
+        const canExport = availableKeys.has(key) && occurrenceHasCalendarEventKinds(occurrence, eventKinds)
+        const canMark = attendanceKey !== undefined && (saved || occurrence.endInstant >= nowInstant)
+        if (!canMark && !canExport) return null
         const label = [key.replace("T", " "), occurrence.label?.[lang]].filter(Boolean).join(" · ")
         return (
-          <button type="button" disabled={busy} className={buttonClass}
-            aria-label={`${t.calendar_add_performance}: ${label}`}
-            onClick={() => download({ kind: "performances", keys: [key], eventKinds })}>
-            <CalendarPlus className="h-3.5 w-3.5" aria-hidden="true" />
-            {t.calendar_add_performance}
-          </button>
+          <div className="flex flex-wrap gap-2">
+            {canMark && <button type="button" aria-pressed={saved}
+              aria-label={`${t.attendance_toggle} · ${label}`}
+              className={`inline-flex min-h-9 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-500 ${saved ? "border-violet-500/40 bg-violet-500/10 text-violet-700 dark:text-violet-300" : "grid-line text-coco-ink/65 hover:bg-violet-500/5"}`}
+              onClick={() => toggleAttendance(attendanceKey)}>
+              <Bookmark className={`h-3.5 w-3.5 ${saved ? "fill-current" : ""}`} aria-hidden="true" />
+              {saved ? t.attendance_saved : t.attendance_toggle}
+            </button>}
+            {canExport && <button type="button" disabled={busy} className={buttonClass}
+              aria-label={`${t.calendar_add_performance}: ${label}`}
+              onClick={() => download({ kind: "performances", keys: [key], eventKinds })}>
+              <CalendarPlus className="h-3.5 w-3.5" aria-hidden="true" />
+              {t.calendar_add_performance}
+            </button>}
+          </div>
         )
       }}
       footer={<>

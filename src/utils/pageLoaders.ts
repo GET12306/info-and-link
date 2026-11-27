@@ -12,6 +12,7 @@ export function createPageLoader<T>(load: () => Promise<T>) {
 
 export const pageLoaders = {
   home: createPageLoader(() => import("../pages/Home")),
+  profile: createPageLoader(() => import("../pages/Profile")),
   activities: createPageLoader(() => import("../pages/Activities")),
   tickets: createPageLoader(() => import("../pages/TicketInfo")),
   museum: createPageLoader(() => import("../pages/Museum")),
@@ -28,6 +29,7 @@ export const pageLoaders = {
 
 const routes: Record<string, () => Promise<unknown>> = {
   "/": pageLoaders.home,
+  "/profile": pageLoaders.profile,
   "/activities": pageLoaders.activities,
   "/tickets": pageLoaders.tickets,
   "/museum": pageLoaders.museum,

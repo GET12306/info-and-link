@@ -189,6 +189,8 @@ export type ActivityRecurrence =
   | MonthlyActivityRecurrence;
 
 export interface ActivityPerformanceDetails {
+  /** Stable within the activity, including when the performance is rescheduled. */
+  id?: string;
   label?: LocalizedText;
   milestones?: ActivityMilestone[];
   /** Optional episode identifier, e.g. "200" or "SP". */

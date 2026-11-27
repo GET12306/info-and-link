@@ -107,20 +107,29 @@ test("published recordings are neutral immediately, without waiting for their de
   }
 })
 
-test("ordinary performances retain red upcoming/current cards and disabled gray past cards", () => {
+test("ordinary performances turn gray after ending, even with a saved attendance mark", () => {
   const activity = { ...maigo, program: undefined, performancesFile: undefined, recurrence: undefined, performances: [{ startAt: "2026-10-07T19:00" }] }
   const month = buildCalendarData([activity], undefined, "Asia/Tokyo")[0]
+  const event = month.weeks.flat().find(day => day.date === "2026-10-07").events[0]
+  assert.ok(event.attendanceKey)
   for (const [now, past] of [["2026-10-07T18:00", false], ["2026-10-07T19:05", false], ["2026-10-07T20:31", true]]) {
-    const html = render(createElement(CalendarMonth, {
-      month, lang: "en", now, activities: [activity], onSelectEvent() {},
-      hasPrev: false, hasNext: false, onPrev() {}, onNext() {}, months: [month], onSelectMonth() {},
-    }))
-    const cards = html.match(/<button[^>]+aria-label="[^"]*Maigo Center[^"]*"[^>]*>/g) ?? []
-    assert.equal(cards.length, 2)
-    for (const card of cards) {
-      assert.equal(card.includes("disabled"), past)
-      assert.equal(card.includes("border-coco-accent"), !past)
-      assert.equal(card.includes("border-coco-ink/20"), past)
+    for (const marked of [false, true]) {
+      const html = render(createElement(CalendarMonth, {
+        month, lang: "en", now, activities: [activity], onSelectEvent() {},
+        attendingKeys: new Set(marked ? [event.attendanceKey] : []),
+        hasPrev: false, hasNext: false, onPrev() {}, onNext() {}, months: [month], onSelectMonth() {},
+      }))
+      const cards = html.match(/<button[^>]+aria-label="[^"]*Maigo Center[^"]*"[^>]*>[\s\S]*?<\/button>/g) ?? []
+      assert.equal(cards.length, 2)
+      for (const card of cards) {
+        assert.equal(card.includes("disabled"), past)
+        assert.equal(card.includes("border-coco-accent"), !past && !marked)
+        assert.equal(card.includes("border-coco-ink/20"), past)
+        assert.equal(card.includes("border-violet-500"), !past && marked)
+        assert.equal(card.includes("lucide-bookmark"), !past && marked)
+      }
+      const dotColor = past ? "bg-coco-ink/30" : marked ? "bg-violet-500" : "bg-coco-accent"
+      assert.ok(html.includes(`rounded-full ${dotColor}" aria-label=`))
     }
   }
 })

@@ -1023,6 +1023,11 @@
       label:
         ja: "告知"
         en: "Announcement"
+    - url: "https://x.com/LIBERTE__2024/status/2126306079080636897"
+      date: "2026-11-27"
+      label:
+        ja: "ご来場ありがとうございました。"
+        en: "Thank you for coming."
 - activityId: "2026-sneaker-age"
   kind: "photo"
   platform: "x"
@@ -1397,3 +1402,110 @@
         ja: "小泉萌香"
         en: "Moeka Koizumi"
   performance: "2026-11-24T20:30"
+- activityId: "2023-nijitabi-fan-meeting-tour"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "キャストポスト"
+    en: "Other Cast Members' Posts"
+  links:
+    - url: "https://x.com/uchida_shu0524/status/1670600477757816832"
+      date: "2023-06-19"
+      label: "Shu Uchida"
+- activityId: "2026-12-maison-de-coco-1st-anniversary-event"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "ココポスト"
+    en: "Coco's Posts"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2125583827133481301"
+      date: "2026-11-25"
+      label:
+        ja: "お知らせ"
+        en: "Announcement"
+- activityId: "2026-piano-bar-claps-2"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "公式ポスト"
+    en: "Official Posts"
+  links:
+    - url: "https://x.com/artistslinks/status/2125884937769455830"
+      date: "2026-11-26"
+    - url: "https://x.com/artistslinks/status/2126325964355641850"
+      date: "2026-11-27"
+- activityId: "coco-fc2025-event2027-01"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "事務所ポスト"
+    en: "Agency Posts"
+  links:
+    - url: "https://x.com/LIBERTE__2024/status/2126151374643831049"
+      date: "2026-11-27"
+      label:
+        ja: "開催決定！"
+        en: "Announcement"
+- activityId: "coco-fc2025-event2027-01"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "ココポスト"
+    en: "Coco's Posts"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2126171813848010991"
+      date: "2026-11-27"
+      label:
+        ja: "お知らせ"
+        en: "Announcement"
+- activityId: "2026-piano-bar-claps-2"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "キャストポスト"
+    en: "Other Cast Members' Posts"
+  links:
+    - url: "https://x.com/Y_Minon2001/status/2117299407037329582"
+      date: "2026-11-03"
+      label:
+        ja: "矢島美音-1"
+        en: "Mion Yajima - 1"
+    - url: "https://x.com/Y_Minon2001/status/2126319539025826063"
+      date: "2026-11-27"
+      label:
+        ja: "矢島美音-2"
+        en: "Mion Yajima - 2"
+- activityId: "coco-fc2025-event2027-01"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "公式ポスト"
+    en: "Official Posts"
+  links:
+    - url: "https://x.com/news_pia/status/2126232060956168645"
+      date: "2026-11-27"
+- activityId: "2027-anisama-fukuoka-day1"
+  kind: "video"
+  platform: "x"
+  title:
+    ja: "公式ポスト"
+    en: "Official Posts"
+  links:
+    - url: "https://x.com/anisama/status/2126254707572125745"
+      date: "2026-11-27"
+      label:
+        ja: "コメント動画"
+        en: "Comment Video"
+- activityId: "2026-piano-bar-claps-2"
+  kind: "post"
+  platform: "x"
+  title:
+    ja: "ココポスト"
+    en: "Coco's Posts"
+  links:
+    - url: "https://x.com/cocohayashi515/status/2126321569790345597"
+      date: "2026-11-27"
+      label:
+        ja: "ありがとうございました"
+        en: "Thank you for coming."

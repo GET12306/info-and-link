@@ -279,7 +279,9 @@
   scheduleLabel: "2026.12.16-20"
   performances:
     - startAt: "2026-12-16T19:00"
+      id: "show-01"
     - startAt: "2026-12-17T14:00"
+      id: "show-02"
       label:
         ja: "昼公演"
         en: "Matinee"
@@ -290,15 +292,19 @@
             ja: "アフタートーク"
             en: "After talk"
     - startAt: "2026-12-17T19:00"
+      id: "show-03"
       label:
         ja: "夜公演"
         en: "Evening"
     - startAt: "2026-12-18T19:00"
+      id: "show-04"
     - startAt: "2026-12-19T13:00"
+      id: "show-05"
       label:
         ja: "昼公演"
         en: "Matinee"
     - startAt: "2026-12-19T17:00"
+      id: "show-06"
       label:
         ja: "夜公演"
         en: "Evening"
@@ -309,10 +315,12 @@
             ja: "アフタートーク"
             en: "After talk"
     - startAt: "2026-12-20T12:00"
+      id: "show-07"
       label:
         ja: "昼公演"
         en: "Matinee"
     - startAt: "2026-12-20T16:00"
+      id: "show-08"
       label:
         ja: "夜公演"
         en: "Evening"
@@ -1144,9 +1152,22 @@
   description:
     ja: "詳細は追ってお知らせいたします"
     en: "Details TBA"
-  startDate: "2027-01-30"
-  endDate: "2027-01-30"
-  durationMinutes: 90
+  performances:
+    - startAt: "2027-01-30T13:00"
+    - startAt: "2027-01-30T17:30"
+  ticketInfo:
+    entries:
+      - type:
+          ja: "林鼓子ファンクラブ先行"
+          en: "Coco Hayashi Fan Club Pre-sale"
+        startAt: "2026-11-27T12:00"
+        endAt: "2026-12-07"
+    link: "https://fan.pia.jp/cocohayashi/ticket/detail/13/"
+    price:
+      ja: "チケット：8,000円(全席指定・税込) ※来場者プレゼント/お見送り付き"
+      en: "Tickets: 8,000 yen (all reserved seating, tax included) *Includes a gift and a send-off"
+  venueIds:
+    - "tokyo-fm-hall"
 
 - id: "2023-neo-doll-musical"
   category: "Musical"
@@ -3920,6 +3941,7 @@
   link: "https://bang-dream.com/events/mygo_9th_hongkong/"
   performances:
     - startAt: "2027-01-03T19:00"
+      id: "show-01"
   timeZone: "Asia/Hong_Kong"
   venueIds:
     - "asiaworld-expo-hall-5"
@@ -3956,6 +3978,7 @@
   link: "https://bushiroad.com/2027newyear_launch_event"
   performances:
     - startAt: "2027-01-08T13:00"
+      id: "show-01"
       endAt: "2027-01-08T18:00"
       milestones:
         - kind: "doors"
@@ -3985,10 +4008,12 @@
   link: "https://x.com/LIBERTE__2024/status/2117272264748224868"
   performances:
     - startAt: "2026-11-27T15:00"
+      id: "show-01"
       milestones:
         - kind: "doors"
           at: "14:00"
     - startAt: "2026-11-27T19:30"
+      id: "show-02"
       milestones:
         - kind: "doors"
           at: "18:30"
@@ -4017,6 +4042,7 @@
     - "mizuho-paypay-dome-fukuoka"
   performances:
     - startAt: "2027-03-13T15:00"
+      id: "show-01"
       endAt: "2027-03-13T20:00"
       milestones:
         - kind: "doors"
@@ -4075,6 +4101,7 @@
   link: "https://www.logproject.jp/roudoku_ginkai/"
   performances:
     - startAt: "2027-01-23T13:00"
+      id: "show-01"
       milestones:
         - kind: "doors"
           at: "12:15"
@@ -4082,6 +4109,7 @@
         ja: "第1回"
         en: "First"
     - startAt: "2027-01-23T17:30"
+      id: "show-02"
       milestones:
         - kind: "doors"
           at: "16:45"
@@ -4089,6 +4117,7 @@
         ja: "第2回"
         en: "Second"
     - startAt: "2027-01-24T12:00"
+      id: "show-03"
       milestones:
         - kind: "doors"
           at: "11:15"
@@ -4096,6 +4125,7 @@
         ja: "第3回"
         en: "Third"
     - startAt: "2027-01-24T16:30"
+      id: "show-04"
       milestones:
         - kind: "doors"
           at: "15:45"
@@ -4115,10 +4145,12 @@
   link: "https://www.lovelive-anime.jp/special/live/live_detail.php?p=15th_lovelivefest_encore"
   performances:
     - startAt: "2027-02-13T17:00"
+      id: "show-01"
       milestones:
         - kind: "doors"
           at: "15:00"
     - startAt: "2027-02-14T17:00"
+      id: "show-02"
       milestones:
         - kind: "doors"
           at: "15:00"
@@ -4176,10 +4208,12 @@
   link: "https://bang-dream.com/events/mygo_10th/"
   performances:
     - startAt: "2027-04-29T18:00"
+      id: "show-01"
       milestones:
         - kind: "doors"
           at: "16:30"
     - startAt: "2027-04-30T18:30"
+      id: "show-02"
       milestones:
         - kind: "doors"
           at: "17:00"
@@ -4214,10 +4248,12 @@
     - "po-minami-aoyama-hall"
   performances:
     - startAt: "2026-12-26T13:30"
+      id: "show-01"
       milestones:
         - kind: "doors"
           at: "13:00"
     - startAt: "2026-12-26T16:30"
+      id: "show-02"
       milestones:
         - kind: "doors"
           at: "16:00"
@@ -4252,15 +4288,25 @@
     en: "Appears in all 10 performances"
   performances:
     - startAt: "2027-01-09T18:00"
+      id: "show-01"
     - startAt: "2027-01-10T13:00"
+      id: "show-02"
     - startAt: "2027-01-10T18:00"
+      id: "show-03"
     - startAt: "2027-01-11T13:00"
+      id: "show-04"
     - startAt: "2027-01-11T18:00"
+      id: "show-05"
     - startAt: "2027-01-13T13:00"
+      id: "show-06"
     - startAt: "2027-01-13T18:00"
+      id: "show-07"
     - startAt: "2027-01-14T13:00"
+      id: "show-08"
     - startAt: "2027-01-15T13:00"
+      id: "show-09"
     - startAt: "2027-01-15T18:00"
+      id: "show-10"
   ticketInfo:
     link: "https://contentsbusiness.aoi-pro.com/aoistage/work/score2027/#ticket"
     price:
@@ -4320,9 +4366,13 @@
     en: "Mitsukoshi Theater"
   performances:
     - startAt: "2027-02-22T13:00"
+      id: "show-01"
     - startAt: "2027-02-22T17:00"
+      id: "show-02"
     - startAt: "2027-02-23T12:00"
+      id: "show-03"
     - startAt: "2027-02-23T16:30"
+      id: "show-04"
   ticketInfo:
     link: "https://100years-letter.com/#ticket"
     price:

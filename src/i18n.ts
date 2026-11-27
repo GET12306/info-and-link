@@ -1,5 +1,9 @@
 export const TRANSLATIONS = {
   ja: {
+    next_activity: "次の予定",
+    next_activity_empty: "日程が確定した次の予定はまだありません。",
+    attendance_toggle: "参加予定にする",
+    attendance_saved: "参加予定",
     archived_accounts: "過去のアカウント",
     museum_accounts_description: "以前使われていたアカウント",
     archived_accounts_count: "{count}件のアカウント",
@@ -21,6 +25,7 @@ export const TRANSLATIONS = {
     magazines_link: "関連リンク",
     magazines_cover_source: "表紙の出典",
 
+    related_resources: "関連資料",
     related_resources_link: "関連資料（{count}）",
     related_resource_collection: "リンク一覧（{count}）",
     resource_kind_announcement: "お知らせ",
@@ -94,6 +99,7 @@ export const TRANSLATIONS = {
     related_links: "関連リンク",
     resource_expired: "リンク切れ",
     hero_subtitle: "声優・俳優",
+    profile_link: "プロフィール",
     category_stage: "舞台",
     category_musical: "ミュージカル",
     category_program: "配信番組",
@@ -154,6 +160,10 @@ export const TRANSLATIONS = {
     theme_dark: "ダーク",
   },
   en: {
+    next_activity: "Next",
+    next_activity_empty: "No upcoming activity has a confirmed date yet.",
+    attendance_toggle: "I’m going",
+    attendance_saved: "Planning to attend",
     archived_accounts: "Past Accounts",
     museum_accounts_description: "Former accounts",
     archived_accounts_count: "{count} accounts",
@@ -175,6 +185,7 @@ export const TRANSLATIONS = {
     magazines_link: "Related link",
     magazines_cover_source: "Cover source",
 
+    related_resources: "Related resources",
     related_resources_link: "Related resources ({count})",
     related_resource_collection: "View links ({count})",
     resource_kind_announcement: "Announcements",
@@ -248,6 +259,7 @@ export const TRANSLATIONS = {
     related_links: "Related Links",
     resource_expired: "Expired",
     hero_subtitle: "Voice Actress and Stage Actress.",
+    profile_link: "Who is she?",
     category_stage: "Stage Performance",
     category_musical: "Musical",
     category_program: "Streaming Program",

@@ -4,6 +4,7 @@ import { getActivityOccurrences } from "../utils/activitySchedule"
 import { dateTimeForViewer, instantFromSourceKey, viewerTimeZone } from "../utils/timeZone"
 import { hasEpisodeArchive, programArchivePath } from "../utils/programEpisodes"
 import { performanceUpdateInstant } from "../utils/monthlySchedule"
+import { getAttendanceKey } from "../utils/attendance"
 
 export interface CalendarEvent {
   date: string
@@ -15,6 +16,7 @@ export interface CalendarEvent {
   /** Published recordings remain accessible after their publication date. */
   archivePath?: string
   episode?: string
+  attendanceKey?: string
 }
 
 export interface CalendarDay {
@@ -70,6 +72,7 @@ function collectEvents(activities: Activity[], timeZone: string, now: number): C
         milestones: localMilestones.filter((item) => item.date === date).map((item) => item.milestone),
         archivePath,
         episode: occurrence.episode,
+        attendanceKey: getAttendanceKey(act, occurrence),
       })
       for (const milestone of localMilestones.filter((item) => item.date !== date)) {
         result.push({

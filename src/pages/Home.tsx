@@ -1,6 +1,6 @@
 import { useMemo, useState } from "react"
-import { useNavigate } from "react-router-dom"
-import { ExternalLink as ExternalLinkIcon, ArrowRight, Star, House, Hotel } from "lucide-react"
+import { Link, useNavigate } from "react-router-dom"
+import { ExternalLink as ExternalLinkIcon, ArrowRight, Star, House, Hotel, UserRound } from "lucide-react"
 import { SiX, SiInstagram } from "react-icons/si"
 import { TRANSLATIONS } from "../i18n"
 import COCO_PROFILE from "../data/profile.yaml"
@@ -14,6 +14,9 @@ import CalendarMonth from "../components/CalendarMonth"
 import ExternalAnchor from "../components/ExternalAnchor"
 import { localizedText } from "../utils/localizedText"
 import { dateTimeForViewer, instantFromSourceKey, sourceTimeZone } from "../utils/timeZone"
+import { findNextActivity } from "../utils/nextActivity"
+import { useAttendance } from "../hooks/useAttendance"
+import NextActivity from "../components/NextActivity"
 
 const LINK_ICONS = { SiX, SiInstagram, House, Star, Hotel, ExternalLink: ExternalLinkIcon }
 
@@ -25,10 +28,12 @@ export default function Home({ lang }: { lang: Language }) {
   const links = LINKS as LinkItem[]
   const profile = COCO_PROFILE as Profile
   const now = useJapanNow()
+  const attending = useAttendance()
   const nowInstant = instantFromSourceKey(now, sourceTimeZone()) ?? Date.now()
   const today = dateTimeForViewer(nowInstant).substring(0, 10)
   const calendarActivities = useMemo(() => getCalendarActivities(allActivities, now), [allActivities, now])
   const months = useMemo(() => buildCalendarData(calendarActivities, today, undefined, nowInstant), [calendarActivities, today, nowInstant])
+  const next = useMemo(() => findNextActivity(allActivities, nowInstant), [allActivities, nowInstant])
   const [monthKey, setMonthKey] = useState(() => today.substring(0, 7))
   const monthIndex = Math.max(0, months.findIndex(month => month.key === monthKey))
 
@@ -39,42 +44,33 @@ export default function Home({ lang }: { lang: Language }) {
 
   return (
     <div className="home-sections">
-      <section className="min-w-0">
-        <h1 className="home-title mb-8 leading-tight">
-          {localizedText(profile.name, lang)}
-        </h1>
-        <p className="text-[clamp(1.25rem,1.6vw,1.5rem)] text-coco-ink/60 font-serif leading-relaxed max-w-2xl">
-          {t.hero_subtitle}
-        </p>
-      </section>
+      <div className="min-w-0 space-y-6 sm:space-y-8">
+        <header>
+          <h1 className="home-title mb-4 leading-tight">
+            {localizedText(profile.name, lang)}
+          </h1>
+          <div className="flex flex-wrap items-center gap-x-5">
+            <p className="font-serif text-[clamp(1.25rem,1.6vw,1.5rem)] leading-relaxed text-coco-ink/60">{t.hero_subtitle}</p>
+            <Link to="/profile" className="inline-flex min-h-11 shrink-0 items-center gap-1.5 rounded-sm text-xs tracking-wide text-coco-ink/55 transition-colors hover:text-coco-accent focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-coco-accent">
+              <UserRound className="h-3.5 w-3.5" aria-hidden="true" />
+              {t.profile_link}
+            </Link>
+          </div>
+        </header>
+        <NextActivity next={next} lang={lang} />
 
-      <section id="about" className="home-section">
-        <h2 className="text-[15px] uppercase tracking-[0.3em] font-bold text-coco-accent">{t.about}</h2>
-        <div className="profile-grid">
-          {profile.items.map((item) => (
-            <div key={item.id} className="min-w-0 space-y-1">
-              <span className="text-[13px] uppercase tracking-widest opacity-40">{localizedText(item.label, lang)}</span>
-              <p className="text-xl font-serif">
-                {localizedText(item.value, lang)}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Calendar Section */}
-      {months.length > 0 && (
-        <section className="home-section">
-          <h2 className="text-[15px] uppercase tracking-[0.3em] font-bold text-coco-accent">
-            {t["event_calendar"]}
-          </h2>
-          {months[monthIndex] && (
+        {months[monthIndex] && (
+          <section className="home-section">
+            <h2 className="text-[15px] uppercase tracking-[0.3em] font-bold text-coco-accent">
+              {t.event_calendar}
+            </h2>
             <CalendarMonth
               month={months[monthIndex]}
               lang={lang}
               today={today}
               now={now}
               activities={calendarActivities}
+              attendingKeys={attending}
               onSelectEvent={scrollToEvent}
               className="w-full"
               hasPrev={monthIndex > 0}
@@ -84,9 +80,9 @@ export default function Home({ lang }: { lang: Language }) {
               months={months}
               onSelectMonth={setMonthKey}
             />
-          )}
-        </section>
-      )}
+          </section>
+        )}
+      </div>
 
       <section className="home-section pb-24">
         <h2 className="text-[15px] uppercase tracking-[0.3em] font-bold text-coco-accent">{t.links}</h2>

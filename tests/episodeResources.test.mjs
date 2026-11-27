@@ -161,7 +161,16 @@ test("embedded schedules omit duplicate resources while the lower grouped disclo
       for (const link of resource.links) assert.ok(grouped.includes(link.url))
     }
     const row = render(createElement(ActivityRow, { activity, lang: "en" }))
-    assert.equal((row.match(/<summary[^>]*>Related resources/g) ?? []).length, 1)
+    assert.equal((row.match(/aria-label="Related resources"/g) ?? []).length, 1)
+    assert.doesNotMatch(row, /<summary[^>]*>Related resources/)
+    const button = row.match(/<button[^>]*aria-label="Related resources"[^>]*>/)?.[0]
+    assert.match(button, /aria-expanded="false"/)
+    assert.match(button, /rounded-full border grid-line/)
+    const panelId = button.match(/aria-controls="([^"]+)"/)[1]
+    assert.ok(row.includes(`id="${panelId}" hidden=""`))
+    const archive = render(createElement(ArchivedActivityEntry, { activity, lang: "en" }))
+    assert.match(archive, /<summary[^>]*>Related resources/)
+    assert.doesNotMatch(archive, /aria-label="Related resources"/)
   }
   const archive = render(createElement(ProgramEpisodes, { activity: tv, lang: "en", full: true }))
   assert.match(archive, /Official Posts/)

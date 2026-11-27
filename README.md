@@ -189,6 +189,7 @@ Recommended fields:
 - `startDate`: machine-readable first date in `YYYY-MM-DD` for a continuous date range.
 - `endDate`: machine-readable last date in `YYYY-MM-DD`; omit it for a single-day activity.
 - `performances`: exact non-consecutive dates or timed performances. A performance uses either `occursOn: YYYY-MM-DD` or `startAt: YYYY-MM-DDTHH:mm` in the activity's `timeZone`, and can have a bilingual `label`.
+- `performances[].id`: optional stable ID unique within an activity, for example `show-01`. Keep it when rescheduling so visitors' attendance marks follow the same performance. Older entries without IDs and continuous date ranges use their authored date or start time.
 - `milestones`: optional supplementary times within a performance, such as an update, merchandise sales, or doors opening. They can be selected for calendar export, but never change whether the parent performance is all-day, its end time, or activity status. `at` and `until` use same-day `HH:mm` values in the activity's `timeZone`, not full date-times.
 - `durationMinutes`: positive integer duration shared by timed performances. An individual performance's `endAt` overrides it.
 - `recurrence`: marks an ongoing program and describes its schedule. Use `type: manual` for confirmed irregular appearances, `type: monthly` for a fixed monthly weekday, or the bounded `type: weekly` rule described below.

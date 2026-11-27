@@ -17,6 +17,7 @@ const Programs = lazy(pageLoaders.programs)
 const ProgramDetails = lazy(pageLoaders.programDetails)
 const Media = lazy(pageLoaders.media)
 const Home = lazy(pageLoaders.home)
+const Profile = lazy(pageLoaders.profile)
 const Activities = lazy(pageLoaders.activities)
 const PastActivities = lazy(pageLoaders.pastActivities)
 const TicketInfo = lazy(pageLoaders.tickets)
@@ -48,6 +49,7 @@ function AnimatedRoutes({ lang }: { lang: Language }) {
             <div className={isHome || isCatalog ? "w-full" : "max-w-4xl"}>
               <Routes location={location}>
                 <Route path="/" element={<Home lang={lang} />} />
+                <Route path="/profile" element={<Profile lang={lang} />} />
                 <Route path="/activities" element={<Activities lang={lang} />} />
                 <Route path="/venues/:venueId" element={<VenueDetails lang={lang} />} />
                 <Route path="/museum/activities" element={<PastActivities lang={lang} />} />

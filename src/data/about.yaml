@@ -70,11 +70,11 @@ policy_sections:
       en: "Access data, cookies, and external services"
     body:
       ja: |
-        当サイト独自の広告、行動追跡、アクセス解析は使用しておらず、当サイト独自にはCookieを設定していません。表示テーマの設定のみ、ブラウザのlocalStorageに保存されます。この設定はブラウザ側で削除できます。
+        当サイト独自の広告、行動追跡、アクセス解析は使用しておらず、当サイト独自にはCookieを設定していません。表示テーマ、言語設定、参加予定にした公演の識別子は、お使いのブラウザのlocalStorageに保存されます。これらのデータはブラウザ側で削除できます。
 
         サイト配信と安全性確保のためCloudflareを利用しており、アクセス時にIPアドレス、リクエスト情報、端末・ブラウザ情報等が処理または記録される場合があります。また、Google Fontsからフォントを取得する際、利用者のブラウザからGoogleへIPアドレス、要求URL、User-Agent等が送信されます。お問い合わせメールの受信・保存にはAppleのiCloudメールを利用しています。各サービスによる取扱いは、それぞれのプライバシーポリシーに従います。
       en: |
-        The site does not use its own advertising, behavioral tracking, or audience analytics, and it does not set its own cookies. Only the display theme preference is stored in the browser's localStorage, where it can be deleted by the user.
+        The site does not use its own advertising, behavioral tracking, or audience analytics, and it does not set its own cookies. Your display theme, language preference, and the identifiers of performances you mark as planning to attend are saved in your browser's localStorage. You can remove this data in your browser.
 
         Cloudflare is used to deliver and protect the site, and may process or log information such as IP addresses, request data, and device or browser information. When fonts are loaded from Google Fonts, the browser sends Google information such as the user's IP address, requested URL, and User-Agent. Apple iCloud Mail is used to receive and store contact email. These providers process information under their respective privacy policies.
     links:

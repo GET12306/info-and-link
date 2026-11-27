@@ -383,6 +383,10 @@ export function PerformanceEditor({
                   </>
                 )}
               </div>
+              {!recurrenceType && <label className="form-field">
+                <span>performances[].id <em className="optional">optional</em></span>
+                <input type="text" placeholder="show-01（改期时保留）" value={performance.id ?? ""} onChange={event => update(index, setOptional(performance, "id", event.target.value) as EditorPerformance)} />
+              </label>}
               <div className="field-grid three">
                 <label className="form-field">
                   <span>performances[].episode <em className="optional">optional</em></span>

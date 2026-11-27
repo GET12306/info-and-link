@@ -1,4 +1,4 @@
-import { ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
+import { Bookmark, ChevronDown, ChevronLeft, ChevronRight } from "lucide-react"
 import { useMemo, useState } from "react"
 import {
   ACTIVITY_CATEGORY_META,
@@ -32,27 +32,30 @@ function CalendarEventCard({
   event,
   activity,
   lang,
-  now,
+  isPast,
   layout,
   onSelect,
   actionLabel,
+  attending = false,
 }: {
   event: CalendarEvent
   activity: Activity
   lang: Language
-  now?: string
+  isPast: boolean
   layout: "mobile" | "desktop"
   onSelect: (activityId: string, archivePath?: string) => void
   actionLabel?: string
+  attending?: boolean
 }) {
   const t = TRANSLATIONS[lang]
   const isArchiveRecord = Boolean(event.archivePath)
-  const isPast = now ? (instantFromSourceKey(now, sourceTimeZone()) ?? 0) > event.endInstant : false
   // An appearance archive is an already-published record, not an upcoming performance.
   // Its neutral tone must be independent of whether the record can still be opened.
   const isMuted = isArchiveRecord || isPast
   const isDisabled = isPast && !isArchiveRecord
-  const cardTone = isMuted
+  const cardTone = attending
+    ? "border-violet-500 bg-violet-500/10 hover:bg-violet-500/15 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-violet-500"
+    : isMuted
     ? `border-coco-ink/20 bg-coco-ink/[0.025] ${isDisabled
       ? "cursor-default"
       : "hover:bg-coco-ink/5 focus-visible:outline-2 focus-visible:outline-offset-1 focus-visible:outline-coco-ink/50"}`
@@ -74,7 +77,14 @@ function CalendarEventCard({
       : []),
   ].sort((a, b) => a.at.localeCompare(b.at))
   const timeSummary = timeItems.map((item) => item.text).join(" · ")
-  const accessibleLabel = [timeSummary, title]
+  const accentTone = attending
+    ? "text-violet-700 dark:text-violet-300"
+    : isMuted ? "text-coco-ink/40" : "text-coco-accent"
+  const categoryTone = attending || isMuted ? accentTone : "text-coco-accent/75"
+  const marker = attending
+    ? <Bookmark className={`h-3 w-3 shrink-0 fill-current ${accentTone}`} aria-hidden="true" />
+    : null
+  const accessibleLabel = [timeSummary, title, attending && t.attendance_saved]
     .filter(Boolean)
     .join(" ")
 
@@ -94,19 +104,16 @@ function CalendarEventCard({
         }
       >
         <span className="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-0.5">
+          {marker}
           <span
-            className={`min-w-0 truncate text-[10px] font-bold uppercase tracking-wide ${
-              isMuted ? "text-coco-ink/40" : "text-coco-accent/75"
-            }`}
+            className={`min-w-0 truncate text-[10px] font-bold uppercase tracking-wide ${categoryTone}`}
           >
             {category}
           </span>
           {timeItems.map((item) => (
             <span
               key={`${item.at}-${item.text}`}
-              className={`shrink-0 text-[11px] font-medium ${
-                isMuted ? "text-coco-ink/40" : "text-coco-accent"
-              }`}
+              className={`shrink-0 text-[11px] font-medium ${accentTone}`}
             >
               {item.text}
             </span>
@@ -138,18 +145,15 @@ function CalendarEventCard({
       }
     >
       <span className="flex min-w-0 items-center gap-1 text-[10px]">
+        {marker}
         <span
-          className={`min-w-0 truncate text-[10px] font-bold uppercase tracking-wide ${
-            isMuted ? "text-coco-ink/40" : "text-coco-accent/75"
-          }`}
+          className={`min-w-0 truncate text-[10px] font-bold uppercase tracking-wide ${categoryTone}`}
         >
           {category}
         </span>
         {timeSummary && (
           <span
-            className={`min-w-0 truncate ${
-              isMuted ? "text-coco-ink/40" : "text-coco-accent"
-            }`}
+            className={`min-w-0 truncate ${accentTone}`}
           >
             · {timeSummary}
           </span>
@@ -180,6 +184,7 @@ export default function CalendarMonth({
   months,
   onSelectMonth,
   eventActionLabel,
+  attendingKeys,
   className = "",
 }: {
   month: CalendarMonthData
@@ -195,11 +200,17 @@ export default function CalendarMonth({
   months: CalendarMonthData[]
   onSelectMonth: (monthKey: string) => void
   eventActionLabel?: string
+  attendingKeys?: ReadonlySet<string>
   className?: string
 }) {
   const labels = lang === "ja" ? DAY_LABELS_JA : DAY_LABELS_EN
   const t = TRANSLATIONS[lang]
   const isToday = today ?? ""
+  const nowInstant = now ? instantFromSourceKey(now, sourceTimeZone()) : null
+  const isPast = (event: CalendarEvent) => nowInstant !== null && nowInstant > event.endInstant
+  const isAttending = (event: CalendarEvent) =>
+    !isPast(event) && !event.archivePath &&
+    event.attendanceKey !== undefined && attendingKeys?.has(event.attendanceKey) === true
   const [selectedCategories, setSelectedCategories] = useState<ActivityCategory[]>([])
   const activitiesById = useMemo(
     () => new Map(activities.map((activity) => [activity.id, activity])),
@@ -325,6 +336,9 @@ export default function CalendarMonth({
               <div className="grid grid-cols-7">
                 {week.map((day, dayIndex) => {
                   const isTodayDay = day.date === isToday
+                  const hasAttendance = day.events.some(isAttending)
+                  const dotColor = hasAttendance ? "bg-violet-500"
+                    : day.events.every(isPast) ? "bg-coco-ink/30" : "bg-coco-accent"
 
                   return (
                     <div
@@ -347,8 +361,8 @@ export default function CalendarMonth({
                           </span>
                           {day.events.length > 0 && (
                             <span
-                              className="mt-1 block h-1.5 w-1.5 rounded-full bg-coco-accent"
-                              aria-label={lang === "ja" ? "活動あり" : "Has events"}
+                              className={`mt-1 block h-1.5 w-1.5 rounded-full ${dotColor}`}
+                              aria-label={hasAttendance ? t.attendance_saved : lang === "ja" ? "活動あり" : "Has events"}
                             />
                           )}
                         </>
@@ -413,8 +427,9 @@ export default function CalendarMonth({
                                 event={event}
                                 activity={activity}
                                 lang={lang}
-                                now={now}
+                                isPast={isPast(event)}
                                 layout="mobile"
+                                attending={isAttending(event)}
                                 onSelect={onSelectEvent}
                                 actionLabel={eventActionLabel}
                               />
@@ -483,8 +498,9 @@ export default function CalendarMonth({
                                 event={event}
                                 activity={activity}
                                 lang={lang}
-                                now={now}
+                                isPast={isPast(event)}
                                 layout="desktop"
+                                attending={isAttending(event)}
                                 onSelect={onSelectEvent}
                                 actionLabel={eventActionLabel}
                               />

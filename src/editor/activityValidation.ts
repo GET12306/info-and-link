@@ -115,11 +115,22 @@ function validatePerformances(
     return
   }
   const identities = new Set<string>()
+  const performanceIds = new Set<string>()
   value.forEach((performance, index) => {
     const itemPath = `${path}[${index}]`
     if (!isRecord(performance)) {
       issues.push({ path: itemPath, message: "场次必须是对象", severity: "error" })
       return
+    }
+    if (performance.id !== undefined) {
+      const id = performance.id
+      if (typeof id !== "string" || !/^[a-z0-9][a-z0-9-]*$/.test(id)) {
+        issues.push({ path: `${itemPath}.id`, message: "场次 ID 只能使用小写字母、数字和连字符", severity: "error" })
+      } else if (performanceIds.has(id)) {
+        issues.push({ path: `${itemPath}.id`, message: "同一活动的场次 ID 不能重复", severity: "error" })
+      } else {
+        performanceIds.add(id)
+      }
     }
     const hasDate = performance.occursOn !== undefined
     const hasTime = performance.startAt !== undefined

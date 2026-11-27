@@ -86,7 +86,7 @@ export default function ActivityRow({
               lang={lang}
               startLabel={activity.category === "Program" ? t.milestone_update : undefined}
             />)}
-          <ActivityResourcesDisclosure activityId={activity.id} lang={lang} />
+          <ActivityResourcesDisclosure activityId={activity.id} lang={lang} variant="activity" />
         </div>
 
         {ticketAction && (
